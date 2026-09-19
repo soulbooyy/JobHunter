@@ -1,86 +1,24 @@
-"""M1 admission and DTOs; normative owners remain docs/contracts."""
+"""Entry-specific content, URL admission and DTOs."""
 
 import hashlib
 import ipaddress
 import re
-from decimal import Decimal
-from typing import Annotated, LiteralString
+from typing import Annotated
 
-from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, WithJsonSchema
-from pydantic_core import PydanticCustomError
+from pydantic import BeforeValidator, Field, WithJsonSchema
 from urlstd.parse import Host, URLValidator, ValidityState
 
-TRIM = (
-    "\u0009\u000a\u000b\u000c\u000d\u0020\u0085\u00a0\u1680"
-    + "".join(chr(i) for i in range(0x2000, 0x200B))
-    + "\u2028\u2029\u202f\u205f\u3000"
+from jobhunter.domain.shared.values import (
+    DTO,
+    TRIM,
+    Revision,
+    UtcTimestamp,
+    UuidV4,
+    invalid,
+    text_value,
 )
-UUID_PATTERN = r"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
-MAX_REVISION = 9007199254740991
-
-
-def invalid(code: LiteralString) -> None:
-    raise PydanticCustomError(code, "Invalid field.")
-
-
-def scalar(value: object) -> str:
-    if not isinstance(value, str):
-        invalid("INVALID_TYPE")
-    assert isinstance(value, str)
-    if any(0xD800 <= ord(c) <= 0xDFFF for c in value):
-        invalid("INVALID_CHARACTERS")
-    return value
-
-
-def uuid_value(value: object) -> str:
-    value = scalar(value)
-    if not re.fullmatch(UUID_PATTERN, value):
-        invalid("INVALID_FORMAT")
-    return value
-
-
-def text_value(value: object, limit: int, url: bool = False) -> str:
-    value = scalar(value).strip(TRIM)
-    if not value:
-        invalid("BLANK_VALUE")
-    if len(value) > limit:
-        invalid("TOO_LONG")
-    if any(ord(c) < 32 or 127 <= ord(c) <= 159 or c in "\u2028\u2029" for c in value):
-        invalid("INVALID_CHARACTERS")
-    if url:
-        if any(c in TRIM or c == "\\" for c in value):
-            invalid("INVALID_CHARACTERS")
-        match = re.match(r"https?://([^/?#]+)", value, re.IGNORECASE)
-        if not match or "@" in match[1] or re.search(r"%(?![0-9a-fA-F]{2})", value):
-            invalid("INVALID_FORMAT")
-        assert match
-        authority = match[1]
-        port = authority.rsplit("]", 1)[-1] if authority.startswith("[") else authority
-        if ":" in port and not re.fullmatch(r".*:[0-9]+", port):
-            invalid("INVALID_FORMAT")
-        validation_url = value
-        if ":" in port:
-            digits = port.rsplit(":", 1)[1].lstrip("0") or "0"
-            if len(digits) > 5 or int(digits) > 65535:
-                invalid("INVALID_FORMAT")
-            # Avoid the parser's Python int digit limit for valid zero-padded ports.
-            # This temporary parser input never replaces saved authority.
-            authority_end = match.end(1)
-            colon = value.rfind(":", 0, authority_end)
-            validation_url = value[: colon + 1] + digits + value[authority_end:]
-        if not URLValidator.is_valid(validation_url, validity=ValidityState(disable_logging=True)):
-            invalid("INVALID_FORMAT")
-        host = (
-            authority.split("]", 1)[0] + "]"
-            if authority.startswith("[")
-            else authority.split(":", 1)[0]
-        )
-        if isinstance(Host.parse(host, validity=ValidityState(disable_logging=True)), int):
-            try:
-                ipaddress.IPv4Address(host)
-            except ipaddress.AddressValueError:
-                invalid("INVALID_FORMAT")
-    return value
+from jobhunter.domain.shared.values import MAX_REVISION as MAX_REVISION
+from jobhunter.domain.shared.values import UUID_PATTERN as UUID_PATTERN
 
 
 def company(value: object) -> str:
@@ -88,21 +26,42 @@ def company(value: object) -> str:
 
 
 def url_value(value: object) -> str:
-    return text_value(value, 8192, True)
+    value = text_value(value, 8192)
+    if any(c in TRIM or c == "\\" for c in value):
+        invalid("INVALID_CHARACTERS")
+    match = re.match(r"https?://([^/?#]+)", value, re.IGNORECASE)
+    if not match or "@" in match[1] or re.search(r"%(?![0-9a-fA-F]{2})", value):
+        invalid("INVALID_FORMAT")
+    assert match
+    authority = match[1]
+    port = authority.rsplit("]", 1)[-1] if authority.startswith("[") else authority
+    if ":" in port and not re.fullmatch(r".*:[0-9]+", port):
+        invalid("INVALID_FORMAT")
+    validation_url = value
+    if ":" in port:
+        digits = port.rsplit(":", 1)[1].lstrip("0") or "0"
+        if len(digits) > 5 or int(digits) > 65535:
+            invalid("INVALID_FORMAT")
+        # Avoid the parser's Python int digit limit for valid zero-padded ports.
+        # This temporary parser input never replaces saved authority.
+        authority_end = match.end(1)
+        colon = value.rfind(":", 0, authority_end)
+        validation_url = value[: colon + 1] + digits + value[authority_end:]
+    if not URLValidator.is_valid(validation_url, validity=ValidityState(disable_logging=True)):
+        invalid("INVALID_FORMAT")
+    host = (
+        authority.split("]", 1)[0] + "]"
+        if authority.startswith("[")
+        else authority.split(":", 1)[0]
+    )
+    if isinstance(Host.parse(host, validity=ValidityState(disable_logging=True)), int):
+        try:
+            ipaddress.IPv4Address(host)
+        except ipaddress.AddressValueError:
+            invalid("INVALID_FORMAT")
+    return value
 
 
-def revision_value(value: object) -> int:
-    if isinstance(value, bool) or not isinstance(value, (int, Decimal)):
-        invalid("INVALID_TYPE")
-    assert isinstance(value, (int, Decimal))
-    if isinstance(value, Decimal) and (not value.is_finite() or value != value.to_integral_value()):
-        invalid("INVALID_TYPE")
-    if not 1 <= value <= MAX_REVISION:
-        invalid("OUT_OF_RANGE")
-    return int(value)
-
-
-UuidV4 = Annotated[str, Field(pattern=UUID_PATTERN), BeforeValidator(uuid_value)]
 CompanyText = Annotated[
     str,
     Field(min_length=1, max_length=200),
@@ -142,12 +101,6 @@ ApplicationUrl = Annotated[
         mode="validation",
     ),
 ]
-Revision = Annotated[int, Field(ge=1, le=MAX_REVISION), BeforeValidator(revision_value)]
-UtcTimestamp = Annotated[str, Field(pattern=r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$")]
-
-
-class DTO(BaseModel):
-    model_config = ConfigDict(extra="forbid", strict=True)
 
 
 class EntryContent(DTO):

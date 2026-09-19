@@ -16,6 +16,35 @@ def install_error_handlers(app: FastAPI) -> None:
     @app.exception_handler(RequestValidationError)
     async def validation(request: Request, exc: RequestValidationError) -> JSONResponse:
         fields: list[dict[str, str]] = []
+        if request.url.path.startswith("/api/v1/preferences"):
+            known_preferences = {
+                "request_id",
+                "revision",
+                "configuration",
+                "preference_set_version_id",
+            }
+            for error in exc.errors():
+                kind = error["type"]
+                code = {
+                    "missing": "REQUIRED",
+                    "extra_forbidden": "UNKNOWN_FIELD",
+                    "string_pattern_mismatch": "INVALID_FORMAT",
+                }.get(kind, kind if kind.isupper() else "INVALID_TYPE")
+                loc = error["loc"]
+                field = (
+                    str(loc[-1])
+                    if len(loc) > 1 and loc[-1] in known_preferences and code != "UNKNOWN_FIELD"
+                    else "$"
+                )
+                fields.append({"field": field, "code": code})
+            return JSONResponse(
+                {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Request validation failed.",
+                    "field_errors": fields,
+                },
+                status_code=422,
+            )
         known = {
             "request_id",
             "company_name",
@@ -56,6 +85,7 @@ def install_error_handlers(app: FastAPI) -> None:
 
 STATUS = {
     "BAD_REQUEST": 400,
+    "REQUEST_TOO_LARGE": 413,
     "VALIDATION_ERROR": 422,
     "NOT_FOUND": 404,
     "REVISION_CONFLICT": 409,

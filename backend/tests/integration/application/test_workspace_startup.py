@@ -54,7 +54,7 @@ def test_recognition(tmp_path: Path, kind: str, code: str) -> None:
             pass
         with sqlite3.connect(db) as conn:
             if kind == "unsupported":
-                conn.execute("PRAGMA user_version=2")
+                conn.execute("PRAGMA user_version=999")
             elif kind == "incomplete":
                 conn.execute("DROP TABLE manual_application_entries")
             elif kind == "migration":

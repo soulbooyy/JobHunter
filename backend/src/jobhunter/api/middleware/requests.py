@@ -66,7 +66,10 @@ class ExactJsonRoute(APIRoute):
                 response = await handler(request)
                 if request.method != "GET" and not request.url.path.endswith("/resolve-url"):
                     store = cast(Store, request.app.state.store)
-                    store.fault("response_after_commit")
+                    try:
+                        store.fault("response_after_commit")
+                    except Exception:
+                        raise Failure("OUTCOME_UNKNOWN") from None
                 return response
             except (Failure, RequestValidationError):
                 raise

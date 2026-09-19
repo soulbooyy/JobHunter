@@ -9,6 +9,10 @@ class Failure(Exception):
     def body(self) -> dict[str, object]:
         return {
             "code": self.code,
-            "message": self.code.replace("_", " ").capitalize() + ".",
+            "message": (
+                "Unsupported storage schema; schema 1 requires explicit offline migration."
+                if self.code == "SCHEMA_UNSUPPORTED"
+                else self.code.replace("_", " ").capitalize() + "."
+            ),
             "field_errors": [],
         }

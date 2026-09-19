@@ -37,7 +37,7 @@ JOBHUNTER_DATA_DIRECTORY="$data_dir" uv run --locked python -m jobhunter.main
 
 Startup prints one JSON diagnostic with outcome, physical directory and schema version, or a sanitized Contract error followed by exit 1. No business listener starts before storage checks. No startup HTTP resource exists. Port binding failure is not workspace recovery and never selects another store. Stop with Ctrl-C. The ownership guard stays held through server shutdown; process death releases it. Lock files live in `/tmp/jobhunter-locks-<uid>/`, keyed by physical device/inode, and are deliberately not unlinked on release (unlinking could split ownership). Directory and database permissions are 0700/0600; the launcher uses umask 0077.
 
-An existing nonempty directory must pass integrity, application ID, product version, exact versioned application-table constraints and Alembic metadata checks. Extra indexes are allowed. Opening never creates a missing database or runs migration/repair. Failed initialization leaves residue that must be inspected separately; restarting does not auto-initialize it. Do not delete unknown contents to make startup work. The only revision history is `backend/alembic/versions/`; initial revision is `b720a94fd381`. Standalone Alembic execution is disabled: its environment requires the bootstrap-owned connection.
+An existing nonempty directory must pass integrity, application ID, product version, exact versioned application-table constraints and Alembic metadata checks. Extra indexes are allowed. Ordinary runtime opening never creates a missing database or runs migration/repair. Failed initialization leaves residue that must be inspected separately; restarting does not auto-initialize it. Do not delete unknown contents to make startup work. The only revision history is `backend/alembic/versions/`; initial revision is `b720a94fd381`. Standalone Alembic execution is disabled: its environment requires the bootstrap-owned connection.
 
 ## Application and interface entry points
 
@@ -74,3 +74,28 @@ uv sync --locked
 The unified entry runs Ruff lint/format, Pyright strict (source, migration, tests and scripts), pytest including real loopback subprocess HTTP, requirement-ID/matrix-reference checks and `git diff --check`. Use temporary local directories only. See [Progress evidence](../docs/progress/traceability.md#7-sl-01m1-backend-implementation-evidence) for final results and exact requirement mappings.
 
 Tests establish the executed boundaries recorded in traceability, not arbitrary hardware-failure immunity or browser behavior. Configure any future browser origin explicitly, e.g. `JOBHUNTER_ALLOWED_ORIGINS=http://localhost:5173` only if that is the selected origin. Contract documents remain the normative source; this README maintains operating instructions, not milestone status or implementation history.
+
+## Preferences and explicit schema evolution
+
+The current runtime initializes and serves **schema 2**, retaining M1 Entry behavior. Schema 1 is recognized but ordinary startup fails with `SCHEMA_UNSUPPORTED`; stop the backend and explicitly migrate the selected existing directory:
+
+```sh
+uv run --locked python -m jobhunter.bootstrap.migrate \
+  --data-directory "/absolute/existing/data-directory"
+```
+
+Migration uses the runtime's physical-directory lock, without a listener or directory/database creation. Success prints `outcome: MIGRATED` or `UNCHANGED`, the resolved `data_directory` and `schema_version: 2`. Failure prints the sanitized Common error and exits nonzero. The migration fully recognizes source/target structure, preserves M1 rows and receipts, adds no Preference business rows, and advances DDL/product/Alembic metadata in one explicit transaction. Uncertain completion is resolved by reopening and recognizing the complete source or target; it never replays the upgrade. Do not use standalone Alembic, downgrade, delete residue or stamp metadata to bypass recognition. The schema-1 definitions and revision `b720a94fd381` remain frozen; `cd891047a2e6` adds schema 2 in the same revision directory.
+
+Every connection enables and verifies `foreign_keys=ON` before beginning a transaction. Deferred composite references enforce root/current/version/receipt ownership, including the cyclic first publication. SQLite requires this per-connection admission and checks deferred references at commit; see [SQLite foreign keys](https://www.sqlite.org/foreignkeys.html). Recognition also runs `foreign_key_check` and admits stored business values. JSON formatting/key order is representation only. The supported runtime/dependency versions above were rechecked unchanged for this consumer; no new dependency was needed.
+
+Preferences exposes only:
+
+- `GET /api/v1/preferences`: unconfigured or one consistent root/current-version observation.
+- `POST /api/v1/preferences/save`: complete Save with `request_id`, explicit nullable `revision`, and six-field `configuration`.
+- `GET /api/v1/preferences/versions/{preference_set_version_id}`: retained exact version.
+
+See the [Preferences API integration guide](../docs/api/sl-01-m2.md), generated `/openapi.json`, and derived [Save fixture](tests/fixtures/preference_save.json). Domain admission is under `domain/preferences/`, application coordination under `application/candidate/`, SQL under `infrastructure/persistence/sqlalchemy/repositories/`, and HTTP under `api/v1/preferences/`. Shared Common scalars now live in `domain/shared/values.py`; Entry URL rules remain Entry-owned.
+
+Preferences transport enforces a streaming 1 MiB body budget, duplicate decoded object-key rejection, compatible UTF-8 JSON media type and identity-only Content-Encoding. The stricter transport is isolated from M1. Input OpenAPI arrays describe the 1000-item raw budget with canonical-capacity extensions; output schemas describe canonical capacities. Save equality/fingerprints share canonical admission; JSON serialization is not equality. Lifetime receipts include no-op outcomes. A retry returns the original success, even after later publications, and never resets current. Preserve the full original request after uncertain outcomes; only an explicit retry with that same request establishes its result. Current reads do not establish a prior request's outcome.
+
+No Collection, QuickScreen, history-list/restore/reset or frontend behavior is supplied by these operations. Backend conformance and M1 regression evidence lives in [traceability §8](../docs/progress/traceability.md#8-sl-01m2-backend-implementation-evidence); browser/client generation and whole-milestone acceptance remain separate.

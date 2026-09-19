@@ -2,7 +2,7 @@ from typing import Literal
 
 from pydantic import Field
 
-from jobhunter.domain.manual_application_entries.models import DTO
+from jobhunter.domain.shared.values import DTO
 
 FieldCode = Literal[
     "REQUIRED",
@@ -16,6 +16,7 @@ FieldCode = Literal[
 ]
 ErrorCode = Literal[
     "BAD_REQUEST",
+    "REQUEST_TOO_LARGE",
     "VALIDATION_ERROR",
     "NOT_FOUND",
     "REVISION_CONFLICT",
@@ -30,7 +31,10 @@ ErrorCode = Literal[
 
 
 class FieldError(DTO):
-    field: str
+    field: str = Field(
+        pattern=r"^(\$|[a-z][a-z0-9_]*(\[(0|[1-9][0-9]*)\])?(\.[a-z][a-z0-9_]*(\[(0|[1-9][0-9]*)\])?)*)$",
+        description="COM-029/034: known fields only; M2 paths use original array indices.",
+    )
     code: FieldCode
 
 

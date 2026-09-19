@@ -1,6 +1,6 @@
 # JobHunter Progress
 
-> English is authoritative. Snapshot: 2026-09-20. SL-01.M2 Contract Grill/writeback and scope review are complete; backend implementation has not started. SL-01.M1 backend retains its recorded 87-test evidence, with frontend/browser integration pending. Historical W7/global approval remains separate. This document records actual state; target architecture, Contract structure and planned milestones do not establish implemented capabilities.
+> English is authoritative. Snapshot: 2026-09-20. SL-01.M2 backend is implemented with conformance evidence in section 9; UI/client/browser and full integration remain pending. SL-01.M1 backend retains its recorded 87-test evidence, with frontend/browser integration pending. Historical W7/global approval remains separate. This document records actual state; target architecture, Contract structure and planned milestones do not establish implemented capabilities.
 
 ## 1. Current state and task
 
@@ -38,11 +38,11 @@ The matrix retains **179 original source records (157 Q and 22 S), across 73 cla
 
 | Subject | Actual state |
 | --- | --- |
-| Current in-scope product/runtime/Eval capabilities | M1 backend implemented; overall M1 Partial, all other capabilities remain Planned |
+| Current in-scope product/runtime/Eval capabilities | M1 and M2 backend implemented; both milestones Partial, later capabilities Planned |
 | Explicit exclusions/deferrals | Preserve original clause-specific reasons; later scheduling does not itself mean Deferred |
 | Planning locators | SL-01–SL-12 and 24 internal milestone locators exist in Implementation Plan; planning identifiers with a scoped user-approved CG01-BC1 revision, not Contract IDs or implemented capabilities |
 | Contract readiness | SL-01.M1 and SL-01.M2 each have four complete reviewed consumed scopes; other milestones remain Pending |
-| Milestone implementation and parent completion | M1 and SL-01 Partial; no completed milestone or parent |
+| Milestone implementation and parent completion | M1, M2 and SL-01 Partial; no completed milestone or parent |
 | Product checks/Eval/integration | Backend executable checks and scripts/check supplied; frontend/integrated proof and CI remain pending |
 | Document checks | Historical W7 review plus the scoped CG01-BC1 two-seam review and mechanical checks in section 5; original handoff snapshots preserved |
 
@@ -54,7 +54,7 @@ Parent completion and child capability availability are recorded separately. No 
 
 | Parent Slice | Aggregate implementation status | Accepted milestones | Required milestone work remaining | Parent integrated acceptance |
 | --- | --- | --- | --- | --- |
-| SL-01 | Partial | 0 / 2 | M1 frontend/browser/integration; M2 | Not executed |
+| SL-01 | Partial | 0 / 2 | M1 frontend/browser/integration; M2 UI/client/browser/integration | Not executed |
 | SL-02 | Planned | 0 / 2 | SL-02.M1, SL-02.M2 | Not executed |
 | SL-03 | Planned | 0 / 3 | SL-03.M1, SL-03.M2, SL-03.M3 | Not executed |
 | SL-04 | Planned | 0 / 1 | SL-04.M1 | Not executed |
@@ -160,4 +160,15 @@ M2 round 8 and normative closure (2026-09-20): [CG02-Q36–Q40](design/contract/
 
 Mechanical checks passed for 105 unique IDs, local Markdown links/anchors, original 69 definition text preservation, 12 Slices/24 milestones, 28 Contract destinations and 71 scope rows (8 Ready / 63 Pending). `git diff --check` passed. The check script was extended for actual M2 IDs; backend and unrelated API documents remain unchanged. These are documentary checks, not M2 runtime tests.
 
-**Next work:** implement the [M2 backend handoff](development/handoff/sl-01-m2-handoff.md). M2 remains Planned with no code, migration execution or acceptance evidence. UI work waits for UI design; neither M1 nor parent SL-01 is complete. No commit or push was performed.
+**At Contract closure:** the M2 backend handoff was ready for implementation. The subsequent backend result is recorded in section 9; Contract readiness remains unchanged.
+
+
+## 9. SL-01.M2 backend implementation
+
+Implemented complete Preferences admission, lazy first publication, immutable versions, canonical no-op/revision checks, retained successful Save receipts, concurrent/replayed Save, current/exact reads and three real HTTP routes. Schema 2 initializes atomically; schema 1 requires an explicit locked offline migration preserving Entry data and receipts. Neither startup nor migration creates Preference business rows. The original schema-1 migration remains unchanged. No Collection, QuickScreen or frontend work is included in this backend task.
+
+Actual locked dependencies and platform were rechecked unchanged; no new package was added. [Backend operation](../backend/README.md#preferences-and-explicit-schema-evolution) supplies startup/migration commands, [API guide](api/sl-01-m2.md) supplies frontend integration examples, and [traceability §8](progress/traceability.md#8-sl-01m2-backend-implementation-evidence) maps real requirements to source/tests. Shared Common values are now in `domain/shared/`; Preferences follows the prescribed Domain/Application/Infrastructure/API layers. Tests use semantic capability names.
+
+Verification uses temporary SQLite files, fault injection, independent processes and a real loopback HTTP server. Covered failures include interrupted publication/migration, ambiguous commit, typed post-commit exceptions, invalid ownership/configuration, streaming budget overflow and response loss. M1 regressions execute against schema 2. Final `./scripts/check` passed: Ruff lint/format, Pyright strict with zero errors/warnings, **160 tests**, 105 requirement-ID/matrix-reference checks and whitespace checks. Exact evidence and limits are recorded in traceability §8.
+
+M2 and parent SL-01 remain Partial. PRF-022 UI, client generation/browser agreement, truthful client recovery and full M2/parent integration require later work; backend tests do not establish them. M1 frontend acceptance remains separate. Contract scope readiness stays 8 Ready / 63 Pending; no milestone is marked complete. Concurrent frontend/UI files were preserved without being changed or accepted by this task. No real user data was migrated, and no commit or push was performed.

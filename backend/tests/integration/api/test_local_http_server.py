@@ -36,7 +36,7 @@ def test_real_http_restart_privacy_and_bind(tmp_path: Path) -> None:
         assert startup == {
             "outcome": "INITIALIZED",
             "data_directory": str(tmp_path.resolve()),
-            "schema_version": 1,
+            "schema_version": 2,
         }
         with httpx.Client(base_url=f"http://127.0.0.1:{port}", trust_env=False) as client:
             for _ in range(100):
@@ -48,6 +48,25 @@ def test_real_http_restart_privacy_and_bind(tmp_path: Path) -> None:
             else:
                 pytest.fail("Listener did not start")
             assert response.json() == {"items": []}
+            preference_request = json.loads(
+                (Path(__file__).parents[2] / "fixtures/preference_save.json").read_text()
+            )
+            preference_request["configuration"]["target_job_keywords"] = ["Sensitive preference"]
+            preference_base = "/api/v1/preferences"
+            assert client.get(preference_base).json() == {"status": "NOT_CONFIGURED"}
+            saved = client.post(preference_base + "/save", json=preference_request)
+            assert saved.status_code == 200
+            assert client.get(preference_base).json()["status"] == "CONFIGURED"
+            exact = client.get(
+                preference_base + "/versions/" + saved.json()["preference_set_version_id"]
+            )
+            assert exact.status_code == 200
+            assert (
+                client.post(preference_base + "/save", json=preference_request).json()
+                == saved.json()
+            )
+            assert client.get(preference_base, headers={"Origin": "null"}).status_code == 403
+
             data = {
                 "request_id": "12345678-1234-4123-8123-123456789abc",
                 "company_name": "Sensitive Acme",

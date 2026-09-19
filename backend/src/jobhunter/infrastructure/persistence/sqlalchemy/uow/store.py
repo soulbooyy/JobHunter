@@ -14,9 +14,19 @@ from alembic import command
 from alembic.config import Config
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Connection, Engine
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.pool import NullPool
 
 from jobhunter.domain.shared.errors import Failure
+from jobhunter.infrastructure.persistence.sqlalchemy.models.preference_values import (
+    recognize_values,
+)
+from jobhunter.infrastructure.persistence.sqlalchemy.models.preferences import (
+    ALEMBIC_REVISION as TARGET_REVISION,
+)
+from jobhunter.infrastructure.persistence.sqlalchemy.models.preferences import (
+    TABLES,
+)
 from jobhunter.infrastructure.persistence.sqlalchemy.models.schema import (
     ALEMBIC_DDL,
     ALEMBIC_REVISION,
@@ -51,7 +61,9 @@ class Store:
         self.fault = fault
 
     @classmethod
-    def open(cls, directory: Path | None = None, *, fault: Fault = no_fault) -> Self:
+    def open(
+        cls, directory: Path | None = None, *, fault: Fault = no_fault, migration: bool = False
+    ) -> Self:
         explicit = directory is not None
         selected = directory if explicit else default_directory()
         assert selected is not None
@@ -61,7 +73,7 @@ class Store:
         try:
             if not selected.is_absolute():
                 raise Failure("DATA_DIRECTORY_UNAVAILABLE")
-            if not selected.exists() and not explicit:
+            if not selected.exists() and not explicit and not migration:
                 selected.mkdir(mode=0o700, parents=True)
             directory = selected.resolve(strict=True)
             info = directory.stat()
@@ -89,6 +101,9 @@ class Store:
             except BlockingIOError:
                 raise Failure("DATA_DIRECTORY_IN_USE") from None
             initializing = not any(directory.iterdir())
+            if migration and initializing:
+                initializing = False
+                raise Failure("STORAGE_NOT_RECOGNIZED")
             database = directory / "jobhunter.sqlite3"
             if not initializing and (not database.is_file() or database.is_symlink()):
                 raise Failure("STORAGE_NOT_RECOGNIZED")
@@ -114,6 +129,9 @@ class Store:
                     if initializing:
                         raw.execute("PRAGMA journal_mode=DELETE")
                     if raw.execute("PRAGMA journal_mode").fetchone() != ("delete",):
+                        raise Failure("STORAGE_UNAVAILABLE")
+                    raw.execute("PRAGMA foreign_keys=ON")
+                    if raw.execute("PRAGMA foreign_keys").fetchone() != (1,):
                         raise Failure("STORAGE_UNAVAILABLE")
                     raw.execute("PRAGMA synchronous=EXTRA")
                     raw.execute("PRAGMA fullfsync=ON")
@@ -147,13 +165,15 @@ class Store:
                         config = Config(str(Path(__file__).resolve().parents[6] / "alembic.ini"))
                         config.attributes["connection"] = conn
                         config.attributes["fault"] = fault
-                        command.upgrade(config, ALEMBIC_REVISION)
+                        command.upgrade(config, TARGET_REVISION)
                         fault("initialization_before_commit")
                         conn.commit()
                     except BaseException:
                         conn.rollback()
                         raise
-            store.recognize()
+            version = store.recognize()
+            if version == 1 and not migration:
+                raise Failure("SCHEMA_UNSUPPORTED")
             return store
         except BaseException as exc:
             if engine is not None:
@@ -168,19 +188,29 @@ class Store:
                 raise Failure("DATA_DIRECTORY_UNAVAILABLE") from None
             raise Failure("STORAGE_UNAVAILABLE") from None
 
-    def recognize(self) -> None:
+    def recognize(self) -> int:
         try:
             with self.engine.connect() as conn:
+                conn.exec_driver_sql("BEGIN")
                 if conn.exec_driver_sql("PRAGMA integrity_check").scalars().all() != ["ok"]:
                     raise Failure("STORAGE_CORRUPT")
                 if conn.exec_driver_sql("PRAGMA application_id").scalar() != APPLICATION_ID:
                     raise Failure("STORAGE_NOT_RECOGNIZED")
-                if conn.exec_driver_sql("PRAGMA user_version").scalar() != 1:
+                schema_version = conn.exec_driver_sql("PRAGMA user_version").scalar()
+                if schema_version not in (1, 2):
                     raise Failure("SCHEMA_UNSUPPORTED")
+                if schema_version == 1 and any(
+                    conn.exec_driver_sql(
+                        "SELECT 1 FROM sqlite_master WHERE name=?", (name,)
+                    ).first()
+                    for name, _ in TABLES
+                ):
+                    raise Failure("STORAGE_NOT_RECOGNIZED")
                 for name, ddl in (
                     (ENTRY_TABLE, ENTRY_DDL),
                     (RECEIPT_TABLE, RECEIPT_DDL),
                     ("alembic_version", ALEMBIC_DDL),
+                    *(TABLES if schema_version == 2 else ()),
                 ):
                     sql = conn.exec_driver_sql(
                         "SELECT sql FROM sqlite_master WHERE type=? AND name=?",
@@ -191,8 +221,13 @@ class Store:
                 version = (
                     conn.exec_driver_sql("SELECT version_num FROM alembic_version").scalars().all()
                 )
-                if version != [ALEMBIC_REVISION]:
+                if version != [ALEMBIC_REVISION if schema_version == 1 else TARGET_REVISION]:
                     raise Failure("STORAGE_NOT_RECOGNIZED")
+                if conn.exec_driver_sql("PRAGMA foreign_key_check").all():
+                    raise Failure("STORAGE_CORRUPT")
+                if schema_version == 2:
+                    recognize_values(conn)
+                return int(schema_version)
         except Failure:
             raise
         except Exception as exc:
@@ -203,6 +238,33 @@ class Store:
             if "no such table" in str(original):
                 raise Failure("STORAGE_NOT_RECOGNIZED") from None
             raise Failure("STORAGE_UNAVAILABLE") from None
+
+    def migrate(self) -> str:
+        """Offline, under the same lifetime lock; never replay an upgrade after uncertainty."""
+        if self.recognize() == 2:
+            return "UNCHANGED"
+
+        def upgrade(conn: Connection) -> None:
+            config = Config(str(Path(__file__).resolve().parents[6] / "alembic.ini"))
+            config.attributes["connection"] = conn
+            config.attributes["fault"] = self.fault
+            command.upgrade(config, TARGET_REVISION)
+
+        try:
+            self.run(upgrade, write=True)
+        except Failure as exc:
+            if exc.code != "OUTCOME_UNKNOWN":
+                raise
+            try:
+                version = self.recognize()
+            except Failure:
+                raise Failure("OUTCOME_UNKNOWN") from None
+            if version == 1:
+                raise Failure("STORAGE_UNAVAILABLE") from None
+            return "MIGRATED"
+        if self.recognize() != 2:
+            raise Failure("OUTCOME_UNKNOWN")
+        return "MIGRATED"
 
     def run[T](self, operation: Callable[[Connection], T], *, write: bool = False) -> T:
         try:
@@ -221,8 +283,15 @@ class Store:
             commit_returned = True
             self.fault("commit_after_driver")
             return result
-        except Failure:
-            conn.rollback()
+        except Failure as exc:
+            if committing and write:
+                raise Failure("OUTCOME_UNKNOWN") from None
+            try:
+                conn.rollback()
+            except Exception:
+                raise Failure("OUTCOME_UNKNOWN" if write else "STORAGE_UNAVAILABLE") from None
+            if exc.code == "STORAGE_CORRUPT":
+                raise Failure("STORAGE_UNAVAILABLE") from None
             raise
         except Exception as exc:
             if committing and write:
@@ -245,7 +314,12 @@ class Store:
                 conn.rollback()
             except Exception:
                 raise Failure("OUTCOME_UNKNOWN" if write else "STORAGE_UNAVAILABLE") from None
-            raise Failure("STORAGE_UNAVAILABLE") from None
+            code = (
+                "STORAGE_UNAVAILABLE"
+                if isinstance(exc, (OSError, sqlite3.Error, SQLAlchemyError))
+                else "INTERNAL_ERROR"
+            )
+            raise Failure(code) from None
         finally:
             conn.close()
 

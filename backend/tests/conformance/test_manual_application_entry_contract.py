@@ -208,7 +208,7 @@ def test_transport_access_openapi(tmp_path: Path) -> None:
             == "http://localhost:5173"
         )
         schema = client.get("/openapi.json").json()
-        assert len(schema["paths"]) == 4
+        assert len([p for p in schema["paths"] if p.startswith(BASE)]) == 4
         for path in schema["paths"].values():
             for route in path.values():
                 assert route["responses"]["422"]["content"]["application/json"]["schema"][

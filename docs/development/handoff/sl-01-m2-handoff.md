@@ -1,6 +1,6 @@
 # SL-01.M2 Development Handoff — Preferences Backend First
 
-> English is authoritative. Target Contract revision: **2026-09-20.M2-r1**. Decisions through CG02-Q40 are accepted. This handoff is preparation, not code or runtime evidence. Actual reviewed scope is in [Progress 6.2](../../progress/traceability.md#62-sl-01m2-reviewed-scope-and-interface-evidence).
+> English is authoritative. Target Contract revision: **2026-09-20.M2-r1**. Decisions through CG02-Q40 are accepted. Sections 1–4 retain the preparation-time baseline; the implemented backend transfer and remaining UI scope are in section 5. Actual reviewed scope is in [Progress 6.2](../../progress/traceability.md#62-sl-01m2-reviewed-scope-and-interface-evidence).
 
 [Milestone plan](../../plans/slices/sl-01-workspace-jobs-preferences.md#sl-01m2-collection-preferences-and-immutable-versions) · [Decisions](../../design/contract/sl-01-m2-grill.md) · [Conformance](../../acceptance.md#32-sl-01m2-contract-conformance)
 
@@ -33,3 +33,12 @@ Implementation chooses the CLI spelling, SQL constraint syntax, indexes and test
 [Acceptance 3.2](../../acceptance.md#32-sl-01m2-contract-conformance) is the proof checklist. Report backend checks separately from UI and overall M2 acceptance. Preserve M1 Entry semantics including deleted-original receipt replay and original fingerprints. Do not claim working Collection, a populated formal Job Pool or an implemented parent Slice from Preferences backend tests.
 
 User approval of Grill decisions and documentary interface review do not mean tests have run. No dependencies are installed, no real data migrated and no code/commit/push performed by this handoff.
+
+
+## 5. Backend-to-frontend integration handoff
+
+The backend described above is now implemented; actual requirement/test evidence and check results live in [traceability §8](../../progress/traceability.md#8-sl-01m2-backend-implementation-evidence), with rolling status in [Progress](../../progress.md#9-sl-01m2-backend-implementation). The preparation-time statements about missing code/schema-1-only runtime do not describe the current binary. Runtime versions remain pinned as recorded in the [backend README](../../../backend/README.md); its explicit offline migration command is the only supported schema-1 upgrade entry point. No user data was migrated by development.
+
+For UI/client work, consume the [Preferences API guide](../../api/sl-01-m2.md), generated `/openapi.json` and [derived Save input](../../../backend/tests/fixtures/preference_save.json). The normative Contracts remain authoritative. Configure the actual frontend Origin explicitly; do not bypass Host/Origin checks. Keep null first-save preconditions, canonical set/Unicode semantics, original submitted error indices and original request preservation after uncertainty. An old successful replay can describe a historical version and must not be displayed as proof of current state.
+
+PRF-022 UI, client generation/browser validation, client recovery and full M2 integration remain outside this backend completion. Concurrent frontend work has not been verified by this task. M1 frontend is not a prerequisite for this backend; neither M2 nor SL-01 is marked complete. No new handoff/summary file or automatic commit/push was created.

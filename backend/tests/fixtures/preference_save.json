@@ -1,0 +1,12 @@
+{
+  "request_id": "11111111-1111-4111-8111-111111111111",
+  "revision": null,
+  "configuration": {
+    "target_job_keywords": [" Python ", "Python", "工程师"],
+    "accepted_cities": {"mode": "LIMITED", "value": ["深圳", "北京", "北京"]},
+    "minimum_salary": {"mode": "LIMITED", "value": 15000},
+    "recruitment_types": {"mode": "LIMITED", "value": ["PART_TIME", "CAMPUS", "INTERNSHIP"]},
+    "excluded_companies": {"mode": "LIMITED", "value": [" ACME "]},
+    "max_required_education": {"mode": "LIMITED", "value": "BACHELOR"}
+  }
+}
