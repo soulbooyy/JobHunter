@@ -1,6 +1,6 @@
 # SL-10 Preparation, viewed-material confirmation and adopt-back
 
-> English is authoritative. This Slice plan is part of the Implementation Plan category and has completed W7 document review; user baseline approval remains pending. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 2 milestones remain in this document.
+> English is authoritative. This Slice plan is part of the Implementation Plan category and completed W7 review in its earlier form. Its affected scope/dependencies now reflect user-approved [CG01-BC1](../../design/contract/sl-01-m1-grill.md#cg01-bc1); scoped review is recorded in Progress. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 2 milestones remain in this document.
 
 [Documentation index](../../index.md) · [Slice index](README.md) · [Global Implementation Plan](../implementation-plan.md) · [Actual Progress](../../progress.md)
 
@@ -28,11 +28,11 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Out of scope:** Advisor dependency, adopt-back, Resume-body editing in Preparation, automatic sending or inferred ExecutionApproval.
 
-**Required upstream capability:** [SL-02.M2](sl-02-saved-authority-materials.md#sl-02m2-demanded-preview-and-export) — eligible actual rendered materials and their saved sources
+**Required upstream capability:** [SL-02.M2](sl-02-saved-authority-materials.md#sl-02m2-demanded-preview-and-export) — eligible actual rendered materials and their saved sources; [SL-08.M2](sl-08-collection-platform-safety.md#sl-08m2-boss-collection-and-explicit-refresh) — eligible formal Job targets; ManualApplicationEntry is excluded
 
 **Reused component/infrastructure:** [SL-02.M1](sl-02-saved-authority-materials.md#sl-02m1-complete-saved-authority-and-atomic-save) — source/currentness checks and durable demanded intent
 
-**Required Contract portions before development:** `preparation.md` — ordinary preparation, selection/reentry/Greeting/viewed approval and ApplicationExecutionSnapshot definition; `materials.md`, `derived-work.md` — required channel demand/readiness; `resumes-grounding.md`, `profile.md`, `evidence.md`, `jobs-screening.md` — actual eligibility; `execution.md` — necessary snapshot-consumer agreement only. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `applications/preparation.md` — ordinary preparation, selection/reentry/Greeting/viewed approval and ApplicationExecutionSnapshot definition; `applications/materials.md`, `foundation/derived-work.md` — required channel demand/readiness; `candidate/resumes-grounding.md`, `candidate/profile.md`, `candidate/evidence.md`, `jobs/jobs-screening.md` — actual eligibility; `applications/execution.md` — necessary snapshot-consumer agreement only. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Preparation owns snapshot meaning. Agree execution's reference/eligibility boundary now, without requiring all sending protocol or implementation. Frozen viewed material/Greeting is not consent to send.
 
@@ -54,7 +54,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Reused component/infrastructure:** [SL-07.M1](sl-07-advisor.md#sl-07m1-durable-advisor-discussion) — Session/source references and foreground coordination
 
-**Required Contract portions before development:** `preparation.md` — Advisor entry/reentry and narrow adoption/conflicts; `sessions.md` — actual source/entry linkage; `advisor-changes.md` — eligible committed result reference; `materials.md` — newly demanded current output; `evaluation-observability.md` — adoption/conflict Scenario. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `applications/preparation.md` — Advisor entry/reentry and narrow adoption/conflicts; `agent/sessions.md` — actual source/entry linkage; `candidate/advisor-changes.md` — eligible committed result reference; `applications/materials.md` — newly demanded current output; `evaluation/evaluation-observability.md` — adoption/conflict Scenario. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Proposal Save remains the formal authority boundary; later adoption changes only authorized Preparation selection. Concurrent Greeting/other preparation work must survive.
 

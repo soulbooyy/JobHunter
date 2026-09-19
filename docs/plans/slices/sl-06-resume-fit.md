@@ -32,7 +32,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Reused component/infrastructure:** [SL-03.M2](sl-03-invocation-requirements.md#sl-03m2-protected-semantic-invocation-and-evidence) — protected invocation, Context, budget and evidence
 
-**Required Contract portions before development:** `fit-analysis.md` — Resume and necessary shared assessment/scoring/single-target sections; `resumes-grounding.md` — exact expressed source/support eligibility; `requirements.md` — usable target; `context.md`, `execution-runtime.md`, `budget.md` — admitted task scope; `evaluation-observability.md` — Resume-only evaluators. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `jobs/fit-analysis.md` — Resume and necessary shared assessment/scoring/single-target sections; `candidate/resumes-grounding.md` — exact expressed source/support eligibility; `jobs/requirements.md` — usable target; `agent/context.md`, `agent/execution-runtime.md`, `foundation/budget.md` — admitted task scope; `evaluation/evaluation-observability.md` — Resume-only evaluators. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Grounding validates expressed support without importing additional career content. Introduce shared Fit sections here if SL-05 has not done so; one document never joins task identity or readiness.
 
@@ -54,7 +54,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Reused component/infrastructure:** [SL-06.M1](#sl-06m1-single-target-resume-fit) — single-target task controls and compatible shared Ensure/runtime paths
 
-**Required Contract portions before development:** `fit-analysis.md` — Resume selection/batch and rescore with shared definitions reused or first completed here; `budget.md` — operation limits; `evaluation-observability.md` — Resume workflow scope. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `jobs/fit-analysis.md` — Resume selection/batch and rescore with shared definitions reused or first completed here; `foundation/budget.md` — operation limits; `evaluation/evaluation-observability.md` — Resume workflow scope. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Resume eligibility and target serialization survive batch orchestration. Shared definitions may be reused from SL-05.M2 only if actually complete; that milestone is not a dependency.
 

@@ -18,7 +18,7 @@ This is a navigation-only index of Eval documents across their existing categori
 
 ## Contracts
 
-`docs/contracts/evaluation-observability.md` is a planned normative destination, not an existing Contract. Its [structure entry](../contracts/structure.md#planned-evaluation-observability) describes the planned responsibility; the [Contract Index](../contracts/index.md) distinguishes planned and existing documents. Normative interfaces belong to the actual Contract once created.
+`docs/contracts/evaluation/evaluation-observability.md` is a planned normative destination, not an existing Contract. Its [structure entry](../contracts/structure.md#planned-evaluation-observability) describes the planned responsibility; the [Contract Index](../contracts/index.md) distinguishes planned and existing documents. Normative interfaces belong to the actual Contract once created.
 
 ## Design History
 

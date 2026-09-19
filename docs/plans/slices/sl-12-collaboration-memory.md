@@ -32,7 +32,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Reused component/infrastructure:** [SL-07.M1](sl-07-advisor.md#sl-07m1-durable-advisor-discussion) — exact Context/checkpoint and source-validity infrastructure
 
-**Required Contract portions before development:** `memory.md` — entry/source/management/Recall/control meanings, conflicts/forgetting; `sessions.md` — actual source validity; `context.md` — current per-Frame Recall/checkpoint exclusion; `tools.md` — permitted lookups if exposed; `storage.md` — forgetting/retention agreement; `evaluation-observability.md` — controlled Memory snapshots and Recall evidence. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `agent/memory.md` — entry/source/management/Recall/control meanings, conflicts/forgetting; `agent/sessions.md` — actual source validity; `agent/context.md` — current per-Frame Recall/checkpoint exclusion; `agent/tools.md` — permitted lookups if exposed; `foundation/storage.md` — forgetting/retention agreement; `evaluation/evaluation-observability.md` — controlled Memory snapshots and Recall evidence. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Agree manual edits/forgetting versus later extraction publication before learning is enabled. Turning learning off must not disable manual management or Recall; do not display nonexistent learning execution as delivered. No Fit/parser Memory exposure.
 
@@ -54,7 +54,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Reused component/infrastructure:** [SL-03.M2](sl-03-invocation-requirements.md#sl-03m2-protected-semantic-invocation-and-evidence) — bounded invocation/recovery/evidence; background budget and source-publication extensions are part of this milestone
 
-**Required Contract portions before development:** `memory.md` — learning/extraction/source ranges/publication/conflicts; `sessions.md` — completed source and deletion agreement; `execution-runtime.md`, `budget.md`, `storage.md` — independent background resources/recovery/retention; `context.md` — extraction input/Recall separation; `evaluation-observability.md` — explicit learning Scenarios, measured background evidence and controlled Memory. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `agent/memory.md` — learning/extraction/source ranges/publication/conflicts; `agent/sessions.md` — completed source and deletion agreement; `agent/execution-runtime.md`, `foundation/budget.md`, `foundation/storage.md` — independent background resources/recovery/retention; `agent/context.md` — extraction input/Recall separation; `evaluation/evaluation-observability.md` — explicit learning Scenarios, measured background evidence and controlled Memory. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Complete source deletion and newer manual edit/forgetting checks at publication; background failure must not undo foreground success. Eligible discussion is sufficient upstream; no Proposal milestone is required.
 

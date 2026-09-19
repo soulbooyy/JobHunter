@@ -28,11 +28,11 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Out of scope:** Actual rendered preview/export delivery is M2; import and Advisor-generated changes are later entry points.
 
-**Required upstream capability:** [SL-01.M1](sl-01-workspace-jobs-preferences.md#sl-01m1-local-workspace-and-manual-job-authority) — local Workspace configuration
+**Required upstream capability:** [SL-01.M1](sl-01-workspace-jobs-preferences.md#sl-01m1-local-workspace-and-manual-application-entries) — local Workspace configuration
 
-**Reused component/infrastructure:** [SL-01.M1](sl-01-workspace-jobs-preferences.md#sl-01m1-local-workspace-and-manual-job-authority) — local persistence/reference/privacy primitives
+**Reused component/infrastructure:** [SL-01.M1](sl-01-workspace-jobs-preferences.md#sl-01m1-local-workspace-and-manual-application-entries) — local persistence/reference/privacy primitives
 
-**Required Contract portions before development:** `workspace.md` — default Resume; `profile.md` — identity/contact/privacy; `evidence.md` — current/history, baseline and eligibility; `resumes-grounding.md` — Draft, whole experiences, exact support/Ensure and removal; `candidate-save.md` — complete prepare/commit, conflict/idempotency and all affected participants; `derived-work.md` — demanded intent included atomically; `materials.md` — source binding, currentness and unavailable-output meaning needed by Save. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `foundation/workspace.md` — default Resume; `candidate/profile.md` — identity/contact/privacy; `candidate/evidence.md` — current/history, baseline and eligibility; `candidate/resumes-grounding.md` — Draft, whole experiences, exact support/Ensure and removal; `candidate/candidate-save.md` — complete prepare/commit, conflict/idempotency and all affected participants; `foundation/derived-work.md` — demanded intent included atomically; `applications/materials.md` — source binding, currentness and unavailable-output meaning needed by Save. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Architecture 16.3 Save agreement must be complete on both sides before any successful Save. No asynchronous authority repair. Define necessary intent and output invalidation now even though the rendering worker comes in M2.
 
@@ -54,7 +54,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Reused component/infrastructure:** [SL-02.M1](#sl-02m1-complete-saved-authority-and-atomic-save) — durable demanded intent and source/currentness checks
 
-**Required Contract portions before development:** `materials.md` — required rendered output/readiness/history; `derived-work.md` — demand, local execution/recovery and publication; `resumes-grounding.md` — current versus historical source eligibility. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `applications/materials.md` — required rendered output/readiness/history; `foundation/derived-work.md` — demand, local execution/recovery and publication; `candidate/resumes-grounding.md` — current versus historical source eligibility. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Reuse candidate-save intent; material meaning stays in materials, technical work in derived-work. A stale result cannot become current or resurrect removed source.
 

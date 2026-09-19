@@ -6,7 +6,7 @@ Each Slice has one maintained file. All 24 milestones remain inside their twelve
 
 | Slice | Detailed plan |
 | --- | --- |
-| SL-01 | [Local Workspace, Manual Jobs and Preferences](sl-01-workspace-jobs-preferences.md) |
+| SL-01 | [Local Workspace, Manual Application Entries and Preferences](sl-01-workspace-jobs-preferences.md) |
 | SL-02 | [Saved Knowledge, formal Resumes and safe materials](sl-02-saved-authority-materials.md) |
 | SL-03 | [Shared controlled execution with RequirementParse](sl-03-invocation-requirements.md) |
 | SL-04 | [Resume import into reviewed Draft and shared Save](sl-04-resume-import.md) |

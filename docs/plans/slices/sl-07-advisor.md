@@ -32,7 +32,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Reused component/infrastructure:** [SL-03.M2](sl-03-invocation-requirements.md#sl-03m2-protected-semantic-invocation-and-evidence) — protected invocation, budget and evidence; interactive extensions are part of this milestone
 
-**Required Contract portions before development:** `sessions.md` — general entry/source/Turn/foreground/deletion; `advisor-changes.md` — discussion and Suggestions; `tools.md` — permitted discussion reads; `context.md` — lazy acquisition, interactive capacity/reduction/checkpoint/rescue; `execution-runtime.md`, `budget.md`, `storage.md` — foreground/auxiliary/stream/retention extensions; `evaluation-observability.md` — fixed-input interactive Scenario/N+1, task-scoped checks and answer/control isolation. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `agent/sessions.md` — general entry/source/Turn/foreground/deletion; `candidate/advisor-changes.md` — discussion and Suggestions; `agent/tools.md` — permitted discussion reads; `agent/context.md` — lazy acquisition, interactive capacity/reduction/checkpoint/rescue; `agent/execution-runtime.md`, `foundation/budget.md`, `foundation/storage.md` — foreground/auxiliary/stream/retention extensions; `evaluation/evaluation-observability.md` — fixed-input interactive Scenario/N+1, task-scoped checks and answer/control isolation. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Discussion selection differs from later actual apply target. Session source deletion, Context revocation and runtime cancellation agree now; later Proposal arbitration extends this interface before any Proposal consumer exists.
 
@@ -54,7 +54,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Reused component/infrastructure:** [SL-07.M1](#sl-07m1-durable-advisor-discussion) — Session/foreground/Context machinery
 
-**Required Contract portions before development:** `sessions.md` — Job entry and dependency waiting; `advisor-changes.md` — targeted discussion scope; `requirements.md` and `tools.md` — explicit Ensure/pure reads; `context.md` — exact acquired Job/Set; `evaluation-observability.md` — targeted multi-step Scenario. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `agent/sessions.md` — Job entry and dependency waiting; `candidate/advisor-changes.md` — targeted discussion scope; `jobs/requirements.md` and `agent/tools.md` — explicit Ensure/pure reads; `agent/context.md` — exact acquired Job/Set; `evaluation/evaluation-observability.md` — targeted multi-step Scenario. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Keep the producer/waiter and foreground boundaries distinct from ended-Run human confirmation. No completed Fit is necessary.
 
@@ -76,7 +76,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Reused component/infrastructure:** [SL-02.M1](sl-02-saved-authority-materials.md#sl-02m1-complete-saved-authority-and-atomic-save) — all-affected transaction, intent and idempotent result protocol
 
-**Required Contract portions before development:** `advisor-changes.md` — actual target, Proposal eligibility/confirmation/replacement/result and confirm-delete arbitration; `sessions.md` — source existence/deletion interface; `candidate-save.md` — confirmed entry/committed result; `resumes-grounding.md` — target/support preparation; `tools.md` — authorized actions; `evaluation-observability.md` — confirmed-mutation Scenarios. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `candidate/advisor-changes.md` — actual target, Proposal eligibility/confirmation/replacement/result and confirm-delete arbitration; `agent/sessions.md` — source existence/deletion interface; `candidate/candidate-save.md` — confirmed entry/committed result; `candidate/resumes-grounding.md` — target/support preparation; `agent/tools.md` — authorized actions; `evaluation/evaluation-observability.md` — confirmed-mutation Scenarios. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Resolve both sides of Proposal/Session and Proposal/Save together. Shared all-affected authority/intent never waits for narration; losing delete/confirmation races cannot mutate.
 

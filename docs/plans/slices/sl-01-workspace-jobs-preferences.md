@@ -1,67 +1,67 @@
-# SL-01 Local Workspace, Manual Jobs and Preferences
+# SL-01 Local Workspace, Manual Application Entries and Preferences
 
-> English is authoritative. This Slice plan is part of the Implementation Plan category and has completed W7 document review; user baseline approval remains pending. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 2 milestones remain in this document.
+> English is authoritative. This Slice plan is part of the Implementation Plan category and completed W7 review in its earlier form. The later user-approved CG01-BC1 revises its scope; current scoped review is recorded in Progress. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 2 milestones remain in this document.
 
 [Documentation index](../../index.md) · [Slice index](README.md) · [Global Implementation Plan](../implementation-plan.md) · [Actual Progress](../../progress.md)
 
 The [global readiness and dependency rules](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) apply to every entry below. This file owns this Slice's detailed scope, required upstream capability, reused infrastructure, conditional integration, Contract portions and completion conditions. Product/Architecture/Acceptance retain their existing authority; actual readiness and evidence belong to Progress. Edit this file for local planning changes; reconcile other owners only when their real scope, shared interfaces, dependencies or evidence are affected.
 
-**Goal and business value:** Provide a useful local Job Pool and explicit search intent without requiring model calls or recruiting-site access.
+**Goal and business value:** Provide local Workspace, independent manual application entries and explicit search intent, plus a reusable deterministic screening component.
 
-**Scope:** Workspace/navigation responsibilities for delivered entry points; Manual Job roots including no-JD cases, complete immutable JobVersions, local browsing and Company read view, global hard Preferences, deterministic metadata-only QuickScreen, explicit observation/current-history distinctions. Introduce local identity/reference/persistence and privacy requirements only for these consumers.
+**Scope:** Local configuration and delivered navigation; separate mutable ManualApplicationEntry maintenance and explicit browser opening; global hard Preferences and pure metadata QuickScreen. Formal Job production, immutable versions, formal Job/Company read views and their current-Preferences integration belong to SL-08.M2 under the Job Contract.
 
-**Out of Scope:** BOSS access, Requirement parsing, Fit, Resume editing, application execution and new bookmark/search-profile features. Undelivered entry points cannot appear implemented.
+**Out of Scope:** Formal Job production in this Slice, JD ingestion into manual entries, analysis/application tracking of entries, BOSS access, model tasks, automated sending, and compatibility-only bookmark/search-profile products. Undelivered entry points cannot appear implemented.
 
-**Already-decided capabilities and provenance:** Q1, Q6–Q8, Q12–Q13, Q17, Q44–Q45, Q48, Q50, Q53, Q55–Q56, Q110, S5.1, S17.1–S17.3, S9.1. Actual behavior/mechanism owners: [P2](../../spec.md#2-workspace-and-task-organization); [P4](../../spec.md#4-jobs-preferences-and-collection); [A3](../../architecture.md#3-authority-identity-and-evolution); [A4](../../architecture.md#4-jobs-screening-collection-and-platform-access). These Q-IDs support the capabilities and exclusions; milestone placement/order is this plan's proposed delivery arrangement.
+**Already-decided capabilities and provenance:** Q1/Q6/Q8/Q45/Q53/Q55–Q56/S17.1–S17.3 plus [CG01-BC1](../../design/contract/sl-01-m1-grill.md#cg01-bc1). The later user decision supersedes the Manual Job portions of Q12/Q17/Q44/Q48/Q50 and CG01-Q2–Q5; original provenance remains preserved. Owners: [Product 2/4](../../spec.md#2-workspace-and-task-organization), [Architecture 3/4](../../architecture.md#3-authority-identity-and-evolution). The twelve-Slice/24-milestone allocation is retained with this explicit scope revision.
 
-**Dependent Contract families:** F01, F02, F05, F10.
+**Dependent Contract families:** F01, F02, F05 organizational grouping, F10. ManualApplicationEntry is outside the formal Job family despite its related document grouping.
 
-**Test / Eval categories:** Local persistence and source-identity checks, Manual root versus complete-version admission, metadata-only screening, uncertainty, latest local Preferences without remote fetch, read-view consistency and minimal diagnostics. Required proof destinations: [V3](../../acceptance.md#3-workspace-jobs-screening-and-collection); [V10](../../acceptance.md#10-privacy-storage-and-honest-history). These are future obligations, not existing tests or results.
+**Test / Eval categories:** Entry persistence, repeated edits, separate view and browser-only effects; Preferences authority and deterministic pure screening. [Acceptance 3](../../acceptance.md#3-workspace-jobs-screening-and-collection) and applicable [Acceptance 10](../../acceptance.md#10-privacy-storage-and-honest-history). Component evidence does not prove a populated formal Job Pool.
 
-**Upstream and required Contracts:** See the independent entries below and [global Plan 4](../implementation-plan.md#4-contract-document-and-joint-interface-map). Required parent milestones: [SL-01.M1](#sl-01m1-local-workspace-and-manual-job-authority), [SL-01.M2](#sl-01m2-hard-preferences-and-local-screening). Dependencies are implemented components, not completion of upstream parents.
+**Required parent milestones:** [SL-01.M1](#sl-01m1-local-workspace-and-manual-application-entries), [SL-01.M2](#sl-01m2-hard-preferences-and-pure-screening). Dependencies are implemented components, not completion of upstream parents.
 
-## SL-01.M1 Local Workspace and Manual Job authority
+## SL-01.M1 Local Workspace and Manual Application Entries
 
-**Goal/value:** Make a local Job Pool usable before remote or model integration.
+**Goal/value:** Maintain user-provided manual application destinations independently of formal Job workflows.
 
-**Scope:** Local Workspace configuration; Manual roots with or without JD; complete immutable JobVersions; source identity, observations, honest availability/history, flat Job and Company read views, and delivered navigation.
+**Scope:** Local Workspace initialization/configuration; ManualApplicationEntry company, role title and user-provided application URL; repeated mutable edits and removal from current use; a separate view entered through a Job Pool button; explicit browser opening.
 
-**Out of scope:** Preferences screening is M2; platform acquisition and application history are separate consumers.
+**Out of scope:** Formal Job/JobVersion, JD input/version history, freshness/availability reporting, Requirements, both Fits, targeted Advisor, Preparation, automated Execution and Application History. Opening the URL is not collection or an application fact. Physical entry deletion and independently retained create receipts follow the actual Entry/Storage Contracts; no immutable Job history is introduced.
 
 **Required upstream capability:** None.
 
-**Reused component/infrastructure:** None; select the actual minimal local setup during implementation preparation.
+**Reused component/infrastructure:** None. Follow the [M1 development handoff](../../development/handoff/sl-01-m1-handoff.md) for target-stack adoption and verification of the actual minimal local setup.
 
-**Required Contract portions before development:** `workspace.md` — local initialization/configuration; `jobs-screening.md` — Manual admission, complete versions, observations and local views. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** [Common](../../contracts/common.md) COM-001–032; [Workspace](../../contracts/foundation/workspace.md) WSP-001–006; [ManualApplicationEntry](../../contracts/jobs/manual-application-entries.md) MAE-001–018; [Storage](../../contracts/foundation/storage.md) STO-001–013, all at scope revision `2026-09-19.M1-r1`. Their actual scope readiness and reviewed interface evidence are recorded in [Progress](../../progress/traceability.md#61-sl-01m1-reviewed-scope-and-interface-evidence). Additional Common/Workspace/Storage scopes and immutable Job history are not M1 prerequisites.
 
-**Joint agreement:** Common identity/history and storage privacy agree with Manual-root versus complete-version admission. Later BOSS admission must reuse JobVersion meaning without removing the Manual exception.
+**Joint agreement:** Entry identity and operations do not supply Job identity or downstream eligibility. Browser navigation produces no ExecutionAttempt, approval consumption, application event or hidden conversion/collection. Common/storage guarantees cover actual local entry needs; formal Job semantics remain with `jobs/jobs-screening.md`.
 
-**Research / unresolved Grill detail:** Select and verify the minimum local persistence, UI and checking setup; no bootstrap or full stack is selected by this plan.
+**Research / implementation preparation:** The accepted Grill is complete through CG01-Q45. The [development handoff](../../development/handoff/sl-01-m1-handoff.md) records official-source integration findings, observed host limitations and actual adoption work. Begin by pinning/verifying the selected runtime/dependencies, driver transaction mode, lock and browser implementation; do not treat document research as executed product checks. No further product decision is currently required to start this bounded work.
 
-**Tests / Eval:** V3, V10: identity/admission, missing JD, persistence, honest observations and read-view consistency. V denotes the corresponding section of [Acceptance](../../acceptance.md); the parent's links locate that proof. These are required future checks, not results.
+**Tests / Eval:** [Acceptance 3.1](../../acceptance.md#31-sl-01m1-contract-conformance) maps the real requirement IDs to boundary, persistence, recovery, privacy and browser proof, with applicable V10. These remain future checks, not executed results.
 
-**Milestone completion:** Real local maintenance and reads preserve exact history and distinguish missing content from unavailable Jobs. Record actual evidence under [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning); no current completion is claimed.
+**Milestone completion:** Real entry maintenance and browser opening work through the actual boundary, with truthful failure handling and durable saved records under their Contract. This establishes neither formal Jobs nor their consumers. Record scoped evidence under [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning).
 
-## SL-01.M2 Hard Preferences and local screening
+## SL-01.M2 Hard Preferences and pure screening
 
-**Goal/value:** Filter local opportunities by explicit search intent without paid inference or site access.
+**Goal/value:** Save explicit search intent and provide the deterministic screening component consumed by Collection and formal local views.
 
-**Scope:** One global hard Preferences version and deterministic metadata-only QuickScreen; latest local filters/views independent of any frozen collection input.
+**Scope:** One global hard Preferences version; deterministic QuickScreen over admitted Job/source metadata, uncertainty and no model/Candidate/Requirement access. Define the producer/consumer agreement with Collection and formal local filtering without delivering their data producer here.
 
-**Out of scope:** Requirement parsing, Candidate data, soft model judgments and saved search-profile products.
+**Out of scope:** Screening ManualApplicationEntry, formal Job production, populated Job/Company views, remote acquisition and end-to-end filtering integration. Those formal local views and current-Preferences integration are delivered in SL-08.M2.
 
-**Required upstream capability:** [SL-01.M1](#sl-01m1-local-workspace-and-manual-job-authority) — persisted Job metadata and local views
+**Required upstream capability:** [SL-01.M1](#sl-01m1-local-workspace-and-manual-application-entries) — usable local Workspace configuration; no formal Job data is expected from it.
 
-**Reused component/infrastructure:** [SL-01.M1](#sl-01m1-local-workspace-and-manual-job-authority) — local persistence/reference handling
+**Reused component/infrastructure:** [SL-01.M1](#sl-01m1-local-workspace-and-manual-application-entries) — applicable implemented local persistence/privacy primitives; add immutable Preference version support required by this consumer rather than claiming entry delivery supplied it.
 
-**Required Contract portions before development:** `preferences.md` — hard intent and immutable versions; `jobs-screening.md` — deterministic screening, uncertainty and temporary views. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `candidate/preferences.md` — hard intent and immutable versions; `jobs/jobs-screening.md` — the independently consumable pure metadata screening scope and necessary input/output agreement. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
-**Joint agreement:** Preferences authority versus view filters; screening consumes Job metadata only. Collection later translates a frozen version and must not replace current local filtering.
+**Joint agreement:** Preferences owns intent; `jobs/jobs-screening.md` owns canonical screening semantics; Collection translates frozen intent. SL-08.M2 integrates latest local filtering. M2 does not depend on SL-08.M2 completion, avoiding a screening/collection cycle.
 
-**Research / unresolved Grill detail:** Resolve required metadata and missing-input behavior in Contract Grill; numeric/default policy is not inferred.
+**Research / unresolved Grill detail:** Resolve actual supported hard dimensions, consumer-justified metadata input and missing-input behavior. Do not infer numeric/default policy or expand the full Job schema merely to deliver this component.
 
-**Tests / Eval:** V3: deterministic predicates, unknown metadata, no Candidate/Requirement/model access, immediate local refiltering. V denotes the corresponding section of [Acceptance](../../acceptance.md); the parent's links locate that proof. These are required future checks, not results.
+**Tests / Eval:** V3: real Preferences persistence/versioning and executable pure predicates with controlled metadata inputs, deterministic uncertainty and no forbidden dependencies. Fixture checks prove the component only, not a populated user Job Pool or working source adapter.
 
-**Milestone completion:** Real screening uses current local intent without remote fetch or a second screening authority. Record actual evidence under [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning); no current completion is claimed.
+**Milestone completion:** The actual Preferences boundary and screening component satisfy their owned rules and required checks. Real formal Job list/refilter integration remains SL-08.M2's obligation, not an unimplemented promise counted as complete here.
 
-**Parent completion and remaining work:** A user can maintain local Manual Jobs and Preferences through the real boundary, with honest missing JD/unknown availability and persistent exact history. Screening neither calls a model nor acquires Candidate/Requirement authority. Required deterministic evidence and mappings exist. Each milestone's necessary Contract scope must have been written and reconciled before its development; completion needs actual acceptance evidence and Progress/matrix updates. No completion is claimed now. All 2 listed milestones must be accepted. Any accepted subset leaves the other listed scopes pending. Integrated proof must cover local persisted Jobs with current Preferences/read views. Parent completion is separate from rollout/production enablement.
+**Parent completion and remaining work:** Both milestones and their local integration are accepted: Workspace supports entry maintenance/browser opening and persisted Preferences usable by the pure screening component. Manual entries stay separate and are not screened as formal Jobs. Formal Job/Company views and current-Preferences refiltering are verified in SL-08.M2. All 2 milestones need their scoped Contracts, implementation and evidence; no completion is claimed. Parent completion is separate from rollout/production enablement.

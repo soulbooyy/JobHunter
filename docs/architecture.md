@@ -18,7 +18,9 @@ The [user-approved process revision](../.scratch/document-authoring-spec.en.md#f
 
 ### 2.1 Logical boundaries
 
-JobHunter is one single-user, local-first workspace. The five navigation entries and two Advisor entry modes are owned by Product section 2; navigation organizes tasks without defining Domain ownership. Company aggregation is a read view, and no unified Candidate Aggregate or tenant hierarchy is introduced.
+SL-01.M1's accepted runtime is a loopback local backend with a browser frontend. Workspace owns first-use semantics and delivered navigation; Storage owns the stable startup-selected data directory, one-backend ownership, recognition, transactions and diagnostics. They are infrastructure boundaries, not multiple Workspace identities. The four [M1 Contracts](contracts/index.md#existing-normative-contracts) define their actual fields and protocols. Browser navigation waits for revision-checked resolution and satisfies final opener/referrer safety properties without becoming an Executor action.
+
+JobHunter is one single-user, local-first workspace. The five navigation entries and two Advisor entry modes are owned by Product section 2; navigation organizes tasks without defining Domain ownership. Company aggregation over formal Jobs is a read view, and no unified Candidate Aggregate or tenant hierarchy is introduced. ManualApplicationEntry is a separate mutable record outside the formal Job family; its browser-opening action is ordinary user navigation, not Collector or Executor activity ([CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1)).
 
 | Responsibility | Owns | Must not own |
 | --- | --- | --- |
@@ -77,7 +79,8 @@ BossHunter, boss-zhipin-scraper, and resume-optimization projects are research i
 | Current career set at a point in time | Immutable EvidenceBaselineSnapshot | Freezes current saved members; neither copied facts nor a completeness assertion |
 | Formal resume presentation | Resume root and immutable ResumeVersion | Whole current experiences plus Profile choices/order/presentation; no private alternate career text |
 | Support for formal resume claims | Immutable ResumeGroundingSet | Durable derived mapping to actual exact dependencies; not another fact owner |
-| Source Job content | Stable Job and immutable complete JobVersion | Requirements bind exact source; observation and current availability remain distinct |
+| Manual application entry | Independent mutable ManualApplicationEntry containing company, role title and user-provided application URL | Separate view and explicit browser opening only; no formal Job/version or analysis/application-history authority |
+| Source Job content | Stable Job and immutable complete JobVersion | Requirements bind exact source; observation and current availability remain distinct; ManualApplicationEntry is not a source variant |
 | Structured Job requirements | Immutable validated RequirementSet | Derived from exact JD but the sole requirements input for Fits and targeted Advisor |
 | Fit findings | Independent CandidateJobFitAnalysis and ResumeJobFitAnalysis | Durable assessments with exact inputs; policy-derived scores and current-result views are not new semantic authorities |
 | Proposed formal modification | Target-specific ChangeProposal and its confirmation/result relationship | Exact operation preview, not editable Resume material; Application governs commit |
@@ -107,9 +110,13 @@ Hashes, provenance, version ancestry, and reference resolution support identity 
 
 One reliable platform source identity maps to one Job. Semantically changed canonical content produces a new immutable JobVersion; unchanged content updates observation metadata without manufacturing a version. Cross-platform merging and historical physical/logical merge operations are excluded.
 
-Manual creation assigns independent source identity and may persist a root without JD/version for tracking and human reports. Duplicate URLs are hints, not merge authority. BOSS admission atomically persists the root and first complete JobVersion after validated full detail/JD acquisition. It cannot persist an incomplete root as if it were the Manual case. JobVersion has the same complete semantic meaning for both sources.
+BOSS admission atomically persists the formal Job root and first complete JobVersion after validated full detail/JD acquisition. Formal JobVersion retains complete exact canonical JD and immutable content snapshot semantics. No manual root-only admission exception remains.
 
-**Sources:** Q12–Q13, Q17, Q44, Q48–Q50, S9.1. Q44/Q48 control Q17's earlier version-creation wording.
+ManualApplicationEntry has separate identity and mutable company/role/application-URL content, with no JobVersion, source-platform Job identity or downstream Job eligibility. Repeated edits do not create immutable business versions. Its separate view and browser navigation cannot produce Requirements, Fits, Preparation, ExecutionAttempt or ApplicationEvents. The removal request concerns current entry use; detailed retention is not inferred from formal Job history.
+
+The normative definition owner of formal Job identity, content, completeness, versions, lineage and read semantics remains `jobs/jobs-screening.md`. `jobs/collection.md` owns acquisition and adapter workflow under that Contract; SL-08.M2 is the first planned producer and integration milestone, not a semantic owner. `jobs/manual-application-entries.md` is the separate planned entry Contract owner.
+
+**Sources:** Q12–Q13, Q17, Q44, Q48–Q50, S9.1; later [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1) supersedes the Manual Job branch only and preserves formal canonical Job completeness and immutable history.
 
 ### 4.2 Pure screening and local persistence
 
@@ -123,7 +130,7 @@ Normal browsing and changed Preferences query/re-screen local saved data. Initia
 
 ### 4.3 Observation and safety boundaries
 
-Content capture, reliable source observation, and direct availability verification answer different questions. Freshness and availability policies derive views: age can imply staleness, not closure; absence from one search cannot prove closure. Verified closure blocks new automatic application without deleting historical content or applications. Human reporting remains distinguishable from verified source observation.
+Content capture, reliable source observation, and direct availability verification answer different questions. Freshness and availability policies derive views: age can imply staleness, not closure; absence from one search cannot prove closure. Verified closure blocks new automatic application without deleting historical content or applications. Human reporting remains distinguishable from verified source observation. These are formal Job concerns; ManualApplicationEntry has no source observation or availability model. Its explicit browser opening performs no application-controlled extraction, verification or sending.
 
 PlatformAccessSafety is shared persistent admission for platform/account capacity, risk, and action permission. Collector, Browser Executor, and any future implemented Monitor check it before every actual access. Workflow Run/Attempt ownership, budget, recovery, and execution authorization remain independent.
 
@@ -250,7 +257,7 @@ Session deletion atomically arbitrates confirmation eligibility with pending Pro
 
 ## 8. Preparation, execution, and application events
 
-ApplicationPreparation is mutable, Job/channel-specific, and revision-protected, not immutable history for every edit. Reentry resumes unfinished work without silently replacing exact selections/Greeting. Creation is idempotent against repeated requests; multiple resumable candidates require user choice. Explicit new preparation and reapplication start separate chains.
+ApplicationPreparation is mutable, formal Job/channel-specific, and revision-protected, not immutable history for every edit. Reentry resumes unfinished work without silently replacing exact selections/Greeting. Creation is idempotent against repeated requests; multiple resumable candidates require user choice. Explicit new preparation and reapplication start separate chains.
 
 Preparation displays/selects formally rendered Resumes and cannot edit body text. Greeting is one Preparation-owned editable value with a fixed generic default, no personalization/model call/template library/independent version history. Readiness is a channel-policy projection over eligible saved inputs, validation, rendering, and compatible material confirmation.
 
@@ -260,7 +267,7 @@ ApplicationExecutionSnapshot is immutable intended input, not execution permissi
 
 Executor's necessary authorized live identity/availability checks do not refresh JobVersion, parse Requirements, replace frozen inputs, or add model Job analysis. Mismatch/closure stops subsequent actions for explicit refresh/repreparation. All access also passes shared PlatformAccessSafety.
 
-ExecutionEvents describe technical actions/observations. Only reliable channel read-back or explicit human report establishes ApplicationEvents. Manual reports do not fabricate Snapshot/Approval/Executor history. ApplicationRecord identifies one real Job/channel/account attempt; reapplication creates another. Events are deduplicated and append-only, retain occurrence/observation distinctions, and use appended corrections/retractions. Versioned ApplicationProgressPolicy derives the read view; it is not independently writable status. Interviews remain ApplicationEvents without a new Aggregate.
+ExecutionEvents describe technical actions/observations. Only reliable channel read-back or explicit human report establishes ApplicationEvents. Human reports about formal Jobs do not require automated execution and do not fabricate Snapshot/Approval/Executor history. ManualApplicationEntry is not an ApplicationRecord target; opening its URL creates no Attempt or application fact ([CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1)). ApplicationRecord identifies one real Job/channel/account attempt; reapplication creates another. Events are deduplicated and append-only, retain occurrence/observation distinctions, and use appended corrections/retractions. Versioned ApplicationProgressPolicy derives the read view; it is not independently writable status. Interviews remain ApplicationEvents without a new Aggregate.
 
 Batch application groups membership, scheduling, and progress, while each Job has its own Preparation, Snapshot, Approval, Attempt, and optional real application record. Bulk confirmation does not merge approval scopes or create an atomic business batch. Undispatched members are not failed/applied. Shared risk may stop later dispatch without rewriting completed outcomes.
 
@@ -515,7 +522,7 @@ F01–F11 retain the original ordered responsibility families and source provena
 | F02 | Workspace, Profile and Preferences | Keep configuration/default selection, identity/contact and search intent distinct. |
 | F03 | Evidence, import and baseline | Saved facts own factual authority; import proposes; coordinated Save preserves all affected authority. |
 | F04 | Formal Resume, grounding and proposed changes | Expression/support, proposed authorization and committed mutation have separate owners. |
-| F05 | Jobs, collection and shared platform safety | Local source identity/content/screening, acquisition workflow and cross-workflow risk admission remain distinct. |
+| F05 | Formal Jobs, collection, shared platform safety and separate manual entries | `jobs/jobs-screening.md` owns formal Job semantics; collection produces under them. ManualApplicationEntry has a separate mutable-record Contract outside the Job family, grouped here for document organization only. |
 | F06 | Requirements, independent Fits, scoring and orchestration | Dependency production differs from assessment/scoring; Candidate and Resume tasks remain independent. |
 | F07 | Materials, Preparation, execution and application history | Rendered output, viewed-content consent, execution authorization and real-event admission are distinct. |
 | F08 | Harness, Skills, Invocations and Tools | Controlled execution differs from the action catalog and owned-operation admission; neither acquires Domain authority. |
@@ -543,7 +550,7 @@ A milestone needs its **actually consumed normative Contract scope**, including 
 
 [Implementation Plan](plans/implementation-plan.md) and its [Slice plans](plans/slices/README.md) own milestone decomposition, actual capability/component dependencies and completion. [Development](development.md#51-define-a-bounded-reviewable-capability) requires Contract-ready development; [Progress recording rules](progress/README.md) owns readiness/status/evidence representation, and [Progress](progress.md) owns the actual records. [Contract Structure](contracts/structure.md#6-milestone-consumption-and-progressive-readiness) locates planned scopes without taking over those responsibilities. First-use safeguards and atomic invariants remain indivisible, parent completion still requires all necessary milestones and integrated proof, and shared-scope changes require impact review of affected consumers.
 
-User baseline approval and the later detailed Contract Grill remain required; see [Progress](progress.md) for review evidence. This section supplies no fields, types, enums, detailed transitions, API payloads, schema, validation errors, migrations or new runtime decisions.
+The user has approved the scoped M1 decisions through CG01-Q45, and its actual Common/Workspace/Entry/Storage definitions now exist. Other consumed scopes still require their own detailed Grill/writeback; scoped M1 approval does not imply blanket approval of the historical baseline. See [Progress](progress.md) for review evidence. This section supplies no fields, types, enums, detailed transitions, API payloads, schema, validation errors, migrations or new runtime decisions.
 
 ## 17. Deferred detail, exclusions, and handoff boundaries
 

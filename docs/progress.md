@@ -1,38 +1,34 @@
 # JobHunter Progress
 
-> English is authoritative. Snapshot: 2026-09-19, W7 joint document review completed; user baseline approval pending. This document records actual state; target architecture, Contract structure and planned milestones do not establish implemented capabilities.
+> English is authoritative. Snapshot: 2026-09-19, SL-01.M1 Contract scope ready after accepted Grill and scoped review; no product implementation. Historical W7/global approval remains separate. This document records actual state; target architecture, Contract structure and planned milestones do not establish implemented capabilities.
 
-## 1. Current task and repository state
+## 1. Current state and task
 
-W6 has consumed the [Contract structure handoff](../.scratch/contract-structure-grill-handoff.md) and authored [Implementation Plan](plans/implementation-plan.md): **twelve macro Slices, 24 internal milestones**, complete required responsibility portions of the 27 planned Contract documents, separate Required upstream capability and Reused component/infrastructure dependencies, joint agreements, research, proof categories and milestone/parent completion conditions. W7 has reviewed this planning proposal against the reorganized document baseline. User approval of the baseline and proposed milestone allocation remains pending.
+The user has started **SL-01.M1 — Local Workspace and Manual Application Entries** and approved [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1). This architecture/plan writeback separates the mutable ManualApplicationEntry from formal Job/JobVersion. It opens a user-provided URL only and cannot enter analysis, Preparation, automatic execution or Application History.
 
-Six main drafts, twelve detailed Slice plans and the [Traceability Matrix](progress/traceability.md) now exist. W6's [handoff](../.scratch/w6-implementation-plan-handoff.md) preserves its scoped checks and W7 entry; the [W7 handoff](../.scratch/w7-joint-review-handoff.md) records the current joint review, corrections and limits. The original [macro draft](../.scratch/w6-macro-slice-draft.md) and W1–W5/structure handoffs remain historical inputs. CS1–CS5 structural/process acceptance does not establish approval of the final milestone allocation or complete baseline.
+Formal Job semantics remain owned by planned `jobs/jobs-screening.md`; SL-08.M2 is its first planned producer and integrates collection, exact Job history and formal local views. SL-01.M2 supplies Preferences and pure QuickScreen without depending on Collection. Formal Job consumers now depend on the actual producer. The plan retains twelve Slices and 24 milestones.
 
-Navigation and a non-normative structure plan exist under formal Contracts. No normative Contract bodies or requirement IDs, product code, executable tests, test/Eval receipts, installed integrations or implemented capabilities are supplied. All 24 milestones remain planned; none has completed its required Contract scope, development or acceptance. No parent Slice is complete. Documentation is maintained locally; Git history records committed revisions. No publication is implied.
+The W7 handoff preserves review of the preceding baseline. The new scoped user approval does not retroactively approve every old baseline detail or reuse W7's PASS as evidence for new semantics. Current writeback checks are recorded in section 5. The original nine Grill sources, Inventory, Chinese authoring reference and historical handoffs remain unchanged; CG01-BC1 explicitly supersedes their Manual Job portions.
 
-Current navigation starts at [docs/index.md](index.md). The former root-level Implementation Plan has moved to [plans/implementation-plan.md](plans/implementation-plan.md), with detailed scope and all 24 milestones in [twelve Slice files](plans/slices/README.md). Every documentation directory now has a README. Contract README/index provide navigation and Contract Structure provides non-normative organization; no normative body or readiness was created. This layout change does not alter implementation status.
+The [Contract Index](contracts/index.md) now lists **four actual M1 normative bodies and 24 still-planned destinations**. Common, Workspace, ManualApplicationEntry and Storage contain **69 stable requirement IDs** at scope revision `2026-09-19.M1-r1`. Their consumed M1 portions are Ready; all other 63 planning scope rows remain Pending.
 
-The Contract structure extraction relocates all 27 planned file entries, family mapping, document references and structural milestone-consumption locators from Architecture 16 to [Contract Structure](contracts/structure.md). Architecture keeps high-level ownership; [Contract Index](contracts/index.md) separates planned/existing navigation. This is document organization only; all implementation and normative-scope records remain pending.
-
-The Development extraction moves Eval procedure to [development/evaluation.md](development/evaluation.md) and status/readiness/evidence rules to [progress/README.md](progress/README.md). Development retains general discipline; Implementation Plan and its existing Slice files retain concrete planning. This changes documentation responsibility only, not readiness, implementation or acceptance.
-
-The Acceptance extraction preserves business/runtime scenarios in the main document, moves specialized Eval proof to [acceptance/evaluation.md](acceptance/evaluation.md), and removes duplicated document-review definitions in favor of Development. The execution guide references the proof owner. This authoring change establishes no new readiness or executed acceptance.
+The user accepted CG01-Q1–Q45's effective decisions (Q7–Q10 were stopped), including Q42's optional safe transaction completion and Q45's implementation-independent browser safety. Normative writeback and scoped interface reviews are complete. Begin the next task from the [M1 development handoff](development/handoff/sl-01-m1-handoff.md), first configuring/pinning and verifying the actual toolchain, then implementing the bounded capability. M1 implementation remains **Not started** and acceptance **Not executed**; its parent SL-01 remains Planned.
 
 ## 2. Documentation and review state
 
 | Work | Actual artifact/state | Remaining boundary |
 | --- | --- | --- |
 | Architecture Grill | Original register, six Harness records and Eval record; Inventory remains a checklist | Accepted provenance, not detailed Contracts or implementation |
-| W1 Product | [Product](spec.md), authored draft; current plan availability reconciled | W7 document review complete; user approval pending; behavior unchanged |
-| W2 Architecture | [Architecture](architecture.md), authored draft; high-level Contract families/boundaries retained, concrete catalog relocated to [Contract Structure](contracts/structure.md) | W7 document review complete; user approval pending; no normative detail added |
+| W1 Product | [Product](spec.md), authored draft; current plan availability reconciled | Earlier baseline reviewed in W7; CG01-BC1 behavior changes explicitly user-approved and reviewed separately |
+| W2 Architecture | [Architecture](architecture.md), authored draft; high-level Contract families/boundaries retained, concrete catalog relocated to [Contract Structure](contracts/structure.md) | Earlier baseline reviewed in W7; CG01-BC1 authority changes explicitly user-approved; no normative detail added |
 | W3 Acceptance | [Acceptance](acceptance.md), unified business/runtime proof; [Eval acceptance](acceptance/evaluation.md) owns specialized evidence criteria; authoring checks belong to Development | No product scenario executed |
 | W4 Development | [Development](development.md), stable general discipline; [Eval guide](development/evaluation.md) carries specialized procedure | No actual tooling or code established |
-| W5 Progress/matrix | [Recording rules](progress/README.md), this summary and [matrix](progress/traceability.md); actual values remain unchanged | Source clauses retain their original dispositions; actual Contract/implementation evidence pending |
+| W5 Progress/matrix | [Recording rules](progress/README.md), this summary and [matrix](progress/traceability.md); actual values remain unchanged | Original source records retained with scoped supersession; M1 Contract evidence now recorded separately from pending implementation |
 | W6 structure discussion | [Structural handoff](../.scratch/contract-structure-grill-handoff.md), agreed CS1–CS5 | Detailed representations remain pending; historical fifteen-Slice proposal is not adopted |
-| W6 Implementation Plan | [Plan](plans/implementation-plan.md) and [W6 handoff](../.scratch/w6-implementation-plan-handoff.md), authored; scoped seams/checks reported | Allocation/order document review complete; user approval pending; no capability completion |
+| W6 Implementation Plan | [Plan](plans/implementation-plan.md) and [W6 handoff](../.scratch/w6-implementation-plan-handoff.md), authored; scoped seams/checks reported | Earlier allocation reviewed in W7; CG01-BC1 dependency revision user-approved; no capability completion |
 | W7 joint baseline review | [W7 handoff](../.scratch/w7-joint-review-handoff.md): six main documents and current supporting plans/guides/records reviewed under both seams | Completed document review only; no runtime acceptance |
-| User baseline approval | Concrete reviewed documents and W7 findings available | Pending; performing W7 does not imply user approval |
-| Detailed Contracts | 27 planned destinations; zero normative bodies or IDs | Complete required scope progressively for each selected milestone after baseline review |
+| User direction | Explicit M1 start and CG01-BC1 architecture/plan revision approved | Scoped approval; do not infer retrospective blanket approval of all earlier baseline detail |
+| Detailed Contracts | Four actual M1 bodies, 69 IDs, four consumed portions Ready; 24 destinations remain planned | Other 63 scope portions remain Pending; no implementation or runtime acceptance |
 
 Historical handoffs preserve their own evidence snapshots; obsolete whole-Slice/global Contract gates do not override current [Development 5](development.md#5-future-slice-planning-and-test-first-work). English remains authoritative for all formal work.
 
@@ -44,11 +40,11 @@ The matrix retains **179 original source records (157 Q and 22 S), across 73 cla
 | --- | --- |
 | Current in-scope product/runtime/Eval capabilities | Planned; no implemented or executed acceptance evidence |
 | Explicit exclusions/deferrals | Preserve original clause-specific reasons; later scheduling does not itself mean Deferred |
-| Planning locators | SL-01–SL-12 and 24 internal milestone locators exist in Implementation Plan; not Contract IDs or a newly approved implementation schedule |
-| Contract readiness | None of the 24 milestones has completed normative scope, joint interface writeback or genuine requirement IDs |
+| Planning locators | SL-01–SL-12 and 24 internal milestone locators exist in Implementation Plan; planning identifiers with a scoped user-approved CG01-BC1 revision, not Contract IDs or implemented capabilities |
+| Contract readiness | SL-01.M1 has four complete reviewed consumed scopes and 69 IDs; other milestones remain Pending |
 | Milestone implementation and parent completion | None; no Partial/Implemented capability claim |
 | Product checks/Eval/integration | No executable evidence supplied; runner/CI remain future work |
-| Document checks | W7 joint semantic review and mechanical integrity checks, with original W6 snapshots preserved in their handoff |
+| Document checks | Historical W7 review plus the scoped CG01-BC1 two-seam review and mechanical checks in section 5; original handoff snapshots preserved |
 
 Future evidence must identify the accepted milestone, parent, actual required Contract IDs and implementation/test/Eval locations. Ready Contracts are not implemented capability; accepted milestones are not completed parents. Parent completion needs all required milestones and integrated proof. Shared Contract changes can require rechecking earlier consumers and evidence.
 
@@ -73,7 +69,7 @@ Parent completion and child capability availability are recorded separately. All
 
 ### 3.2 Milestone and normative-scope records
 
-The [milestone ledger](progress/traceability.md#5-milestone-implementation-and-acceptance-ledger) records all 24 children with separate consumed-Contract readiness, implementation, acceptance and evidence columns. The [Contract scope ledger](progress/traceability.md#6-contract-normative-scope-readiness-ledger) records independently consumed responsibility portions rather than file-wide completion. All are pending, with no normative IDs or execution evidence.
+The [milestone ledger](progress/traceability.md#5-milestone-implementation-and-acceptance-ledger) records all 24 children with separate consumed-Contract readiness, implementation, acceptance and evidence columns. The [Contract scope ledger](progress/traceability.md#6-contract-normative-scope-readiness-ledger) records independently consumed responsibility portions rather than file-wide completion. SL-01.M1 alone has Ready consumed Contract scope; its implementation/acceptance remain not started/not executed. The other milestones and other 63 normative portions remain Pending.
 
 These are current records, not the hypothetical READY/COMPLETE/PASSED example. Once a milestone is actually accepted, update its own evidence and expose its capability even if its parent remains Partial. Parent Implemented requires every required milestone plus integrated acceptance. “Verified” belongs to acceptance evidence, not a new Q26/Q32 implementation status. A ready Contract scope or written code alone does not establish accepted capability.
 
@@ -81,19 +77,45 @@ These are current records, not the hypothetical READY/COMPLETE/PASSED example. O
 
 | Remaining work | Owner and boundary |
 | --- | --- |
-| User baseline approval | Review the concrete documents and [W7 findings](../.scratch/w7-joint-review-handoff.md); approve the baseline before selecting a milestone for detailed Contract work |
+| Scoped design completion | M1 decisions and consumed normative scope are complete; later milestones require their own Grill and writeback |
 | Selected milestone's normative scope | Contract Grill/writeback resolves exact expressions and both sides of needed interfaces; no requirement to finish the entire parent/file/family first |
-| Research/preparation | Required pinned sources/licenses/mappings, format/channel feasibility and platform/SDK behavior remain scoped prerequisites; no full stack or deployment is inferred |
+| Research/preparation | M1 official-source findings and observed host limits are in the handoff; pin actual adopted versions and verify driver/lock/browser behavior during engineering preparation. Later collector/model integrations retain their own research prerequisites |
 | Actual development/proof | Implement a milestone only after its own Contract/research and real upstream components are ready; execute appropriate deterministic and semantic evidence |
 | Parent integration | Verify all required milestones and integrated behavior before declaring a macro Slice complete |
 | Rollout/explicit deferrals | Q117/Q175 certification/rollout and post-v1 RAG remain separate; no new defaults, Trial counts or release gate |
 
 ## 5. Verification scope and next step
 
-**Decision-to-Document Traceability Seam: PASS for the reviewed documentation baseline.** The W7 handoff records source-topic coverage, controlling corrections, all 29 semantic regressions, original F01–F11/CS1–CS5 and seven ownership boundaries, with explicit pending/excluded dispositions. All 179 records and 73 matrix rows remain. The parser milestone now explicitly preserves the already accepted one-repair ceiling. Detailed normative definitions remain pending.
+W7's two-seam PASS remains evidence for its source-time baseline in the [historical handoff](../.scratch/w7-joint-review-handoff.md). CG01-BC1 changes product boundaries and dependencies after that review.
 
-**Cross-Document Semantic Consistency Seam: PASS after documented corrections.** Joint review includes all six main documents, twelve Slice plans, Contract Structure, both Eval guides, Progress rules and matrix, and navigation. Proof, execution procedure, planning, recording rules and actual state retain distinct owners. W7 completion and pending user approval are recorded separately; all product/Contract readiness and execution states remain unchanged.
+**CG01-BC1 scoped Decision-to-Document Traceability Seam: PASS.** The accepted mutable-entry/formal-Job split is reflected in Product/Architecture, proof scenarios, plans, Contract organization and current decision records. Explicit partial supersession preserves formal complete JD, immutable snapshots and human reports for formal Jobs. Q1's 24 common rules remain unchanged. This reviews the changed clauses, not a new full-baseline or normative-Contract certification.
 
-Next: **user review of the concrete baseline and [W7 handoff](../.scratch/w7-joint-review-handoff.md)**. After approval, select a milestone, complete its required Contract Grill/writeback, reconcile interfaces and affected owners, and satisfy research/actual upstream readiness before development. No detailed Contract Grill or implementation was started in W7. Read the latest applicable handoff automatically.
+**CG01-BC1 scoped Cross-Document Semantic Consistency Seam: PASS after corrections.** Independent read-only reviews checked business/provenance boundaries and plan/scope dependencies. Corrections removed ambiguous producer implementation wording, added BC1 provenance to admission proof, clarified producer dependency versus fresh-collection/consent, corrected catalog/coverage remnants, added SL-08.M2 as a shared screening consumer and recorded immutable Preference storage separately. Reviewers rechecked those corrections with no unresolved finding in this scope.
 
-**Sources:** Q4/Q22/Q26/Q32/S24.2/S37.1/S38.1 for surviving status constraints; explicit user process and CS1–CS5 for current structure/readiness. Planning belongs to Implementation Plan; W6 and W7 handoffs preserve their respective document-review evidence.
+Historical CG01-BC1 document-time checks on 2026-09-19 (before normative M1 writeback; current counts are in section 6):
+
+- Twelve Slice files and 24 unique milestone definitions retained; combined required-upstream/reused-component graph has no cycle or unknown dependency.
+- Twenty-eight planned catalog entries exactly match Contract Index. Zero normative bodies or requirement IDs have been created.
+- Sixty-seven independently recorded planning scopes remain Pending, including entry/common/storage separation and the new explicit Preferences storage scope. No scope is marked ready by this writeback.
+- No new broken local Markdown file/anchor references relative to the incoming snapshot; `git diff --check` passes.
+- All 73 original traceability topic rows retain their source identifiers. Content comparison preserves all 22 protected source/reference/handoff files in the incoming snapshot, including the original nine Grill sources, both authoring references and historical handoffs.
+
+These are scoped document-authoring checks and read-only review findings. They are not execution of the future `./scripts/check`, product tests, implementation evidence or milestone acceptance.
+
+That BC1-only writeback did not establish readiness. The subsequent complete M1 Grill and normative review are recorded below; the earlier evidence remains a historical snapshot.
+
+## 6. SL-01.M1 Contract review and handoff
+
+**Consumed Contract scope: Ready**, revision `2026-09-19.M1-r1`. [Exact ranges, interface agreement, decision mapping and content hashes](progress/traceability.md#61-sl-01m1-reviewed-scope-and-interface-evidence) identify the four independently ready portions. The 12-Slice/24-milestone plan and formal Job producer/owner separation are unchanged.
+
+**Decision-to-Document Traceability Seam: PASS.** Read-only coverage review compared effective CG01-BC1 and Q1–Q45 decisions with all four bodies, excluding unadopted Q7–Q10. All material accepted M1 decisions are represented; there is no formal Job scope drift or duplicate definition owner. The 24 shared conventions remain intact.
+
+**Cross-Document Semantic Consistency Seam: PASS after corrections.** Separate read-only checks covered Entry/Common/browser boundaries and Storage/Workspace/schema/receipt/transaction boundaries. Corrections pinned URL validity separately from parser serialization, removed an unintended extra JSON numeric-spelling restriction, clarified that schema-recognition specifications are not runtime manifest files, bounded uncertain-commit recovery, handled response failure after confirmed commit, and changed browser context creation from an impossible guarantee to an observable request. Reviewers rechecked the corrected normative scope with no remaining substantive finding.
+
+Document-time evidence: 69 unique requirement definitions with matching stable anchors and resolved cross-owner IDs; real catalog/index/scope agreement; source/provenance preservation and link/whitespace checks. Acceptance 3.1 now maps future proof to those IDs. Final mechanical checks also confirmed zero broken local Markdown file/anchor references, 28 catalog destinations matching four actual plus 24 planned bodies, unchanged 12 Slice/24 milestone definitions and all 73 original source-topic identifier rows. Original design sources and historical handoffs were content-hash checked; only the intended design navigation README changed outside the active register. `git diff --check` passed. These are authoring/review checks, not execution of product tests or the future unified runner.
+
+The [development handoff](development/handoff/sl-01-m1-handoff.md) records source/version research and observed host state. The current system Python is 3.9.6, below the selected 3.12+ target; no project manifests, locks or application runtime have been created. The next task can start engineering preparation and implementation under these Contracts; it must pin and verify the actual runtime, transaction setup, lock adapter, client and browser integration before claiming their checks pass. No upstream implemented capability is required by this milestone.
+
+No normative family is globally complete by implication. Four of 67 scope rows are Ready; 63 remain Pending. All 24 milestones remain unimplemented and no acceptance scenario has run. SL-01.M2 and parent integrated completion remain outstanding.
+
+Directory relocation on 2026-09-19: Contract bodies and planned paths now follow the grouped [directory layout](contracts/structure.md#directory-layout); the Contract-to-milestone mapping remains in Structure. The M1 handoff and its inbound/internal links use `docs/development/handoff/`. Comparison with the incoming documents confirmed that all four normative bodies differ only in paths, retaining 69 requirement IDs/anchors, revision `2026-09-19.M1-r1` and the same readiness. The scope ledger retains the original review hashes alongside current hashes. Checks found no broken local Markdown file/anchor links; all 28 catalog destinations and milestone mappings agree, 22 historical/design source files remain unchanged, and `git diff --check` passes. This is documentation relocation evidence, not implementation or acceptance evidence.

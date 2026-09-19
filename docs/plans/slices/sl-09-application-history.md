@@ -1,12 +1,12 @@
 # SL-09 Human-reported applications and event-derived progress
 
-> English is authoritative. This Slice plan is part of the Implementation Plan category and has completed W7 document review; user baseline approval remains pending. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 1 milestone remains in this document.
+> English is authoritative. This Slice plan is part of the Implementation Plan category and completed W7 review in its earlier form. Its affected scope/dependencies now reflect user-approved [CG01-BC1](../../design/contract/sl-01-m1-grill.md#cg01-bc1); scoped review is recorded in Progress. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 1 milestone remains in this document.
 
 [Documentation index](../../index.md) · [Slice index](README.md) · [Global Implementation Plan](../implementation-plan.md) · [Actual Progress](../../progress.md)
 
 The [global readiness and dependency rules](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) apply to every entry below. This file owns this Slice's detailed scope, required upstream capability, reused infrastructure, conditional integration, Contract portions and completion conditions. Product/Architecture/Acceptance retain their existing authority; actual readiness and evidence belong to Progress. Edit this file for local planning changes; reconcile other owners only when their real scope, shared interfaces, dependencies or evidence are affected.
 
-**Goal and business value:** Track real applications and interview events immediately, including manual Jobs with no JD, without waiting for automated execution.
+**Goal and business value:** Track real applications and interview events for formal Jobs once their producer is available, without requiring automated execution.
 
 **Scope:** Explicit human reports, separate real attempts and reapplication, append-only deduplicated events, occurrence/observation distinctions, appended correction/retraction and versioned projected progress. My Applications reflects real evidence.
 
@@ -16,7 +16,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Dependent Contract families:** F01, F05, F07, F10.
 
-**Test / Eval categories:** Manual no-JD reports, duplicate/delayed events, separate repeated attempts, appended corrections/retractions and derived progress; absence of fabricated execution receipts or consent. Required proof destinations: [V7](../../acceptance.md#7-preparation-execution-platform-safety-and-application-history); [V10](../../acceptance.md#10-privacy-storage-and-honest-history). These are future obligations, not existing tests or results.
+**Test / Eval categories:** Human reports on formal Jobs, duplicate/delayed events, separate repeated attempts, appended corrections/retractions and derived progress; absence of fabricated execution receipts or consent. Required proof destinations: [V7](../../acceptance.md#7-preparation-execution-platform-safety-and-application-history); [V10](../../acceptance.md#10-privacy-storage-and-honest-history). These are future obligations, not existing tests or results.
 
 **Upstream and required Contracts:** See the independent entries below and [global Plan 4](../implementation-plan.md#4-contract-document-and-joint-interface-map). Required parent milestones: [SL-09.M1](#sl-09m1-human-application-history-and-progress). Dependencies are implemented components, not completion of upstream parents.
 
@@ -24,21 +24,21 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Goal/value:** Track real applications and interviews independently of automation.
 
-**Scope:** Human-reported real attempts, append-only application/interview events, provenance, corrections/retractions/deduplication and policy-derived progress, including Manual roots without JD.
+**Scope:** Human-reported real attempts, append-only application/interview events, provenance, corrections/retractions/deduplication and policy-derived progress, for formal Jobs only. ManualApplicationEntry is not a tracking target and browser opening creates no event.
 
 **Out of scope:** Automated snapshot/approval/click history fabricated for manual reports; independent Interview Aggregate and prerequisite Resume/Models/Fits/Preparation.
 
-**Required upstream capability:** [SL-01.M1](sl-01-workspace-jobs-preferences.md#sl-01m1-local-workspace-and-manual-job-authority) — Job root identity, including Manual roots without JD
+**Required upstream capability:** [SL-08.M2](sl-08-collection-platform-safety.md#sl-08m2-boss-collection-and-explicit-refresh) — real formal Job identity and its owned read/reference boundary
 
-**Reused component/infrastructure:** [SL-01.M1](sl-01-workspace-jobs-preferences.md#sl-01m1-local-workspace-and-manual-job-authority) — local durable history/privacy facilities
+**Reused component/infrastructure:** [SL-01.M1](sl-01-workspace-jobs-preferences.md#sl-01m1-local-workspace-and-manual-application-entries) — applicable local persistence/privacy primitives; implement event history and exact Job references for this consumer
 
-**Required Contract portions before development:** `application-history.md` — human report/attempt/events/projection; `jobs-screening.md` — root identity; `storage.md` — event history/privacy. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `applications/application-history.md` — human report/attempt/events/projection; `jobs/jobs-screening.md` — root identity; `foundation/storage.md` — event history/privacy. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Job identity admission differs from complete-JD automation eligibility. Leave channel verification extension to SL-11 without defining a competing event authority.
 
 **Research / unresolved Grill detail:** Resolve event/projection and correction detail in Grill, preserving non-linear real-world reports rather than inventing a universal lifecycle.
 
-**Tests / Eval:** V7, V10: no-JD report, duplicate/correction history, out-of-order real events, derived progress and honest provenance. V denotes the corresponding section of [Acceptance](../../acceptance.md); the parent's links locate that proof. These are required future checks, not results.
+**Tests / Eval:** V7, V10: human report on a formal Job, entry exclusion, duplicate/correction history, out-of-order real events, derived progress and honest provenance. V denotes the corresponding section of [Acceptance](../../acceptance.md); the parent's links locate that proof. These are required future checks, not results.
 
 **Milestone completion:** A user can record and correct real history without automated prerequisites; projections remain derived from admitted events. Record actual evidence under [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning); no current completion is claimed.
 

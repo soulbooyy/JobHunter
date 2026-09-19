@@ -14,7 +14,7 @@ This specification owns product behavior; [Architecture](architecture.md), [Cont
 
 ### 2.1 Independent capabilities
 
-The workspace supports Job import/collection, deterministic QuickScreen, explicit task selection, independent Candidate Fit and Resume Fit, conversational resume improvement, application preparation, authorized external execution, and application tracking. The user can enter a capability when that capability's own prerequisites hold. A completed Fit is not required before using Resume Advisor or beginning preparation.
+The workspace supports independent ManualApplicationEntry maintenance, formal Job collection, deterministic QuickScreen, explicit task selection, independent Candidate Fit and Resume Fit, conversational resume improvement, application preparation, authorized external execution, and application tracking. The user can enter a capability when that capability's own prerequisites hold. A completed Fit is not required before using Resume Advisor or beginning preparation.
 
 Profile, search Preferences, shared career Evidence, Resumes, and application history have distinct authority. A navigation entry may combine them without creating another owner. The single-user boundary does not introduce a unified Candidate Aggregate, Candidate identity layer, or tenant system.
 
@@ -28,7 +28,7 @@ The English names below describe the five accepted entries; they do not decide a
 | --- | --- |
 | My Resumes | Import, create, manually edit, organize, select a default, and remove formal Resumes; the only manual Resume CRUD surface |
 | Candidate Knowledge | Maintain shared career facts and their saved current versions; the only entry for global Evidence/experience deletion |
-| Job Pool | Browse and filter local Jobs, explicitly collect or refresh, select independent Fit tasks, and select Jobs for application preparation |
+| Job Pool | Browse and filter formal local Jobs, explicitly collect or refresh, select independent Fit tasks and preparation; a separate button opens the user-maintained ManualApplicationEntry view |
 | Job Assistant | Conduct ordinary or preparation-originated resume-optimization conversations through the same ResumeAdvisor capability |
 | My Applications | Review real application history and progress; its application entry routes to Job Pool for Job selection |
 
@@ -36,7 +36,9 @@ DeepFit is inside Job Pool, not a separate navigation entry. Preparation is a co
 
 Job Pool defaults to a flat Job list. It may offer a Company aggregation view that summarizes related Jobs and returns to the ordinary list with a company filter. This browsing view creates no independent Company authority. Local filters and sorting are view choices, distinct from saved search Preferences.
 
-A one-run Fit selection, a screening pass, beginning preparation, and a real application are different actions. Long-lived pursuit/bookmark intent is also distinct, but its UX is deferred; no bookmark entry or saved pursuit list is required in v1.
+ManualApplicationEntry records appear only in their separate view within Job Pool, never mixed into the formal Job list or Company projection. They provide a manual application shortcut without another top-level navigation entry.
+
+A one-run Fit selection, a screening pass, beginning preparation, and a real application are different actions. Long-lived pursuit/bookmark intent remains deferred; that exclusion does not exclude the explicitly accepted ManualApplicationEntry capability. See [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1).
 
 **Sources:** Q6, Q23, Q146, Q153, S5.1, S5.3, S17.1–S17.4; S37.1 removes compatibility-only retention of old Shortlisted behavior.
 
@@ -108,11 +110,13 @@ Previews, exports, and Preparation generate artifacts when needed. Saving facts 
 
 One reliable platform source identity identifies one Job. Semantic changes to that source's content create immutable JobVersions. Similar listings from different sources remain separate; v1 performs no cross-platform or historical Job merging.
 
-Manual entry supplements automated collection. Each creation has an independent identity; a duplicate URL can produce a non-blocking hint, not automatic merging. A Manual Job without JD may appear in Job Pool and support tracking or a human-reported application, but has no formal JobVersion. Supplying sufficiently complete JD/details permits its first version. Requirements, Fit, and Job-targeted Advisor need a valid complete JobVersion.
+ManualApplicationEntry is an independent mutable record outside the formal Job family. It saves only a company, role title and user-provided application URL as business content. The user can repeatedly edit it through explicit whole-record Save, physically delete it and click its action to request a new browser tab at the saved URL. A neutral waiting page resolves the displayed revision before external navigation; only navigation initiation is reported. It has no JobVersion or immutable content-version history. Saved entries require all three business values; removal physically deletes the entry while minimum create receipts remain for replay protection. Exact fields, validation and operation semantics are owned by the [Entry Contract](contracts/jobs/manual-application-entries.md).
 
-BOSS collection has stricter admission: only validated complete details/JD create a Job and its first JobVersion together. It does not persist a metadata-only BOSS Job. These sources have different admission rules but one meaning of JobVersion.
+An entry is not a Requirements, DeepFit/Candidate Fit, Resume Fit, Job-targeted Advisor, Preparation, automatic Execution or Application History target. Browser opening does not create a Job, collect its content, convert the entry into a Job, or establish any application fact. Formal consumers continue to require their own eligible Job/JobVersion inputs.
 
-**Sources:** Q12–Q13, Q17, Q44, Q48–Q49, S9.1. Q44/Q48 replace Q17's implication that every manual creation already has a JobVersion.
+Formal BOSS collection admits only validated complete details/JD, creating a Job and its first immutable JobVersion together. There is no Manual root-only exception in the formal Job family. Complete canonical JD and exact immutable content snapshots remain required.
+
+**Sources:** Q12–Q13, Q17, Q44, Q48–Q49, S9.1, with later [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1) replacing the Manual Job path while retaining formal Job completeness/version/history invariants.
 
 ### 4.2 Preferences and deterministic QuickScreen
 
@@ -138,7 +142,7 @@ An active collection keeps the Preferences with which it started. If the user ch
 
 The pool distinguishes when content was captured, when a source listing was last reliably observed, and when availability was directly verified. Unchanged content can update observations without creating a new JobVersion. Semantic change creates a new version without rewriting old consumers.
 
-Old data can be stale without being closed. Absence from one search result is not closure. Reliable source evidence of closure blocks new automatic application but retains the Job and history. Manual availability starts unknown; user reports remain distinguishable from direct source verification. Missing JD, material readiness, and application progress are separate concerns, not one universal Job lifecycle.
+Old data can be stale without being closed. Absence from one search result is not closure. Reliable source evidence of closure blocks new automatic application but retains the Job and history. These freshness/availability meanings apply to formal Jobs, not ManualApplicationEntry. User reports remain distinguishable from direct source verification; formal content eligibility, material readiness and application progress remain separate concerns. [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1) replaces the former Manual Job UNKNOWN rule.
 
 **Sources:** Q7, Q44, Q48, Q50.
 
@@ -146,7 +150,7 @@ Old data can be stale without being closed. Absence from one search result is no
 
 ### 5.1 Shared on-demand requirements
 
-Requirement parsing is an independent, reusable capability for an exact complete JobVersion. Fit and Job-targeted Advisor share dependency preparation: reuse a compatible RequirementSet or obtain one through an independent RequirementParse task. Neither requires the user to run another Fit first. General Advisor work without a concrete Job requires no RequirementSet.
+Requirement parsing is an independent, reusable capability for an exact complete formal JobVersion. ManualApplicationEntry is ineligible for parsing and both Fits. Fit and Job-targeted Advisor share dependency preparation: reuse a compatible RequirementSet or obtain one through an independent RequirementParse task. Neither requires the user to run another Fit first. General Advisor work without a concrete Job requires no RequirementSet.
 
 Parsing interprets the full exact JD through a bounded model extraction and deterministic validation. One validation-guided repair is allowed at most; continued failure stops the affected work with a clear dependency explanation and a check/correct/refetch path. It cannot save an untrusted result or let downstream tasks score partial or invented requirements. Structural validity is not a guarantee of zero semantic omissions; uncertainty must remain visible rather than guessed away.
 
@@ -250,7 +254,7 @@ Deleting a Session cancels active foreground work and invalidates still-unconfir
 
 ### 7.1 Entry and editable preparation
 
-Selecting one or more Jobs in Job Pool opens preparation. Each Job/channel has an independent preparation instance. Reentry defaults to resuming an unfinished instance, preserving selected materials and manual Greeting while rechecking eligibility, readiness, and approval compatibility. It does not silently upgrade selected exact inputs. Repeated clicks or request retries do not duplicate creation; if several resumable instances exist, the user chooses explicitly. Explicit new preparation or a later reapplication starts a separate chain.
+Selecting one or more eligible formal Jobs in Job Pool opens preparation. ManualApplicationEntry browser navigation does not enter this flow. Each Job/channel has an independent preparation instance. Reentry defaults to resuming an unfinished instance, preserving selected materials and manual Greeting while rechecking eligibility, readiness, and approval compatibility. It does not silently upgrade selected exact inputs. Repeated clicks or request retries do not duplicate creation; if several resumable instances exist, the user chooses explicitly. Explicit new preparation or a later reapplication starts a separate chain.
 
 Preparation selects and displays rendered formal Resumes; it does not edit Resume body text or own an Advisor draft. Concurrent edits must detect conflicts instead of overwriting another change. The product need not keep immutable history of every reversible Preparation edit, while referenced formal assets and execution snapshots retain their history.
 
@@ -294,7 +298,7 @@ Platform limits and delays quoted in research are not official guarantees or fro
 
 ### 8.3 Real application history
 
-Technical ExecutionEvents describe actions and observations. ApplicationEvents represent real business facts established through reliable channel read-back or explicit human report. Contact, material sending, formal application, and replies remain distinguishable; no universal channel sequence is implied. Manual reporting creates human-reported history without fabricating browser execution, approvals, or snapshots.
+Technical ExecutionEvents describe actions and observations. ApplicationEvents represent real business facts established through reliable channel read-back or explicit human report. Contact, material sending, formal application, and replies remain distinguishable; no universal channel sequence is implied. Human reporting for a formal Job creates human-reported history without fabricating browser execution, approvals, or snapshots. It does not require prior automated execution. ManualApplicationEntry cannot be its target, and opening an entry URL establishes no application fact ([CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1)).
 
 One ApplicationRecord represents one real application attempt for a Job/channel/account. Reapplication creates a new record. Events are append-only and deduplicated; delayed events retain occurrence and observation distinctions. Corrections and retractions append new events rather than erasing history.
 
@@ -392,7 +396,7 @@ The following are not v1 requirements established by this specification:
 
 - Multiple Candidates, tenants, a unified Candidate Aggregate, or speculative ownership fields: Q53.
 - Cross-platform canonical merging or historical Job merge operations: Q12 controls; Q13 is rejected.
-- Bookmark/pursuit UX retained merely for compatibility: Q23, S37.1.
+- Bookmark/pursuit UX retained merely for compatibility: Q23, S37.1. The explicitly accepted ManualApplicationEntry in section 4.1 is separate current scope ([CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1)).
 - Named SearchProfiles and parallel saved search configurations: Q55.
 - Private Resume fact stores, selectable historical fact variants, persistent atomic Assertions, independent bullet-selection graphs, or alternate per-Resume career text: Q63, Q75, Q98, Q108, Q163; Q109's Overlay-isolation branch is rejected.
 - Knowledge completeness confirmation, persisted Resume coverage scoring, a joint Fit score, or a mandatory Fit-before-Advisor pipeline: Q24, Q56, Q112–Q113.

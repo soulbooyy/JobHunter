@@ -32,7 +32,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Reused component/infrastructure:** [SL-03.M2](sl-03-invocation-requirements.md#sl-03m2-protected-semantic-invocation-and-evidence) — protected invocation, Context, budget and evidence
 
-**Required Contract portions before development:** `fit-analysis.md` — Candidate, shared assessment/scoring and single-target freeze/publication; `evidence.md` — complete task-eligible baseline; `requirements.md` — usable target; `context.md`, `execution-runtime.md`, `budget.md` — actual Fit inputs/operation admission; `evaluation-observability.md` — Candidate-scoped fixtures/judges and Skill/workflow attribution. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `jobs/fit-analysis.md` — Candidate, shared assessment/scoring and single-target freeze/publication; `candidate/evidence.md` — complete task-eligible baseline; `jobs/requirements.md` — usable target; `agent/context.md`, `agent/execution-runtime.md`, `foundation/budget.md` — actual Fit inputs/operation admission; `evaluation/evaluation-observability.md` — Candidate-scoped fixtures/judges and Skill/workflow attribution. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Baseline eligibility is not actual Frame visibility. Agree Requirement producer cost versus Fit allowance; score absence is not task failure or an unusable target. No later success may publish over a serialized incompatible target.
 
@@ -54,7 +54,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Reused component/infrastructure:** [SL-05.M1](#sl-05m1-single-target-candidate-fit) — single-target task controls and compatible shared Ensure/runtime paths
 
-**Required Contract portions before development:** `fit-analysis.md` — Candidate selection/batch orchestration and explicit rescore; `budget.md` — applicable shared operation ceilings; `evaluation-observability.md` — multi-task/workflow scope and retained assessment evidence. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `jobs/fit-analysis.md` — Candidate selection/batch orchestration and explicit rescore; `foundation/budget.md` — applicable shared operation ceilings; `evaluation/evaluation-observability.md` — multi-task/workflow scope and retained assessment evidence. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Each target retains M1 freeze/publication and parse ownership. Batch selection is temporary task intent, not durable pursuit or shared result identity.
 

@@ -1,6 +1,6 @@
 # SL-03 Shared controlled execution with RequirementParse
 
-> English is authoritative. This Slice plan is part of the Implementation Plan category and has completed W7 document review; user baseline approval remains pending. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 3 milestones remain in this document.
+> English is authoritative. This Slice plan is part of the Implementation Plan category and completed W7 review in its earlier form. Its affected scope/dependencies now reflect user-approved [CG01-BC1](../../design/contract/sl-01-m1-grill.md#cg01-bc1); scoped review is recorded in Progress. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 3 milestones remain in this document.
 
 [Documentation index](../../index.md) · [Slice index](README.md) · [Global Implementation Plan](../implementation-plan.md) · [Actual Progress](../../progress.md)
 
@@ -30,9 +30,9 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Required upstream capability:** None.
 
-**Reused component/infrastructure:** [SL-01.M1](sl-01-workspace-jobs-preferences.md#sl-01m1-local-workspace-and-manual-job-authority) — only durable local persistence/reference/diagnostic facilities; no Job workflow prerequisite
+**Reused component/infrastructure:** [SL-01.M1](sl-01-workspace-jobs-preferences.md#sl-01m1-local-workspace-and-manual-application-entries) — only applicable durable local persistence/diagnostic facilities; extend reference/recovery support for this consumer where needed, with no Job workflow prerequisite
 
-**Required Contract portions before development:** `execution-runtime.md` — bounded invocation durability/recovery primitives; `storage.md` — durable payload/audit, active recovery dependencies and cleanup; `evaluation-observability.md` — evidence of these deterministic boundary checks only. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `agent/execution-runtime.md` — bounded invocation durability/recovery primitives; `foundation/storage.md` — durable payload/audit, active recovery dependencies and cleanup; `evaluation/evaluation-observability.md` — evidence of these deterministic boundary checks only. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** execution-runtime remains the single owner of invocation/recovery protocol; storage owns availability. Budget, platform-safety, candidate-save, derived-work, collection and execution keep their existing responsibilities. A Collector/Executor may reuse compatible persistence/fencing/unknown-outcome primitives with a concrete interface justification; its workflow, consent, risk and business result stay with its owner. Similar failure terminology alone does not justify a universal abstraction.
 
@@ -54,7 +54,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Reused component/infrastructure:** [SL-03.M1](#sl-03m1-invocation-durability-and-recovery-foundation) — bounded invocation persistence, ownership/fencing and recovery primitives
 
-**Required Contract portions before development:** `execution-runtime.md` — bounded semantic execution and presentation; `tools.md` — capability intersection and owned action admission; `context.md` — exact actual Frame, headless capacity/revocation; `budget.md` — owner/reservation/settlement/unknown limits; `storage.md` — semantic evidence/payload retention; `evaluation-observability.md` — isolated real-path infrastructure, fixtures/configuration, checker completeness, separate judge resources, regression retention, output-preserving re-evaluation and derived export. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `agent/execution-runtime.md` — bounded semantic execution and presentation; `agent/tools.md` — capability intersection and owned action admission; `agent/context.md` — exact actual Frame, headless capacity/revocation; `foundation/budget.md` — owner/reservation/settlement/unknown limits; `foundation/storage.md` — semantic evidence/payload retention; `evaluation/evaluation-observability.md` — isolated real-path infrastructure, fixtures/configuration, checker completeness, separate judge resources, regression retention, output-preserving re-evaluation and derived export. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Runtime/Context/Tools/Budget/Storage jointly close first-call safeguards. Business commits and settlement never depend on telemetry. Task-specific evaluator meaning is completed by each first semantic consumer, not invented in this enabling milestone.
 
@@ -72,11 +72,11 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Out of scope:** Fit judgments, mandatory career data, interactive conversation and deferred parser release certification.
 
-**Required upstream capability:** [SL-01.M1](sl-01-workspace-jobs-preferences.md#sl-01m1-local-workspace-and-manual-job-authority) — exact complete JobVersion
+**Required upstream capability:** [SL-08.M2](sl-08-collection-platform-safety.md#sl-08m2-boss-collection-and-explicit-refresh) — exact complete formal JobVersion; ManualApplicationEntry is not a producer
 
 **Reused component/infrastructure:** [SL-03.M2](#sl-03m2-protected-semantic-invocation-and-evidence) — protected semantic invocation, budget and evidence infrastructure
 
-**Required Contract portions before development:** `requirements.md` — Set/units, usable target, producer/waiter/reuse and activation; `jobs-screening.md` — exact complete Job input; `tools.md` — pure read/dependency handoff; `budget.md` — parse owner and waiter accounting; `evaluation-observability.md` — real parser tasks, real-JD/manual quality, task-scoped judges and actual-output checks. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `jobs/requirements.md` — Set/units, usable target, producer/waiter/reuse and activation; `jobs/jobs-screening.md` — exact complete Job input; `agent/tools.md` — pure read/dependency handoff; `foundation/budget.md` — parse owner and waiter accounting; `evaluation/evaluation-observability.md` — real parser tasks, real-JD/manual quality, task-scoped judges and actual-output checks. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Requirements owns dependency production; runtime executes and budget accounts. Empty unusable targets must fail honestly; valid unscored Fit results are a later distinct concept. Waiter cancellation cannot counterfeit producer cost or result.
 

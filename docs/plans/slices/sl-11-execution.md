@@ -1,6 +1,6 @@
 # SL-11 Explicit authorized execution and independent batch outcomes
 
-> English is authoritative. This Slice plan is part of the Implementation Plan category and has completed W7 document review; user baseline approval remains pending. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 2 milestones remain in this document.
+> English is authoritative. This Slice plan is part of the Implementation Plan category and completed W7 review in its earlier form. Its affected scope/dependencies now reflect user-approved [CG01-BC1](../../design/contract/sl-01-m1-grill.md#cg01-bc1); scoped review is recorded in Progress. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 2 milestones remain in this document.
 
 [Documentation index](../../index.md) · [Slice index](README.md) · [Global Implementation Plan](../implementation-plan.md) · [Actual Progress](../../progress.md)
 
@@ -26,13 +26,13 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Scope:** Separate scoped single-use ExecutionApproval, Attempt/technical observations, authorized minimal live checks, actual channel action/read-back verification and admitted business events.
 
-**Out of scope:** Advisor/adopt-back, collection success, model/Requirement/Fit dependency, full refresh during checks and replay of unknown effects.
+**Out of scope:** Advisor/adopt-back, requiring a new collection before each execution, treating collection success as execution consent, model/Requirement/Fit dependency, full refresh during checks and replay of unknown effects. The actual formal Job producer remains an upstream capability through Preparation/history; ManualApplicationEntry browser opening is outside this execution flow.
 
 **Required upstream capability:** [SL-10.M1](sl-10-preparation.md#sl-10m1-ordinary-preparation-and-viewed-material-approval) — exact intended snapshot and eligible material; [SL-09.M1](sl-09-application-history.md#sl-09m1-human-application-history-and-progress) — real event/history authority; [SL-08.M1](sl-08-collection-platform-safety.md#sl-08m1-shared-recruiting-platform-safety) — shared risk admission
 
 **Reused component/infrastructure:** [SL-03.M1](sl-03-invocation-requirements.md#sl-03m1-invocation-durability-and-recovery-foundation) — applicable invocation durability/fencing/unknown-outcome protection
 
-**Required Contract portions before development:** `execution.md` — approval/consumption/Attempt/minimal checks/read-back; `preparation.md` — intended snapshot consumption; `materials.md` — eligibility; `platform-safety.md` — execution agreement; `application-history.md` — verified channel event admission; `execution-runtime.md`, `storage.md` — actual external-effect proof/recovery; `evaluation-observability.md` — controlled authorization/risk/fault scenarios. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `applications/execution.md` — approval/consumption/Attempt/minimal checks/read-back; `applications/preparation.md` — intended snapshot consumption; `applications/materials.md` — eligibility; `jobs/platform-safety.md` — execution agreement; `applications/application-history.md` — verified channel event admission; `agent/execution-runtime.md`, `foundation/storage.md` — actual external-effect proof/recovery; `evaluation/evaluation-observability.md` — controlled authorization/risk/fault scenarios. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Resolve snapshot → separate consent → risk admission → effect → verified event together. Technical clicks/narration are not application facts. Unknown outcomes use shared recovery and never become automatic resend.
 
@@ -54,7 +54,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Reused component/infrastructure:** [SL-11.M1](#sl-11m1-single-authorized-verified-execution) — per-target approval, outcome and shared safety/recovery components
 
-**Required Contract portions before development:** `execution.md` — batch eligibility/approval consumption and independent outcomes; `platform-safety.md` — competing batch access; `application-history.md` — independent admitted outcomes; `evaluation-observability.md` — partial/risk/fault evidence. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** `applications/execution.md` — batch eligibility/approval consumption and independent outcomes; `jobs/platform-safety.md` — competing batch access; `applications/application-history.md` — independent admitted outcomes; `evaluation/evaluation-observability.md` — partial/risk/fault evidence. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
 **Joint agreement:** Reuse the complete single-attempt interfaces for every target; shared capacity/risk can stop later work without rewriting already established real outcomes.
 

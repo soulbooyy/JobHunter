@@ -83,6 +83,8 @@ refactor(*): align shared interfaces
 
 Research establishes evidence for a concrete consumer or integration boundary. A library's example fields, code layout, retry defaults or deployment claims cannot become JobHunter authority. Distinguish an accepted architectural direction, source evidence, verified behavior of a selected version, and an implementation result.
 
+Use the [target technology stack](development/technology-stack.md) for the user's planned selections; verify concrete versions and integration behavior when the consuming milestone adopts them. Target selection is not installation or compatibility evidence.
+
 | Research subject | Required work before the related detailed design or integration claim | Authority retained by JobHunter |
 | --- | --- | --- |
 | BossHunter and boss-zhipin-scraper | Pin studied commits; inspect license and maintenance; inspect source identity, payloads, extraction/pagination, authentication, acquisition/application flow and risk behavior; inventory and map raw source through adapter to canonical consumers before detailed Job Contract review | Runtime-validated adapter output; minimal consumer-driven canonical data; no external field/state/token becoming Domain authority or automatic model input |
@@ -103,6 +105,8 @@ Do not freeze access counts, cooldowns, budget constants, default enablement or 
 Use the [Implementation Plan](plans/implementation-plan.md) and its linked Slice plans as the single planning authority for decomposition, scope, dependencies, required Contract portions and completion conditions. Development applies that plan; it does not repeat the current Slice count, allocations or dependency tables. Planning identifiers remain distinct from Q/S and normative Contract IDs.
 
 Before development, the selected milestone's actually consumed normative Contract scope, necessary shared clauses and both sides of required interfaces must be complete and reviewed. Satisfy its actual research and upstream implementation prerequisites. Unrelated scopes may remain pending. Do not split atomic invariants, defer first-consumer safeguards or guess missing definitions in code or fixtures. Follow [Progress recording rules](progress/README.md#5-two-level-progress-and-scope-level-contract-readiness) to record readiness and evidence; a filename, planned component or written stub cannot establish it.
+
+Create only the packages and files actually needed by the current milestone, following the user-approved [target repository organization and incremental creation principles](development/repository-structure.md); the target tree is not a directive to generate empty packages or placeholders.
 
 Reconcile shared boundaries and changes with affected owners, prior consumers, tests/Eval and evidence. If Contract work reveals a dependency change, update Implementation Plan's owning entry before proceeding. Scope changes cannot create product prerequisites or new Domain authority through engineering convenience.
 
@@ -128,7 +132,7 @@ The [Acceptance](acceptance.md) scenarios remain the proof authority. The routin
 
 | Changed boundary | Required verification focus and destination | Controlling decisions to preserve |
 | --- | --- | --- |
-| Jobs, observations and collection | Acceptance 3/7: Manual versus complete BOSS admission, metadata-only screening, retained local data, frozen collection versus current filtering, source observation and safety | Q12–Q13, Q44, Q48–Q50, Q56, Q110, Q160–Q161; later clauses override old admission/screening/cooldown meanings |
+| Jobs, observations and collection | Acceptance 3/7: ManualApplicationEntry isolation versus complete formal Job admission, metadata-only screening, retained local data, frozen collection versus current filtering, source observation and safety | Q12–Q13, Q44, Q48–Q50, Q56, Q110, Q160–Q161; later clauses and [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1) override old admission/screening/cooldown meanings |
 | Facts, Resume Save and history | Acceptance 4: import remains Draft, Save confirms, shared whole experiences, all-affected atomic propagation/rollback, direct-membership deletion, exact original readers and eligibility | Q66, Q70–Q75, Q79, Q86–Q87, Q108, Q113–Q114, Q118–Q119, Q151, Q153–Q154, Q163, Q166, S15.1 |
 | Grounding and derived material | Acceptance 4.2–4.3/7: actual-dependency grounding differs from whole-baseline Fit; authority plus durable demanded intent, skip obsolete work, prevent stale publication, preserve historical artifacts | Q75–Q77, Q87, Q114, Q147, Q150–Q152, Q165 |
 | Requirements and independent Fits | Acceptance 5: exact usable dependency, bounded parse/repair and owner cost, separate semantic Runs, two freezes, serialized targets, independent failures, scoped negatives and valid unscored results | Q19, Q35, Q40, Q72, Q82–Q83, Q110–Q117, Q121, Q142, Q144, Q168, Q171–Q172, S22.1 |
