@@ -74,7 +74,7 @@ BossHunter, boss-zhipin-scraper, and resume-optimization projects are research i
 | Concern | Authoritative owner or accepted durable result | Other consumers and limits |
 | --- | --- | --- |
 | Identity/contact | CandidateProfile and immutable Profile versions | Resume/render consumes exact sources and display choices; contact is model-invisible by default |
-| Search intent | One global versioned PreferenceSet | Collection and deterministic QuickScreen consume exact versions; view filters are not writes |
+| Search intent | One global PreferenceSet and immutable PreferenceSetVersion | Complete explicit configuration; Collection consumes an exact version. Current Preferences do not filter saved Jobs; independent view queries are not writes |
 | Career facts | Shared experience-level EvidenceItemVersion, one current saved version per Item | Resumes and admitted Candidate Fit consume facts; import, chat, Memory, and indexes are not alternate fact stores |
 | Current career set at a point in time | Immutable EvidenceBaselineSnapshot | Freezes current saved members; neither copied facts nor a completeness assertion |
 | Formal resume presentation | Resume root and immutable ResumeVersion | Whole current experiences plus Profile choices/order/presentation; no private alternate career text |
@@ -104,7 +104,8 @@ Hashes, provenance, version ancestry, and reference resolution support identity 
 
 **Sources:** Q7, Q18, Q26, Q37, Q42, Q54–Q55, Q59, Q75, Q79, Q86–Q87, Q98, Q108, Q125, Q136.
 
-## 4. Jobs, screening, collection, and platform access
+<a id="4-jobs-screening-collection-and-platform-access"></a>
+## 4. Jobs, acquisition, collection, and platform access
 
 ### 4.1 Identity and admission
 
@@ -118,15 +119,22 @@ The normative definition owner of formal Job identity, content, completeness, ve
 
 **Sources:** Q12–Q13, Q17, Q44, Q48–Q50, S9.1; later [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1) supersedes the Manual Job branch only and preserves formal canonical Job completeness and immutable history.
 
-### 4.2 Pure screening and local persistence
+<a id="42-pure-screening-and-local-persistence"></a>
+### 4.2 Acquisition intent, collection admission and local queries
 
-QuickScreen consumes only Job/source metadata, exact PreferenceSetVersion, and screening policy. All configured Preferences are hard; unset dimensions are unrestricted. Definite conflict rejects, missing information stays uncertain. CandidateProfile, Evidence, Resume, RequirementSet, and ScreeningProfileSnapshot are not screening inputs.
+[CG02-BC1](design/contract/sl-01-m2-grill.md#cg02-bc1) separates three owners: Preferences expresses future acquisition intent; Collection consumes exact immutable PreferenceSetVersion through source planning/admission; Job Pool independently queries already-saved formal Jobs. The six dimensions and explicit-choice gate are defined in Product 4.2. Preferences does not own a source query plan, per-candidate predicate or continuing Job eligibility invariant.
 
-Collector derives platform-expressible search parameters from the frozen Preferences, screens transient list candidates, skips rejected detail access, and fetches complete detail for passing/uncertain candidates. Rejected listing content is not durable Job data or a recoverable audit substitute. CollectionRun retains usage, aggregate reasons, failures, risk, and stop information rather than rejected title/company/URL/JD bodies. Collection does not parse Requirements.
+SL-01.M2 supplies complete configuration, immutable versions, read/Save/concurrency and persistence. Under [CG02-S1](design/contract/sl-01-m2-grill.md#cg02-s1), all six dimensions require explicit legal choices before successful Save establishes configured state; no implicit all-empty unrestricted version. Revision admission precedes canonical no-op comparison; real changes create immutable versions. [CG02-Q11–Q15](design/contract/sl-01-m2-grill.md#cg02-q15) adds lazy atomic creation: Workspace bootstrap creates no Preference root; first valid Save creates root, first immutable version and current pointer together, with no residue after failure. Root carries the stable identity/current pointer/revision; versions carry immutable identity and owning-root reference, without is_current. [CG02-Q21–Q25](design/contract/sl-01-m2-grill.md#cg02-q21) defines complete root/version objects, revision-1 first publication, monotonic revision for real changes, successful request receipts and Workspace-lifetime immutable content retention. A replay identifies the original successful result without resetting current authority. Unconfigured reads succeed without creating state. [CG02-Q26–Q30](design/contract/sl-01-m2-grill.md#cg02-q26) fixes versioned Save/current/exact-version HTTP operations, replay-stable success outcomes and lifetime success receipts, including no-ops. Publications share one timestamp, clamped to the previous root.updated_at on clock rollback; no-op/replay refresh nothing. UUIDv4 and created_at provide no strict historical total order; current pointer identifies current, while revision orders root modifications. M2 adds no sequence field. [CG02-Q31–Q35](design/contract/sl-01-m2-grill.md#cg02-q31) fixes strict M2 input admission, bounded raw requests, nested field-error locations and explicit uncertain-Save retry. Common owns shared error representation/vocabulary and the scoped path grammar; Preferences owns triggers and operation mappings. Validated receipt replay precedes ordinary revision admission; errors do not permit hidden command reexecution. The consumed detail now has one normative owner in [Preferences PRF-001–023](contracts/candidate/preferences.md), with shared COM-033–037/WSP-007/STO-014–020 additions. Q38 keeps canonical business equality independent of JSON serialization; Q40 uses INVALID_FORMAT for known mode-incompatible value. [M2 scope review](progress/traceability.md#62-sl-01m2-reviewed-scope-and-interface-evidence) records readiness; implementation remains separate.
 
-Normal browsing and changed Preferences query/re-screen local saved data. Initial setup collection and explicit subsequent refresh are the external-access entries. Current local filtering uses newest Preferences while active collection retains its original version. Explicit stop prevents further access and preserves committed partial Jobs, including newly unmatched ones; it creates no automatic restart or deletion.
+SL-08.M2 owns the actual source consumer. `jobs/collection.md` defines exact-version query/admission mapping and source adapter workflow; `jobs/jobs-screening.md` remains the sole definition owner of formal Job admission/content/history and local query semantics. It retains its catalog filename but supplies no M2 QuickScreen component. Search keywords need not appear literally in returned titles. No implicit synonym or model query expansion is introduced in the first release.
 
-**Sources:** Q45, Q49, Q55–Q56, Q110, Q161, S9.1, S17.1. Q56/Q110 replace the earlier screening-snapshot/RequirementSet assumptions.
+Source-expressible constraints may be pushed down; remaining constraints require the defined deterministic admission where metadata supports it. Confirmed list-stage rejection stops detail fetching, and rejected source content is not a durable Job or recoverable audit substitute. Missing/incomparable metadata does not establish conflict or satisfaction. Complete Job/JobVersion admission remains atomic. Collection audit retains usage, aggregate reasons, failures, risk and stop information, not rejected title/company/URL/JD bodies. Acquisition admission does not evaluate CandidateProfile, Evidence, Resume or RequirementSet, and does not parse Requirements.
+
+Each CollectionRun fixes one complete exact PreferenceSetVersion. Later Save affects future Runs only, without changing the running input, initiating collection or automatically restarting it. Explicit stop prevents subsequent access and preserves committed Jobs. Saved Jobs are not re-screened, hidden, marked preference-conflicting, deleted or made ineligible for downstream work merely because current Preferences changed.
+
+JobPoolViewFilter queries existing Jobs independently of acquisition intent. Frontend state and/or backend query parameters may implement it; concrete query/persistence representation remains later Contract work. It does not Save Preferences, create versions, affect future collection, mutate Job authority or produce QuickScreenResult. Genuine Job availability, exact content, material eligibility, runtime admission, safety and consent remain in their existing owners.
+
+**Sources:** Q45/Q49/Q55/Q56/Q110/Q161, S9.1/S17.1, with explicit partial supersession under CG02-BC1/Q6–Q10/S1. The earlier current-Preferences filtering and dispatch QuickScreen gate do not survive; formal Job versioning, fixed collection provenance and exclusion of duplicate screening authority do.
 
 ### 4.3 Observation and safety boundaries
 
@@ -213,7 +221,7 @@ Deterministic versioned ScorePolicy derives display/ranking summaries from each 
 
 ### 6.3 Selection, concurrency, and publication
 
-DeepFitBatch is durable Application orchestration, not a chat Session, Aggregate, or cross-Job transaction. Freeze known user selections first; prepare dependencies; then freeze each complete independent analysis request. Do not invent a placeholder Set or silently replace selected exact inputs. Before dispatch validate applicable non-reject QuickScreen, source/requirements compatibility, current eligibility, and permissions. Failed final validation after a call preserves usage/audit without publishing invalid analysis.
+DeepFitBatch is durable Application orchestration, not a chat Session, Aggregate, or cross-Job transaction. Freeze known user selections first; prepare dependencies; then freeze each complete independent analysis request. Do not invent a placeholder Set or silently replace selected exact inputs. Before dispatch validate source/requirements compatibility, current eligibility, and permissions. Failed final validation after a call preserves usage/audit without publishing invalid analysis.
 
 Distinct targets can run concurrently, but only one effective analysis runs for each target. Backend controls enforce the invariant independently of UI disabling and distinguish actual exact Resume targets. The current view selects the latest successful compatible result; a failed rerun preserves an older compatible success. There is no latest-intent arbitration among overlapping same-target Runs. Recovery releases ended slots and fences obsolete writers without declaring uncertain remote spend free.
 
@@ -501,6 +509,8 @@ Default exports favor admitted minimal references, hashes, versions, usage, sour
 **Sources:** Q125, Q174, Q176, Q178, Q184, S35.1; [Agent Evaluation](design/eval/agent-evaluation.md), sections 22–28 and Appendix A.
 
 ## 16. Contract document structure and responsibility plan
+
+[CG02-BC1](design/contract/sl-01-m2-grill.md#cg02-bc1) revises the Preferences/Collection/Job Pool boundary: M2 owns complete versioned acquisition intent; Collection owns its source consumption; jobs-screening retains formal Job/admission/independent-query semantics. No standalone M2 QuickScreen or current-Preference downstream gate remains. Structure maintains the corresponding file and milestone mapping.
 
 ### 16.1 Architectural role and authority
 

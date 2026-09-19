@@ -211,7 +211,7 @@ JobHunter/
 │   │   │   ├── jobs/
 │   │   │   │   ├── pool/
 │   │   │   │   ├── collection/
-│   │   │   │   ├── screening/
+│   │   │   │   ├── view-filters/
 │   │   │   │   └── details/
 │   │   │   ├── fit/
 │   │   │   │   ├── candidate-fit/

@@ -4,7 +4,7 @@
 
 ## Directory purpose
 
-This directory contains navigation, a document-structure guide, four actual normative bodies for SL-01.M1, and planned later Contract destinations. Use Contract Index to find planned versus existing documents; use Contract Structure for the agreed file decomposition, family mapping, assigned definition destinations, references and later Grill boundaries.
+This directory contains navigation, a document-structure guide, five actual normative bodies covering SL-01.M1 and the consumed SL-01.M2 scopes, and planned later Contract destinations. Use Contract Index to find planned versus existing documents; use Contract Structure for the agreed file decomposition, family mapping, assigned definition destinations, references and later Grill boundaries.
 
 Shared conventions stay in root `common.md`; domain documents are grouped under `foundation/`, `candidate/`, `jobs/`, `applications/`, `agent/` and `evaluation/`. The [directory layout](structure.md#directory-layout) and [Contract-to-milestone mapping](structure.md#6-milestone-consumption-and-progressive-readiness) remain maintained in Structure. Grouping changes paths, not business ownership or scope readiness. Development handoffs are separate under `docs/development/handoff/`.
 

@@ -8,7 +8,7 @@
 
 Read the milestone, [Common](../../contracts/common.md), [Workspace](../../contracts/foundation/workspace.md), [Entry](../../contracts/jobs/manual-application-entries.md), [Storage](../../contracts/foundation/storage.md), then [Acceptance 3.1](../../acceptance.md#31-sl-01m1-contract-conformance). These four scopes are the M1 specification, not the entire future Common/Workspace/Storage family. Normative IDs: COM-001–032, WSP-001–006, MAE-001–018, STO-001–013; scope revision `2026-09-19.M1-r1`.
 
-Implement the real local Workspace and separate ManualApplicationEntry path. Formal Job production remains SL-08.M2; Preferences/pure screening remains SL-01.M2. Do not restore Manual Job, add JD ingestion/history, install model/Harness infrastructure merely for bootstrap, or create placeholder packages for the full repository tree.
+Implement the real local Workspace and separate ManualApplicationEntry path. Formal Job production remains SL-08.M2; Complete acquisition Preferences/versioning remains SL-01.M2 under CG02-BC1; source admission is SL-08.M2 scope. Do not restore Manual Job, add JD ingestion/history, install model/Harness infrastructure merely for bootstrap, or create placeholder packages for the full repository tree.
 
 ## 2. Preparation observed versus work to execute
 

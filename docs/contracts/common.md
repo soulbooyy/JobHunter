@@ -128,3 +128,47 @@ The following rules implement CG01-Q1. Examples illustrate naming only; they do 
 ## 3. Ownership and evolution
 
 No requirement has been retired or superseded in this initial scope revision. New consumer scopes add their own reviewed clauses without implying completion of all Common responsibilities. Provenance: CG01-Q1, Q16, Q20–Q21, Q27, Q30–Q32, Q36–Q37. Storage layout, command outcomes and business field applicability remain with their respective owners.
+
+## 4. M2 consumed shared representations
+
+Scope revision **2026-09-20.M2-r1**. COM-001–032 remain the published M1 baseline. The following clauses add the actual M2 consumer; they do not broaden M1 transport behavior or rename existing fields.
+
+<a id="com-033"></a>
+**COM-033.** M2 MUST consume COM-001–028 conventions and scalar semantics, COM-032 Sha256Hex and the ContractError/FieldError object shapes of COM-029, with only the scoped path extension in COM-034. Every declared M2 field MUST be present and non-null unless its owner explicitly allows otherwise. Unknown fields, wrong types and missing fields MUST be rejected, not stripped/coerced/defaulted. A non-object request root is INVALID_TYPE at $. Save's explicit nullable revision is an operation precondition, not a change to the Revision scalar. Boundary JSON integer admission MUST preserve exact numeric values without rounding into validity.
+
+<a id="com-034"></a>
+**COM-034.** For M2 only, COM-029's top-level-only field restriction is superseded by this grammar. All other COM-029 shape/sanitization/order rules remain effective; M1 continues its original top-level field or $ representation.
+
+```text
+path    = "$" | segment ("." segment)*
+segment = name ("[" index "]")?
+name    = [a-z][a-z0-9_]*
+index   = "0" | [1-9][0-9]*
+```
+
+Names MUST identify known canonical fields. Indices MUST identify submitted arrays before normalization/deduplication/sorting. Missing fields use the expected path; unknown keys MUST use UNKNOWN_FIELD at the nearest known parent object, or $ for document-root extras, without echoing the key. No wildcard, quoted key, slice, recursive descent or predicate exists. Owner-defined incompatible combinations use their own validation classification rather than pretending a known field is unknown.
+
+<a id="com-035"></a>
+**COM-035.** M2 MUST reuse COM-030's REQUIRED, UNKNOWN_FIELD, INVALID_TYPE, BLANK_VALUE, TOO_LONG and INVALID_CHARACTERS meanings and missing/type/scalar-before-value classification. For M2, INVALID_FORMAT additionally covers invalid declared enums and owner-defined invalid object combinations; OUT_OF_RANGE additionally covers owner-defined numeric and collection-size bounds. These extensions do not alter M1 triggers. Known but mode-incompatible value is INVALID_FORMAT at its choice parent. No INVALID_COMBINATION/FORBIDDEN_FIELD code is introduced.
+
+<a id="com-036"></a>
+**COM-036.** The shared error vocabulary below MUST use the sole COM-029 representation. Consumers MUST define their own applicable triggers, HTTP/CLI mapping and evidence; vocabulary membership alone authorizes no operation, retry or state mutation. Existing Entry/Storage mappings remain unchanged, including their existing OUTCOME_UNKNOWN semantics.
+
+| Code | Shared meaning |
+| --- | --- |
+| BAD_REQUEST | Request transport/serialization cannot be admitted |
+| ACCESS_DENIED | Local access boundary rejects the caller |
+| REQUEST_TOO_LARGE | Owning request byte bound exceeded |
+| VALIDATION_ERROR | Input fails declared schema/value admission |
+| NOT_FOUND | Requested exact resource absent |
+| REVISION_CONFLICT | Mutable authority precondition not satisfied |
+| REQUEST_CONFLICT | Reused request identity conflicts with original input |
+| REVISION_EXHAUSTED | Required increment exceeds admitted revision range |
+| STORAGE_UNAVAILABLE | Storage unavailable; write non-commit established when used to reject a write |
+| OUTCOME_UNKNOWN | Command commit outcome not established; not a persisted business state |
+| INTERNAL_ERROR | Sanitized unclassified failure, with no implication of rollback |
+
+Programs MUST NOT infer commit status from HTTP class or human message alone. Owner-defined startup diagnostics and M1-only outcomes remain owned by their current Contracts; this table does not remove them.
+
+<a id="com-037"></a>
+**COM-037.** The M2 consumer MUST use distinct UuidV4 root and immutable-version identity fields and exact retained references, never bare version identifiers, current substitutions or timestamp/UUID ordering inference. A successful exact reference resolves the requested immutable content or reports failure; a pointer selects current without changing historical identity. Common supplies naming/representation only; Preferences owns field membership and retention semantics, Storage owns same-owner/reference enforcement. This does not complete other asset or invocation identity families.

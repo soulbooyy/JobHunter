@@ -4,6 +4,8 @@
 
 [Contract design navigation](README.md) · [Milestone plan](../../plans/slices/sl-01-workspace-jobs-preferences.md#sl-01m1-local-workspace-and-manual-application-entries) · [Contract Index](../../contracts/index.md) · [Scope readiness ledger](../../progress/traceability.md#6-contract-normative-scope-readiness-ledger)
 
+Current planning annotation: [CG02-BC1/S1](sl-01-m2-grill.md#cg02-bc1) supersedes this register's source-time placement of pure QuickScreen in M2 and current-Preferences Job filtering. ManualApplicationEntry decisions and all published M1 requirements remain unchanged. M2 now supplies complete immutable acquisition Preferences; SL-08.M2 owns source/admission and independent Job Pool queries.
+
 ## Purpose and Authority
 
 Preserve accepted decisions, rationale, effective scope, explicit supersession and formal writeback destinations for SL-01.M1. Do not retain question transcripts, proposed answer options or unaccepted recommendations. This file is the sole working decision record for this milestone, including common rules, module detail and architecture-boundary supersession. Do not create separate per-module decision files.

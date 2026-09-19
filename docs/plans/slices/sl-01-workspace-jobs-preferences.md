@@ -6,9 +6,9 @@
 
 The [global readiness and dependency rules](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) apply to every entry below. This file owns this Slice's detailed scope, required upstream capability, reused infrastructure, conditional integration, Contract portions and completion conditions. Product/Architecture/Acceptance retain their existing authority; actual readiness and evidence belong to Progress. Edit this file for local planning changes; reconcile other owners only when their real scope, shared interfaces, dependencies or evidence are affected.
 
-**Goal and business value:** Provide local Workspace, independent manual application entries and explicit search intent, plus a reusable deterministic screening component.
+**Goal and business value:** Provide local Workspace, independent manual application entries and explicit versioned future acquisition intent.
 
-**Scope:** Local configuration and delivered navigation; separate mutable ManualApplicationEntry maintenance and explicit browser opening; global hard Preferences and pure metadata QuickScreen. Formal Job production, immutable versions, formal Job/Company read views and their current-Preferences integration belong to SL-08.M2 under the Job Contract.
+**Scope:** Local configuration and delivered navigation; separate mutable ManualApplicationEntry maintenance and explicit browser opening; complete explicit Preferences and immutable Preference versions. Formal Job production, immutable Job versions, formal Job/Company read views and independent view-query integration belong to SL-08.M2 under the Job Contract.
 
 **Out of Scope:** Formal Job production in this Slice, JD ingestion into manual entries, analysis/application tracking of entries, BOSS access, model tasks, automated sending, and compatibility-only bookmark/search-profile products. Undelivered entry points cannot appear implemented.
 
@@ -16,9 +16,9 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Dependent Contract families:** F01, F02, F05 organizational grouping, F10. ManualApplicationEntry is outside the formal Job family despite its related document grouping.
 
-**Test / Eval categories:** Entry persistence, repeated edits, separate view and browser-only effects; Preferences authority and deterministic pure screening. [Acceptance 3](../../acceptance.md#3-workspace-jobs-screening-and-collection) and applicable [Acceptance 10](../../acceptance.md#10-privacy-storage-and-honest-history). Component evidence does not prove a populated formal Job Pool.
+**Test / Eval categories:** Entry persistence, repeated edits, separate view and browser-only effects; Preferences configuration/version/read/Save/concurrency. [Acceptance 3](../../acceptance.md#3-workspace-jobs-screening-and-collection) and applicable [Acceptance 10](../../acceptance.md#10-privacy-storage-and-honest-history). Component evidence does not prove a populated formal Job Pool.
 
-**Required parent milestones:** [SL-01.M1](#sl-01m1-local-workspace-and-manual-application-entries), [SL-01.M2](#sl-01m2-hard-preferences-and-pure-screening). Dependencies are implemented components, not completion of upstream parents.
+**Required parent milestones:** [SL-01.M1](#sl-01m1-local-workspace-and-manual-application-entries), [SL-01.M2](#sl-01m2-collection-preferences-and-immutable-versions). Dependencies are implemented components, not completion of upstream parents.
 
 ## SL-01.M1 Local Workspace and Manual Application Entries
 
@@ -42,26 +42,27 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Milestone completion:** Real entry maintenance and browser opening work through the actual boundary, with truthful failure handling and durable saved records under their Contract. This establishes neither formal Jobs nor their consumers. Record scoped evidence under [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning).
 
-## SL-01.M2 Hard Preferences and pure screening
+<a id="sl-01m2-hard-preferences-and-pure-screening"></a>
+## SL-01.M2 Collection Preferences and immutable versions
 
-**Goal/value:** Save explicit search intent and provide the deterministic screening component consumed by Collection and formal local views.
+**Goal/value:** Save complete explicit acquisition intent for future Collection with immutable history and safe concurrent editing.
 
-**Scope:** One global hard Preferences version; deterministic QuickScreen over admitted Job/source metadata, uncertainty and no model/Candidate/Requirement access. Define the producer/consumer agreement with Collection and formal local filtering without delivering their data producer here.
+**Scope:** One global PreferenceSet; six explicitly configured dimensions (job search keywords, cities, salary, recruitment types, company exclusions and required-education ceiling); lazy atomic root/first-version creation, complete immutable PreferenceSetVersion publication, read/Save, canonical equality/no-op, revision admission and exact-reference persistence. [CG02-BC1](../../design/contract/sl-01-m2-grill.md#cg02-bc1) and [CG02-S1](../../design/contract/sl-01-m2-grill.md#cg02-s1) replace the previous pure-screening and deferred-versioning scope. No formal acquisition may start before complete explicit configuration; allowed no-constraint choices are dimension-specific, not missing fields.
 
-**Out of scope:** Screening ManualApplicationEntry, formal Job production, populated Job/Company views, remote acquisition and end-to-end filtering integration. Those formal local views and current-Preferences integration are delivered in SL-08.M2.
+**Out of scope:** QuickScreen, candidate admission, source query mapping, formal Job production, Job/Company views or query filters, remote acquisition, implicit keyword expansion, and screening ManualApplicationEntry. These source/admission/query consumers belong to later scopes, principally SL-08.M2. M2 does not create a pure component without a real current consumer.
 
-**Required upstream capability:** [SL-01.M1](#sl-01m1-local-workspace-and-manual-application-entries) — usable local Workspace configuration; no formal Job data is expected from it.
+**Required upstream capability:** [SL-01.M1](#sl-01m1-local-workspace-and-manual-application-entries) — the implemented usable local backend/configuration component; M2 backend need not wait for M1 frontend. Full milestone completion remains governed by each milestone's declared scope.
 
-**Reused component/infrastructure:** [SL-01.M1](#sl-01m1-local-workspace-and-manual-application-entries) — applicable implemented local persistence/privacy primitives; add immutable Preference version support required by this consumer rather than claiming entry delivery supplied it.
+**Reused component/infrastructure:** Applicable implemented M1 persistence/privacy/startup primitives. Add actual immutable Preference state, current selection and revision support. Define explicit compatible storage evolution before using an existing M1 database; no implicit upgrade or replacement empty store.
 
-**Required Contract portions before development:** `candidate/preferences.md` — hard intent and immutable versions; `jobs/jobs-screening.md` — the independently consumable pure metadata screening scope and necessary input/output agreement. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
+**Required Contract portions before development:** [Preferences](../../contracts/candidate/preferences.md) PRF-001–023; [Common](../../contracts/common.md) COM-033–037 and their explicitly reused baseline conventions/scalars/error shape; [Workspace](../../contracts/foundation/workspace.md) WSP-007 and its inherited local guarantees; [Storage](../../contracts/foundation/storage.md) STO-014–020 and inherited M1 durability/privacy/transaction guarantees. M2 scope revision is `2026-09-20.M2-r1`; readiness is in [Progress 6.2](../../progress/traceability.md#62-sl-01m2-reviewed-scope-and-interface-evidence). `jobs/jobs-screening.md` is not an M2 prerequisite.
 
-**Joint agreement:** Preferences owns intent; `jobs/jobs-screening.md` owns canonical screening semantics; Collection translates frozen intent. SL-08.M2 integrates latest local filtering. M2 does not depend on SL-08.M2 completion, avoiding a screening/collection cycle.
+**Joint agreement:** Preferences owns user intent, not platform query encoding or admission rules. Future Collection consumes one complete exact PreferenceSetVersion; later edits do not change active Runs or existing Jobs. Job Pool view filters are independent of Preferences and do not publish versions. Collection/admission/query details are defined at their real consumers, without requiring them to be implemented for M2.
 
-**Research / unresolved Grill detail:** Resolve actual supported hard dimensions, consumer-justified metadata input and missing-input behavior. Do not infer numeric/default policy or expand the full Job schema merely to deliver this component.
+**Research / implementation preparation:** Accepted Grill is complete through CG02-Q40. [M2 development handoff](../../development/handoff/sl-01-m2-handoff.md) records the actual schema-1 baseline, explicit schema-2 migration obligations, backend-first work and deferred UI design. No Collection mapping is inferred from enums. Concrete migration command, SQL checks and test layout are implementation choices within the normative requirements.
 
-**Tests / Eval:** V3: real Preferences persistence/versioning and executable pure predicates with controlled metadata inputs, deterministic uncertainty and no forbidden dependencies. Fixture checks prove the component only, not a populated user Job Pool or working source adapter.
+**Tests / Eval:** Real Preference read/Save and restart persistence; six-dimensional configuration admission; immutable version/current/revision atomicity; canonical no-op and stale saves; exact historical reads as consumed; explicit storage evolution and privacy. These prove Preferences, not working Collection, a populated Job Pool or UI/browser acceptance. See [Acceptance 3.2](../../acceptance.md#32-sl-01m2-contract-conformance).
 
-**Milestone completion:** The actual Preferences boundary and screening component satisfy their owned rules and required checks. Real formal Job list/refilter integration remains SL-08.M2's obligation, not an unimplemented promise counted as complete here.
+**Milestone completion:** The declared Preference configuration/version/read/Save/concurrency capability and applicable proof are complete under ready Contracts. Collection/admission/query integration remains SL-08.M2's obligation. No implementation or acceptance is claimed by this plan revision.
 
-**Parent completion and remaining work:** Both milestones and their local integration are accepted: Workspace supports entry maintenance/browser opening and persisted Preferences usable by the pure screening component. Manual entries stay separate and are not screened as formal Jobs. Formal Job/Company views and current-Preferences refiltering are verified in SL-08.M2. All 2 milestones need their scoped Contracts, implementation and evidence; no completion is claimed. Parent completion is separate from rollout/production enablement.
+**Parent completion and remaining work:** Both milestones and their actual local integration are accepted: Workspace supports manual-entry maintenance/browser opening and saved complete versioned acquisition intent. Manual entries stay outside formal Job workflows. Formal Job views, independent queries, source acquisition and admission are verified in SL-08.M2. All 2 milestones require their own Contracts, implementation and evidence; parent completion remains separate from rollout.

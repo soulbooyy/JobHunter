@@ -43,3 +43,10 @@ Browser-origin requests MUST match the local application allowlist. Non-browser 
 WSP-002/003 consumes STO-001/002/005/006 without owning database metadata. WSP-004 consumes STO-011 without creating a Workspace resource. WSP-005 consumes MAE-009–017 without creating formal Job eligibility. WSP-006 owns runtime access rejection; MAE-016 owns business-operation error codes. The Common error shape is shared, not redefined.
 
 Provenance: CG01-BC1, Q19, Q24–Q26, Q38, Q43–Q45. Future Resume default-selection scope remains pending. No requirements are retired in this initial revision.
+
+## 4. M2 local runtime applicability
+
+Scope revision **2026-09-20.M2-r1**; WSP-001–006 remain preserved M1 clauses.
+
+<a id="wsp-007"></a>
+**WSP-007.** M2 MUST retain WSP-001's single-user/single-default-Workspace meaning and Entry independence, WSP-002/003's fixed placement/exclusive ownership/first-use admission, WSP-004's fail-before-listening/no-default-on-corruption guarantees and WSP-006's loopback/Host/Origin boundary. For the schema-2 consumer only, startup's schema/diagnostic references in WSP-002/004 are superseded by STO-014–019; no runtime auto-upgrade is authorized. Preferences routes MUST apply the same local Host/Origin admission and ACCESS_DENIED shape; PRF-016 owns M2's compatible application/json parameter handling and stricter body admission. M1 Entry parser behavior is not retroactively broadened. Workspace initialization and migration MUST NOT create Preference roots or versions. LocalStartupResult remains a non-persisted startup diagnostic, never a business resource. Preferences UI behavior is owned by PRF-022, without turning navigation into another configuration authority.

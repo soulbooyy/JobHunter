@@ -14,23 +14,24 @@ These existing files provide navigation or organization, not normative Contract 
 
 ## Existing normative Contracts
 
-Four scoped normative bodies now exist, all at `2026-09-19.M1-r1`. Existence does not complete their future families; actual readiness/evidence is in [Progress](../progress/traceability.md#6-contract-normative-scope-readiness-ledger).
+Five scoped normative bodies now exist: the preserved `2026-09-19.M1-r1` baseline and `2026-09-20.M2-r1` additions. Existence does not complete their future families; actual readiness/evidence is in [Progress](../progress/traceability.md#6-contract-normative-scope-readiness-ledger).
 
 | Document | Existing scope | Requirement IDs |
 | --- | --- | --- |
-| [Common](common.md) | Shared expression and consumed M1 scalar/error types | COM-001–032 |
-| [Workspace](foundation/workspace.md) | Local initialization, runtime access and delivered navigation | WSP-001–006 |
+| [Common](common.md) | Shared expression, M1 scalar/errors and M2 scoped types/paths/vocabulary | COM-001–037 |
+| [Workspace](foundation/workspace.md) | Local initialization/runtime/navigation and M2 applicability | WSP-001–007 |
 | [ManualApplicationEntry](jobs/manual-application-entries.md) | Seven-field mutable entry, commands, HTTP, browser handoff and client recovery | MAE-001–018 |
-| [Storage](foundation/storage.md) | M1 placement/schema/transactions/receipts/startup/privacy | STO-001–013 |
+| [Storage](foundation/storage.md) | M1 persistence plus schema-2 Preferences and explicit offline evolution | STO-001–020 |
+
+| [Preferences](candidate/preferences.md) | Complete collection intent, immutable history, Save/read/replay and future UI boundary | PRF-001–023 |
 
 ## Planned normative Contract documents
 
-The following 24 destinations are planned only. Links open their entries in Contract Structure; they do not point to nonexistent files.
+The following 23 destinations are planned only. Links open their entries in Contract Structure; they do not point to nonexistent files.
 
 | Planned path relative to this directory | Structure entry |
 | --- | --- |
 | `candidate/profile.md` | [Planned catalog entry](structure.md#planned-profile) |
-| `candidate/preferences.md` | [Planned catalog entry](structure.md#planned-preferences) |
 | `candidate/evidence.md` | [Planned catalog entry](structure.md#planned-evidence) |
 | `candidate/resume-import.md` | [Planned catalog entry](structure.md#planned-resume-import) |
 | `candidate/resumes-grounding.md` | [Planned catalog entry](structure.md#planned-resumes-grounding) |
