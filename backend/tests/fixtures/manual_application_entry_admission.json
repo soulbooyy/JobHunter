@@ -1,0 +1,27 @@
+{
+  "contract_revision": "2026-09-19.M1-r1",
+  "note": "Derived examples, not a specification. Contracts remain authoritative. Raw revision strings are JSON tokens, not string-valued revisions.",
+  "revision": [
+    {"raw": "1", "status": 404},
+    {"raw": "1.0", "status": 404},
+    {"raw": "1e0", "status": 404},
+    {"raw": "9007199254740991", "status": 404},
+    {"raw": "1.0000000000000001", "status": 422, "code": "INVALID_TYPE"},
+    {"raw": "9007199254740991.0000001", "status": 422, "code": "INVALID_TYPE"},
+    {"raw": "9007199254740992", "status": 422, "code": "OUT_OF_RANGE"},
+    {"raw": "true", "status": 422, "code": "INVALID_TYPE"},
+    {"raw": "\"1\"", "status": 422, "code": "INVALID_TYPE"}
+  ],
+  "urls": [
+    {"value": "HTTP://Example.test:80/./apply", "status": 200},
+    {"value": "http://localhost", "status": 200},
+    {"value": "http://[::1]/", "status": 200},
+    {"value": "https://例子.测试/工程師", "status": 200},
+    {"value": "http://127.1/", "status": 422},
+    {"value": "http://127.0.0.01/", "status": 422},
+    {"value": "https:////example.test", "status": 422},
+    {"value": "https://example.test:/", "status": 422},
+    {"value": "https://u:p@example.test/", "status": 422},
+    {"value": "https://example.test/%zz", "status": 422}
+  ]
+}

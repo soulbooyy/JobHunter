@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/.."
+uv run --locked ruff check backend scripts
+uv run --locked ruff format --check backend scripts
+uv run --locked pyright
+uv run --locked pytest -q
+uv run --locked python scripts/check_contract_links.py
+git diff --check

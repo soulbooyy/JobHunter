@@ -1,6 +1,6 @@
 # SL-01.M1 Development Handoff
 
-> English is authoritative. Prepared 2026-09-19 after CG01-Q41–Q45 acceptance. This is a Development handoff and research/adoption record, not another decision register or normative owner. Actual status and review evidence are in [Progress](../../progress.md#6-sl-01m1-contract-review-and-handoff). No application implementation or runtime acceptance is claimed.
+> English is authoritative. Prepared 2026-09-19 after CG01-Q41–Q45 acceptance. This is a Development handoff and research/adoption record, not another decision register or normative owner. Actual status and review evidence are in [Progress](../../progress.md#6-sl-01m1-contract-review-and-handoff). The original research snapshot below does not claim runtime acceptance; the backend implementation addendum in section 6 records subsequent actual work.
 
 [Milestone plan](../../plans/slices/sl-01-workspace-jobs-preferences.md#sl-01m1-local-workspace-and-manual-application-entries) · [Contract Index](../../contracts/index.md) · [Target stack](../technology-stack.md) · [Repository organization](../repository-structure.md)
 
@@ -60,3 +60,15 @@ Use generated fixture data, controlled HTTP destinations and temporary databases
 Consolidation supplied mechanical representations needed by accepted decisions: `$` as a non-echoing whole-document/unknown-field error locator; ACCESS_DENIED/403 for Q44 local runtime admission; a pinned URL-validity reference for Q12/Q32; JSON Schema integer-value interpretation for Q31; and post-commit response-failure wording for Q40/Q42. These clarify the consumed interfaces rather than reopen the product scope. The normative owner is always the linked Contract; the only Grill decision record remains `docs/design/contract/sl-01-m1-grill.md`.
 
 Contract-ready means development may start with the preparation above. It does not certify the host's current Python/Node combination, install dependencies, produce runtime tests or mark M1 implemented. Record actual adopted versions, supported browsers/platforms, commands, outcomes and residual limitations when those exist.
+
+## 6. Backend implementation handoff — 2026-09-19
+
+The current task implements only the backend. [Backend operation and evidence](../../../backend/README.md) now supersedes the earlier host observation for adopted runtime versions, installation, configuration, transaction/lock/URL integration and executable checks. [Progress evidence](../../progress/traceability.md#7-sl-01m1-backend-implementation-evidence) maps real tests to requirement IDs. The original research rows above remain historical preparation, not a second normative source.
+
+Use `uv sync --locked`, `uv run --locked python -m jobhunter.main` and `./scripts/check` with the documented ICU build configuration. The source checkout contains the sole Alembic revision directory `backend/alembic/versions/`, revision `b720a94fd381`. Six real HTTP operations and `/openapi.json` are available with explicit loopback Host/Origin admission. Derived reusable examples are in `backend/tests/fixtures/manual_application_entry_admission.json`; Contract clauses remain authoritative.
+
+Frontend work items 2 and 6 from preparation and the entire frontend build step are postponed until the user's UI design is complete. No Node/frontend dependencies, TypeScript client, temporary UI, cache/pending recovery or browser navigation were introduced. Next frontend work must choose the actual origin/proxy explicitly, generate a compatible client, verify raw numeric/Unicode/trim/URL conformance and disable automatic command replay. The current default admits only `127.0.0.1:8765` Host and no Origin; a selected frontend origin requires explicit configuration.
+
+M1 completion still requires WSP-005, MAE-013 and mixed client/browser obligations, including opener/referrer safety, activation/popups, dirty input and uncertainty recovery. Backend API proof does not certify those. M1 and SL-01 remain Partial. M2 backend is not blocked by unfinished M1 frontend once the backend prerequisite is complete; its own Contracts/readiness remain required. No requirement scope or normative readiness was changed.
+
+Final backend verification: `./scripts/check` passed (Ruff lint/format, Pyright strict with zero errors/warnings, 87 pytest tests, 69-ID/matrix-file checks and whitespace checks). No tests skipped. The suite includes real loopback HTTP; it does not exercise a product frontend or browser navigation.

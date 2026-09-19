@@ -74,7 +74,7 @@ Self-hosted Langfuse remains derived infrastructure under Architecture 15. Verif
 
 ### 4.3 Persistence and migration organization
 
-SQLAlchemy and Alembic are the selected target tools. Their adoption must preserve the existing local transaction, exact history and current-use boundaries; it does not create a legacy-system migration requirement. The two migration-related paths in [Repository organization 4.2](repository-structure.md#42-migration-paths-do-not-establish-two-sources-of-truth) still need concrete role allocation. Select one authoritative revision-script location when the first real migration needs it, and remove or justify the other target path without duplicating migration history.
+SQLAlchemy and Alembic are the selected target tools. Their adoption must preserve the existing local transaction, exact history and current-use boundaries; it does not create a legacy-system migration requirement. [Repository organization 4.2](repository-structure.md#42-migration-paths-do-not-establish-two-sources-of-truth) fixes `backend/alembic/versions/` as the sole revision-script location. Runtime schema recognition lives with the persistence adapter; it is not another migration history.
 
 ## 5. Progressive adoption and unresolved setup
 

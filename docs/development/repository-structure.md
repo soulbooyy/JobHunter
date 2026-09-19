@@ -1,6 +1,6 @@
-# Target Repository Organization
+# Repository Organization
 
-> English is authoritative. This document records the user's provisional target organization for frontend, backend, tests, Eval and supporting tooling. It is a destination map, not an existing-file inventory, a scaffold command or evidence of implementation. Create only what an actual milestone needs when its development prerequisites are satisfied.
+> English is authoritative. This document defines the required organization for frontend, backend, tests, Eval and supporting tooling. Place implementation and tests in the prescribed responsibility layers from the start of development. Create only the branches with actual consumers; incremental creation does not permit flattening code at the package or tests root. The full tree is not an existing-file inventory or an instruction to create empty packages.
 
 [Development guides](README.md) · [Development discipline](../development.md) · [Global documentation index](../index.md) · [Actual Progress](../progress.md)
 
@@ -10,7 +10,7 @@ This supporting Development document owns the target physical file organization 
 
 [Implementation Plan](../plans/implementation-plan.md) and its [Slice plans](../plans/slices/README.md) own milestone scope, dependencies, required Contract portions and completion conditions. This document does not assign every target directory to a milestone or create another implementation schedule. [Progress rules](../progress/README.md) govern actual readiness/evidence recording; actual values belong in [Progress](../progress.md) and the [matrix](../progress/traceability.md).
 
-**Source:** The user's supplied repository tree and subsequent approval to persist the recommended target-organization/just-in-time creation approach in this document. This is a later user engineering-organization direction, not an original Grill Q-ID, a detailed Contract or a claim of final stack selection. Existing architecture commitments still apply. Revisit provisional paths when concrete consumers justify a change; do not treat every branch as a mandatory future package.
+**Source:** The user's supplied repository tree and subsequent approval to persist the recommended target-organization/just-in-time creation approach in this document. This is a later user engineering-organization direction, not an original Grill Q-ID, a detailed Contract or a claim of final stack selection. Existing architecture commitments still apply. The current user clarification makes responsibility-layer placement mandatory from first implementation. Document a justified structural change here before applying it; unused branches still need not exist.
 
 The current [CG01-BC1 decision](../design/contract/sl-01-m1-grill.md#cg01-bc1) controls ManualApplicationEntry separation. The tree below makes its target placement explicit without changing that decision. Historical handoffs and original Grill records are preserved.
 
@@ -18,9 +18,9 @@ The later user-supplied [target technology stack](technology-stack.md) records t
 
 ## 2. Target tree
 
-All code, package, test, Eval, script and CI entries below are **targets**, not claims that they exist. Documentation entries show the organization they reference; use the live documentation index for availability. Ellipses abbreviate content and never instruct creation of placeholder files. Python/TypeScript-shaped paths, SQLAlchemy and Alembic names retain the user's provisional implementation direction; this tree alone does not choose dependency versions, a complete framework/toolchain, API protocols or a migration scheme.
+All code, package, test, Eval, script and CI entries below are **targets**, not claims that they exist. Documentation entries show the organization they reference; use the live documentation index for availability. Ellipses abbreviate content and never instruct creation of placeholder files. Python/TypeScript-shaped paths, SQLAlchemy and Alembic names follow the user's selected implementation direction; this tree alone does not choose dependency versions, a complete framework/toolchain, API protocols or a migration scheme.
 
-Adaptations from the supplied tree are limited to explicit ManualApplicationEntry placement, the actual existing Slice filenames, this new guide and the existing `.scratch/` handoff location. The two migration-related paths remain visibly subject to the ownership clarification in section 4.
+Adaptations from the supplied tree are limited to explicit ManualApplicationEntry placement, the actual existing Slice filenames, this new guide and the existing `.scratch/` handoff location. Section 4 fixes the single migration history location. Repository-wide Python tooling stays at the root so scripts/check has one locked environment.
 
 ```text
 JobHunter/
@@ -87,7 +87,6 @@ JobHunter/
 │   │       │   │   │   ├── repositories/
 │   │       │   │   │   ├── mappings/
 │   │       │   │   │   └── uow/
-│   │       │   │   └── migrations/
 │   │       │   │
 │   │       │   ├── llm/
 │   │       │   │   ├── gateways/
@@ -179,7 +178,7 @@ JobHunter/
 │   │       └── langfuse.py
 │   │
 │   ├── alembic/
-│   ├── pyproject.toml
+│   │   └── versions/
 │   └── README.md
 │
 ├── frontend/
@@ -340,6 +339,9 @@ JobHunter/
 ├── .github/
 │   └── workflows/
 │
+├── pyproject.toml
+├── uv.lock
+├── .python-version
 ├── README.md
 └── .gitignore
 ```
@@ -371,17 +373,15 @@ The mapping follows Architecture 2–3, 5, 7 and 9–16. In particular, Q53 pres
 
 ### 4.1 ManualApplicationEntry remains separate
 
-The target uses `manual_application_entries/` within backend Domain, Application and API organization, plus `manual-application-entries/` for the frontend feature and `manual-application-entry/` for its client representation. These are provisional physical names for the separate responsibility established by CG01-BC1; they define no new fields, route spelling or API payload.
+The target uses `manual_application_entries/` within backend Domain, Application and API organization, plus `manual-application-entries/` for the frontend feature and `manual-application-entry/` for its client representation. These are prescribed physical names for the separate responsibility established by CG01-BC1; they define no new fields, route spelling or API payload.
 
-The separate entry view is provisionally placed under `pages/job-pool/manual-application-entries/` because Job Pool supplies its navigation entry. That UI placement does not put the record inside the formal Job family. Do not implement it as a Job/JobVersion, an application-history event or an Executor action. In particular, opening its URL remains ordinary explicit user navigation, not automatic application or evidence of success.
+The separate entry view is placed under `pages/job-pool/manual-application-entries/` because Job Pool supplies its navigation entry. That UI placement does not put the record inside the formal Job family. Do not implement it as a Job/JobVersion, an application-history event or an Executor action. In particular, opening its URL remains ordinary explicit user navigation, not automatic application or evidence of success.
 
 Use the current [SL-01.M1 plan](../plans/slices/sl-01-workspace-jobs-preferences.md#sl-01m1-local-workspace-and-manual-application-entries), not the earlier Manual Job scope in historical snapshots. Its existing filename is retained even though its current title and scope have changed.
 
 ### 4.2 Migration paths do not establish two sources of truth
 
-The supplied target contains both `backend/src/jobhunter/infrastructure/persistence/migrations/` and `backend/alembic/`. SQLAlchemy and Alembic are now recorded in the target technology stack; the final roles of these paths remain unresolved until their actual adoption. Do not create both just to match the tree, and do not maintain duplicate authoritative migration histories.
-
-The [M1 development handoff](handoff/sl-01-m1-handoff.md) selects `backend/alembic/versions/` as the single initial revision-script location and `backend/alembic/` for its environment/configuration support. At actual adoption, create only that needed history and its runner wiring. A separate package is justified only by actual supporting code that does not duplicate the revision history; otherwise remove that unnecessary branch from this target. This document does not select a schema, migration format or legacy-data migration obligation.
+`backend/alembic/versions/` is the only authoritative revision-script directory. `backend/alembic/env.py` and `backend/alembic.ini` provide its runner wiring. Do not create an additional `infrastructure/persistence/migrations/` revision history. Runtime schema recognition belongs under `infrastructure/persistence/sqlalchemy/models/`; it does not duplicate migration history or authorize automatic migration of existing storage.
 
 ### 4.3 Package grouping does not enlarge a foundation milestone
 
@@ -392,8 +392,8 @@ The Eval task/Scenario branches shown are not an exhaustive coverage inventory. 
 ## 5. Incremental creation principles
 
 1. **Target does not mean existing.** A documented directory, package, interface or script is neither delivered functionality nor readiness evidence. Keep current status in Progress rather than marking target branches implemented here.
-2. **Create for an actual milestone.** Before development, complete that milestone's required normative scope and interfaces and satisfy its research/upstream prerequisites under Development. During implementation preparation, identify the packages/files needed for its real use cases and proof in the owning Slice plan or task handoff. Do not allocate or scaffold the entire tree in advance.
-3. **No empty scaffolding for visual completeness.** Do not generate empty package hierarchies, `.gitkeep` files, unused interfaces, stub adapters, no-op tests or script shells merely to match this tree. Necessary package markers, configuration and test setup may accompany real code or meaningful failing tests for the current milestone.
+2. **Create for an actual milestone.** Before development, complete that milestone's required normative scope and interfaces and satisfy its research/upstream prerequisites under Development. Place needed files directly in their prescribed layers. Do not create a handoff or edit a Slice plan merely to list routine implementation files. Do not allocate or scaffold the entire tree in advance.
+3. **Required placement without empty scaffolding.** Do not generate empty package hierarchies, `.gitkeep` files, unused interfaces, stub adapters, no-op tests or script shells merely to match this tree. Necessary package markers, configuration and test setup may accompany real code or meaningful failing tests for the current milestone.
 4. **Keep first-use safeguards complete.** Incremental package creation does not permit skipping privacy, authorization, transaction, recovery or evidence obligations required by the actual consumer. Conversely, reuse of an infrastructure component does not require users to perform an unrelated product workflow.
 5. **Keep definitions with their owners.** Directory names and frontend/ORM/transport representations consume the relevant Contracts and architectural boundaries. A filesystem split must not create duplicated normative definitions or conflicting lifecycle owners.
 6. **Evolve from evidence.** When implementation demonstrates a better grouping, record the reason and update this target and affected references/plans. Pure path changes do not require inventing a business decision; a real semantic change must follow the existing source/change discipline.
@@ -404,4 +404,12 @@ For SL-01.M1, plan only the actual local Workspace and separate ManualApplicatio
 
 Maintain the full target and physical-role clarifications here. Core Development retains the general creation discipline and links here; directory/global indexes navigate. The owning Slice plan records any concrete package allocation needed for its milestone, while Progress/matrix record actual Contract readiness, implemented locations and executed proof. Do not copy this full tree into Architecture, the global Implementation Plan or READMEs.
 
-When a shared implementation boundary changes, check the affected Architecture/Contract owners, consumers and acceptance evidence rather than only adjusting paths. Preserve the distinction between the original user-supplied target, later justified organization changes and actual repository contents. This initial writeback creates only documentation; it does not create any target code directory or placeholder.
+When a shared implementation boundary changes, check the affected Architecture/Contract owners, consumers and acceptance evidence rather than only adjusting paths. Preserve the distinction between the original user-supplied target, later justified organization changes and actual repository contents. The tree includes future branches; actual implementation and evidence are recorded in Progress, not inferred from this guide.
+
+## 7. Test file naming and placement
+
+Name tests after stable capabilities or responsibilities, not delivery-plan identifiers. Use `test_manual_application_entries.py`, `test_workspace_startup.py`, `test_storage.py`, `test_preferences.py`, `test_requirement_parse.py` and `test_candidate_fit.py`. Do not use `test_m1.py`, `test_m2.py`, `test_sl03.py` or equivalent milestone/Slice numbering. A milestone can change or split without changing a capability's test identity. Keep milestone/requirement associations in `docs/progress/traceability.md`.
+
+Place each suite by the boundary it exercises: isolated rules in `tests/unit/domain/`, Application integration in `tests/integration/application/`, real persistence in `tests/integration/persistence/`, HTTP integration in `tests/integration/api/`, and cross-cutting conformance in `tests/conformance/` with responsibility subdirectories such as `recovery/`. Shared language-neutral inputs belong in `tests/fixtures/` and use semantic filenames too. Avoid generic root-level catch-all test files. When a file mixes unrelated startup, storage and entry responsibilities, split it along those responsibilities; a persistence restart used to verify an entry's durability may remain with that entry scenario.
+
+Current backend placement follows those rules: entry admission/models under `domain/manual_application_entries/`, shared failures under `domain/shared/`, entry use cases under `application/manual_application_entries/`, storage/schema under `infrastructure/persistence/sqlalchemy/`, HTTP routes under `api/v1/manual_application_entries/`, transport schemas/errors/middleware under their `api/` packages, and composition/lifecycle under `bootstrap/`. `main.py` is the executable entry point. Package markers accompany these actual consumers; no unused future subsystem is scaffolded.
