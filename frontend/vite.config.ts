@@ -14,7 +14,9 @@ export default defineConfig(({ mode }) => ({
     proxy: {
       '/api': {
         target:
-          mode === 'e2e' ? 'http://127.0.0.1:18765' : 'http://127.0.0.1:8765',
+          mode === 'e2e'
+            ? 'http://127.0.0.1:18765'
+            : process.env.JOBHUNTER_API_TARGET || 'http://127.0.0.1:8765',
         changeOrigin: true,
       },
     },
@@ -26,7 +28,9 @@ export default defineConfig(({ mode }) => ({
     proxy: {
       '/api': {
         target:
-          mode === 'e2e' ? 'http://127.0.0.1:18765' : 'http://127.0.0.1:8765',
+          mode === 'e2e'
+            ? 'http://127.0.0.1:18765'
+            : process.env.JOBHUNTER_API_TARGET || 'http://127.0.0.1:8765',
         changeOrigin: true,
       },
     },

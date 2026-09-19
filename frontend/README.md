@@ -6,26 +6,24 @@ This is the SL-01.M1 Manual Applications frontend: list, create, edit, delete, e
 
 Verified on macOS arm64 with Node **26.5.0** and npm **11.17.0**. `.node-version`, `engines` and `packageManager` record this adopted toolchain; `.npmrc` enforces engines and exact direct versions. Commit `package-lock.json` and use `npm ci` for reproducible installs. Versions are pinned in `package.json`; this is not a promise of compatibility with arbitrary Node/npm releases.
 
-From `frontend/`:
+After completing [backend installation](../backend/README.md), install frontend dependencies and start both services from the repository root:
 
 ```sh
-npm ci
-npm run dev
+npm --prefix frontend ci
+./scripts/dev
 ```
 
-Open <http://127.0.0.1:5173>. Use the exact address: the port is fixed and the server binds to loopback. After completing [backend installation](../backend/README.md), use another terminal in `frontend/` to start the API with both development and preview origins explicitly admitted:
+Open <http://127.0.0.1:5173>. Ctrl-C stops both owned process groups; if either service exits, the other is stopped. Occupied ports fail before startup and existing services are never terminated or reused. The launcher requires Node and uv on PATH; it does not install frontend dependencies, migrate storage or delete data.
 
-```sh
-npm run dev:api
-```
+`./scripts/dev` binds both services to loopback and explicitly sets the matching backend Host/Origin admission. It preserves `JOBHUNTER_DATA_DIRECTORY` and other non-network backend configuration. Optional `JOBHUNTER_DEV_PORT` (frontend, default 5173) and `JOBHUNTER_PORT` (backend, default 8765) update both admission and the Vite proxy target together. Preview Origin 4173 is also admitted. Example: `JOBHUNTER_DEV_PORT=15173 JOBHUNTER_PORT=18765 ./scripts/dev`.
 
-`dev:api` explicitly sets `JOBHUNTER_ALLOWED_ORIGINS` to `http://127.0.0.1:5173,http://127.0.0.1:4173` and otherwise uses the normal backend launcher/configuration. The browser calls same-origin `/api`; Vite forwards it to port 8765 with the original Origin preserved. This proxy avoids browser cross-origin requests without enabling wildcard CORS or weakening backend admission. Use the documented backend command directly for custom origins/ports.
+The browser calls same-origin `/api`; Vite forwards it with the original Origin preserved. `JOBHUNTER_API_TARGET` is server-only Vite configuration, set by the launcher. No wildcard CORS is enabled. For frontend-only development, `npm run dev` in `frontend/` remains available with a separately configured API.
 
 For temporary integration data, first create an empty directory with `mktemp -d` and supply its absolute path as `JOBHUNTER_DATA_DIRECTORY`. Do not seed or migrate a real workspace for a UI check. Existing schema migration remains an explicit backend operation.
 
 Vite proxies `/api` to `http://127.0.0.1:8765`, rewriting Host and preserving Origin. The backend must explicitly admit `http://127.0.0.1:5173`; no wildcard, token, CORS bypass or frontend workspace creation is introduced. `localhost` is not an interchangeable origin. A stopped backend produces a read error, never a successful empty list.
 
-`npm run build` creates `dist/`. `npm run preview` serves that build on `http://127.0.0.1:4173`, with the same API proxy; `npm run dev:api` admits this exact Origin as well. Preview is a local verification server, not production hosting. Production packaging and SPA fallback/API hosting remain future work.
+`npm run build` creates `dist/`. `npm run preview` serves that build on `http://127.0.0.1:4173`, with the same API proxy; `./scripts/dev` admits this exact Origin as well. Preview is a local verification server, not production hosting. Production packaging and SPA fallback/API hosting remain future work.
 
 ## Structure and progressive adoption
 

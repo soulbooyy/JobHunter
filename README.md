@@ -55,3 +55,11 @@ The SL-01.M1 backend is available; the M1 frontend is implemented with scoped br
 ## Frontend development
 
 The M1 frontend provides the local React/Vite environment, scoped routing, reusable controls and Manual Applications CRUD, conflict/uncertainty recovery and safe URL opening. Start with [frontend setup and checks](frontend/README.md). Unit/component and real backend Chromium suites are included; final visual acceptance remains separate.
+
+Start both development services from the repository root after installing dependencies:
+
+```sh
+./scripts/dev
+```
+
+Open <http://127.0.0.1:5173>; Ctrl-C stops both services. See the frontend guide for temporary data and optional development ports.

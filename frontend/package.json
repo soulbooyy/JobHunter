@@ -20,8 +20,7 @@
     "api:generate": "node scripts/generate-api.mjs",
     "api:check": "node scripts/generate-api.mjs --check",
     "check": "npm run api:check && npm run typecheck && npm run lint && npm run format:check && npm test && npm run build",
-    "test:e2e": "playwright test",
-    "dev:api": "cd .. && JOBHUNTER_ALLOWED_ORIGINS=http://127.0.0.1:5173,http://127.0.0.1:4173 uv run --locked python -m jobhunter.main"
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@hookform/resolvers": "5.9.1",

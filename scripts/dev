@@ -1,0 +1,116 @@
+#!/usr/bin/env node
+// Supervise both local development services; never adopt or stop existing listeners.
+const { spawn } = require("node:child_process");
+const { createServer } = require("node:net");
+const { existsSync } = require("node:fs");
+const { resolve } = require("node:path");
+const root = resolve(__dirname, "..");
+const host = "127.0.0.1";
+const frontendPort = port(process.env.JOBHUNTER_DEV_PORT || "5173");
+const backendPort = port(process.env.JOBHUNTER_PORT || "8765");
+const vite = resolve(root, "frontend/node_modules/vite/bin/vite.js");
+const children = new Set();
+let stopping = false;
+let shutdownTimer;
+
+function port(value) {
+  if (!/^\d+$/.test(value) || Number(value) < 1 || Number(value) > 65535) {
+    console.error(`Invalid development port: ${value}`);
+    process.exit(1);
+  }
+  return Number(value);
+}
+function signal(child, name) {
+  if (!child.pid) return;
+  try {
+    process.kill(-child.pid, name);
+  } catch (error) {
+    if (error.code !== "ESRCH") console.error(error.message);
+  }
+}
+function stop(code) {
+  if (stopping) return;
+  stopping = true;
+  process.exitCode = code;
+  for (const child of children) signal(child, "SIGTERM");
+  shutdownTimer = setTimeout(() => {
+    for (const child of children) signal(child, "SIGKILL");
+  }, 3000);
+  shutdownTimer.unref();
+}
+function start(name, command, args, env) {
+  const child = spawn(command, args, {
+    cwd: root,
+    env,
+    stdio: "inherit",
+    detached: true,
+  });
+  children.add(child);
+  child.on("error", (error) => {
+    console.error(`${name}: ${error.message}`);
+    children.delete(child);
+    stop(1);
+  });
+  child.on("exit", (code) => {
+    children.delete(child);
+    // Also reap any descendants if the launcher itself exited first.
+    signal(child, "SIGTERM");
+    if (!stopping) {
+      console.error(`${name} exited; stopping development services.`);
+      stop(code || 1);
+    }
+    if (!children.size) clearTimeout(shutdownTimer);
+  });
+}
+function available(portNumber) {
+  return new Promise((resolvePort, reject) => {
+    const server = createServer();
+    server.once("error", () =>
+      reject(
+        new Error(
+          `Port ${portNumber} is unavailable; stop its existing service or choose another development port.`,
+        ),
+      ),
+    );
+    server.listen(portNumber, host, () => server.close(resolvePort));
+  });
+}
+process.on("SIGINT", () => stop(130));
+process.on("SIGTERM", () => stop(143));
+async function main() {
+  if (!existsSync(vite))
+    throw new Error(
+      "Install frontend dependencies first: npm --prefix frontend ci",
+    );
+  if (frontendPort === backendPort)
+    throw new Error("Frontend and backend ports must differ.");
+  await Promise.all([available(frontendPort), available(backendPort)]);
+  if (stopping) return;
+  const env = {
+    ...process.env,
+    JOBHUNTER_BIND: host,
+    JOBHUNTER_PORT: String(backendPort),
+    JOBHUNTER_ALLOWED_HOSTS: `${host}:${backendPort}`,
+    JOBHUNTER_ALLOWED_ORIGINS: `http://${host}:${frontendPort},http://${host}:4173`,
+    JOBHUNTER_API_TARGET: `http://${host}:${backendPort}`,
+  };
+  console.log(
+    `Starting frontend http://${host}:${frontendPort} and API ${env.JOBHUNTER_API_TARGET}. Ctrl-C stops both.`,
+  );
+  start(
+    "Backend",
+    "uv",
+    ["run", "--locked", "python", "-m", "jobhunter.main"],
+    env,
+  );
+  start(
+    "Frontend",
+    process.execPath,
+    [vite, resolve(root, "frontend"), "--port", String(frontendPort)],
+    env,
+  );
+}
+main().catch((error) => {
+  console.error(error.message);
+  stop(1);
+});
