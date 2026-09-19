@@ -22,6 +22,7 @@ For a new task, read this index, the relevant directory README, the current owni
 | Delivery and maintenance method | [Development](development.md) | Stage order, Contract-ready development, test-first work, source/research discipline, verification routing and handoffs |
 | Specialized Eval procedure | [Evaluation guide](development/evaluation.md) | Real-path Eval, experiments, evaluator admission, findings and evidence handling |
 | Target code organization | [Repository structure guide](development/repository-structure.md) | Provisional frontend/backend layout, physical responsibility mapping and incremental package creation |
+| Frontend API design and integration | [API guides](api/README.md), [SL-01.M1](api/sl-01-m1.md) | Implemented HTTP interfaces, examples and client obligations derived from Contracts |
 | M1 development entry | [SL-01.M1 handoff](development/handoff/sl-01-m1-handoff.md) | Reviewed Contract scope, integration research, engineering preparation and required proof |
 | Target technology choices | [Technology stack](development/technology-stack.md) | Planned backend/frontend tools and progressive adoption; actual versions and installation remain separate |
 | Status/readiness/evidence recording rules | [Progress README](progress/README.md) | Traceability, status meanings, parent/milestone reporting and scope-level readiness |
@@ -37,6 +38,7 @@ These are seven document categories and six main documents. Slice plans support 
 | Documentation root | [README](README.md) | Layout and navigation/maintenance rules |
 | Implementation planning | [plans/README](plans/README.md) | Global versus Slice responsibilities |
 | Slice plans | [plans/slices/README](plans/slices/README.md) | Twelve stable Slice IDs and their detailed files |
+| API integration references | [api/README](api/README.md) | Frontend-facing interface guides; Contracts retain normative ownership |
 | Formal Contracts | [Overview](contracts/README.md), [Index](contracts/index.md), [Structure](contracts/structure.md) | Directory guide, navigation and non-normative organization; four M1 normative scopes exist; other scopes remain pending |
 | Acceptance support | [acceptance/README](acceptance/README.md) | Specialized Eval proof criteria; business/runtime scenarios stay unified |
 | Development guides | [development/README](development/README.md) | Specialized Eval procedure, target code organization and technology choices under core development discipline |

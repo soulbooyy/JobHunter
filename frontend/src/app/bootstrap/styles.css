@@ -1,0 +1,80 @@
+@import 'tailwindcss';
+
+/* Frozen DESIGN v1 roles. Stitch supplies layout references, not new business states. */
+:root {
+  color-scheme: light;
+  --background: #ffffff;
+  --foreground: #202024;
+  --surface: #ffffff;
+  --surface-muted: #f7f7f8;
+  --border: #e2e2e5;
+  --border-subtle: #ededee;
+  --text-muted: #66666e;
+  --primary: #18181b;
+  --primary-foreground: #ffffff;
+  --hover: #f4f4f5;
+  --active: #eaeaec;
+  --destructive: #b43c42;
+  --destructive-foreground: #ffffff;
+  --notice-background: #faf1f1;
+  --notice-border: #ecd6d7;
+  --notice-accent: #9b6266;
+  --error: #ad3941;
+  --focus: #52525b;
+  --radius: 0.5rem;
+}
+@theme inline {
+  --font-sans:
+    system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-text-muted: var(--text-muted);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-hover: var(--hover);
+  --color-active: var(--active);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-notice-background: var(--notice-background);
+  --color-notice-border: var(--notice-border);
+  --color-notice-accent: var(--notice-accent);
+  --color-error: var(--error);
+  --color-focus: var(--focus);
+  --color-muted: var(--surface-muted);
+  --color-muted-foreground: var(--text-muted);
+  --color-accent: var(--hover);
+  --color-accent-foreground: var(--foreground);
+  --color-input: var(--border);
+  --color-ring: var(--focus);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+}
+@layer base {
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  button:not(:disabled),
+  a {
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}

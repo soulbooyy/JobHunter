@@ -6,7 +6,7 @@ Its capabilities are independently accessible, each with its own prerequisites. 
 
 ## Project status
 
-The SL-01.M1 backend is implemented with reviewed Contracts, a runnable local API and executable checks. Frontend/UI design, browser behavior and full milestone integration remain pending; M1 and SL-01 are Partial. Other planned product capabilities are not implemented. See the backend guide below for installation and run commands.
+The SL-01.M1 backend is implemented with reviewed Contracts, a runnable local API and executable checks. The M1 frontend provides CRUD, explicit recovery and safe browser opening, with real backend Chromium tests; final milestone acceptance remains pending. M1 and SL-01 are Partial. Other planned product capabilities are not implemented. See the backend guide below for installation and run commands.
 
 [Progress](docs/progress.md) records the current review and approval state, Contract readiness, implementation evidence, and next work. The [W7 review handoff](.scratch/w7-joint-review-handoff.md) records the reviewed baseline, corrections, and remaining detailed-design work. Document review does not establish implemented or verified product capabilities.
 
@@ -50,4 +50,8 @@ Cross-context authoring guides, proposals, and handoff snapshots live in [`.scra
 
 ## Backend development
 
-The SL-01.M1 backend is available; frontend design/implementation and integrated milestone acceptance remain pending. See [installation, startup, configuration and checks](backend/README.md) and [actual progress](docs/progress.md#7-sl-01m1-backend-implementation).
+The SL-01.M1 backend is available; the M1 frontend is implemented with scoped browser evidence; final milestone acceptance remains pending. See [installation, startup, configuration and checks](backend/README.md) and [actual progress](docs/progress.md#7-sl-01m1-backend-implementation).
+
+## Frontend development
+
+The M1 frontend provides the local React/Vite environment, scoped routing, reusable controls and Manual Applications CRUD, conflict/uncertainty recovery and safe URL opening. Start with [frontend setup and checks](frontend/README.md). Unit/component and real backend Chromium suites are included; final visual acceptance remains separate.

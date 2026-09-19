@@ -1,6 +1,6 @@
 # JobHunter Progress
 
-> English is authoritative. Snapshot: 2026-09-20. SL-01.M2 backend is implemented with conformance evidence in section 9; UI/client/browser and full integration remain pending. SL-01.M1 backend retains its recorded 87-test evidence, with frontend/browser integration pending. Historical W7/global approval remains separate. This document records actual state; target architecture, Contract structure and planned milestones do not establish implemented capabilities.
+> English is authoritative. Snapshot: 2026-09-20. SL-01.M2 backend is implemented with conformance evidence in section 9; UI/client/browser and full integration remain pending. SL-01.M1 backend retains its recorded 87-test evidence, with M1 frontend and Chromium integration evidence recorded below; final visual/milestone acceptance remains pending. Historical W7/global approval remains separate. This document records actual state; target architecture, Contract structure and planned milestones do not establish implemented capabilities.
 
 ## 1. Current state and task
 
@@ -12,7 +12,7 @@ The W7 handoff preserves review of the preceding baseline. The new scoped user a
 
 The [Contract Index](contracts/index.md) now lists **five actual normative bodies and 23 planned destinations**. The preserved 69 M1 IDs plus 36 new M2 IDs total **105**. Four M1 and four M2 consumed scopes are Ready; 63 other scopes remain Pending, for 71 rows after explicit subdivision. [M2 review](progress/traceability.md#62-sl-01m2-reviewed-scope-and-interface-evidence) and [backend-first handoff](development/handoff/sl-01-m2-handoff.md) support the next development task.
 
-The user accepted CG01-Q1–Q45's effective decisions (Q7–Q10 were stopped), including Q42's optional safe transaction completion and Q45's implementation-independent browser safety. Normative writeback and scoped interface reviews are complete. The backend subset is now implemented; see [operation and evidence](../backend/README.md) and the [M1 development handoff](development/handoff/sl-01-m1-handoff.md). M1 and parent SL-01 are **Partial**: UI design, frontend/browser behavior and integrated acceptance remain outstanding. M2 backend need not wait for M1 frontend; its own Contract prerequisites still apply.
+The user accepted CG01-Q1–Q45's effective decisions (Q7–Q10 were stopped), including Q42's optional safe transaction completion and Q45's implementation-independent browser safety. Normative writeback and scoped interface reviews are complete. The backend subset is now implemented; see [operation and evidence](../backend/README.md) and the [M1 development handoff](development/handoff/sl-01-m1-handoff.md). M1 and parent SL-01 are **Partial**: the frontend is implemented with scoped Chromium integration evidence below; final visual/milestone acceptance remains outstanding. M2 backend need not wait for M1 frontend; its own Contract prerequisites still apply.
 
 ## 2. Documentation and review state
 
@@ -38,12 +38,12 @@ The matrix retains **179 original source records (157 Q and 22 S), across 73 cla
 
 | Subject | Actual state |
 | --- | --- |
-| Current in-scope product/runtime/Eval capabilities | M1 and M2 backend implemented; both milestones Partial, later capabilities Planned |
+| Current in-scope product/runtime/Eval capabilities | M1 backend/frontend and M2 backend implemented; both milestones Partial, later capabilities Planned |
 | Explicit exclusions/deferrals | Preserve original clause-specific reasons; later scheduling does not itself mean Deferred |
 | Planning locators | SL-01–SL-12 and 24 internal milestone locators exist in Implementation Plan; planning identifiers with a scoped user-approved CG01-BC1 revision, not Contract IDs or implemented capabilities |
 | Contract readiness | SL-01.M1 and SL-01.M2 each have four complete reviewed consumed scopes; other milestones remain Pending |
 | Milestone implementation and parent completion | M1, M2 and SL-01 Partial; no completed milestone or parent |
-| Product checks/Eval/integration | Backend executable checks and scripts/check supplied; frontend/integrated proof and CI remain pending |
+| Product checks/Eval/integration | Backend checks plus M1 frontend/Chromium checks supplied; final acceptance, M2 frontend and CI remain pending |
 | Document checks | Historical W7 review plus the scoped CG01-BC1 two-seam review and mechanical checks in section 5; original handoff snapshots preserved |
 
 Future evidence must identify the accepted milestone, parent, actual required Contract IDs and implementation/test/Eval locations. Ready Contracts are not implemented capability; accepted milestones are not completed parents. Parent completion needs all required milestones and integrated proof. Shared Contract changes can require rechecking earlier consumers and evidence.
@@ -54,7 +54,7 @@ Parent completion and child capability availability are recorded separately. No 
 
 | Parent Slice | Aggregate implementation status | Accepted milestones | Required milestone work remaining | Parent integrated acceptance |
 | --- | --- | --- | --- | --- |
-| SL-01 | Partial | 0 / 2 | M1 frontend/browser/integration; M2 UI/client/browser/integration | Not executed |
+| SL-01 | Partial | 0 / 2 | M1 final visual/milestone acceptance; M2 UI/client/browser/integration | Not executed |
 | SL-02 | Planned | 0 / 2 | SL-02.M1, SL-02.M2 | Not executed |
 | SL-03 | Planned | 0 / 3 | SL-03.M1, SL-03.M2, SL-03.M3 | Not executed |
 | SL-04 | Planned | 0 / 1 | SL-04.M1 | Not executed |
@@ -172,3 +172,13 @@ Actual locked dependencies and platform were rechecked unchanged; no new package
 Verification uses temporary SQLite files, fault injection, independent processes and a real loopback HTTP server. Covered failures include interrupted publication/migration, ambiguous commit, typed post-commit exceptions, invalid ownership/configuration, streaming budget overflow and response loss. M1 regressions execute against schema 2. Final `./scripts/check` passed: Ruff lint/format, Pyright strict with zero errors/warnings, **160 tests**, 105 requirement-ID/matrix-reference checks and whitespace checks. Exact evidence and limits are recorded in traceability §8.
 
 M2 and parent SL-01 remain Partial. PRF-022 UI, client generation/browser agreement, truthful client recovery and full M2/parent integration require later work; backend tests do not establish them. M1 frontend acceptance remains separate. Contract scope readiness stays 8 Ready / 63 Pending; no milestone is marked complete. Concurrent frontend/UI files were preserved without being changed or accepted by this task. No real user data was migrated, and no commit or push was performed.
+
+## M1 frontend implementation — 2026-09-20
+
+The incremental environment now supports the complete Manual Applications interaction path: list/create/edit/delete, field errors, dirty-form dismissal, explicit conflict/uncertain-result recovery and safe URL handoff. Add/edit reuse one form; page headings, table, state panels, skeletons, notices, fields, dialogs and menus have actual consumers in the prescribed app/pages/features/entities/shared layers. No future capability directories are scaffolded. See [setup and commands](../frontend/README.md) and [requirement evidence](progress/traceability.md#frontend-foundation-evidence).
+
+Verification: `npm run check` passed API drift, strict TypeScript, ESLint, Prettier, **43 unit/component cases** and production build. `npm run test:e2e` passed **9 Chromium tests** against a disposable real schema-2 backend: CRUD/reload, stale revisions, committed-but-lost create/update/delete responses, no-opener/no-referrer navigation, stale resolution, blocked/unavailable and closed waiting contexts. Tests used only local destinations and explicit test Origin admission. Manual 1280×720 inspection covered the populated list, add/delete dialogs and empty/read states, with no browser warning/error logs. The production build emits a non-failing 619 kB minified chunk warning; code splitting remains a measured performance follow-up, not a change to business behavior.
+
+Scoped **Decision-to-Document Traceability** review: MAE-001–018 client obligations and applicable COM/WSP boundaries map to the existing API/schema, admission/recovery consumers and tests in the evidence table. No Job identity, application-success fact, automatic write replay, persisted command queue or cached-URL fallback is introduced. Scoped **Cross-Document Semantic Consistency** review: the M1 plan/API/Contracts, repository placement and frozen `docs/ui/DESGIN.md` agree on scope, explicit recovery and navigation semantics; Stitch references guide layout without overriding behavior.
+
+M1 and SL-01 remain Partial pending final visual/milestone acceptance; current coverage is Chromium/macOS, not a claim for every browser or assistive technology. M2 frontend is untouched. Concurrent backend/document changes were preserved; historical backend checks remain separately owned. Temporary verification services were stopped and owned test data cleaned up. No commit or push was performed.
