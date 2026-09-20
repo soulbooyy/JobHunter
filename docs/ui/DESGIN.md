@@ -434,26 +434,37 @@ Chevron should:
 
 Sidebar icons must share:
 
-* same visual size;
-* same stroke weight;
-* same outline style;
-* same alignment;
-* same visual rhythm.
+- same visual size;
+- same stroke weight;
+- same outline style;
+- same alignment;
+- same visual rhythm.
 
 Do not use colorful icons.
 
-Secondary navigation items may have their own icon.
+Every navigable Sidebar item, including both primary and secondary navigation items, should use a dedicated icon from the same icon system.
 
-For Manual Applications, appropriate metaphors include:
+Secondary navigation must not omit icons merely to express hierarchy. Hierarchy is communicated through indentation, grouping, and parent / child structure rather than by removing icons.
 
-* external-link;
-* link;
-* form;
-* send;
-* cursor-click;
-* file-check.
+Secondary navigation icons must:
 
-The icon must not be more visually dominant than other navigation icons.
+- use the same minimalist outline style as primary navigation icons;
+- use the same visual size and stroke weight;
+- follow the same icon-to-label spacing;
+- align consistently with sibling secondary items;
+- remain visually subordinate to the text label.
+
+Use semantically appropriate icons for each destination.
+
+Examples:
+
+- Job List: list / rows / briefcase-list;
+- Manual Applications: external-link / link / form / file-check;
+- Search Preferences: sliders / tune / adjustment-controls.
+
+Prefer a specific semantic icon over a generic settings gear when a clearer metaphor exists.
+
+No secondary navigation icon should be more visually dominant than primary navigation icons or its text label.
 
 ---
 
@@ -690,12 +701,34 @@ Avoid bolding multiple columns in one table row.
 
 The interface is primarily:
 
-* white;
-* near-white;
-* neutral gray;
-* dark neutral text.
+- white;
+- neutral gray;
+- dark neutral text.
 
 The system should remain mostly monochrome.
+
+The default application canvas and main content workspace must use a white background.
+
+Do not apply tinted gray, beige, rose, pink, or warm-neutral backgrounds to the entire page or main workspace.
+
+Neutral tinted surfaces are reserved for localized UI elements such as:
+
+- Sidebar active / hover states;
+- table headers;
+- muted panels;
+- inline notices;
+- disabled controls;
+- skeletons;
+- dialog overlays;
+- selected secondary controls.
+
+The page background itself should remain white unless a future Design System version explicitly defines another surface.
+
+Approved visual baseline:
+
+- Manual Applications main workspace: white;
+- Search Preferences main workspace: white;
+- future standard JobHunter pages: white by default.
 
 ---
 
@@ -1465,11 +1498,20 @@ Example:
 
 ## 28.3 Composition
 
-Load Error and Empty State should share similar spatial composition.
+Page-level Load Error and Empty State should share the same centered content-area composition.
 
-Difference comes from meaning, copy, and recovery action.
+The state content should:
 
-Do not create an entirely separate layout system.
+* be horizontally centered within the main content workspace;
+* use centered text and actions;
+* sit approximately in the upper-middle portion of the available content region;
+* be positioned relative to the content area after the App Shell, Page Header, and secondary navigation;
+* not be placed directly against the left content edge;
+* not require exact mathematical centering in the full browser viewport.
+
+Difference between Empty and Load Error comes from meaning, copy, iconography, and recovery action rather than layout.
+
+Do not create page-specific alignment patterns for page-level empty or load-error states.
 
 ---
 
@@ -1928,7 +1970,7 @@ The following decisions are explicitly frozen in v1:
 * Primary and secondary Sidebar navigation share one active/hover system.
 * Secondary hierarchy is expressed through indentation.
 * No gray + black double-line selection treatment.
-* Secondary navigation items may have their own icons.
+* Every navigable Sidebar item, including secondary navigation items, uses a dedicated icon from the same visual icon system.
 * No visible keyboard shortcut hints.
 * Breadcrumb is visually weak.
 * Page Header is compact.
@@ -1947,6 +1989,7 @@ The following decisions are explicitly frozen in v1:
 * Conflict / uncertainty notices use restrained muted-red / dusty-rose surfaces.
 * Destructive red is stronger than exception-notice red.
 * No decorative visual content merely to make pages less empty.
+* The default JobHunter application canvas and main content workspace use a white background; tinted neutral colors are reserved for localized surfaces and states, not full-page backgrounds.
 
 ---
 

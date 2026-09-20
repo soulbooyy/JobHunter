@@ -6,7 +6,7 @@ Its capabilities are independently accessible, each with its own prerequisites. 
 
 ## Project status
 
-The SL-01.M1 backend is implemented with reviewed Contracts, a runnable local API and executable checks. The M1 frontend provides CRUD, explicit recovery and safe browser opening, with real backend Chromium tests; final milestone acceptance remains pending. M1 and SL-01 are Partial. Other planned product capabilities are not implemented. See the backend guide below for installation and run commands.
+The SL-01.M1 backend is implemented with reviewed Contracts, a runnable local API and executable checks. The M1 frontend provides CRUD, explicit recovery and safe browser opening, with real backend Chromium tests; final milestone acceptance remains pending. M2 Preferences backend and frontend are also implemented with scoped integration evidence. M1, M2 and SL-01 remain Partial pending final visual/milestone acceptance; later planned capabilities are not implemented. See the backend guide below for installation and run commands.
 
 [Progress](docs/progress.md) records the current review and approval state, Contract readiness, implementation evidence, and next work. The [W7 review handoff](.scratch/w7-joint-review-handoff.md) records the reviewed baseline, corrections, and remaining detailed-design work. Document review does not establish implemented or verified product capabilities.
 
@@ -54,7 +54,7 @@ The SL-01.M1 backend is available; the M1 frontend is implemented with scoped br
 
 ## Frontend development
 
-The M1 frontend provides the local React/Vite environment, scoped routing, reusable controls and Manual Applications CRUD, conflict/uncertainty recovery and safe URL opening. Start with [frontend setup and checks](frontend/README.md). Unit/component and real backend Chromium suites are included; final visual acceptance remains separate.
+The M1 frontend provides the local React/Vite environment, scoped routing, reusable controls and Manual Applications CRUD, conflict/uncertainty recovery and safe URL opening. The search Preferences page adds complete six-field editing, explicit unlimited choices and revision/uncertain-Save recovery. Start with [frontend setup and checks](frontend/README.md). Unit/component and real backend Chromium suites are included; final visual acceptance remains separate.
 
 Start both development services from the repository root after installing dependencies:
 

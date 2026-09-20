@@ -11,6 +11,7 @@ const fieldCode = z.enum([
 ]);
 const statuses = {
   BAD_REQUEST: 400,
+  REQUEST_TOO_LARGE: 413,
   ACCESS_DENIED: 403,
   VALIDATION_ERROR: 422,
   NOT_FOUND: 404,
@@ -32,15 +33,7 @@ const errorSchema = z.strictObject({
   message: z.string().min(1),
   field_errors: z.array(
     z.strictObject({
-      field: z.enum([
-        '$',
-        'company_name',
-        'role_title',
-        'application_url',
-        'revision',
-        'request_id',
-        'manual_application_entry_id',
-      ]),
+      field: z.string(),
       code: fieldCode,
     }),
   ),
@@ -63,6 +56,7 @@ export async function apiResult<T>(
   }>,
   schema: z.ZodType<T>,
   write = false,
+  scope: 'entry' | 'preferences' = 'entry',
 ): Promise<T> {
   try {
     const result = await operation();
@@ -71,6 +65,14 @@ export async function apiResult<T>(
     if (
       failure.success &&
       statuses[failure.data.code] === result.response.status &&
+      (scope === 'entry'
+        ? failure.data.code !== 'REQUEST_TOO_LARGE'
+        : failure.data.code !== 'ORIGINAL_ENTRY_DELETED') &&
+      failure.data.field_errors.every((field) =>
+        validErrorField(field.field, scope),
+      ) &&
+      (failure.data.code !== 'VALIDATION_ERROR' ||
+        failure.data.field_errors.length > 0) &&
       (failure.data.code === 'VALIDATION_ERROR' ||
         failure.data.field_errors.length === 0)
     ) {
@@ -94,6 +96,7 @@ export async function apiResult<T>(
 export function failureMessage(error: ApiFailure): string {
   const messages: Record<string, string> = {
     BAD_REQUEST: '请求无法处理，请保留输入并重试。',
+    REQUEST_TOO_LARGE: '提交内容过大，请减少内容后重试。',
     ACCESS_DENIED: '当前无法访问本地服务，请检查连接配置。',
     VALIDATION_ERROR: '请检查标记的字段后重试。',
     NOT_FOUND: '这条记录已不存在。',
@@ -120,4 +123,20 @@ export function fieldErrorMessage(error: FieldError): string {
     OUT_OF_RANGE: '内容超出允许范围',
   };
   return messages[error.code];
+}
+
+function validErrorField(field: string, scope: 'entry' | 'preferences') {
+  if (scope === 'entry')
+    return [
+      '$',
+      'company_name',
+      'role_title',
+      'application_url',
+      'revision',
+      'request_id',
+      'manual_application_entry_id',
+    ].includes(field);
+  return /^(?:\$|request_id|revision|preference_set_version_id|configuration(?:\.(?:target_job_keywords(?:\[(?:0|[1-9][0-9]*)\])?|(?:accepted_cities|recruitment_types|excluded_companies)(?:\.(?:mode|value(?:\[(?:0|[1-9][0-9]*)\])?))?|(?:minimum_salary|max_required_education)(?:\.(?:mode|value))?))?)$/.test(
+    field,
+  );
 }

@@ -11,6 +11,8 @@ import { openEntry } from '@/features/manual-application-entries/open-entry';
 import { manualApplicationEntriesQuery } from '@/features/manual-application-entries/queries';
 import { Button } from '@/shared/ui/button';
 import { PageHeader } from '@/shared/ui/page-header';
+import { ViewTabs } from '@/shared/ui/view-tabs';
+import { jobPoolViews } from '../views';
 type Action =
   | { kind: 'create' }
   | { kind: 'edit'; id: string }
@@ -72,15 +74,15 @@ export function ManualApplicationEntriesPage() {
           </Button>
         }
       />
-      <div className="mb-5 flex items-center justify-between gap-3 border-b border-border text-sm">
-        <span className="border-b-2 border-primary px-1 pb-3 font-medium">
-          手动申请
-        </span>
-        <Button variant="ghost" onClick={refresh}>
-          <RefreshCw aria-hidden="true" />
-          刷新列表
-        </Button>
-      </div>
+      <ViewTabs
+        items={jobPoolViews}
+        action={
+          <Button variant="ghost" onClick={refresh}>
+            <RefreshCw aria-hidden="true" />
+            刷新列表
+          </Button>
+        }
+      />
       {message && (
         <div
           role="status"

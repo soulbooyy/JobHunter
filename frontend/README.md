@@ -1,6 +1,6 @@
 # Frontend development
 
-This is the SL-01.M1 Manual Applications frontend: list, create, edit, delete, explicit recovery and safe browser handoff, backed by the actual local API. It creates no Job or application-success fact. M2 Preferences UI and later capabilities are outside this implementation. Full milestone sign-off remains separate from the executable evidence below.
+This is the SL-01.M1 Manual Applications frontend: list, create, edit, delete, explicit recovery and safe browser handoff, backed by the actual local API. It creates no Job or application-success fact. The SL-01.M2 Preferences page provides complete six-field editing, explicit unlimited choices, revision conflict recovery and identical uncertain-Save replay. Later capabilities remain outside this implementation. Full milestone sign-off remains separate from the executable evidence below.
 
 ## Install and run
 
@@ -30,15 +30,16 @@ Vite proxies `/api` to `http://127.0.0.1:8765`, rewriting Host and preserving Or
 Follow [repository-structure.md](../docs/development/repository-structure.md) and the selected [technology stack](../docs/development/technology-stack.md). Only actual consumers exist:
 
 - `src/app/`: startup, Query provider, router, layout and shared theme tokens.
-- `src/pages/job-pool/`: the Job Pool navigation entry and separate Manual Applications page.
+- `src/pages/job-pool/`: the Job Pool navigation entry and separate Manual Applications and Preferences pages.
 - `src/features/manual-application-entries/`: typed operations, shared create/edit form, deletion, recovery and list presentation.
+- `src/features/preferences/`: generated type aliases, response/admission validation, six-field editor and explicit Save recovery.
 - `src/entities/manual-application-entry/`: generated entry type alias and read-response validation. No duplicate business authority.
-- `src/shared/api/`: generated M1 transport types, typed `openapi-fetch` client and strict result classification.
+- `src/shared/api/`: generated M1 and M2 transport types, typed `openapi-fetch` client and strict result classification.
 - `src/shared/ui/` and `src/shared/lib/`: consumed page header, table, state panel, skeleton, form field, notices, buttons, Radix dialogs/menu and class-name helper.
 - `tests/unit/`, `tests/component/`, `tests/e2e/`: admission/result rules, controlled recovery interactions and real backend Chromium flows.
 - `scripts/generate-api.mjs`: reproducible OpenAPI generation and drift check.
 
-React Router and TanStack Query have real consumers. Tailwind v4 uses its Vite plugin. `components.json` places shadcn-style primitives in the shared layer. React Hook Form with Zod and Radix Dialog/AlertDialog/DropdownMenu support the actual M1 forms and actions. Add/edit share one form; edit/delete share the saved-record summary; list states share presentational primitives. Zustand, Preferences, Jobs, Fit, Agent and Application History are not scaffolded.
+React Router and TanStack Query have real consumers. Tailwind v4 uses its Vite plugin. `components.json` places shadcn-style primitives in the shared layer. React Hook Form with Zod and Radix Dialog/AlertDialog/DropdownMenu support the actual M1 forms and actions. Add/edit share one form; edit/delete share the saved-record summary; list states share presentational primitives. Zustand, Jobs, Fit, Agent and Application History are not scaffolded.
 
 ## Design references
 
@@ -55,7 +56,7 @@ npm run api:generate
 npm run api:check
 ```
 
-The generator imports the actual backend route composition using the root `.venv/bin/python`; run the backend's locked setup first. It does not open a database, migrate storage or start a server. Only ManualApplicationEntry paths and their reachable schemas are selected from the real OpenAPI document. `openapi-typescript` generates the checked-in `src/shared/api/schema.d.ts`; `openapi-fetch` supplies the typed transport. Changes to shared schemas are still detected. `api:check` compares regenerated content without writing; never hand-edit the generated file.
+The generator imports the actual backend route composition using the root `.venv/bin/python`; run the backend's locked setup first. It does not open a database, migrate storage or start a server. Only ManualApplicationEntry and Preferences paths and their reachable schemas are selected from the real OpenAPI document. `openapi-typescript` generates the checked-in `src/shared/api/schema.d.ts`; `openapi-fetch` supplies the typed transport. Changes to shared schemas are still detected. `api:check` compares regenerated content without writing; never hand-edit the generated file.
 
 Zod checks success envelopes and editable fields. Client admission counts Unicode code points, uses the fixed Contract whitespace set, checks prohibited scalars and URL preconditions, and preserves submitted URL spelling. The backend remains the authority for full pinned WHATWG parsing. Server list order is preserved.
 
@@ -71,7 +72,7 @@ npm run check
 
 This runs API drift, strict TypeScript, ESLint, Prettier, Vitest/Testing Library and production build. `npm run format` formats maintained files; generated schema and lockfile are excluded. Backend checks remain at `./scripts/check` from the root and are separately owned.
 
-The 43 unit/component cases cover read states, strict response classification, shared URL fixtures, Unicode admission, inline validation, draft retention, explicit revision adoption, identical uncertain-create retries and truthful deletion recovery.
+The 71 unit/component cases cover read states, strict response classification, shared URL fixtures, Unicode admission, inline validation, draft retention, explicit revision adoption, identical uncertain-create retries and truthful deletion recovery, complete Preferences admission, nested original-index errors, explicit unlimited controls, retained input, historical replay and confirmed-Save/read-failure separation.
 
 For the real backend/browser suite, install the locked backend environment first, then from `frontend/` run:
 
@@ -80,7 +81,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-The suite owns a temporary schema-2 workspace and loopback ports 15173 (Vite), 18765 (backend) and 18865 (destination/referrer probe); these ports must be free. It explicitly admits the test Origin, never reuses an existing server, and removes its temporary workspace on shutdown. Nine Chromium tests cover CRUD/reload, stale revisions, committed-but-lost create/update/delete responses, successful no-opener/no-referrer handoff, stale resolution and unavailable/closed waiting contexts. No external destination is visited. `playwright.config.ts` retains traces/screenshots only on failure; output is gitignored.
+The suite owns a temporary schema-2 workspace and loopback ports 15173 (Vite), 18765 (backend) and 18865 (destination/referrer probe); these ports must be free. It explicitly admits the test Origin, never reuses an existing server, and removes its temporary workspace on shutdown. Fifteen Chromium tests cover CRUD/reload, stale revisions, committed-but-lost create/update/delete responses, successful no-opener/no-referrer handoff, stale resolution and unavailable/closed waiting contexts. Six Preferences cases additionally cover first publication/reload/no-op, invalid and unadded input, concurrent Save, lost committed response with historical replay, follow-up read failure and dirty navigation. No external destination is visited. `playwright.config.ts` retains traces/screenshots only on failure; output is gitignored.
 
 Manual 1280×720 inspection covered the populated list, add and delete dialogs with no warning/error logs. These checks do not certify all browsers, assistive technologies or final visual acceptance. See [current evidence](../docs/progress/traceability.md#frontend-foundation-evidence).
 
@@ -92,3 +93,9 @@ Manual 1280×720 inspection covered the populated list, add and delete dialogs w
 - [TanStack Query defaults](https://tanstack.com/query/latest/docs/framework/react/guides/important-defaults): explicit cache/refetch/retry policy.
 
 Installed dependency versions and compatibility were verified by the checks above. Direct package metadata reports MIT licenses, except TypeScript, class-variance-authority and Playwright (Apache-2.0) and Lucide React (ISC). No external project source was copied wholesale; the local Button follows the documented shadcn composition approach.
+
+## Preferences integration and visual evidence
+
+The route is `/job-pool/preferences`. The editor follows PRF-001–023 and COM-033–037, using actual generated backend types. For an unconfigured workspace, company exclusions initially show UNLIMITED; saved configurations retain their stored choice. This UI default does not save automatically. Every Save sends all six choices and a fresh request identity; uncertain retries retain the identical original request. Current reads do not settle an earlier uncertain command. Historical success acknowledgements are followed by a separate current read; failed current reads preserve confirmed success. Explicit in-place abandonment of an uncertain request first requires a successful current read. No reset, history list, automatic Collection or local Job filter is exposed.
+
+All seven Preferences references in Stitch project `2149071149393619064` were read through MCP: configured, unconfigured, validation, loading, read failure, revision conflict and uncertain Save. HTML supplied readable references where remote screenshots were blank. Shared Input, TagInput and ViewTabs extend existing primitives without new dependencies or speculative directories. Manual 1280×720 browser inspection covered unconfigured, validation and saved forms, six sections and the sticky action bar, with no horizontal overflow. Final visual acceptance and broader browser/accessibility coverage remain separate. See [M2 frontend evidence](../docs/progress/traceability.md#m2-frontend-evidence).

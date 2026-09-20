@@ -1,4 +1,5 @@
 import { useId, type ComponentProps } from 'react';
+import { Input } from './input';
 import { cn } from '@/shared/lib/cn';
 export function FormField({
   label,
@@ -15,16 +16,12 @@ export function FormField({
           *
         </span>
       </label>
-      <input
+      <Input
         id={id}
         aria-required="true"
         aria-invalid={!!error}
         aria-describedby={error ? `${id}-error` : undefined}
-        className={cn(
-          'h-10 w-full rounded-md border border-border bg-surface px-3 text-sm placeholder:text-text-muted read-only:bg-surface-muted',
-          error && 'border-error',
-          className,
-        )}
+        className={cn('w-full', error && 'border-error', className)}
         autoComplete="off"
         {...props}
       />

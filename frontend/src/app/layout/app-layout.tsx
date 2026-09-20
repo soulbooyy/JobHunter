@@ -1,4 +1,9 @@
-import { BriefcaseBusiness, ExternalLink, Terminal } from 'lucide-react';
+import {
+  BriefcaseBusiness,
+  ExternalLink,
+  SlidersHorizontal,
+  Terminal,
+} from 'lucide-react';
 import { NavLink, Outlet } from 'react-router';
 import { cn } from '@/shared/lib/cn';
 
@@ -36,6 +41,10 @@ export function AppLayout() {
             >
               <ExternalLink size={16} aria-hidden="true" />
               手动申请
+            </NavLink>
+            <NavLink to="/job-pool/preferences" className={navClass}>
+              <SlidersHorizontal size={16} aria-hidden="true" />
+              搜索偏好
             </NavLink>
           </div>
         </nav>

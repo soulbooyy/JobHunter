@@ -2,11 +2,13 @@ import { createBrowserRouter, Navigate, Link } from 'react-router';
 import { AppLayout } from '@/app/layout/app-layout';
 import { JobPoolPage } from '@/pages/job-pool/page';
 import { ManualApplicationEntriesPage } from '@/pages/job-pool/manual-application-entries/page';
+import { PreferencesPage } from '@/pages/job-pool/preferences/page';
 export const router = createBrowserRouter([
   {
     element: <AppLayout />,
     children: [
       { index: true, element: <Navigate to="/job-pool" replace /> },
+      { path: '/job-pool/preferences', element: <PreferencesPage /> },
       { path: '/job-pool', element: <JobPoolPage /> },
       {
         path: '/job-pool/manual-application-entries',

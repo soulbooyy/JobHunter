@@ -19,10 +19,12 @@ const schema = JSON.parse(
     { cwd: root, encoding: 'utf8' },
   ),
 );
-// Only the currently consumed M1 API is exposed to the frontend.
+// Only the currently consumed Manual Applications and Preferences APIs is exposed to the frontend.
 schema.paths = Object.fromEntries(
-  Object.entries(schema.paths).filter(([path]) =>
-    path.startsWith('/api/v1/manual-application-entries'),
+  Object.entries(schema.paths).filter(
+    ([path]) =>
+      path.startsWith('/api/v1/manual-application-entries') ||
+      path.startsWith('/api/v1/preferences'),
   ),
 );
 const needed = new Set();
@@ -55,11 +57,11 @@ if (process.argv.includes('--check')) {
       'API types have drifted. Run npm run api:generate and review the change.',
     );
   }
-  console.log('M1 API types match backend OpenAPI.');
+  console.log('Application API types match backend OpenAPI.');
 } else {
   await mkdir(new URL('../src/shared/api/', import.meta.url), {
     recursive: true,
   });
   await writeFile(output, generated);
-  console.log('Generated M1 API types.');
+  console.log('Generated Application API types.');
 }
