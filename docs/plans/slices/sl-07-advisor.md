@@ -8,7 +8,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Goal and business value:** Turn conversational resume advice into trustworthy, explicitly confirmed formal changes without creating a second editing authority.
 
-**Scope:** One durable Session model, bounded foreground Turns, general and Job-specific Advisor entry, lazy exact admitted reads, verifiable user statements, discussion/default/apply-target distinctions, Suggestions and concrete target-specific Proposals; ended generating Run and later Application confirmation, shared Save, narration/commit separation and deletion races. Include necessary interactive Context reduction/checkpoints, auxiliary limits and exact source retention. Add full Scenario/N+1 evaluation for these interactions.
+**Scope:** One durable Session model, bounded foreground Turns, general and Job-specific Advisor entry, lazy exact admitted reads, verifiable user statements, discussion/default/apply-target distinctions, Suggestions and concrete target-specific Proposals; ended generating Run and later Application confirmation, target-local Resume Save, narration/commit separation and deletion races. Include necessary interactive Context reduction/checkpoints, auxiliary limits and exact source retention. Add full Scenario/N+1 evaluation for these interactions.
 
 **Out of Scope:** Either Fit as a prerequisite, Advisor ResumeDraft/export, inferred target or consent, continuing a Run through human confirmation, unrestricted chat search; persistent collaboration Memory itself is SL-12 and remains required v1 work.
 
@@ -68,17 +68,17 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Goal/value:** Turn reviewed Advisor suggestions into explicitly authorized formal changes.
 
-**Scope:** Actual apply target, noneditable exact Proposal, replacement/idempotency, complete confirmation after generating Run ends, Application-side shared Save, durable result independent of narration and Session-delete arbitration.
+**Scope:** BC3/A2 supported local expression/presentation changes to one actual apply target, noneditable exact Proposal, replacement/idempotency, complete confirmation after generating Run ends, Application-side target-local Resume Save, durable result independent of narration and Session-delete arbitration.
 
 **Out of scope:** Unconfirmed writes, Advisor working drafts/source selection, Preparation adoption and a required Job-specific discussion.
 
 **Required upstream capability:** [SL-07.M1](#sl-07m1-durable-advisor-discussion) — discussion/Suggestion and valid Session; [SL-02.M1](sl-02-saved-authority-materials.md#sl-02m1-complete-saved-authority-and-atomic-save) — formal target preparation and full Save capability
 
-**Reused component/infrastructure:** [SL-02.M1](sl-02-saved-authority-materials.md#sl-02m1-complete-saved-authority-and-atomic-save) — all-affected transaction, intent and idempotent result protocol
+**Reused component/infrastructure:** [SL-02.M1](sl-02-saved-authority-materials.md#sl-02m1-complete-saved-authority-and-atomic-save) — target-local Resume transaction, exact lineage and idempotent result protocol; actual material intent is an M2 Save extension when consumed (CG03-Q95)
 
 **Required Contract portions before development:** `candidate/advisor-changes.md` — actual target, Proposal eligibility/confirmation/replacement/result and confirm-delete arbitration; `agent/sessions.md` — source existence/deletion interface; `candidate/candidate-save.md` — confirmed entry/committed result; `candidate/resumes-grounding.md` — target/support preparation; `agent/tools.md` — authorized actions; `evaluation/evaluation-observability.md` — confirmed-mutation Scenarios. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 
-**Joint agreement:** Resolve both sides of Proposal/Session and Proposal/Save together. Shared all-affected authority/intent never waits for narration; losing delete/confirmation races cannot mutate.
+**Joint agreement:** Resolve both sides of Proposal/Session and Proposal/Save together. Target-local Resume authority/result never waits for narration; if actual M2 material demand requires intent, consume its atomic Save extension without treating it as an M1-delivered capability; AI-generated rewrites retain supported-content constraints, new/corrected facts require an explicit separate Knowledge flow, and there is no fan-out to other Resumes; losing delete/confirmation races cannot mutate.
 
 **Research / unresolved Grill detail:** Resolve precise concurrency/confirmation interface in Contract Grill while preserving the ended generating Run and complete consent boundaries.
 

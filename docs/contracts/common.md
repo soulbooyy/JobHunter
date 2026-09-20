@@ -172,3 +172,22 @@ Programs MUST NOT infer commit status from HTTP class or human message alone. Ow
 
 <a id="com-037"></a>
 **COM-037.** The M2 consumer MUST use distinct UuidV4 root and immutable-version identity fields and exact retained references, never bare version identifiers, current substitutions or timestamp/UUID ordering inference. A successful exact reference resolves the requested immutable content or reports failure; a pointer selects current without changing historical identity. Common supplies naming/representation only; Preferences owns field membership and retention semantics, Storage owns same-owner/reference enforcement. This does not complete other asset or invocation identity families.
+
+## 5. SL-02.M1 shared scope
+
+Scope revision **2026-09-21.S2M1-r1**. Existing COM-001–037 and SL-01 consumer semantics remain unchanged.
+
+<a id="com-038"></a>
+**COM-038.** S2 MUST consume COM-001–028 naming/scalar conventions, COM-029 error object shape and COM-032 digest representation. Every field set declared in the S2 bodies is closed: all listed keys MUST exist and be non-null unless explicitly nullable; unknown keys, omitted keys, invalid scalar text and wrong types MUST fail without coercion, stripping or read-time defaults. Non-object request roots use INVALID_TYPE at $. All S2 business root/Version/Baseline IDs MUST be server-generated UuidV4, immutable and never reused; client-generated request_id is separate. UUIDs/timestamps MUST NOT imply strict history order. S2 serialized Version/Baseline/receipt schema_version is integer 1, unrelated to database schema 3. Future owner prefixes extend COM-021: PRO (Profile), EVD (Evidence/Baseline), RES (Resume), SAV (Candidate Save), MAT (Materials boundary). PRF remains Preferences. (Q49–Q60/Q79/Q84.)
+
+<a id="com-039"></a>
+**COM-039.** Common MUST be the sole normative owner of shared ContractError/FieldError representation and stable FieldError.code vocabulary. Consuming Contracts MUST reference it and define field/operation triggers, never duplicate or independently redefine shared codes. New shared codes MUST state consumer applicability without silently changing existing protocols. For S2, adopt COM-034's nested known-name/submitted-index grammar, extending only COM-029's M1 top-level restriction. Missing fields use expected paths, unknown keys the nearest known parent without echo, combinations their common parent. S2 consumes COM-030/035 meanings plus STRUCTURE_TOO_COMPLEX (raw structural admission bound) and INVALID_REFERENCE (supplied identity/owner relationship invalid). INVALID_FORMAT covers declared format/enum/combination constraints; OUT_OF_RANGE covers numeric range/grid and collection-count bounds. Required/type failures precede value classification; return at least one accurate field error without exhaustive enumeration or stable ordering. Domain text/character/format triggers remain domain-owned. (Q82/Q83/Q89/Q97.)
+
+<a id="com-040"></a>
+**COM-040.** S2 MUST consume COM-036 shared top-level error vocabulary and additionally use INVALID_STATE (target lifecycle forbids the operation), SOURCE_CONFLICT (new source admission no longer valid/current), LAST_RESUME_REQUIRED (operation would remove the last ACTIVE Resume) and CAPACITY_EXCEEDED (current-object capacity exhausted). These codes use only COM-029 representation; SAV-014 owns S2 HTTP triggers. Vocabulary alone MUST NOT authorize a lifecycle change, retry, alternate authority or error-priority rule. (Q81/Q89/Q92/Q97.)
+
+<a id="com-041"></a>
+**COM-041.** S2 Month MUST be a string of exactly ASCII YYYY-MM with year 0001–9999 and month 01–12. It MUST NOT accept surrounding whitespace, shortened years, day precision, year-only values, display text or automatic padding. It MUST NOT use a system-date-dependent future limit. Field owners define null/interval/event meaning; supplied invalid month syntax/range is INVALID_FORMAT. (Q9/Q29/Q97.)
+
+<a id="com-042"></a>
+**COM-042.** S2 HttpUrl MUST reuse the complete value-validation/canonicalization definition of MAE-004, including its pinned URL standard, fixed trim, 8192-code-point bound, strict absolute HTTP(S), credentials/character/percent/port checks, no repair and preserved admitted spelling. This clause promotes reuse of the value rule only: project_url remains Evidence fact authority and LINK.url remains Resume presentation; neither becomes a ManualApplicationEntry or application fact. Saving MUST NOT fetch/resolve reachability or introduce hidden dependencies. Existing MAE-004 is unchanged. (Q30.)

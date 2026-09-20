@@ -14,7 +14,7 @@ The SL-01.M1 backend is implemented with reviewed Contracts, a runnable local AP
 
 - Maintain shared career facts and formal resumes, with reviewed imports and explicit saves.
 - Maintain independent manual application entries; later browse/screen formal Jobs from authorized collection or refresh.
-- Run independent Candidate Fit and Resume Fit analyses against reusable Job requirements.
+- Use DeepFit to compare Candidate Knowledge and an exact Resume against shared Job requirements, with independent analyses and source provenance.
 - Discuss resume improvements with an Advisor and explicitly confirm formal changes.
 - Prepare and inspect application materials, then separately authorize external execution.
 - Track real application and interview events, including human-reported outcomes.

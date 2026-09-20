@@ -6,6 +6,8 @@
 
 The [global readiness and dependency rules](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) apply to every entry below. This file owns this Slice's detailed scope, required upstream capability, reused infrastructure, conditional integration, Contract portions and completion conditions. Product/Architecture/Acceptance retain their existing authority; actual readiness and evidence belong to Progress. Edit this file for local planning changes; reconcile other owners only when their real scope, shared interfaces, dependencies or evidence are affected.
 
+**BC3 source eligibility:** A Resume's older/retired Evidence or older Profile binding is not by itself an eligibility failure. Preparation consumes its exact document/material snapshot, never silently refreshes Knowledge/Profile, and retains independent permissions/material readiness/consent checks.
+
 **Goal and business value:** Prepare exact current materials and a manually editable Greeting for each Job, making confirmed content and later execution authorization distinct.
 
 **Scope:** Single/multi-Job independent Preparation, idempotent create/resume/reentry and revision conflicts; formal material selection/view, fixed generic Greeting, eligibility/render/readiness, actual-view MaterialApproval and exact snapshot preparation. Integrate existing Advisor through the same Session/entry semantics and explicit narrow adopt-and-return.
@@ -30,7 +32,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Required upstream capability:** [SL-02.M2](sl-02-saved-authority-materials.md#sl-02m2-demanded-preview-and-export) — eligible actual rendered materials and their saved sources; [SL-08.M2](sl-08-collection-platform-safety.md#sl-08m2-boss-collection-and-explicit-refresh) — eligible formal Job targets; ManualApplicationEntry is excluded
 
-**Reused component/infrastructure:** [SL-02.M1](sl-02-saved-authority-materials.md#sl-02m1-complete-saved-authority-and-atomic-save) — source/currentness checks and durable demanded intent
+**Reused component/infrastructure:** [SL-02.M1](sl-02-saved-authority-materials.md#sl-02m1-complete-saved-authority-and-atomic-save) — source/currentness checks; [SL-02.M2](sl-02-saved-authority-materials.md#sl-02m2-demanded-preview-and-export) supplies durable material demand/intent under CG03-Q95
 
 **Required Contract portions before development:** `applications/preparation.md` — ordinary preparation, selection/reentry/Greeting/viewed approval and ApplicationExecutionSnapshot definition; `applications/materials.md`, `foundation/derived-work.md` — required channel demand/readiness; `candidate/resumes-grounding.md`, `candidate/profile.md`, `candidate/evidence.md`, `jobs/jobs-screening.md` — actual eligibility; `applications/execution.md` — necessary snapshot-consumer agreement only. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
 

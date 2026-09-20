@@ -351,7 +351,8 @@ JobHunter/
 | Target location | Intended responsibility and boundary |
 | --- | --- |
 | `backend/src/jobhunter/domain/` | Owned business rules and concepts. Folder groupings do not imply one Aggregate, service or universal lifecycle per directory. `shared/` contains only genuinely shared concepts needed by actual consumers. |
-| `backend/src/jobhunter/application/` | Use cases, preparation, orchestration, authorized commands and coordinated commits. `candidate/` groups cross-asset coordination; it does not introduce a Candidate Aggregate or duplicate Profile/Evidence/Resume ownership. Ports describe necessary owned boundaries. |
+| `backend/src/jobhunter/application/` | Use cases, preparation, orchestration, authorized commands and coordinated commits. `candidate/` groups separate Knowledge/Profile/Resume command protocols under BC3, not all-Resume propagation; it does not introduce a Candidate Aggregate or duplicate Profile/Evidence/Resume ownership. Ports describe necessary owned boundaries. |
+| Internal Fit modules | Candidate and Resume task modules remain separate; Application/UI composes them through unified DeepFit with shared exact Requirements and independent outcomes. Folder names do not create standalone product entries or a third Analysis. |
 | `backend/src/jobhunter/agent/harness/` | Shared bounded execution, actual Context, invocation admission, Tools, resource accounting and recovery. Separate folders do not create competing Run, invocation or recovery protocol owners. |
 | `backend/src/jobhunter/agent/skills/` | The bounded task Skills already defined by Architecture. Collector/Executor workflows do not become Skills merely to reuse infrastructure. |
 | `backend/src/jobhunter/infrastructure/` | Concrete persistence, source, provider, browser, rendering and storage adapters behind owned boundaries. ORM models and provider payloads do not become Domain or Contract authority. |

@@ -11,6 +11,7 @@ Milestone-specific development handoffs live in `handoff/`; their Contract refer
 | [Evaluation development and evidence](evaluation.md) | Real-path Eval, experiments/Scenarios, evaluator admission, findings, regression retention and re-evaluation |
 | [Target repository organization](repository-structure.md) | Required responsibility layers, semantic test naming and incremental creation without empty scaffolding |
 | [SL-01.M1 development handoff](handoff/sl-01-m1-handoff.md) | Original research plus actual backend implementation handoff; frontend/browser work remains pending |
+| [SL-02.M1 development handoff](handoff/sl-02-m1-handoff.md) | Reviewed saved-authority scope, preserved schema-2 baseline and backend-first implementation transfer |
 | [Backend README](../../backend/README.md) | Maintained installation, runtime configuration, API entry points and check commands |
 | [Target technology stack](technology-stack.md) | Planned backend/frontend tools, adoption boundaries and unresolved setup; not an installed dependency inventory |
 
