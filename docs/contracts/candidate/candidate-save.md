@@ -1,6 +1,6 @@
 # Candidate Commands, HTTP and Atomic Save Contract
 
-> English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. This body defines only the SL-02.M1 consumed scope; future consumer scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
+> English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. The original clauses preserve SL-02.M1 scope; the final section adds the explicitly bounded 2026-09-21.S2M2-r1 consumer interface. Other future scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
 
 [Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../design/contract/sl-02-m1-grill.md)
 
@@ -86,16 +86,7 @@ Stored root pointers MUST equal the stored result Version IDs. Reconstruct mutab
 <a id="sav-010"></a>
 **SAV-010.** request_fingerprint MUST be lowercase SHA-256 over UTF8("JobHunter:SL02:Command:1\n") followed immediately by encode([command_type, target_id, input]). In that prefix notation \n is exactly one LF byte; no other separator/indentation exists. Outer value is the exact three-element array, starting a3:. target_id is the canonical path ID, or null for no path identity (Profile/Create/default). input is the canonical complete body excluding request_id; include caller revisions/replacement and content, exclude generated IDs/time/result Baseline/selection.
 
-| Value | Encoding |
-| --- | --- |
-| null | ASCII n |
-| false / true | ASCII b0 / b1 |
-| string | ASCII s + UTF-8 byte length + ASCII : + exact UTF-8 bytes |
-| number | ASCII d + decimal ASCII byte length + ASCII : + canonical decimal ASCII |
-| array | ASCII a + element count + ASCII : + ordered concatenated encoded elements |
-| object | ASCII o + field count + ASCII : + concatenated encoded key/value pairs, keys sorted by Unicode code point |
-
-Counts MUST be unpadded ASCII decimal integers. Numbers MUST use exact plain decimal without exponent, redundant leading zeros or trailing fractional zeros; -0 becomes 0. NaN/Infinity are invalid input, never fingerprintable admitted commands. Boolean encoding does not admit bool into numeric fields. Apply field/mark/run/color canonicalization first; preserve meaningful order/text. This protocol MUST NOT change SL-01 fingerprints. (Q87.)
+The value encoder is now centrally defined by [COM-045](../common.md#com-045), preserving these published bytes exactly. Apply field/mark/run/color canonicalization first; preserve meaningful order/text. This protocol MUST NOT change SL-01 fingerprints. (Q87; CG04-Q76 shared-expression consolidation.)
 
 <a id="sav-011"></a>
 **SAV-011.** Concurrent same-key/same-fingerprint commands MUST yield at most one successful business mutation and converge on its original committed result when established. Different fingerprints cannot both succeed under that key. Storage uniqueness races MUST be safely resolved using committed receipt state, not exposed as fabricated revision conflicts. Recovery MUST be bounded and follow STO-027; no hidden business-command reexecution is authorized. Failure to establish commit outcome uses OUTCOME_UNKNOWN, not guessed rollback/success. (Q99.)
@@ -138,3 +129,10 @@ Supplied reference failures use INVALID_REFERENCE at the corresponding path; unk
 
 <a id="sav-016"></a>
 **SAV-016.** M1 manual Save MUST require no model/network/Agent invocation or semantic grounding. Imported facts and Advisor mutations MUST later consume explicitly extended Contracts rather than being silently represented as nine-command batch support. Actual demand/rendering/recovery remains M2; successful source Save does not establish material or application success. Old Entry/Preferences operations and receipt namespaces MUST remain independent. (BC3/A5; Q63/Q73/Q95.)
+
+## 6. Exact-demand Materials consumer agreement
+
+Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../design/contract/sl-02-m2-grill.md).
+
+<a id="sav-017"></a>
+**SAV-017.** M2's actual demand is DRW-001/006 exact-version explicit RENDER_REQUEST. The nine existing Candidate commands MUST NOT create speculative render intent, advance an accepted target, invalidate unchanged historical material, or claim output readiness. SAV-006/016, STO-025 and MAT-003's Save-plus-intent requirement remains a conditional invariant for a future actual consumer needing both participants; it MUST NOT manufacture such a consumer in this exact-only scope. Materials command receipts use an independent namespace/prefix and preserve all old command tuples/results/fingerprints. Reuse COM-045's unchanged value encoder; no Candidate Save transport/body is extended to carry material demand. Q5/Q17/Q23/Q32/Q76/Q120.

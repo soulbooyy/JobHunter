@@ -1,6 +1,6 @@
 # Resume Composition and Manual Lineage Contract
 
-> English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. This body defines only the SL-02.M1 consumed scope; future consumer scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
+> English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. The original clauses preserve SL-02.M1 scope; the final section adds the explicitly bounded 2026-09-21.S2M2-r1 consumer interface. Other future scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
 
 [Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../design/contract/sl-02-m1-grill.md)
 
@@ -84,3 +84,10 @@ Numeric values MUST be admitted exactly, treating 12/12.0/1.2e1 equivalently, wi
 
 <a id="res-015"></a>
 **RES-015.** The frontend MUST provide structured left editing and right live local A4 Draft preview, fixed Profile Header fields, predefined optional Header items, six section categories and semantic paragraph/list editing with the supported local marks. Empty draft section placeholders MAY exist, but the client MUST omit them before formal submission; the backend MUST reject submitted empty sections. Preview updates MUST remain page-local without per-keystroke Save or authority/material publication. Dirty navigation MUST offer Save/Discard/Cancel; failed Save retains the Draft. No autosave/crash-recovery/Resume DSL/source mode is promised. Selecting existing Knowledge or explicitly saving a new fact precedes local expression; cancelling Resume editing MUST NOT undo a prior successful fact Save. Frontend implementation awaits UI design; this does not postpone server admission obligations. (Q5/Q35; UI1/BC3.)
+
+## 6. Materials exact document projection
+
+Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../design/contract/sl-02-m2-grill.md).
+
+<a id="res-016"></a>
+**RES-016.** For MAT-005, Resume MUST provide the complete requested immutable ResumeVersion with its saved Header, local AST, presentation and ordered exact refs. Derive resume_id, profile_version_id and source_sections server-side; do not accept duplicate client lineage fields or a Manifest as authority. Internal Materials projection validates required source identity/ownership without forcing EVD-013's unused full Evidence body into rendering admission. Existing RES-014 full Candidate reads and Save semantics remain unchanged. New render demand additionally requires ACTIVE owning Resume under MAT-006; previously accepted exact demand survives ordinary removal/new Save. No Save-triggered follow-current subscription, source propagation or automatic artifact invalidation is added. Q1/Q6/Q14/Q17/Q23/Q67/Q74/Q96.

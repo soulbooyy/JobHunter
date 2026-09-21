@@ -191,3 +191,38 @@ Scope revision **2026-09-21.S2M1-r1**. Existing COM-001–037 and SL-01 consumer
 
 <a id="com-042"></a>
 **COM-042.** S2 HttpUrl MUST reuse the complete value-validation/canonicalization definition of MAE-004, including its pinned URL standard, fixed trim, 8192-code-point bound, strict absolute HTTP(S), credentials/character/percent/port checks, no repair and preserved admitted spelling. This clause promotes reuse of the value rule only: project_url remains Evidence fact authority and LINK.url remains Resume presentation; neither becomes a ManualApplicationEntry or application fact. Saving MUST NOT fetch/resolve reachability or introduce hidden dependencies. Existing MAE-004 is unchanged. (Q30.)
+
+## 6. SL-02.M2 shared expression
+
+Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer scopes remain effective unless an applicability extension below explicitly says otherwise. Provenance: [CG04](../design/contract/sl-02-m2-grill.md).
+
+<a id="com-043"></a>
+**COM-043.** SL-02.M2 MUST consume COM-001–028, COM-029/032 and COM-038/039's closed-field and validation conventions, with the explicit optional-field exception owned by MAT-012. The additional owner prefix is DRW (Derived Work). Artifact, RenderIntent, Work and attempt identities MUST be distinct server-generated UuidV4 values; shipped RenderConfiguration identities are fixed application-assigned UuidV4 values. request_id remains client-generated in its own command namespace. Serialized RenderConfiguration, RenderManifest, Artifact and Materials receipt schema_version MUST be integer 1; this does not select a database migration version. No other object acquires a schema_version, revision or timestamp field merely by analogy. Q1–Q16, Q33/Q48/Q75/Q88/Q127.
+
+<a id="com-044"></a>
+**COM-044.** For SL-02.M2, COM-036/040's shared top-level vocabulary additionally contains the following codes, with sole COM-029 representation. Materials/Derived Work own triggers and HTTP mappings, not another error envelope. Existing consumers' code applicability is unchanged.
+
+| Code | Shared meaning |
+| --- | --- |
+| RENDER_CONFIGURATION_UNAVAILABLE | A retained configuration cannot currently admit new generation |
+| ARTIFACT_UNAVAILABLE | Published Artifact metadata exists but its payload is missing |
+| ARTIFACT_INTEGRITY_FAILED | Available payload bytes disagree with the Artifact's immutable integrity metadata |
+
+Terminal Work/Intent classifications are the distinct owner-defined enum in DRW-005; vocabulary membership MUST NOT create retry, repair or state-transition authority. Q38/Q77/Q78/Q131.
+
+<a id="com-045"></a>
+**COM-045.** The shared deterministic value encoder consumed by SAV-010 and DRW-007 MUST use the following exact bytes. This consolidates the already published SAV-010 encoder without changing any old prefix, input canonicalization, fingerprint or namespace.
+
+| Admitted value | Encoding |
+| --- | --- |
+| null | ASCII n |
+| false / true | ASCII b0 / b1 |
+| string | ASCII s + UTF-8 byte length + ASCII : + exact UTF-8 bytes |
+| number | ASCII d + canonical decimal ASCII byte length + ASCII : + canonical decimal ASCII |
+| array | ASCII a + element count + ASCII : + ordered concatenated encoded elements |
+| object | ASCII o + field count + ASCII : + encoded key/value pairs, keys sorted by Unicode code point |
+
+Counts MUST be unpadded ASCII decimal integers. Numbers MUST use exact plain decimal without exponent, redundant leading zeros or trailing fractional zeros; -0 becomes 0. NaN/Infinity are not admitted values. Boolean encoding MUST NOT admit Boolean values into numeric fields. Consumers canonicalize their own business fields before encoding, preserving meaningful order/text. Q76; preserved CG03-Q87.
+
+<a id="com-046"></a>
+**COM-046.** SL-02.M2 HTTP validation MUST use COM-039 paths/reasons. Path UUID errors identify the operation's canonical path field (render_intent_id, render_configuration_id or artifact_id); disposition errors identify disposition. Prohibited query/body or unrecognized parameters use the nearest declared parent, or $, without echoing arbitrary names. Repeated disposition, invalid enum/UUID and incompatible shapes use INVALID_FORMAT; absence/type/unknown fields retain REQUIRED/INVALID_TYPE/UNKNOWN_FIELD. Supplied missing references use INVALID_REFERENCE at their body field. Positive/nonnegative integer fields MUST be admitted exactly without Boolean/string coercion, fractional rounding or overflow; malformed types use INVALID_TYPE and owner-bound violations OUT_OF_RANGE. No success object may be repaired with read-time defaults. Q54/Q75/Q87/Q131.

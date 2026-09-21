@@ -66,3 +66,10 @@ Scope revision **2026-09-21.S2M1-r1**. WSP-001–007 remain preserved for their 
 
 <a id="wsp-011"></a>
 **WSP-011.** Remove MUST atomically apply SAV-007 target/selection revision and lifecycle-no-op order. An ACTIVE non-default target requires replacement_resume_id=null and leaves selection unchanged. An ACTIVE default target requires a different ACTIVE replacement; removing the final ACTIVE Resume is forbidden. The frontend MUST use RES-014 list order observed for the confirmation dialog, choose the next ACTIVE item or otherwise previous, and explicitly show that exact replacement before sending its ID. It MUST NOT demand manual replacement selection. Backend MUST NOT choose a different replacement after races; replacement name/document changes alone do not require a replacement-root revision, and list insertion alone does not trigger recalculation. Default removal increments selection once together with root removal; no document Version/source adoption follows. A matching already-REMOVED no-op ignores present selection/replacement eligibility after syntax/receipt/target revision. (Q70–Q72/Q76.)
+
+## 6. SL-02.M2 runtime applicability
+
+Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../design/contract/sl-02-m2-grill.md).
+
+<a id="wsp-012"></a>
+**WSP-012.** SL-02.M2 MUST retain WSP-001–004/006's single local user, placement, first-use, exclusive physical-directory ownership and configured loopback Host/Origin boundaries. STO-029–039 supplies the M2 binary's schema/registration applicability, superseding only older literal target-version references for that binary; no automatic migration is authorized. Its six Materials/Derived Work operations use DRW-022 transport, not SAV-012's no-query rule for the content operation or changed SL-01 parsing. Missing render dependencies MUST leave otherwise healthy startup and unrelated delivered APIs usable; configuration/persistence integrity failures remain explicit under STO-032/038. No new Workspace identity, login, general remote API or runtime-lock/lease authority is introduced. Q102/Q107/Q113/Q120/Q127.

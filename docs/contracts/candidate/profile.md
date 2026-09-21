@@ -1,6 +1,6 @@
 # Candidate Profile Contract
 
-> English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. This body defines only the SL-02.M1 consumed scope; future consumer scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
+> English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. The original clauses preserve SL-02.M1 scope; the final section adds the explicitly bounded 2026-09-21.S2M2-r1 consumer interface. Other future scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
 
 [Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../design/contract/sl-02-m1-grill.md)
 
@@ -40,3 +40,10 @@ Business values MUST occur only in the immutable Version. The current pointer MU
 
 <a id="pro-008"></a>
 **PRO-008.** Profile edits MUST use the separate Profile Save. A Resume editor changing contact values MUST NOT treat unsaved values as a private saved Header; explicit Profile publication and explicit Resume source adoption are separate actions. Failed Save preserves the editing draft; no-op/replay/publication follow SAV-004–009. This Contract grants no automatic propagation or additional AI contact permission. (BC3/A1; Q14/Q57/Q60.)
+
+## 4. Materials exact contact projection
+
+Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../design/contract/sl-02-m2-grill.md).
+
+<a id="pro-009"></a>
+**PRO-009.** For MAT-005, Profile MUST provide the complete retained ProfileVersion identified by ResumeVersion.profile_version_id, with PRO-002/006's three-field contact/null/display semantics. Validate actual source identity and consumed fields, not currentness of the Profile root; never substitute current contacts or a private Materials copy. This internal capability adds no HTTP operation and does not weaken PRO-007 full-read behavior. Actual permission/availability remains enforced. Q1/Q14/Q67/Q69/Q74/Q96.

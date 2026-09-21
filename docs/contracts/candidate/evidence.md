@@ -1,6 +1,6 @@
 # Evidence and Baseline Contract
 
-> English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. This body defines only the SL-02.M1 consumed scope; future consumer scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
+> English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. The original clauses preserve SL-02.M1 scope; the final section adds the explicitly bounded 2026-09-21.S2M2-r1 consumer interface. Other future scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
 
 [Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../design/contract/sl-02-m1-grill.md)
 
@@ -90,3 +90,10 @@ Root/current pairs MUST come from one consistent snapshot; exact readers MUST pr
 
 <a id="evd-014"></a>
 **EVD-014.** GET /api/v1/evidence-items MUST return {evidence_items: [{evidence_item, current_evidence_item_version_id, fields}]} with all ACTIVE roots ordered by created_at ASC then canonical evidence_item_id ASC. Each root is complete; the explicit sibling current ID MUST equal its pointer, and fields MUST project that exact Version. All entries/projections MUST come from one read snapshot. Do not separately repeat kind/status/revision or return full content. Projection has no independent persistence/authority. Empty means []; no pagination/query/search/filter/sort parameters exist. Detail/source inclusion uses exact/full readers, with later Save freshness still required. (Q91.)
+
+## 6. Materials exact structured-source projection
+
+Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../design/contract/sl-02-m2-grill.md).
+
+<a id="evd-015"></a>
+**EVD-015.** For each Resume member consumed by MAT-005, Evidence MUST provide exactly evidence_item_id, evidence_item_version_id, Item-owned kind and the corresponding complete EVD-003 fields shape, retaining the requested version's Item ownership and the consumer's member order. It MUST validate that actual structured input without substituting current/ACTIVE versions or requiring unused Evidence.content to parse/pass full body validation. This projection has no business ID, separate persisted authority or public endpoint. EVD-013's full exact HTTP reader and existing Save continue complete owned validation; the new internal projection MUST NOT weaken those consumers. Retired/historical refs remain usable for admitted exact demand; contradictory ownership is not a valid source. Q6/Q14/Q67/Q69/Q74/Q96.

@@ -132,6 +132,8 @@ CG03-Q95 places actual render demand, configuration, durable intent and rendered
 
 **Sources:** CG03-BC3/A1–A4 supersedes affected Q75–Q77/Q87/Q108/Q114/Q118–Q119/Q151/Q153 current-fact and propagation clauses; Q147/Q150/Q152/Q165 demand/recovery discipline remains.
 
+SL-02.M2 now scopes this demand to an explicit exact saved ResumeVersion and immutable rendering configuration. It supports a multi-page A4 PDF or one long PNG assembled from the same complete A4 pages. It does not introduce follow-current subscriptions, cancellation or MaterialBundle. A successful demand receipt confirms acceptance, while its separate result reports fulfillment or stable failure; readable Artifact metadata and actual downloadable bytes are distinct. Ordinary newer Save/removal does not revoke already accepted exact demand, and old output cannot be relabeled as the new version. New generation still requires an ACTIVE owning Resume and actually needed historical sources, without readmitting Evidence as ACTIVE/current. No unused Evidence expression becomes a rendering prerequisite. The conditional future Save-plus-intent invariant above remains intact; this M2 exact-only consumer adds no intent to Candidate Save. See [Materials](contracts/applications/materials.md#mat-004) and [CG04](design/contract/sl-02-m2-grill.md).
+
 ## 4. Jobs, Preferences, and collection
 
 ### 4.1 Job identity and manual entry
