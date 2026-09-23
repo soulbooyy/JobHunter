@@ -56,6 +56,11 @@ def install_error_handlers(app: FastAPI) -> None:
         ):
             return JSONResponse(error_field(dict(exc.errors()[0])).body(), status_code=422)
         known = {
+            "render_intent_id",
+            "render_configuration_id",
+            "resume_version_id",
+            "artifact_id",
+            "disposition",
             "request_id",
             "company_name",
             "role_title",
@@ -94,6 +99,9 @@ def install_error_handlers(app: FastAPI) -> None:
 
 
 STATUS = {
+    "RENDER_CONFIGURATION_UNAVAILABLE": 409,
+    "ARTIFACT_UNAVAILABLE": 409,
+    "ARTIFACT_INTEGRITY_FAILED": 500,
     "BAD_REQUEST": 400,
     **{
         code: 409

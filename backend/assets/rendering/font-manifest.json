@@ -1,0 +1,154 @@
+{
+  "synthesis": {
+    "tool": "fontTools",
+    "version": "4.65.0",
+    "matrix": [
+      1,
+      0,
+      0.2125565616700221,
+      1,
+      0,
+      0
+    ],
+    "italic_angle": -12,
+    "modified_timestamp": 2082844800
+  },
+  "families": {
+    "SOURCE_HAN_SANS": {
+      "family": "Source Han Sans SC",
+      "version": "2.005R",
+      "roles": {
+        "regular": {
+          "file": "SOURCE_HAN_SANS-regular.otf",
+          "sha256": "f1d8611151880c6c336aabeac4640ef434fa13cbfbf1ffe82d0a71b2a5637256",
+          "source_file": "sans-regular.otf",
+          "source_sha256": "f1d8611151880c6c336aabeac4640ef434fa13cbfbf1ffe82d0a71b2a5637256",
+          "synthesis": null
+        },
+        "bold": {
+          "file": "SOURCE_HAN_SANS-bold.otf",
+          "sha256": "df2b90f5bcc6d01dfc964cec5f6d535d6b6aebd26ed7fd79a9c1b3f2112fcb6b",
+          "source_file": "sans-bold.otf",
+          "source_sha256": "df2b90f5bcc6d01dfc964cec5f6d535d6b6aebd26ed7fd79a9c1b3f2112fcb6b",
+          "synthesis": null
+        },
+        "italic": {
+          "file": "SOURCE_HAN_SANS-italic.otf",
+          "sha256": "f8673565273f0a96d6e50546a7fb5b6aaa265ac7f8821e4f2c0a5ec7af39df2d",
+          "source_file": "sans-regular.otf",
+          "source_sha256": "f1d8611151880c6c336aabeac4640ef434fa13cbfbf1ffe82d0a71b2a5637256",
+          "synthesis": "shear_12_degrees_v1"
+        },
+        "bold_italic": {
+          "file": "SOURCE_HAN_SANS-bold_italic.otf",
+          "sha256": "5edd12b4ebde684c6830d20afe3fbc9473448a20b7af0b5b919f1e6b3544fcf4",
+          "source_file": "sans-bold.otf",
+          "source_sha256": "df2b90f5bcc6d01dfc964cec5f6d535d6b6aebd26ed7fd79a9c1b3f2112fcb6b",
+          "synthesis": "shear_12_degrees_v1"
+        }
+      }
+    },
+    "SONGTI": {
+      "family": "Source Han Serif CN (SC file)",
+      "version": "2.003R",
+      "roles": {
+        "regular": {
+          "file": "SONGTI-regular.otf",
+          "sha256": "78aa7a328fd974df2d688c8a9fd74a33d8334dfa84ab24d9d11efb2ffc464117",
+          "source_file": "serif-regular.otf",
+          "source_sha256": "78aa7a328fd974df2d688c8a9fd74a33d8334dfa84ab24d9d11efb2ffc464117",
+          "synthesis": null
+        },
+        "bold": {
+          "file": "SONGTI-bold.otf",
+          "sha256": "706b8c0de2deff6cbc0c87e2cdedfd33a78b7ffd76cebb4549012f197ba611fe",
+          "source_file": "serif-bold.otf",
+          "source_sha256": "706b8c0de2deff6cbc0c87e2cdedfd33a78b7ffd76cebb4549012f197ba611fe",
+          "synthesis": null
+        },
+        "italic": {
+          "file": "SONGTI-italic.otf",
+          "sha256": "ea96a2949e7bbb2d66e8ef754c0ed0095108ddaeb711265c950a18e0041ba875",
+          "source_file": "serif-regular.otf",
+          "source_sha256": "78aa7a328fd974df2d688c8a9fd74a33d8334dfa84ab24d9d11efb2ffc464117",
+          "synthesis": "shear_12_degrees_v1"
+        },
+        "bold_italic": {
+          "file": "SONGTI-bold_italic.otf",
+          "sha256": "9d73fb23adf901c777062faa4928eee9890773fd76dc18984d176e358c0cd6d8",
+          "source_file": "serif-bold.otf",
+          "source_sha256": "706b8c0de2deff6cbc0c87e2cdedfd33a78b7ffd76cebb4549012f197ba611fe",
+          "synthesis": "shear_12_degrees_v1"
+        }
+      }
+    },
+    "KAITI": {
+      "family": "LXGW WenKai",
+      "version": "1.522",
+      "roles": {
+        "regular": {
+          "file": "KAITI-regular.ttf",
+          "sha256": "39ad71264b588165b469e35e6afb162a378dacd1f95348160240ba9038ac3009",
+          "source_file": "wenkai-regular.ttf",
+          "source_sha256": "39ad71264b588165b469e35e6afb162a378dacd1f95348160240ba9038ac3009",
+          "synthesis": null
+        },
+        "bold": {
+          "file": "KAITI-bold.ttf",
+          "sha256": "d4bdeb38a39151d74d084cba5090f8cb7d20bf83eedb78c35939ae70b9f4e3f6",
+          "source_file": "wenkai-medium.ttf",
+          "source_sha256": "d4bdeb38a39151d74d084cba5090f8cb7d20bf83eedb78c35939ae70b9f4e3f6",
+          "synthesis": null
+        },
+        "italic": {
+          "file": "KAITI-italic.ttf",
+          "sha256": "8c630a94c4f332515d3b6520188b78e12fd390adf472c58c129d83eaf3b090fb",
+          "source_file": "wenkai-regular.ttf",
+          "source_sha256": "39ad71264b588165b469e35e6afb162a378dacd1f95348160240ba9038ac3009",
+          "synthesis": "shear_12_degrees_v1"
+        },
+        "bold_italic": {
+          "file": "KAITI-bold_italic.ttf",
+          "sha256": "ff40b607b1e3b6f1ebbcd08f0240b87d285d005cee08b4548c422e8309c9e1b6",
+          "source_file": "wenkai-medium.ttf",
+          "source_sha256": "d4bdeb38a39151d74d084cba5090f8cb7d20bf83eedb78c35939ae70b9f4e3f6",
+          "synthesis": "shear_12_degrees_v1"
+        }
+      }
+    },
+    "HEITI": {
+      "family": "Sarasa Gothic SC",
+      "version": "1.0.40",
+      "roles": {
+        "regular": {
+          "file": "HEITI-regular.ttf",
+          "sha256": "c9aadc2ea6148d670a7a2349b93bbafa58939318e465bc7bafb6f5674319c63d",
+          "source_file": "SarasaGothicSC-Regular.ttf",
+          "source_sha256": "c9aadc2ea6148d670a7a2349b93bbafa58939318e465bc7bafb6f5674319c63d",
+          "synthesis": null
+        },
+        "bold": {
+          "file": "HEITI-bold.ttf",
+          "sha256": "c76f9b0e15f564c61a9c6d5462db14f7fff7bd23d64da7dbae3d7d4843868cab",
+          "source_file": "SarasaGothicSC-Bold.ttf",
+          "source_sha256": "c76f9b0e15f564c61a9c6d5462db14f7fff7bd23d64da7dbae3d7d4843868cab",
+          "synthesis": null
+        },
+        "italic": {
+          "file": "HEITI-italic.ttf",
+          "sha256": "aa46f83e069c5d41f478d6518a92c60b1e57ab629f13e392f80bbe9351e5a93b",
+          "source_file": "SarasaGothicSC-Italic.ttf",
+          "source_sha256": "aa46f83e069c5d41f478d6518a92c60b1e57ab629f13e392f80bbe9351e5a93b",
+          "synthesis": null
+        },
+        "bold_italic": {
+          "file": "HEITI-bold_italic.ttf",
+          "sha256": "aa631505799f1cf98a076c05df48460d84b8302448c4d2512c787822875daccc",
+          "source_file": "SarasaGothicSC-BoldItalic.ttf",
+          "source_sha256": "aa631505799f1cf98a076c05df48460d84b8302448c4d2512c787822875daccc",
+          "synthesis": null
+        }
+      }
+    }
+  }
+}

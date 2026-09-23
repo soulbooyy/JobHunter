@@ -11,3 +11,6 @@ frontend/test-results/
 frontend/playwright-report/
 frontend/.env.local
 frontend/.env.*.local
+
+# Reproducible, separately installed renderer fonts (hashes/licenses are versioned)
+backend/assets/rendering/fonts/

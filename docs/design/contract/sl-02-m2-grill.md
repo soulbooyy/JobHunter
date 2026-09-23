@@ -1,5 +1,8 @@
 # SL-02.M2 Contract Grill Decision Register
 
+The implementation-time [2026-09-23 font-role amendment](#cg04-font-20260923) is the latest effective decision for MAT-012. Earlier native-role and Source Han Sans-only restrictions below are historical within that superseded scope.
+
+
 > English is authoritative. This is the single decision/provenance record for this milestone, not normative Contract text or implementation evidence. Record accepted conclusions and scoped supersession, not question transcripts or unaccepted recommendations.
 
 [Design navigation](README.md) · [Milestone plan](../../plans/slices/sl-02-saved-authority-materials.md#sl-02m2-demanded-preview-and-export) · [Session handoff](../../development/handoff/contract_grill/sl-02-m2-contract-grill-handoff.md) · [Readiness ledger](../../progress/traceability.md#6-contract-normative-scope-readiness-ledger)
@@ -9,7 +12,7 @@
 - Milestone: SL-02.M2 — Demanded preview and export.
 - User instruction: execute the session handoff using grill-me/grilling, communicate in Chinese and use English documentation. The initial five-question cadence is replaced by ten independent questions per round from Q74 onward under CG04-S5.
 - Decision namespace: CG04-Qn; no prior CG04 decision was found at entry. These locators are provenance, not normative requirement IDs.
-- Last answered decision: Q135 accepted with explicit native-Bold-plus-synthetic-italic meaning for BoldItalic and an actual-output verification gate. The Source Han Sans 2.005R exception is scoped; it does not authorize synthetic bold or style substitutions for other logical fonts. Catalog mapping and renderer execution remain unverified.
+- Last interview decision: Q135 accepted with explicit native-Bold-plus-synthetic-italic meaning for BoldItalic and an actual-output verification gate. The Source Han Sans 2.005R exception is scoped; it does not authorize synthetic bold or style substitutions for other logical fonts. Catalog mapping and renderer execution remain unverified.
 - Session: Contract design and authorized documentary closure are complete under CG04-S1/S2/S3/S4/S5 and CG04-PUB. Q1–Q135 have effective normative destinations at revision `2026-09-21.S2M2-r1`. Premature ordinary-round writeback was removed under CG04-S4; the later explicit publication authorization permits the scoped owner reconciliation now completed. M2 consumed Contract scope is Ready; implementation, concrete renderer/font research and runtime acceptance remain Pending.
 - After each ordinary answered batch: update this register only with effective conclusions, rationale, boundaries, intended normative destinations and the unresolved frontier; check accuracy, relevant known constraints and changed references locally, then advance. Authoritative-document review/writeback follows the explicit user direction and approved plan required by CG04-S3, not the round number.
 - Final transfer completed: the [backend development handoff](../../development/handoff/sl-02-m2-handoff.md) contains the reviewed consumption scope, actual upstream checkpoint, engineering order and remaining proof required by CG04-S2.
@@ -1681,3 +1684,13 @@ The [backend development handoff](../../development/handoff/sl-02-m2-handoff.md)
 Mechanical publication evidence: the maintained `python3 scripts/check_contract_links.py` validates 251 unique anchored IDs, local paths/anchors, all 135 mappings and the 26 Ready / 63 Pending / 89-row scope ledger. Ruff lint/format and Pyright pass for the changed checker. Seven isolated negative fixtures correctly reject duplicate/unknown IDs, missing files/anchors, missing decision mapping, incorrect readiness totals and missing requirement anchors; a restored baseline passes. Supplemental checks cover changed high-level owner links and whitespace, including the newly created files; `git diff --check` passes. These checks establish documentary integrity, not product conformance.
 
 **Current frontier:** no unanswered Contract question or unresolved documentary interface blocks this published scope. Concrete renderer/catalog/font selection and distribution, all four logical-font mark support, deterministic italic implementation, actual PDF/PNG/pagination/text extraction, measured limits and filesystem crash/durability proof remain engineering prerequisites. No RenderConfiguration becomes executable merely through publication. A researched mapping requiring a new synthesis exception or changed behavior must return to its affected owner before implementation. M2 implementation and acceptance are not started; M1 frontend and parent-Slice completion remain outstanding.
+
+
+<a id="cg04-font-20260923"></a>
+## Scoped font-role amendment — 2026-09-23
+
+Status: ACCEPTED by explicit user instruction during backend implementation. Historical Q99/Q101/Q106/Q135 answers above remain historical evidence; this amendment supersedes only their native-four-face requirement, Source Han Sans two-hash omission and restricted synthesis authorization.
+
+SOURCE_HAN_SANS remains Source Han Sans SC 2.005R, using official Regular/Bold and deterministic italic synthesis over the corresponding upright face. HEITI uses Sarasa Gothic SC's released native Regular/Bold/Italic/BoldItalic. SONGTI uses Source Han Serif CN's official Regular/Bold and deterministic italic synthesis. KAITI uses LXGW WenKai 1.522 Regular/Medium for regular/bold logical roles, and deterministic italic synthesis over each corresponding face. Medium is an explicit role mapping, not a claim of native Bold. Every configuration records all four final role-artifact hashes. Family/release, source face hashes, mapping, synthesis rule/dependencies and final artifacts remain fixed and auditable. No synthetic bold, other-family substitution or broader font-policy mechanism was approved.
+
+Writeback: MAT-012 owns the revised roles; MAT-013 retains actual-output capability gating; COM-043 no longer grants omitted role fields. Distribution, deterministic build and real PDF/PNG conformance still require engineering evidence. This decision alone does not make any configuration executable.

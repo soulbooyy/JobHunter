@@ -60,7 +60,7 @@ def main() -> None:
                     {
                         "outcome": store.outcome,
                         "data_directory": str(store.directory),
-                        "schema_version": 3,
+                        "schema_version": 4,
                     }
                 ),
                 flush=True,

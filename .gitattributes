@@ -1,0 +1,2 @@
+# Preserve the upstream license byte-for-byte, including its trailing space.
+backend/assets/rendering/licenses/wenkai-OFL.txt -whitespace
