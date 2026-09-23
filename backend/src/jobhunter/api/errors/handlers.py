@@ -5,6 +5,7 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException
 from starlette.responses import JSONResponse
 
+from jobhunter.domain.shared.candidate_values import error_field
 from jobhunter.domain.shared.errors import Failure
 
 
@@ -45,6 +46,15 @@ def install_error_handlers(app: FastAPI) -> None:
                 },
                 status_code=422,
             )
+        if request.url.path.startswith(
+            (
+                "/api/v1/profile",
+                "/api/v1/evidence-",
+                "/api/v1/resumes",
+                "/api/v1/workspace/default-resume",
+            )
+        ):
+            return JSONResponse(error_field(dict(exc.errors()[0])).body(), status_code=422)
         known = {
             "request_id",
             "company_name",
@@ -85,6 +95,15 @@ def install_error_handlers(app: FastAPI) -> None:
 
 STATUS = {
     "BAD_REQUEST": 400,
+    **{
+        code: 409
+        for code in (
+            "INVALID_STATE",
+            "SOURCE_CONFLICT",
+            "LAST_RESUME_REQUIRED",
+            "CAPACITY_EXCEEDED",
+        )
+    },
     "REQUEST_TOO_LARGE": 413,
     "VALIDATION_ERROR": 422,
     "NOT_FOUND": 404,

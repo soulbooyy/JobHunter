@@ -5,6 +5,8 @@ from pydantic import Field
 from jobhunter.domain.shared.values import DTO
 
 FieldCode = Literal[
+    "STRUCTURE_TOO_COMPLEX",
+    "INVALID_REFERENCE",
     "REQUIRED",
     "UNKNOWN_FIELD",
     "INVALID_TYPE",
@@ -15,6 +17,10 @@ FieldCode = Literal[
     "OUT_OF_RANGE",
 ]
 ErrorCode = Literal[
+    "INVALID_STATE",
+    "SOURCE_CONFLICT",
+    "LAST_RESUME_REQUIRED",
+    "CAPACITY_EXCEEDED",
     "BAD_REQUEST",
     "REQUEST_TOO_LARGE",
     "VALIDATION_ERROR",

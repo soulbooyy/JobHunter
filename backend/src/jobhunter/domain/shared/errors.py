@@ -10,7 +10,7 @@ class Failure(Exception):
         return {
             "code": self.code,
             "message": (
-                "Unsupported storage schema; schema 1 requires explicit offline migration."
+                "Unsupported storage schema; schemas 1 and 2 require explicit offline migration."
                 if self.code == "SCHEMA_UNSUPPORTED"
                 else self.code.replace("_", " ").capitalize() + "."
             ),

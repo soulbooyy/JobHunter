@@ -18,11 +18,17 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.pool import NullPool
 
 from jobhunter.domain.shared.errors import Failure
+from jobhunter.infrastructure.persistence.sqlalchemy.models.candidate import (
+    ALEMBIC_REVISION as TARGET_REVISION,
+)
+from jobhunter.infrastructure.persistence.sqlalchemy.models.candidate import (
+    TABLES as CANDIDATE_TABLES,
+)
 from jobhunter.infrastructure.persistence.sqlalchemy.models.preference_values import (
     recognize_values,
 )
 from jobhunter.infrastructure.persistence.sqlalchemy.models.preferences import (
-    ALEMBIC_REVISION as TARGET_REVISION,
+    ALEMBIC_REVISION as PREFERENCE_REVISION,
 )
 from jobhunter.infrastructure.persistence.sqlalchemy.models.preferences import (
     TABLES,
@@ -35,6 +41,9 @@ from jobhunter.infrastructure.persistence.sqlalchemy.models.schema import (
     ENTRY_TABLE,
     RECEIPT_DDL,
     RECEIPT_TABLE,
+)
+from jobhunter.infrastructure.persistence.sqlalchemy.repositories.candidate import (
+    CandidateRepository,
 )
 
 Fault = Callable[[str], None]
@@ -172,7 +181,7 @@ class Store:
                         conn.rollback()
                         raise
             version = store.recognize()
-            if version == 1 and not migration:
+            if version != 3 and not migration:
                 raise Failure("SCHEMA_UNSUPPORTED")
             return store
         except BaseException as exc:
@@ -197,7 +206,7 @@ class Store:
                 if conn.exec_driver_sql("PRAGMA application_id").scalar() != APPLICATION_ID:
                     raise Failure("STORAGE_NOT_RECOGNIZED")
                 schema_version = conn.exec_driver_sql("PRAGMA user_version").scalar()
-                if schema_version not in (1, 2):
+                if schema_version not in (1, 2, 3):
                     raise Failure("SCHEMA_UNSUPPORTED")
                 if schema_version == 1 and any(
                     conn.exec_driver_sql(
@@ -210,7 +219,8 @@ class Store:
                     (ENTRY_TABLE, ENTRY_DDL),
                     (RECEIPT_TABLE, RECEIPT_DDL),
                     ("alembic_version", ALEMBIC_DDL),
-                    *(TABLES if schema_version == 2 else ()),
+                    *(TABLES if schema_version >= 2 else ()),
+                    *(CANDIDATE_TABLES if schema_version >= 3 else ()),
                 ):
                     sql = conn.exec_driver_sql(
                         "SELECT sql FROM sqlite_master WHERE type=? AND name=?",
@@ -221,12 +231,30 @@ class Store:
                 version = (
                     conn.exec_driver_sql("SELECT version_num FROM alembic_version").scalars().all()
                 )
-                if version != [ALEMBIC_REVISION if schema_version == 1 else TARGET_REVISION]:
+                if version != [
+                    {
+                        1: ALEMBIC_REVISION,
+                        2: PREFERENCE_REVISION,
+                        3: TARGET_REVISION,
+                    }[schema_version]
+                ]:
                     raise Failure("STORAGE_NOT_RECOGNIZED")
                 if conn.exec_driver_sql("PRAGMA foreign_key_check").all():
                     raise Failure("STORAGE_CORRUPT")
-                if schema_version == 2:
+                if schema_version >= 2:
                     recognize_values(conn)
+                if schema_version < 3 and any(
+                    conn.exec_driver_sql(
+                        "SELECT 1 FROM sqlite_master WHERE name=?", (name,)
+                    ).first()
+                    for name, _ in CANDIDATE_TABLES
+                ):
+                    raise Failure("STORAGE_NOT_RECOGNIZED")
+                if schema_version >= 3:
+                    try:
+                        CandidateRepository(conn).recognize()
+                    except Exception:
+                        raise Failure("STORAGE_CORRUPT") from None
                 return int(schema_version)
         except Failure:
             raise
@@ -241,7 +269,7 @@ class Store:
 
     def migrate(self) -> str:
         """Offline, under the same lifetime lock; never replay an upgrade after uncertainty."""
-        if self.recognize() == 2:
+        if self.recognize() == 3:
             return "UNCHANGED"
 
         def upgrade(conn: Connection) -> None:
@@ -259,10 +287,10 @@ class Store:
                 version = self.recognize()
             except Failure:
                 raise Failure("OUTCOME_UNKNOWN") from None
-            if version == 1:
+            if version in (1, 2):
                 raise Failure("STORAGE_UNAVAILABLE") from None
             return "MIGRATED"
-        if self.recognize() != 2:
+        if self.recognize() != 3:
             raise Failure("OUTCOME_UNKNOWN")
         return "MIGRATED"
 

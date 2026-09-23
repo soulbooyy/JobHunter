@@ -6,6 +6,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+from uuid import uuid4
 
 import httpx
 import pytest
@@ -36,7 +37,7 @@ def test_real_http_restart_privacy_and_bind(tmp_path: Path) -> None:
         assert startup == {
             "outcome": "INITIALIZED",
             "data_directory": str(tmp_path.resolve()),
-            "schema_version": 2,
+            "schema_version": 3,
         }
         with httpx.Client(base_url=f"http://127.0.0.1:{port}", trust_env=False) as client:
             for _ in range(100):
@@ -67,6 +68,75 @@ def test_real_http_restart_privacy_and_bind(tmp_path: Path) -> None:
             )
             assert client.get(preference_base, headers={"Origin": "null"}).status_code == 403
 
+            profile = client.post(
+                "/api/v1/profile/save",
+                json={
+                    "request_id": str(uuid4()),
+                    "revision": 1,
+                    "full_name": "Sensitive Profile",
+                    "phone_number": None,
+                    "email": None,
+                },
+            )
+            assert profile.status_code == 200
+            evidence = client.post(
+                "/api/v1/evidence-items",
+                json={
+                    "request_id": str(uuid4()),
+                    "kind": "SKILL",
+                    "fields": {"skill_name": "Sensitive Evidence"},
+                    "content": [],
+                },
+            )
+            assert evidence.status_code == 200
+            resume = client.post(
+                "/api/v1/resumes",
+                json={
+                    "request_id": str(uuid4()),
+                    "resume_name": "Sensitive Resume",
+                    "profile_version_id": profile.json()["profile_version"]["profile_version_id"],
+                    "header_presentation": {"optional_items": []},
+                    "sections": [
+                        {
+                            "kind": "SKILL",
+                            "members": [
+                                {
+                                    "evidence_item_id": evidence.json()["evidence_item"][
+                                        "evidence_item_id"
+                                    ],
+                                    "evidence_item_version_id": evidence.json()[
+                                        "evidence_item_version"
+                                    ]["evidence_item_version_id"],
+                                    "content": [
+                                        {
+                                            "type": "PARAGRAPH",
+                                            "runs": [
+                                                {
+                                                    "text": "Sensitive local expression",
+                                                    "marks": [
+                                                        {
+                                                            "type": "LINK",
+                                                            "url": "https://private.test/inline?secret=1",
+                                                        }
+                                                    ],
+                                                }
+                                            ],
+                                        }
+                                    ],
+                                }
+                            ],
+                        }
+                    ],
+                    "document_presentation": {
+                        "font_family": "HEITI",
+                        "font_size_pt": 12,
+                        "line_spacing_pt": 14,
+                        "theme_color": "#000000",
+                    },
+                },
+            )
+            assert resume.status_code == 200
+
             data = {
                 "request_id": "12345678-1234-4123-8123-123456789abc",
                 "company_name": "Sensitive Acme",
@@ -94,6 +164,11 @@ def test_real_http_restart_privacy_and_bind(tmp_path: Path) -> None:
     assert "Traceback" not in output + errors
     with Store.open(tmp_path) as store:
         with store.engine.connect() as conn:
+            for digest in conn.exec_driver_sql(
+                "SELECT request_fingerprint FROM candidate_command_receipts"
+            ).scalars():
+                assert digest not in output + errors
+            assert conn.exec_driver_sql("SELECT count(*) FROM resumes").scalar_one() == 1
             assert (
                 conn.exec_driver_sql("SELECT count(*) FROM manual_application_entries").scalar()
                 == 1
