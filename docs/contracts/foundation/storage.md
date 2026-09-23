@@ -191,3 +191,37 @@ Upgrade MUST retain STO-018/023's explicit offline, exclusive-owner, fully recog
 
 <a id="sto-039"></a>
 **STO-039.** M2 MUST preserve STO-027/028's honest receipt/commit uncertainty and corruption handling. Replays validate the original receipt and its required Intent/target relationship, without requiring the current Work/Artifact chain or payload availability. Detected malformed required metadata/references MUST NOT be reinterpreted as absent objects, cache misses, unsupported optional dependencies or permission to repair. Startup recognizes required schema/metadata/reference integrity without an exhaustive scan of every historical content body or every Artifact byte. Actual file/content verification occurs at the owning boundaries. Existing M1 sources/receipts retain their original checks and outcomes. Q15/Q45/Q77/Q78/Q115/Q116/Q133.
+
+## SL-03.M1 invocation persistence extension
+
+Revision **2026-09-23.S3M1-r1**. [Decision source](../../design/contract/sl-03-m1-grill.md); [Runtime](../agent/execution-runtime.md). These additions preserve all prior Entry, Preferences, Candidate and Materials scopes.
+
+<a id="sto-040"></a>
+**STO-040.** **Run and Invocation integrity.** Persist Runtime identity/ownership, immutable Invocation-to-Run associations, frozen dispatch descriptor and response relations in the existing Workspace SQLite store under physical-directory ownership. Required references and association integrity MUST be enforced at the owned transaction boundary. Intent phase, descriptor/exact refs and dispatch_generation publish together; complete payload/hash/length and RESPONSE_DURABLE publish together. Response format is derived from Invocation; a stored duplicate must agree. Reject detected structural/reference inconsistency without current-value substitution or automatic repair.
+
+Decision sources: CG05-Q14, CG05-Q23, CG05-Q39, CG05-Q47, CG05-Q107, CG05-Q110, CG05-Q117, CG05-Q130.
+
+<a id="sto-041"></a>
+**STO-041.** **Stable serialized bytes.** Persist the selected format's exact deterministic UTF-8 bytes with byte_length and SHA-256 of those bytes. SQLite TEXT/BLOB choice MUST preserve their exact recovery representation. Verify actual stored bytes, not newly serialized JSON or hash alone for equality. No external response-file publication protocol is introduced. Existing Materials filesystem publication remains its own protocol.
+
+Decision sources: CG05-Q45, CG05-Q46, CG05-Q47, CG05-Q56, CG05-Q91, CG05-Q100, CG05-Q125.
+
+<a id="sto-042"></a>
+**STO-042.** **Recovery payload protection.** Retain all response payloads belonging to every OPEN Run based on durable Run/Invocation relationships; step-level release is not permitted, including responses whose producing Invocation already completed. M1 MUST also retain terminal-Run payloads because it supplies no cleanup/purge capability. ENDED alone does not authorize deletion. No Pin entity, reference-count subsystem or RETAINED/PURGED state is added. Later retention policy may define cleanup; this delivery is not a permanent product retention guarantee. Payload cleanup must never cascade into independent formal assets or erase honest audit lineage.
+
+Decision sources: CG05-Q49, CG05-Q50, CG05-Q51.
+
+<a id="sto-043"></a>
+**STO-043.** **Truthful reads and transaction outcomes.** Distinguish proven missing/corrupt records from unreadable/busy/transient storage and unknown commit outcome. Bounded reconciliation uses stable allocated identities and durable predicates, never another Provider call. Read/confirmation APIs do not mutate Run outcomes. Runtime MUST converge confirmed missing/corrupt required payload through separately authorized ending when storage permits; if that ending cannot be confirmed committed, return uncertainty rather than inventing FAILED. Unavailable code readers are scoped capability failures, not database corruption or automatic whole-application startup failure.
+
+Decision sources: CG05-Q10, CG05-Q38, CG05-Q64, CG05-Q69, CG05-Q72, CG05-Q73, CG05-Q84, CG05-Q85, CG05-Q92, CG05-Q94, CG05-Q106.
+
+<a id="sto-044"></a>
+**STO-044.** **Forward migration and preservation.** Implementation MUST inspect the actual migration head and add a forward revision preserving existing database/application identity, all prior consumer data, references and receipts. Do not freeze a schema number in this Contract, rewrite an already-published migration or backfill fictitious AgentRuns/Invocations for historical Resume, Materials or other business records. Reuse existing explicit offline migration, exclusive ownership and transactional preservation rules; normal startup must not silently upgrade or repair the store.
+
+Decision sources: CG05-Q80.
+
+<a id="sto-045"></a>
+**STO-045.** **Restart ownership and bounded inspection.** Startup under the exclusive Workspace owner MUST assign a fresh runtime instance, invalidate obsolete Run qualifications and reconcile affected OPEN records through the Runtime protocol. No persisted owner value alone proves a new live sending path. Required structural recognition does not imply exhaustive historical payload scans. Missing code handlers/readers isolate affected Runs with lawful convergence; ordinary absence of a pre-preparation Invocation is not corruption. Keep Entry/Preferences/Candidate/Materials startup and recovery invariants intact.
+
+Decision sources: CG05-Q4, CG05-Q14, CG05-Q30, CG05-Q49, CG05-Q69, CG05-Q82, CG05-Q110, CG05-Q128.

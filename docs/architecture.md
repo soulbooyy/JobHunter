@@ -426,7 +426,7 @@ Money/token budget, actual Context capacity, Provider headroom, runtime concurre
 
 Application freezes valid inputs; Runtime admits and reserves; dispatch intent becomes durable before the remote request; complete business response becomes durable before local parsing/validation; current-input, permission, and fencing checks precede canonical Application commit. An in-memory response or partial stream is not durable recovery evidence. A durable malformed response is recoverable input for validation, not accepted business authority.
 
-The following are recovery permissions, not a finalized lifecycle or transition schema:
+The following are recovery permissions. The bounded M1 representations and atomic predicates are now defined in [Execution Runtime](contracts/agent/execution-runtime.md); they are not a universal consumer business lifecycle:
 
 | Known durable boundary | Permitted interpretation |
 | --- | --- |
@@ -436,17 +436,25 @@ The following are recovery permissions, not a finalized lifecycle or transition 
 | Canonical result committed | Reconcile existing identity/result idempotently; no duplicate business asset |
 | Former execution authority revoked | Reject its late canonical writes regardless of eventual remote response |
 
-Unknown remote calls require explicit Retry into a new Run with fresh admission and preserved lineage/exposure. Bounded validation repair and explicit size rescue are distinct admitted invocations, not hidden transport retries. LangGraph checkpoint state alone cannot authorize resending a model request or browser effect.
+Unknown remote calls require explicit Run-level Retry into a new Run with fresh admission and preserved lineage/exposure. M1 does not deliver that Retry command or its lineage fields; Invocation-level repair remains separately consumer-defined. Bounded validation repair and explicit size rescue are distinct admitted invocations, not hidden transport retries. LangGraph checkpoint state alone cannot authorize resending a model request or browser effect.
+
+An original live dispatch winner may continue after an uncertain intent acknowledgement only after confirming its own committed intent, proving adapter entry has not begun and retaining valid qualification/admission. A restarted or replacement path cannot reuse that intent as sending authorization. Existing immutable response confirmation is read-only and remains available after ending, revocation or expiry; this never grants first-publication authority. First publication must still match the original dispatch generation and current valid owner.
+
+Consumer-established deadlines do not universally start at Run creation. Expiry prohibits new remote effects and late first response publication. A response legitimately durable before expiry can support explicitly admitted, finitely bounded local recovery under fresh authority without extending the deadline or reopening an ended Run. Canonical business writes retain their own current eligibility checks. Consumer whole-Run completion may be reconciled without unneeded raw-response access, but ending still requires lawful recovery qualification or atomic ownerless coordination. A single committed result is not automatically proof that the whole Run completed.
+
+Scoped source: [CG05 closure](design/contract/sl-03-m1-grill.md#cg05-pub), especially Q28/Q58/Q71/Q83/Q89/Q126/Q127.
 
 **Sources:** Q40, Q116, Q122, Q124–Q125, Q135, Q140–Q142; [Recovery](design/harness/recovery.md), sections 1–4 and 9.
 
 ### 12.2 Ownership, cancellation, and reconciliation
 
-One current execution owner controls a Run. Canonical writes validate current eligibility and execution generation at their write boundary. Cancellation, timeout, revoked ownership, or safe recovery takeover invalidates old writers. A late coroutine cannot publish analysis or checkpoint merely because it received a response. Exact claim/lease/fencing representations and diagnostic handling remain Contract work.
+One current execution owner controls a Run. Canonical writes validate current eligibility and execution generation at their write boundary. Cancellation, timeout, revoked ownership, or safe recovery takeover invalidates old writers. A late coroutine cannot publish analysis or checkpoint merely because it received a response. The [M1 Runtime scope](contracts/agent/execution-runtime.md#exr-005) uses the physical Workspace owner, a fresh runtime instance and generations advanced only when execution is granted/regranted. Revocation clears qualification without incrementing generation; no distributed lease is introduced. Broader consumer interfaces remain separate Contract work.
 
 Startup reconciliation inspects unfinished work and durable boundaries, fences former owners, validates frozen inputs/permissions/deadlines/budgets, continues only safe local or undispatched work, ends ambiguous remote work, and releases ended slots. It never silently updates frozen references. Safe continuation cannot cure stale business inputs.
 
 Tool replay is action-specific: eligible local reads may repeat after validation; remote idempotency requires a proven concrete contract; outcome-sensitive calls cannot silently repeat when unknown. No generic idempotency claim reconsumes single-use execution authorization or grants model-controlled browser retry. Recovery promises explicit uncertainty and safe boundaries, not exactly-once remote execution or resumption from every code line.
+
+M1's controlled exact-version pure local-read proof may recover the original unfinished ToolInvocation with unchanged exact inputs and fresh qualification under its explicit action agreement. This is distinct from a new Context acquisition. It performs no hidden Ensure, remote parsing or business write. A Run ending fences all sibling Invocations without inventing remote completion or discarding independent committed facts. Missing historical consumer/read-format capabilities isolate and lawfully converge affected OPEN Runs; they do not require unrelated application startup failure.
 
 **Sources:** Q30–Q31, Q40, Q116, Q122, Q124, Q126, Q136, Q142, Q155, Q172; [Recovery](design/harness/recovery.md), sections 5–8 and 13.
 
@@ -459,6 +467,8 @@ Pending Proposals outlive the generating Run but not their current Session eligi
 **Sources:** Q141, Q146–Q149, Q152, Q156, Q158, Q165–Q167; [Recovery](design/harness/recovery.md), sections 9–12.
 
 ## 13. Storage, retention, and audit
+
+SL-03.M1 adds [atomic SQLite invocation persistence](contracts/foundation/storage.md#sto-040): intent/descriptor/generation and complete response bytes/integrity/phase each publish at their owned transaction boundary. The versioned response format determines exact UTF-8 bytes; physical TEXT/BLOB storage must preserve them. Response metadata derives its format from Invocation. OPEN-Run recovery dependencies remain protected even after their producer completed; M1 also retains terminal payloads because it delivers no purge/disposition operation or Pin subsystem. Broader retention/cleanup below remains future scope. The implementation adds a forward migration from the actual head, preserving previous consumers and creating no fictitious historical Runs. Materials' file protocol and Candidate receipts remain unchanged.
 
 CG03-Q93 established the schema-3 delivery boundary (current runtime evidence is maintained in Progress): add a migration to the retained schema-1/2 chain, preserve application/database identity and all Entry/Preferences data/receipts, and use explicit offline upgrade under the physical-directory lock. Schema/initial data/migration metadata commit atomically. Seed real empty Profile/version, empty domain-owned Baseline pointer and null/revision-1 default selection, without Resume or Preference creation. Normal startup neither upgrades nor repairs missing required records.
 

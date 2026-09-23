@@ -10,6 +10,7 @@
 | SL-01.M2 — Collection Preferences and immutable versions | [Decision register and current frontier](sl-01-m2-grill.md) |
 | SL-02.M1 — Complete saved authority and atomic Save | [Decision register and current frontier](sl-02-m1-grill.md) |
 | SL-02.M2 — Demanded preview and export | [Decision register and current frontier](sl-02-m2-grill.md) |
+| SL-03.M1 — Invocation durability and recovery foundation | [Published decisions, supersession and closure](sl-03-m1-grill.md) |
 
 The decision register follows the Architecture Grill register: conclusions, status, rationale, scoped supersession, formal writeback and the current open frontier. It omits question transcripts and proposed answers. These records support continuity and later normative writeback; they do not establish Contract readiness or implementation.
 

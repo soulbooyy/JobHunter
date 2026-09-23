@@ -12,6 +12,7 @@ Milestone-specific development handoffs live in `handoff/`; their Contract refer
 | [Target repository organization](repository-structure.md) | Required responsibility layers, semantic test naming and incremental creation without empty scaffolding |
 | [SL-01.M1 development handoff](handoff/sl-01-m1-handoff.md) | Original research plus actual backend implementation handoff; frontend/browser work remains pending |
 | [SL-02.M1 development handoff](handoff/sl-02-m1-handoff.md) | Reviewed saved-authority scope, preserved schema-2 baseline and backend-first implementation transfer |
+| [SL-03.M1 backend development handoff](handoff/sl-03-m1-handoff.md) | Published internal invocation foundation, schema-4 source checkpoint, implementation sequence and required deterministic proof |
 | [SL-02.M2 backend development handoff](handoff/sl-02-m2-handoff.md) | Published exact-demand scope, actual upstream checkpoint, implementation order and unverified renderer/catalog prerequisites |
 | [Backend README](../../backend/README.md) | Maintained installation, runtime configuration, API entry points and check commands |
 | [Target technology stack](technology-stack.md) | Planned backend/frontend tools, adoption boundaries and unresolved setup; not an installed dependency inventory |

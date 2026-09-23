@@ -14,14 +14,14 @@ These existing files provide navigation or organization, not normative Contract 
 
 ## Existing normative Contracts
 
-Eleven scoped normative bodies now exist: the preserved `2026-09-19.M1-r1`, `2026-09-20.M2-r1` and `2026-09-21.S2M1-r1` baselines plus `2026-09-21.S2M2-r1`. There are 251 stable requirements, including 73 additions for SL-02.M2. Existence does not complete their future families; actual readiness/evidence is in [Progress](../progress/traceability.md#6-contract-normative-scope-readiness-ledger).
+Thirteen scoped normative bodies now exist: the preserved `2026-09-19.M1-r1`, `2026-09-20.M2-r1` and `2026-09-21.S2M1-r1` baselines plus `2026-09-21.S2M2-r1` and `2026-09-23.S3M1-r1`. There are 300 stable requirements, including 49 additions for SL-03.M1. Existence does not complete their future families; actual readiness/evidence is in [Progress](../progress/traceability.md#6-contract-normative-scope-readiness-ledger).
 
 | Document | Existing scope | Requirement IDs |
 | --- | --- | --- |
-| [Common](common.md) | Shared expression and scoped SL-01/S2 identity, scalar, path and error vocabulary | COM-001–046 |
+| [Common](common.md) | Shared expression and scoped SL-01/S2/SL-03.M1 identity, scalar, path and error vocabulary | COM-001–048 |
 | [Workspace](foundation/workspace.md) | Local initialization/runtime and scoped default Resume selection | WSP-001–012 |
 | [ManualApplicationEntry](jobs/manual-application-entries.md) | Seven-field mutable entry, commands, HTTP, browser handoff and client recovery | MAE-001–018 |
-| [Storage](foundation/storage.md) | Preserved schema-1/2/3 consumers plus M2 forward migration, Materials relationships/files and recovery integrity | STO-001–039 |
+| [Storage](foundation/storage.md) | Preserved schema-1/2/3 consumers plus M2 forward migration, Materials relationships/files, recovery integrity and M1 invocation persistence | STO-001–045 |
 | [Preferences](candidate/preferences.md) | Complete collection intent, immutable history, Save/read/replay and future UI boundary | PRF-001–023 |
 | [Profile](candidate/profile.md) | Exact three-field contact snapshots/privacy and Materials projection | PRO-001–009 |
 | [Evidence/Baseline](candidate/evidence.md) | Six typed facts, semantic body, current/history, Baseline and Materials structured projection | EVD-001–015 |
@@ -29,12 +29,16 @@ Eleven scoped normative bodies now exist: the preserved `2026-09-19.M1-r1`, `202
 | [Candidate Save](candidate/candidate-save.md) | Nine preserved commands/results/receipts plus exact-only Materials consumer agreement | SAV-001–017 |
 | [Materials](applications/materials.md) | Preserved source boundary plus exact source projection, immutable configuration/provenance/Artifact, PDF/PNG and read/content APIs | MAT-001–030 |
 | [Derived Work](foundation/derived-work.md) | Exact demand/receipts, atomic Work selection, execution/fencing/recovery and client protocol | DRW-001–026 |
+| [Execution Runtime](agent/execution-runtime.md) | Internal Run/Invocation durability, exact response, authority, recovery and controlled Tool interface | EXR-001–034 |
+| [Evaluation / Observability](evaluation/evaluation-observability.md) | Required M1 deterministic boundary proof only | EVO-001–007 |
+
+[SL-03.M1 review](../progress/traceability.md#65-sl-03m1-reviewed-scope-and-interface-evidence) covers only its foundation. Production semantic, platform reuse and cleanup portions remain Pending.
 
 The planned S2+ scopes follow [CG03-BC3/A1–A5](../design/contract/sl-02-m1-grill.md#cg03-bc3): separate Knowledge/Profile/Resume commands, exact historical lineage/local expression and unified DeepFit with independent analyses. Former universal GroundingSet/Ensure representation is reopened. Existing SL-01 clauses are preserved; S2 adds scoped shared clauses and five actual bodies. [S2 review](../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence) records consumed readiness. [SL-02.M2 review](../progress/traceability.md#64-sl-02m2-reviewed-scope-and-interface-evidence) covers its actual consumed portions and preserved consumers. Future AI/Import/Fit/Preparation and follow-current extensions remain pending; renderer implementation/evidence is separate.
 
 ## Planned normative Contract documents
 
-The following 17 destinations are planned only. Links open their entries in Contract Structure; they do not point to nonexistent files.
+The following 15 destinations are planned only. Links open their entries in Contract Structure; they do not point to nonexistent files.
 
 | Planned path relative to this directory | Structure entry |
 | --- | --- |
@@ -48,12 +52,10 @@ The following 17 destinations are planned only. Links open their entries in Cont
 | `applications/preparation.md` | [Planned catalog entry](structure.md#planned-preparation) |
 | `applications/execution.md` | [Planned catalog entry](structure.md#planned-execution) |
 | `applications/application-history.md` | [Planned catalog entry](structure.md#planned-application-history) |
-| `agent/execution-runtime.md` | [Planned catalog entry](structure.md#planned-execution-runtime) |
 | `agent/tools.md` | [Planned catalog entry](structure.md#planned-tools) |
 | `agent/context.md` | [Planned catalog entry](structure.md#planned-context) |
 | `agent/sessions.md` | [Planned catalog entry](structure.md#planned-sessions) |
 | `agent/memory.md` | [Planned catalog entry](structure.md#planned-memory) |
 | `foundation/budget.md` | [Planned catalog entry](structure.md#planned-budget) |
-| `evaluation/evaluation-observability.md` | [Planned catalog entry](structure.md#planned-evaluation-observability) |
 
 For family mapping and references, open [Contract Structure](structure.md). For each consuming milestone, open the [Slice plan index](../plans/slices/README.md). This index records navigation, not detailed rules or a readiness decision.

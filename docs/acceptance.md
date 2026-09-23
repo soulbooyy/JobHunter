@@ -371,8 +371,23 @@ The rows describe known evidence boundaries and permitted behavior, not a new Ag
 | Crash after canonical commit or recover the same confirmed Proposal twice | Reconcile existing exact result; no duplicate facts/Resume/Analysis or repeated authority mutation | Persisted result/lineage and repeated recovery outcome; Q122, Q141, Q156 |
 | Cancel/timeout, change owner, then let old coroutine return | Obsolete owner cannot publish canonical results or checkpoints. Releasing slots does not prove remote cessation or refund; retained usage remains truthful | Write-boundary fencing, actual late-write attempts and accounting; Q116, Q122, Q124, Q135 |
 | Restart with stale/revoked input or an unfinished target slot | Startup reconciles durable boundaries, fences former owners and releases ended slots; stale/unknown work cannot become current through recovery | Startup result, exact eligibility/permission and late publication checks; Q116, Q122, Q136, Q172 |
-| Explicitly Retry unknown remote work | New Run receives fresh admission and preserves original lineage/exposure; prior uncertainty is not erased or silently retried first | Old/new Run and invocation relationship, actual requests and budgets; Q122, Q124, Q140 |
-| Recover a replay-safe local read versus an outcome-sensitive remote Tool | Replay is justified by the concrete action contract and current admission, never its name or a graph checkpoint. No generic exactly-once promise or reconsumption of execution approval | Controlled effects and actual action-specific proof; precise replay contracts remain pending; Q30, Q122, Q126 |
+| Explicitly initiate Run-level Retry for unknown remote work | New Run receives fresh admission and preserves original lineage/exposure; prior uncertainty is not erased or silently retried first | Old/new Run and invocation relationship, actual requests and budgets; Q122, Q124, Q140 |
+| Recover a replay-safe local read versus an outcome-sensitive remote Tool | Replay is justified by the concrete action contract and current admission, never its name or a graph checkpoint. No generic exactly-once promise or reconsumption of execution approval | Controlled effects and actual action-specific proof; M1 controlled-read proof is specified in EXR-029/030 while production action contracts remain pending; Q30, Q122, Q126 |
+
+The [SL-03.M1 deterministic Contract](contracts/evaluation/evaluation-observability.md) makes the following scoped proof mandatory for the actual Runtime/persistence with controlled adapters. Production SDK, business Tool and semantic Eval evidence remain later scopes; these rows are required tests, not executed results.
+
+| M1 boundary | Required observable proof |
+| --- | --- |
+| Grant/revoke/regrant and uncertain grant acknowledgement | Generations advance only on grants; a matching stored owner alone cannot establish the winning live path; stale revocation cannot clear a replacement owner |
+| Intent committed with lost acknowledgement while original path remains alive | Proven original winner with no adapter entry may continue once after confirming commit; crash/replacement/unknown entry cannot consume the intent |
+| Existing response confirmation after Run ending, expiry or owner replacement | Identical verified bytes return the original immutable result without writes or a decoder dependency; different bytes conflict; no new publication permission |
+| Legitimate durable response recovered after deadline | Only explicitly admitted bounded local work may proceed under valid qualification; no new remote dispatch, deadline reset or late first publication |
+| Business completion reconciliation and ending race | Confirm whole-Run criteria, skip unnecessary response decoding, end only through lawful authority/atomic coordination and fence siblings; one committed result does not automatically complete the Run |
+| Missing/corrupt payload or unavailable format/consumer versus unreadable storage | Confirmed required dependency failures converge affected OPEN Runs with the owned code; uncertain reads/failed ending commits remain honest; no Provider replay or unrelated startup failure |
+| Complete oversized response versus stream stopped before termination | Only confirmed remote termination supports RESPONSE_TOO_LARGE evidence; incomplete reception preserves uncertainty and does not fabricate a durable/truncated response |
+| Controlled exact-version local-read recovery | Reuse valid result or repeat the original unfinished Invocation only under its concrete pure-read agreement with fresh authority and unchanged exact inputs; no hidden Ensure, parse or business write |
+| Restart with OPEN Run but no Invocation | Consult consumer completion/admission, do not invent remote intent, corruption or OUTCOME_UNKNOWN |
+| Persistence evolution and format bytes | Forward migration preserves existing records, no historical Run backfill; per-format deterministic-byte fixtures, atomic publication and OPEN payload protection/terminal retention are verified |
 
 ### 9.3 Streams, presentation, and safe work
 

@@ -1,6 +1,6 @@
 # Common Contract — Shared Expression and M1 Types
 
-> English is authoritative. Normative scope revision: **2026-09-19.M1-r1**. Scope: conventions and types actually consumed by SL-01.M1. Additional formal-asset, invocation and immutable-reference schemas remain unassigned. Readiness and review evidence belong to [Progress](../progress/traceability.md#6-contract-normative-scope-readiness-ledger), not this header.
+> English is authoritative. Normative scope revision: **2026-09-19.M1-r1**. Scope: conventions and types actually consumed by SL-01.M1. Later additions below publish only their stated consumer scopes; other formal-asset, invocation and immutable-reference schemas remain unassigned. Readiness and review evidence belong to [Progress](../progress/traceability.md#6-contract-normative-scope-readiness-ledger), not this header.
 
 [Index](index.md) · [Decision provenance](../design/contract/sl-01-m1-grill.md) · [Entry](jobs/manual-application-entries.md) · [Workspace](foundation/workspace.md) · [Storage](foundation/storage.md)
 
@@ -226,3 +226,17 @@ Counts MUST be unpadded ASCII decimal integers. Numbers MUST use exact plain dec
 
 <a id="com-046"></a>
 **COM-046.** SL-02.M2 HTTP validation MUST use COM-039 paths/reasons. Path UUID errors identify the operation's canonical path field (render_intent_id, render_configuration_id or artifact_id); disposition errors identify disposition. Prohibited query/body or unrecognized parameters use the nearest declared parent, or $, without echoing arbitrary names. Repeated disposition, invalid enum/UUID and incompatible shapes use INVALID_FORMAT; absence/type/unknown fields retain REQUIRED/INVALID_TYPE/UNKNOWN_FIELD. Supplied missing references use INVALID_REFERENCE at their body field. Positive/nonnegative integer fields MUST be admitted exactly without Boolean/string coercion, fractional rounding or overflow; malformed types use INVALID_TYPE and owner-bound violations OUT_OF_RANGE. No success object may be repaired with read-time defaults. Q54/Q75/Q87/Q131.
+
+## SL-03.M1 scoped identity and expression
+
+Revision **2026-09-23.S3M1-r1**. [Decision source](../design/contract/sl-03-m1-grill.md); [Runtime owner](agent/execution-runtime.md). Prior scoped consumer rules remain unchanged.
+
+<a id="com-047"></a>
+**COM-047.** **Runtime scalars and closed shapes.** The internal SL-03.M1 projections MUST reuse Common UUIDv4, Sha256Hex, UTC instant and exact integer expression. Execution generation is an exact integer in 0–9007199254740991; generation zero is not execution authority. Positive byte limits/lengths reject booleans, fractions and nonfinite/coerced values; no arbitrary permanent MiB ceiling is added. Registered code keys are nonempty exact case-sensitive strings, not normalized user text. Listed logical fields are required, including explicit null where allowed; do not silently accept extra fields or insert revision/schema_version/updated_at into every object. Common conventions do not impose Entry timestamp ordering on AgentRun.
+
+Decision sources: CG05-Q3, CG05-Q4, CG05-Q12, CG05-Q21, CG05-Q43, CG05-Q46, CG05-Q97, CG05-Q107, CG05-Q119, CG05-Q120.
+
+<a id="com-048"></a>
+**COM-048.** **Runtime requirement and error scope.** `EXR` identifies Execution Runtime requirements and `EVO` identifies scoped evaluation/evidence requirements. Internal operation errors, persisted Runtime failure_code and consumer business outcomes MUST remain distinct. EXR-032's caller errors do not automatically fail a Run. M1 provides no new public HTTP envelope/status mapping, universal business error registry or generic recovery-denial code. Reuse existing Common HTTP rules only when a later actual HTTP consumer is defined.
+
+Decision sources: CG05-Q1, CG05-Q53, CG05-Q98, CG05-Q105, CG05-Q111, CG05-Q120.
