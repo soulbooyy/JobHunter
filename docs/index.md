@@ -2,7 +2,7 @@
 
 > English is authoritative. This is the global navigation entry, not a new normative authority or evidence of review, implementation or acceptance. Read [Progress](progress.md) for actual state. W7 document review is recorded; user baseline approval remains pending.
 
-For SL-03.M1 backend work, use the [Invocation durability/recovery handoff](development/handoff/sl-03-m1-handoff.md), [published Runtime](contracts/agent/execution-runtime.md) and [review/evidence ledger](progress/traceability.md#65-sl-03m1-reviewed-scope-and-interface-evidence). Contract scope is Ready; Runtime implementation and acceptance have not started.
+For SL-03.M1 backend work, use the [Invocation durability/recovery handoff](development/handoff/sl-03-m1-handoff.md), [published Runtime](contracts/agent/execution-runtime.md) and [review/evidence ledger](progress/traceability.md#65-sl-03m1-reviewed-scope-and-interface-evidence). Contract scope is Ready; the internal backend and controlled deterministic acceptance are implemented on schema 5. See the [executed requirement mapping](progress/traceability.md#invocation-backend-evidence); production M2/M3 scope remains separate.
 
 For SL-02.M2 backend work, use the [demanded preview/export handoff](development/handoff/sl-02-m2-handoff.md), its current normative scope and the [review/evidence ledger](progress/traceability.md#64-sl-02m2-reviewed-scope-and-interface-evidence). Published Contracts do not establish renderer, migration or UI delivery.
 

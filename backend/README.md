@@ -77,14 +77,14 @@ Tests establish the executed boundaries recorded in traceability, not arbitrary 
 
 ## Preferences and explicit schema evolution
 
-The current runtime initializes and serves **schema 4**, retaining Entry and Preferences behavior. Schemas 1, 2 and 3 are recognized but ordinary startup fails with `SCHEMA_UNSUPPORTED`; stop the backend and explicitly migrate the selected existing directory:
+The current runtime initializes and serves **schema 5**, retaining Entry and Preferences behavior. Schemas 1, 2, 3 and 4 are recognized but ordinary startup fails with `SCHEMA_UNSUPPORTED`; stop the backend and explicitly migrate the selected existing directory:
 
 ```sh
 uv run --locked python -m jobhunter.bootstrap.migrate \
   --data-directory "/absolute/existing/data-directory"
 ```
 
-Migration uses the runtime's physical-directory lock, without a listener or directory/database creation. Success prints `outcome: MIGRATED` or `UNCHANGED`, the resolved `data_directory` and `schema_version: 4`. Failure prints the sanitized Common error and exits nonzero. The migration fully recognizes source/target structure, preserves Entry/Preferences rows and receipts, adds no Preference business rows, atomically seeds Profile/empty Evidence Baseline/default selection, and advances DDL/product/Alembic metadata in one explicit transaction. Uncertain completion is resolved by reopening and recognizing the complete source or target; it never replays the upgrade. Do not use standalone Alembic, downgrade, delete residue or stamp metadata to bypass recognition. The schema-1 definitions and revision `b720a94fd381` remain frozen; `cd891047a2e6` adds schema 2 and remains frozen too. Revision `ef03c92ba671` adds schema 3 in the same revision directory; `a41d7e90c263` adds Materials schema 4 without backfilled demand. Schema 1 upgrades through all later revisions in one outer transaction.
+Migration uses the runtime's physical-directory lock, without a listener or directory/database creation. Success prints `outcome: MIGRATED` or `UNCHANGED`, the resolved `data_directory` and `schema_version: 5`. Failure prints the sanitized Common error and exits nonzero. The migration fully recognizes source/target structure, preserves Entry/Preferences rows and receipts, adds no Preference business rows, atomically seeds Profile/empty Evidence Baseline/default selection, and advances DDL/product/Alembic metadata in one explicit transaction. Uncertain completion is resolved by reopening and recognizing the complete source or target; it never replays the upgrade. Do not use standalone Alembic, downgrade, delete residue or stamp metadata to bypass recognition. The schema-1 definitions and revision `b720a94fd381` remain frozen; `cd891047a2e6` adds schema 2 and remains frozen too. Revision `ef03c92ba671` adds schema 3 in the same revision directory; `a41d7e90c263` adds Materials schema 4 without backfilled demand. Revision `d092ea64bf17` adds schema 5 for internal invocation durability without backfilling historical Runs or Invocations. Schema 1 upgrades through all later revisions in one outer transaction.
 
 Every connection enables and verifies `foreign_keys=ON` before beginning a transaction. Deferred composite references enforce root/current/version/receipt ownership, including the cyclic first publication. SQLite requires this per-connection admission and checks deferred references at commit; see [SQLite foreign keys](https://www.sqlite.org/foreignkeys.html). Recognition also runs `foreign_key_check` and admits stored business values. JSON formatting/key order is representation only. The supported runtime/dependency versions above were rechecked unchanged for this consumer; no new dependency was needed.
 
@@ -137,3 +137,30 @@ The lifespan worker discovers the durable queue, claims a fresh attempt and laun
 The Coordinator independently validates the final returned bytes after renderer exit. It places bytes without overwriting, flushes/fsyncs them (including macOS fullfsync for the file and directory syncs), then commits Artifact, Work and all pending Intents in one database transaction. Reads verify an opened regular file into a private stable snapshot before success headers. Orphans from failed/uncertain publication are retained conservatively; automatic payload deletion/GC is not implemented. They are not public Artifacts and cannot be discovered through API guesses. Hardware power-loss behavior has not been destructively tested.
 
 Run `./scripts/check` for lint/format, strict typing, real SQLite/process/HTTP and real renderer tests. The rendering tests require the installed fixed fonts and verified native runtime; a dependency-free checkout can serve non-render APIs but cannot pass actual renderer conformance. Frontend client generation, browser preview/download and whole-milestone acceptance remain separate work.
+
+
+## Internal invocation durability and recovery
+
+See the [internal API integration guide](../docs/api/sl-03-m1.md) for operation signatures, typed results, controlled consumer agreements and an executable temporary-Workspace example.
+
+The bootstrap composes one `jobhunter.agent.harness.runtime.Runtime` per owned Store lifetime, with a fresh UUIDv4 runtime instance. Startup fences former execution owners before announcing readiness, reconciles OPEN Runs and keeps unresolved affected operations stopped. Missing historical consumers/readers are scoped failures. No Run/Invocation HTTP routes, frontend, production Provider SDK, scheduler, LangGraph or telemetry integration is installed. Materials retains its separate runner, attempt and subprocess lifecycle.
+
+Internal operations return `Success`, `Rejected` or `Unresolved`; callers must inspect the variant and code. `OUTCOME_UNKNOWN` preserves a stable identity and never authorizes command or remote replay. The SQLite adapter performs one fresh read to reconcile an uncertain write, without retrying the command or COMMIT. A live grant/intent winner carries local arbitration evidence; reading matching authority is insufficient. Use `Runtime.model_path` around intent and send: its context is unique, thread/task-bound, noncopyable and lost on exit. A later path cannot consume an existing intent. Adapter entry occurs at most once and rechecks current authority. Physical interruption is best effort; logical fences govern publication.
+
+Controlled agreements are defined in `application/invocation/controlled.py` and `domain/invocation/format.py`:
+
+- `controlled.model.v1` permits at most two MODEL Invocations and completes only after **both** exact responses pass local validation and the controlled proof commits. One saved response is insufficient.
+- `controlled.read.v1` permits one `controlled.response-read.v1` TOOL. It retains the exact source Invocation and optional audit-only lineage, reads already-durable local bytes, and records their verified digest/length. It performs no Ensure, parsing, business write or network request. An unfinished read may recover the same Invocation; valid committed results are reused.
+- Both require an established deadline before execution. The controlled local recovery window ends at the original deadline plus 30 seconds, across restarts; a live monotonic floor also prevents wall-clock rollback from renewing elapsed time. No new dispatch or first response publication is allowed after the original deadline. No protection against arbitrary clock changes across restart is claimed.
+- Permission denial, unavailable source and unknown action use their explicit controlled failure mappings; malformed stored records are persistence integrity failures. Unknown reads remain unresolved. These are controlled proof agreements, not defaults for future business consumers.
+- `controlled.response.v1` stores exactly `terminal`, `text`, `ordinal` in that order: compact UTF-8 JSON, scalar text, JSON escaping, exact nonnegative safe integer, no BOM/trailing newline/duplicate keys. `STOP` and `LIMIT` are complete terminal outcomes. The snapshotted byte limit includes the entire representation; finite reception holds at most `2 * max_response_bytes + 256` bytes and admits at most `max_response_bytes + 1` frames, checking deadline/authority between frames. A cutoff before terminal evidence stays unknown. Complete oversized output retains only rejection evidence and the atomic failure, never the body.
+
+Captured byte limits use exact decimal text in SQLite, preserving values beyond its signed 64-bit INTEGER range without REAL rounding. Domain projections still expose exact integers. Response BLOBs, actual SHA-256/length and phase publish atomically. Identical historical confirmation is a read-only byte comparison even after ending, expiry or reader removal. All OPEN and terminal payloads are retained; no purge or Pin subsystem exists. Raw reads never repair data or end Runs. Runtime diagnostics and returned failures contain no submitted payload, SQL parameters or transport exceptions.
+
+Use the same startup and explicit offline migration commands above. The maintained verification command is:
+
+```sh
+UV_CACHE_DIR=/tmp/jobhunter-uv-cache ./scripts/check
+```
+
+Checks use temporary stores, controlled clocks/adapters and real SQLite/process boundaries. Real loopback HTTP regression requires local socket permission. [Invocation evidence](../docs/progress/traceability.md#invocation-backend-evidence) records executed commands, outcomes and the production/semantic boundaries that remain unimplemented.
