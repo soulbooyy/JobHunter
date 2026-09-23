@@ -100,7 +100,7 @@ def test_explicit_sources_seed_once_and_preserve_preferences(tmp_path: Path, ver
         else:
             assert Preferences(store).current().status == "NOT_CONFIGURED"
     with Store.open(tmp_path) as store:
-        assert store.recognize() == 4
+        assert store.recognize() == 5
         assert CandidateAuthority(store).pair("profile") == original
 
 
@@ -270,7 +270,7 @@ def test_detected_corrupt_historical_body_is_internal_not_missing_reference(tmp_
 
 @pytest.mark.parametrize(
     "stage,version",
-    [("migration_candidate_seeds", 2), ("commit_before_driver", 2), ("commit_after_driver", 4)],
+    [("migration_candidate_seeds", 2), ("commit_before_driver", 2), ("commit_after_driver", 5)],
 )
 def test_migration_process_death_recovers_source_or_target(
     tmp_path: Path, stage: str, version: int
@@ -291,7 +291,7 @@ with Store.open(Path(sys.argv[1]),migration=True,fault=fault) as store: store.mi
     assert not result.stderr
     with Store.open(tmp_path, migration=True) as store:
         assert store.recognize() == version
-        assert store.migrate() == ("UNCHANGED" if version == 4 else "MIGRATED")
+        assert store.migrate() == ("UNCHANGED" if version == 5 else "MIGRATED")
 
 
 def test_resume_relational_sources_and_snapshot_corruption(tmp_path: Path) -> None:

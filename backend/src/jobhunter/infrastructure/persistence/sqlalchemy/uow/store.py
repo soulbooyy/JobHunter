@@ -7,6 +7,7 @@ import stat
 import sys
 from collections.abc import Callable
 from pathlib import Path
+from threading import Lock
 from types import TracebackType
 from typing import Self, cast
 
@@ -24,8 +25,18 @@ from jobhunter.infrastructure.persistence.sqlalchemy.models.candidate import (
 from jobhunter.infrastructure.persistence.sqlalchemy.models.candidate import (
     TABLES as CANDIDATE_TABLES,
 )
-from jobhunter.infrastructure.persistence.sqlalchemy.models.materials import (
+from jobhunter.infrastructure.persistence.sqlalchemy.models.invocation import (
     ALEMBIC_REVISION as TARGET_REVISION,
+)
+from jobhunter.infrastructure.persistence.sqlalchemy.models.invocation import (
+    SCHEMA_VERSION,
+    recognize_metadata,
+)
+from jobhunter.infrastructure.persistence.sqlalchemy.models.invocation import (
+    TABLES as INVOCATION_TABLES,
+)
+from jobhunter.infrastructure.persistence.sqlalchemy.models.materials import (
+    ALEMBIC_REVISION as MATERIAL_REVISION,
 )
 from jobhunter.infrastructure.persistence.sqlalchemy.models.materials import (
     INDEXES as MATERIAL_INDEXES,
@@ -75,6 +86,9 @@ class Store:
     def __init__(
         self, directory: Path, lock_fd: int, engine: Engine, outcome: str, fault: Fault
     ) -> None:
+        self.runtime_lock = Lock()
+        self.runtime_claimed = False
+        self.execution_runtime: object | None = None
         self.directory = directory
         self.lock_fd = lock_fd
         self.engine = engine
@@ -193,7 +207,7 @@ class Store:
                         conn.rollback()
                         raise
             version = store.recognize()
-            if version != 4 and not migration:
+            if version != SCHEMA_VERSION and not migration:
                 raise Failure("SCHEMA_UNSUPPORTED")
             return store
         except BaseException as exc:
@@ -218,7 +232,7 @@ class Store:
                 if conn.exec_driver_sql("PRAGMA application_id").scalar() != APPLICATION_ID:
                     raise Failure("STORAGE_NOT_RECOGNIZED")
                 schema_version = conn.exec_driver_sql("PRAGMA user_version").scalar()
-                if schema_version not in (1, 2, 3, 4):
+                if schema_version not in (1, 2, 3, 4, 5):
                     raise Failure("SCHEMA_UNSUPPORTED")
                 if schema_version == 1 and any(
                     conn.exec_driver_sql(
@@ -233,7 +247,8 @@ class Store:
                     ("alembic_version", ALEMBIC_DDL),
                     *(TABLES if schema_version >= 2 else ()),
                     *(CANDIDATE_TABLES if schema_version >= 3 else ()),
-                    *(MATERIAL_TABLES if schema_version == 4 else ()),
+                    *(MATERIAL_TABLES if schema_version >= 4 else ()),
+                    *(INVOCATION_TABLES if schema_version >= 5 else ()),
                 ):
                     sql = conn.exec_driver_sql(
                         "SELECT sql FROM sqlite_master WHERE type=? AND name=?",
@@ -249,7 +264,8 @@ class Store:
                         1: ALEMBIC_REVISION,
                         2: PREFERENCE_REVISION,
                         3: CANDIDATE_REVISION,
-                        4: TARGET_REVISION,
+                        4: MATERIAL_REVISION,
+                        5: TARGET_REVISION,
                     }[schema_version]
                 ]:
                     raise Failure("STORAGE_NOT_RECOGNIZED")
@@ -276,7 +292,7 @@ class Store:
                     for name, _ in MATERIAL_TABLES
                 ):
                     raise Failure("STORAGE_NOT_RECOGNIZED")
-                if schema_version == 4:
+                if schema_version >= 4:
                     for name, ddl in MATERIAL_INDEXES:
                         actual = conn.exec_driver_sql(
                             "SELECT sql FROM sqlite_master WHERE type='index' AND name=?", (name,)
@@ -289,6 +305,15 @@ class Store:
                         MaterialsRepository(conn).recognize_materials()
                     except Exception:
                         raise Failure("STORAGE_CORRUPT") from None
+                if schema_version >= 5:
+                    recognize_metadata(conn)
+                elif any(
+                    conn.exec_driver_sql(
+                        "SELECT 1 FROM sqlite_master WHERE name=?", (name,)
+                    ).first()
+                    for name, _ in INVOCATION_TABLES
+                ):
+                    raise Failure("STORAGE_NOT_RECOGNIZED")
                 return int(schema_version)
         except Failure:
             raise
@@ -303,7 +328,7 @@ class Store:
 
     def migrate(self) -> str:
         """Offline, under the same lifetime lock; never replay an upgrade after uncertainty."""
-        if self.recognize() == 4:
+        if self.recognize() == SCHEMA_VERSION:
             return "UNCHANGED"
 
         def upgrade(conn: Connection) -> None:
@@ -321,10 +346,10 @@ class Store:
                 version = self.recognize()
             except Failure:
                 raise Failure("OUTCOME_UNKNOWN") from None
-            if version in (1, 2, 3):
+            if version in (1, 2, 3, 4):
                 raise Failure("STORAGE_UNAVAILABLE") from None
             return "MIGRATED"
-        if self.recognize() != 4:
+        if self.recognize() != SCHEMA_VERSION:
             raise Failure("OUTCOME_UNKNOWN")
         return "MIGRATED"
 

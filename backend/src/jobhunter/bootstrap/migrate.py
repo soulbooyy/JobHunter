@@ -22,7 +22,7 @@ def main() -> None:
                     {
                         "outcome": outcome,
                         "data_directory": str(store.directory),
-                        "schema_version": 4,
+                        "schema_version": 5,
                     }
                 ),
                 flush=True,
