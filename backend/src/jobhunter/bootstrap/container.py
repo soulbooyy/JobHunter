@@ -32,6 +32,11 @@ def create_app(
     hosts: tuple[str, ...] = ("testserver",),
     origins: tuple[str, ...] = (),
 ) -> FastAPI:
+    from jobhunter.bootstrap.invocation import invocation_runtime
+
+    execution = store.execution_runtime
+    if execution is None:
+        execution = invocation_runtime(store)
     materials = Materials(store, capability=capability)
     for configuration in catalog():
         store.run(
@@ -58,6 +63,7 @@ def create_app(
         redoc_url=None,
     )
     app.state.store = store
+    app.state.invocation_runtime = execution
     entries = Entries(store)
     app.state.entries = entries
     app.router.route_class = ExactJsonRoute

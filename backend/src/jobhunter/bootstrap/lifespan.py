@@ -55,18 +55,19 @@ def main() -> None:
             _ = parsed.port
         configured = os.environ.get("JOBHUNTER_DATA_DIRECTORY")
         with Store.open(Path(configured) if configured is not None else None) as store:
+            app = create_app(store, hosts=hosts, origins=origins)
             print(
                 json.dumps(
                     {
                         "outcome": store.outcome,
                         "data_directory": str(store.directory),
-                        "schema_version": 4,
+                        "schema_version": 5,
                     }
                 ),
                 flush=True,
             )
             uvicorn.run(
-                create_app(store, hosts=hosts, origins=origins),
+                app,
                 host=host,
                 port=port,
                 access_log=False,

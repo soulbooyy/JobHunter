@@ -37,7 +37,7 @@ def test_real_http_restart_privacy_and_bind(tmp_path: Path) -> None:
         assert startup == {
             "outcome": "INITIALIZED",
             "data_directory": str(tmp_path.resolve()),
-            "schema_version": 4,
+            "schema_version": 5,
         }
         with httpx.Client(base_url=f"http://127.0.0.1:{port}", trust_env=False) as client:
             for _ in range(100):
