@@ -4,13 +4,15 @@ import { cn } from '@/shared/lib/cn';
 export function ViewTabs({
   items,
   action,
+  label = '岗位池视图',
 }: {
   items: ReadonlyArray<{ to: string; label: string }>;
   action?: ReactNode;
+  label?: string;
 }) {
   return (
     <div className="mb-5 flex items-center justify-between gap-3 border-b border-border text-sm">
-      <nav aria-label="岗位池视图" className="flex gap-5">
+      <nav aria-label={label} className="flex gap-5">
         {items.map((item) => (
           <NavLink
             key={item.to}

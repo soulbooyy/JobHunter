@@ -3,6 +3,8 @@ import {
   ExternalLink,
   SlidersHorizontal,
   Terminal,
+  Library,
+  FileText,
 } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router';
 import { cn } from '@/shared/lib/cn';
@@ -30,6 +32,14 @@ export function AppLayout() {
           JobHunter
         </div>
         <nav className="space-y-1 p-2">
+          <NavLink to="/candidate-knowledge" className={navClass}>
+            <Library size={16} aria-hidden="true" />
+            求职资料库
+          </NavLink>
+          <NavLink to="/resumes" className={navClass}>
+            <FileText size={16} aria-hidden="true" />
+            我的简历
+          </NavLink>
           <NavLink to="/job-pool" end className={navClass}>
             <BriefcaseBusiness size={16} aria-hidden="true" />
             岗位池

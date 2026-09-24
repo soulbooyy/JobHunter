@@ -78,3 +78,33 @@
     }
   }
 }
+
+.candidate-editor-body {
+  min-height: 180px;
+  width: 100%;
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.75;
+  outline: none;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.candidate-editor-body p {
+  margin: 0;
+  min-height: 1.75em;
+}
+.candidate-editor-body ul {
+  list-style: disc;
+  padding-left: 1.6em;
+}
+.candidate-editor-body ol {
+  list-style: decimal;
+  padding-left: 1.6em;
+}
+.candidate-editor-body a {
+  text-decoration: underline;
+  cursor: text;
+}
+.candidate-editor-body[contenteditable='false'] {
+  background: var(--color-surface-muted);
+}

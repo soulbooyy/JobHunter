@@ -7,12 +7,14 @@ export function Dialog({
   children,
   onClose,
   busy = false,
+  wide = false,
 }: {
   title: string;
   description: string;
   children: ReactNode;
   onClose: () => void;
   busy?: boolean;
+  wide?: boolean;
 }) {
   const trigger = useRef(document.activeElement as HTMLElement | null);
   return (
@@ -31,7 +33,7 @@ export function Dialog({
             if (trigger.current?.isConnected) trigger.current.focus();
             else document.getElementById('add-entry')?.focus();
           }}
-          className="fixed left-1/2 top-1/2 z-50 max-h-[90vh] w-[calc(100%-32px)] max-w-[500px] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg border border-border bg-surface p-6 shadow-lg"
+          className={`fixed left-1/2 top-1/2 z-50 max-h-[90vh] w-[calc(100%-32px)] ${wide ? 'max-w-[800px]' : 'max-w-[500px]'} -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg border border-border bg-surface p-6 shadow-lg`}
         >
           <DialogPrimitive.Title className="pr-8 text-lg font-semibold">
             {title}

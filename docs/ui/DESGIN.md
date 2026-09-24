@@ -1047,6 +1047,16 @@ on every field.
 
 ---
 
+## 19.5 Continuous Candidate content editing
+
+Use one full-width editing surface per experience, with enough height for several lines. Paragraphs and flat lists belong inside that surface, rather than separate textareas. Reuse the same editor for add/edit forms; expose only the formatting supported by the relevant Contract.
+
+Resume bold, italic and underline controls show their active state. Toggling at a caret affects subsequent input; moving the caret inherits the preceding text's marks. Formatting is visible in the editor as well as the preview. A list action applies to the whole current line or the lines touched by a selection, even when only part of a line is selected. Preserve selection when using the toolbar and provide visible keyboard focus.
+
+Place document font, font size, line spacing and theme color in a compact row immediately above the Resume preview. These document-level controls are separate from inline text marks. Resume rows open editing directly; secondary management actions remain independently operable. The existing outline-styled personal-information action opens the shared Profile form in a Dialog and explains that saving updates Knowledge. Applying that saved version to the current Resume remains explicit; other Resumes do not change automatically.
+
+---
+
 # 20. Validation
 
 ## 20.1 Field validation

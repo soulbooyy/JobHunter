@@ -3,7 +3,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath, URL } from 'node:url';
 import openapiTS, { astToString } from 'openapi-typescript';
 
-// Import the real route composition without starting storage or a listener.
+// Compose the real backend in disposable storage; never open a user workspace.
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const schema = JSON.parse(
   execFileSync(
@@ -11,20 +11,31 @@ const schema = JSON.parse(
     [
       '-c',
       [
-        'import json',
+        'import json, tempfile',
+        'from pathlib import Path',
+        'from jobhunter.infrastructure.persistence.sqlalchemy.uow.store import Store',
         'from jobhunter.bootstrap.container import create_app',
-        'print(json.dumps(create_app(None).openapi()))',
+        'with tempfile.TemporaryDirectory(prefix="jobhunter-openapi-") as directory:',
+        '    with Store.open(Path(directory)) as store:',
+        '        print(json.dumps(create_app(store).openapi()))',
       ].join('\n'),
     ],
     { cwd: root, encoding: 'utf8' },
   ),
 );
-// Only the currently consumed Manual Applications and Preferences APIs is exposed to the frontend.
+// Select consumed Manual Applications, Preferences and saved Candidate authority paths.
 schema.paths = Object.fromEntries(
   Object.entries(schema.paths).filter(
     ([path]) =>
       path.startsWith('/api/v1/manual-application-entries') ||
-      path.startsWith('/api/v1/preferences'),
+      path.startsWith('/api/v1/preferences') ||
+      [
+        '/api/v1/profile',
+        '/api/v1/evidence-items',
+        '/api/v1/evidence-baselines',
+        '/api/v1/resumes',
+        '/api/v1/workspace/default-resume',
+      ].some((prefix) => path.startsWith(prefix)),
   ),
 );
 const needed = new Set();

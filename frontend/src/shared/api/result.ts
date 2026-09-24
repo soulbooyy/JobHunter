@@ -1,5 +1,7 @@
 import { z } from 'zod';
 const fieldCode = z.enum([
+  'STRUCTURE_TOO_COMPLEX',
+  'INVALID_REFERENCE',
   'REQUIRED',
   'UNKNOWN_FIELD',
   'INVALID_TYPE',
@@ -10,6 +12,10 @@ const fieldCode = z.enum([
   'OUT_OF_RANGE',
 ]);
 const statuses = {
+  INVALID_STATE: 409,
+  SOURCE_CONFLICT: 409,
+  LAST_RESUME_REQUIRED: 409,
+  CAPACITY_EXCEEDED: 409,
   BAD_REQUEST: 400,
   REQUEST_TOO_LARGE: 413,
   ACCESS_DENIED: 403,
@@ -56,7 +62,7 @@ export async function apiResult<T>(
   }>,
   schema: z.ZodType<T>,
   write = false,
-  scope: 'entry' | 'preferences' = 'entry',
+  scope: 'entry' | 'preferences' | 'candidate' = 'entry',
 ): Promise<T> {
   try {
     const result = await operation();
@@ -68,8 +74,20 @@ export async function apiResult<T>(
       (scope === 'entry'
         ? failure.data.code !== 'REQUEST_TOO_LARGE'
         : failure.data.code !== 'ORIGINAL_ENTRY_DELETED') &&
-      failure.data.field_errors.every((field) =>
-        validErrorField(field.field, scope),
+      (scope === 'candidate' ||
+        ![
+          'INVALID_STATE',
+          'SOURCE_CONFLICT',
+          'LAST_RESUME_REQUIRED',
+          'CAPACITY_EXCEEDED',
+        ].includes(failure.data.code)) &&
+      failure.data.field_errors.every(
+        (field) =>
+          validErrorField(field.field, scope) &&
+          (scope === 'candidate' ||
+            !['INVALID_REFERENCE', 'STRUCTURE_TOO_COMPLEX'].includes(
+              field.code,
+            )),
       ) &&
       (failure.data.code !== 'VALIDATION_ERROR' ||
         failure.data.field_errors.length > 0) &&
@@ -95,6 +113,10 @@ export async function apiResult<T>(
 }
 export function failureMessage(error: ApiFailure): string {
   const messages: Record<string, string> = {
+    INVALID_STATE: '这条资料或简历已被移除，无法继续此操作。',
+    SOURCE_CONFLICT: '引用的资料已变化，请重新确认资料来源。',
+    LAST_RESUME_REQUIRED: '至少需要保留一份简历。',
+    CAPACITY_EXCEEDED: '已达到数量上限，请先管理现有内容。',
     BAD_REQUEST: '请求无法处理，请保留输入并重试。',
     REQUEST_TOO_LARGE: '提交内容过大，请减少内容后重试。',
     ACCESS_DENIED: '当前无法访问本地服务，请检查连接配置。',
@@ -110,6 +132,8 @@ export function failureMessage(error: ApiFailure): string {
 }
 export function fieldErrorMessage(error: FieldError): string {
   const messages: Record<FieldError['code'], string> = {
+    INVALID_REFERENCE: '引用的资料不可用或不匹配',
+    STRUCTURE_TOO_COMPLEX: '内容结构过于复杂，请减少内容',
     REQUIRED: '请填写此项',
     UNKNOWN_FIELD: '请求包含不支持的字段',
     INVALID_TYPE: '内容类型不正确',
@@ -125,7 +149,24 @@ export function fieldErrorMessage(error: FieldError): string {
   return messages[error.code];
 }
 
-function validErrorField(field: string, scope: 'entry' | 'preferences') {
+function validErrorField(
+  field: string,
+  scope: 'entry' | 'preferences' | 'candidate',
+) {
+  if (scope === 'candidate') {
+    if (field === '$') return true;
+    const known = new Set(
+      'request_id revision full_name phone_number email kind fields content school_name degree major start_month end_month company_name role_title project_name project_url skill_name award_name awarding_organization awarded_month certification_name issuing_organization issued_month resume_name profile_version_id header_presentation optional_items value sections members evidence_item_id evidence_item_version_id document_presentation font_family font_size_pt line_spacing_pt theme_color type text runs marks url items default_resume_selection replacement_resume_id default_resume_id resume_id resume_version_id evidence_baseline_snapshot_id'.split(
+        ' ',
+      ),
+    );
+    return (
+      /^[a-z_]+(?:\[(?:0|[1-9][0-9]*)\])?(?:\.[a-z_]+(?:\[(?:0|[1-9][0-9]*)\])?)*$/.test(
+        field,
+      ) &&
+      field.split('.').every((part) => known.has(part.replace(/\[.*$/, '')))
+    );
+  }
   if (scope === 'entry')
     return [
       '$',

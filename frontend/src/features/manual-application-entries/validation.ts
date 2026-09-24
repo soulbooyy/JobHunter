@@ -1,9 +1,6 @@
+import { httpUrlIssue } from '@/shared/lib/http-url';
 import { z } from 'zod';
-import {
-  trimOuterWhitespace,
-  controls,
-  anywhereWhitespace,
-} from '@/shared/lib/unicode-text';
+import { trimOuterWhitespace, controls } from '@/shared/lib/unicode-text';
 export { trimOuterWhitespace } from '@/shared/lib/unicode-text';
 export const fieldLabels = {
   company_name: '公司',
@@ -21,42 +18,7 @@ function issueForText(raw: string, field: EntryField): string | undefined {
     return '内容过长，请缩短后重试';
   if (field !== 'application_url')
     return controls.test(value) ? '请使用不含控制字符的单行文本' : undefined;
-  const invalid = '请输入有效的 HTTP 或 HTTPS 链接';
-  if (
-    controls.test(value) ||
-    anywhereWhitespace.test(value) ||
-    value.includes('\\') ||
-    /%(?![0-9a-f]{2})/i.test(value)
-  )
-    return invalid;
-  const authority = /^https?:\/\/([^/?#]+)/i.exec(value)?.[1];
-  if (!authority || authority.includes('@')) return invalid;
-  // Reject empty/out-of-range ports and IPv4 spellings repaired by URL().
-  const parts = /^(\[[^\]]+\]|[^:]+)(?::(.*))?$/.exec(authority);
-  if (!parts) return invalid;
-  if (
-    parts[2] !== undefined &&
-    (!/^\d+$/.test(parts[2]) || Number(parts[2]) > 65535)
-  )
-    return invalid;
-  try {
-    const parsed = new URL(value);
-    if (
-      !['http:', 'https:'].includes(parsed.protocol) ||
-      !parsed.hostname ||
-      parsed.username ||
-      parsed.password
-    )
-      return invalid;
-    if (
-      /^\d+\.\d+\.\d+\.\d+$/.test(parsed.hostname) &&
-      parts[1] !== parsed.hostname
-    )
-      return invalid;
-  } catch {
-    return invalid;
-  }
-  // Full pinned WHATWG validity remains server-owned; never serialize/repair input.
+  return httpUrlIssue(raw);
 }
 const field = (name: EntryField) =>
   z

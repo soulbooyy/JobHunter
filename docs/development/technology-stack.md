@@ -44,6 +44,7 @@ The table records target choices, not independently researched claims about curr
 | CSS | Tailwind CSS | Styling. Exact version and build integration remain to be pinned. |
 | Server state | TanStack Query | API cache, queries, mutations and request state. Cached or optimistic values are not proof of a committed mutation or a second canonical store. |
 | Forms | React Hook Form + Zod | Form state and client-side input validation. Server validation, current revisions and authorization remain required at the actual write boundary. |
+| Semantic text editing | Tiptap + ProseMirror | One continuous editing surface for Candidate content, caret-aware marks and whole-line lists. A restricted adapter emits the owned Evidence/Resume AST; editor JSON/HTML is never a storage or API format. |
 | Routing | React Router | Page and contextual navigation. Routes do not create new product entries or Domain owners. |
 | Local UI state | React state; Zustand only when needed | UI-only state such as local interaction choices. Introduce Zustand only for a demonstrated shared UI-state need; do not duplicate server-state ownership. |
 | API client | OpenAPI-generated TypeScript client | Typed transport integration derived from the implemented API description and reconciled with normative Contracts. The generator/tool and regeneration workflow are not selected here. |
