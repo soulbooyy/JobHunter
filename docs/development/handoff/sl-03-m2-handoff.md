@@ -1,6 +1,15 @@
 # SL-03.M2 — Protected Semantic Invocation Development Handoff
 
-## Current development transfer — 2026-09-24.S2M1S1-r1
+> **Current semantic transfer — 2026-09-24.S2M1S1-r2.** The [Q42–Q46 Entry-scoped Contract](../../contracts/candidate/profile.md#pro-017) and [scope review](../../progress/traceability.md#entry-incremental-review) now close the previously pending incremental interface. Every ProfileIndexEntry has one source_entry_id and refs only from that Entry. Consume PRO-011–014/017–020, EVD-023/024, SAV-020/022/026, STO-059, CTX-016 and EVO-028. Documentary readiness is not provider/runtime acceptance. Preserve the independent deterministic backend checkpoint and unrelated working-tree changes below.
+
+### Entry-level backend/frontend implementation delta
+
+- **Backend:** Add Entry-scoped Profile identity/ref validation and grouped per-Entry model output, complete same-Resume baseline/target diff, unchanged-group rebinding, deletion-only/exact-source zero-call paths and MODEL/INCREMENTAL/REUSE provenance. Freeze the compatible baseline, Entry partition/order and merge plan before dispatch; recover only that plan. Preserve the current one-request policy and fail-closed capacity; do not implement a loop per Entry.
+- **Command/persistence delta:** The deterministic schema-6 source foundation is reusable, but its Profile DTO/validators and any-active-build refresh dedup are not r2 completion. Persist AUTOMATIC versus FULL trigger, configuration/baseline/plan and successful-derivation ordering. FULL bypasses all reuse; matching FULL deduplicates, active AUTOMATIC is superseded by a new fence. Use a forward schema/configuration change if required; do not rewrite an existing migration or reset data for this amendment.
+- **Frontend:** Consume the new source_entry_id and generation enum through regenerated client types after backend availability. Keep unavailable/refresh behavior and exact source attribution. Refresh requests full regeneration without a new client mode field; never locally merge equal capability labels across Entries or show a reusable historical baseline as current. No new standalone M2 screen is required.
+- **Proof/order:** Deterministic source and direct Materials remain independent; actual SL-03.M2 protected invocation and configuration adoption precede semantic execution. Add Acceptance §4 Entry-scoped scenarios and EVO-028, including mode-aware refresh races, explicit-empty versus omitted output groups and durable frozen merge. Re-run the affected foundation/HTTP tests because refresh matching and Profile wire validation changed; old schema-6 results are not r2 acceptance.
+
+## Prior development transfer — 2026-09-24.S2M1S1-r1
 
 **Classification:** First production protected-invocation implementation. This addendum controls the replaced source scope; any older body below is a historical snapshot. [Owning plan](../../plans/slices/sl-03-invocation-requirements.md) · [Accepted supplement](../../design/contract/sl-02-m1-supplement-grill.md) · [Current scope/evidence](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
 
@@ -8,7 +17,7 @@
 
 **Observed baseline:** HEAD `66e2bb8dfd081a44b3a28873d5b992805ce46d56`; backend runtime schema 5, migration head `d092ea64bf17_invocation_durability.py` after `a41d7e90c263`. Existing SL-02.M1 backend/frontend and M2 backend implement the old model. Runtime M1 is implemented; production SL-03.M2 and later consumers are not. Current documentation publication changes no product code, database, dependency or generated client. Recheck git status and preserve unrelated edits; historical test counts below are not rerun evidence.
 
-**Backend delta:** Implement the already-reviewed protected Context/Tools/Budget/Gateway foundations and adoption proof. Register portrait as a separate typed business adapter/result validator, with complete admitted deterministic Evidence, one-request/no-repair policy and durable-response local recovery. Do not repurpose the EVO conformance exercise format or weaken existing outcome reasons.
+**Backend delta:** Implement the already-reviewed protected Context/Tools/Budget/Gateway foundations and adoption proof. Register portrait as a separate typed business adapter/result validator, with complete admitted Evidence for each planned Entry, grouped output, the current-version one-request/no-repair policy and durable-response frozen-merge recovery. Do not repurpose the EVO conformance exercise format or weaken existing outcome reasons.
 
 **Frontend delta:** No standalone M2 UI is required by this supplement; SL-02 portrait consumes status through its owned API.
 

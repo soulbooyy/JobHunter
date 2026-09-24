@@ -11,6 +11,8 @@ Source authority is complete independent Resume content. Default selects one cur
 
 **Scope:** Resume-owned contacts/structured fields/canonical AST; stable entry/block IDs; independent version chains and page-local preview; default/final removal with user replacement selection; read-only portrait/unavailable/refresh; durable async Evidence/Profile paired publication and exact history.
 
+**Entry-scoped amendment (2026-09-24.S2M1S1-r2):** Add PRO-017–020, EVD-024, SAV-026, STO-059 and EVO-028 plus amended PRO-011–014/CTX-016. Incremental planning regenerates complete dirty Entries, reuses same-Resume unchanged groups and isolates refs by source_entry_id; explicit refresh is FULL. No cross-Entry capability cache or per-Entry model loop. Adapt existing Profile schemas and refresh/build persistence; prior foundation tests do not establish this delta.
+
 **Upstream/order:** Existing SL-01.M1 local Workspace/persistence → deterministic schema/document/Save/backend + ID-preserving frontend → production SL-03.M2 protected invocation → semantic portrait/Eval + integrated UI. Deterministic valid Save is independently deliverable before provider integration; full M1 completion requires the actual protected model capability. M1 and SL-03.M2 have no business dependency cycle: the latter supplies infrastructure, not a Resume workflow.
 
 **Required scope:** COM-050–051, WSP-013–015, RES-017–024, EVD-016–023, PRO-010–016, SAV-018–025, STO-054–058 and their explicitly reused scalar/contact/AST/receipt/access clauses; CTX-016/TOL shared admission, PRO-014 and EVO-027 for semantic consumer. Existing SL-03.M1/M2 foundations must actually be implemented/adopted before invocation. Material execution remains M2, not a Save prerequisite.

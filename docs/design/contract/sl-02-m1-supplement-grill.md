@@ -9,9 +9,9 @@
 - Started: 2026-09-24, following the user's report of confusing Knowledge/Resume coupling during SL-02.M1 frontend implementation.
 - Scope: clarify what a Resume owns after adding Knowledge, allowed edit/write directions, Profile exceptions, source-selection races, visible source-management controls and necessary downstream interfaces.
 - Namespace: CG03S1-Qn for supplemental provenance, distinct from original CG03-Q1–Q100 and normative requirement IDs. Conversation numbering starts at Q1; ordinary rounds contain five independent questions.
-- Last answered batch: Q39–Q41 accepted. Effective Q6–Q41 and BC1–BC3 are closed; Q24/Q16 supersession and Q29 option A remain as recorded. Initial Q1–Q5 were withdrawn unanswered.
+- Last answered batch: Q42–Q46 accepted with the controlling Q42/Q43/Q44 clarifications below. Effective Q6–Q46 and BC1–BC3 are closed; Q24/Q16 supersession and Q29 option A remain as recorded. Initial Q1–Q5 were withdrawn unanswered.
 - The initial pasted recommendation was discussion input, not blanket acceptance. The user's subsequent explicit replacement architecture and diagram are accepted within CG03S1-BC2 below; unresolved protocol, migration, automatic-retry and merge choices are not inferred from them.
-- Session: Grill closed and formal publication at 2026-09-24.S2M1S1-r1; implementation and real data reset are excluded. Historical open/writeback notes in earlier entries are resolved by the final publication mapping, not current unanswered choices.
+- Session: Q6–Q41 published at 2026-09-24.S2M1S1-r1; Q42–Q46 and their consumer interface publish at 2026-09-24.S2M1S1-r2. Historical open/writeback notes describe their original checkpoints; the current mapping resolves them. This continuation changes no product implementation or real data.
 - Ordinary rounds maintain this record. Progress/traceability change only at actual phase, scope, dependency or readiness changes; no per-round status log is required.
 
 ## Observed baseline and problem boundaries
@@ -444,3 +444,61 @@ The effective decision-to-ID/owner/proof map and per-milestone backend/frontend 
 - **Status:** ACCEPTED user correction after publication: rename the Profile collection field from `capabilities` to `entries`.
 - **Current expression:** `CandidateProfileProjection.entries: ProfileIndexEntry[]`. Each entry retains `name`, `description` and `evidence_refs`; Profile schema remains v1. PRO-013’s model-output collection also uses `entries`, while its local evidence-ID representation and backend expansion remain unchanged.
 - **Writeback:** PRO-011–013, Product §3.3, the SL-02.M1 target API guide and development handoff. This is a naming correction to the unimplemented replacement schema, with no legacy alias, data migration or product code change.
+
+<a id="cg03s1-entry-incremental"></a>
+
+## Entry-level incremental portrait amendment — 2026-09-24
+
+- **Status:** ACCEPTED user architecture direction after the Profile naming amendment; now refined and closed by Q42–Q46 below. Q42 supersedes the initial allowance for cross-Entry Profile refs. Earlier proposed recursive closure was rejected.
+- **Semantic unit:** Resume Experience Entry is the main semantic rebuild unit, rather than an isolated changed bullet. Any Block Evidence addition, modification or deletion makes its owning Entry dirty. Model input for that Entry includes its complete admitted structured background and all current original Evidence. EVD-019 privacy exclusions still apply; “complete” does not admit contacts, Header, hidden links or project URLs.
+- **Incremental result:** Regenerate or revise the dirty Entry's corresponding ProfileIndexEntry collection. Reuse unaffected Entries' supported Profile entries and rebind their references to the new exact ResumeVersion. Expand beyond dirty Entries only for cross-Entry capability references or changed portrait-relevant global fields. This does not introduce a new global field or make excluded Header/contact data semantic input.
+- **Preserved boundaries:** Evidence remains deterministic original source, Profile remains read-only, old exact references remain immutable, and valid source Save does not depend on model success. Paired publication, current-build fencing, actual Runtime admission and no uncertain remote replay continue to apply. This direction alone does not authorize one Provider call per Entry.
+- **Scoped supersession:** Presentation-only reuse is no longer the entire target reuse policy. PRO-012/013, EVD-023 and CTX-016 need scoped replacement for mixed generation/reuse, subset output and Entry-context admission; the existing all-or-nothing forms must not be used to implement this amendment. SAV-021–023 and STO-056/057 require the corresponding exact-plan, dependency and recovery agreement. No generic Runtime redesign is implied.
+- **Resolved frontier:** Q42–Q46 below settle Entry locality, baseline versus currentness, the current single-request policy and explicit full refresh. PRO-011–014/017–020, EVD-023/024, SAV-022/026, STO-059, CTX-016 and EVO-028 publish the corresponding identity, grouped output, merge/provenance and recovery interface. Empty group and deletion representation follow the retained no-fabrication/whole-pair rules; they are not authorization to infer absent capabilities.
+- **Transfer:** The new consumer Contract is ready for implementation under the updated SL-02.M1/SL-03.M2 handoffs, with actual protected-invocation adoption still required. Adapt the existing Profile DTO/validators and build trigger/refresh matching to r2. Deterministic source/Materials remain independently usable; no implementation, browser/provider acceptance or data reset is claimed by this publication.
+
+<a id="cg03s1-q42"></a>
+
+### CG03S1-Q42 — Entry-scoped semantic index without dependency expansion
+
+- **Status:** ACCEPTED USER REPLACEMENT of the proposed recursive closure.
+- **Decision:** Each ProfileIndexEntry belongs to one source_entry_id and all its Evidence refs belong to that Entry. A Block or background-field change rebuilds the complete owning Entry and replaces that Entry's Profile group. Shared Blocks within one Entry cannot expand beyond it. Equal skill labels in different Entries remain independent. No stored capability combines multiple Entries; DeepFit performs cross-Entry aggregation only at runtime.
+- **Writeback:** PRO-011/013/017/019/020; EVD-024; CTX-016; Product §3; Architecture §5/6; Acceptance §4; EVO-028. The schema applies to all existing structured Entry kinds, not a newly invented Experience type. Current schema introduces no global career-fact field. User-explicit source_entry_id becomes derived source identity on ProfileIndexEntry; its three descriptive fields and entries collection remain.
+
+<a id="cg03s1-q43"></a>
+
+### CG03S1-Q43 — Same-Resume baseline is distinct from current portrait
+
+- **Status:** ACCEPTED with the user's currentness clarification.
+- **Decision:** Choose the latest successful compatible same-Resume portrait as incremental baseline despite failed intervening versions. Compare that baseline's exact ResumeVersion against the target and reuse only proven unchanged Entries. Switching back to an unchanged exact source permits compatible historical-pair reattachment through current publication admission. A different source version requires a newly assembled exact pair; the old pair is only a baseline. No compatible successful baseline means full first generation.
+- **Writeback:** PRO-018–020, EVD-024, SAV-026, STO-059. Exact reattachment records current build qualification without rewriting the old pair; source/config integrity, permissions and stale/ABA fences survive. Durable derivation ordering and retained plans make selection/recovery unambiguous.
+
+<a id="cg03s1-q44"></a>
+
+### CG03S1-Q44 — One request is the current consumer policy
+
+- **Status:** ACCEPTED with the user's version-scope limitation.
+- **Decision:** Current implementation sends the complete context of all dirty Entries in one model request. Capacity excess fails closed; no truncation, silent split, batching or hidden additional call. Do not freeze one request as an eternal Domain invariant. Future controlled batching requires a separately reviewed consumer version with budgets/recovery/publication while preserving Entry semantics.
+- **Writeback:** PRO-014, CTX-016, SAV-026, STO-059 and EVO-028. Current requests retain original no-repair/no-retry/uncertain-no-replay policy and protected invocation boundaries.
+
+<a id="cg03s1-q45"></a>
+
+### CG03S1-Q45 — Deletion cannot propagate through cross-Entry references
+
+- **Status:** ACCEPTED user's clarification that cross-Entry Evidence refs do not exist in this model.
+- **Decision:** Deleting an Entry removes its derived group without invalidating another Entry. Deleting a Block in a surviving Entry dirties that whole Entry under Q42. No recursive dependency mechanism remains.
+- **Authoring consequence:** With no surviving dirty Entry, deletion and rebinding are deterministic zero-call work. Grouped model output explicitly represents a surviving Entry with no supported result as entries:[]; missing requested groups are invalid, never implicit empty results. Only the assembled whole Profile determines readiness under the preserved no-fabrication and nonempty-portrait rules. This is a necessary representation of Entry replacement, not a claim that the user's short Q45 answer separately approved additional capability semantics.
+- **Writeback:** PRO-013/019/020, EVD-024, SAV-026, STO-059, Acceptance §4 and EVO-028.
+
+<a id="cg03s1-q46"></a>
+
+### CG03S1-Q46 — Explicit refresh fully regenerates
+
+- **Status:** ACCEPTED.
+- **Decision:** Explicit user refresh regenerates all current admitted Entries, even if Resume content did not change, so it can correct extraction. Automatic source/default updates use incremental reuse. Existing unavailable/paired publication, failure and explicit retry behavior survives.
+- **Necessary interface:** Active automatic work is not the same request as full refresh. Matching active FULL work deduplicates; otherwise refresh creates a new FULL build/fence, preserving earlier Invocation outcome/cost truth. A repeat of the same receipt never creates another build. No client mode field or background call loop is introduced.
+- **Writeback:** PRO-018/019, SAV-020/022/026, STO-059, CTX-016; frontend refresh expectations and both implementation handoffs.
+
+### Incremental publication — 2026-09-24.S2M1S1-r2
+
+The [r2 traceability review](../../progress/traceability.md#entry-incremental-review) owns decision-to-document and cross-document verification. Added IDs are PRO-017–020, EVD-024, SAV-026, STO-059 and EVO-028; existing schema, input and provenance clauses are amended within this scope. No broader Runtime, Materials, optimization, Job or deferred assistant-apply behavior is changed. This is documentation and checker maintenance, not executed product acceptance or a Git submission.

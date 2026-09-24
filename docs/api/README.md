@@ -6,7 +6,7 @@ These guides distinguish implemented HTTP interfaces from explicitly labeled rev
 | --- | --- |
 | [SL-01.M1 — Local Workspace and Manual Application Entries](sl-01-m1.md) | Local access configuration, entry CRUD, revision/idempotency, URL resolution and frontend recovery obligations |
 | [SL-01.M2 — Preferences](sl-01-m2.md) | Complete configuration, immutable versions, Save/replay, nested errors and client recovery |
-| [SL-02.M1 — Independent Resume and portrait target](sl-02-m1.md) | Revised six-command/document/portrait target versus historical running API; stable IDs, refresh/default and client coordination |
+| [SL-02.M1 — Independent Resume and portrait](sl-02-m1.md) | Implemented schema-7 Resume/ID/Save/default/Evidence plus Entry-scoped frozen planning and zero-call reuse; protected model consumer and revised frontend remain pending |
 | [SL-02.M2 — Saved Resume Materials](sl-02-m2.md) | Direct-source/schema-2 manifest target; surviving exact demand, verified PDF/PNG and polling/replay integration |
 | [SL-03.M1 — Invocation durability and recovery](sl-03-m1.md) | Internal Python Runtime operations, controlled consumers, exact response bytes and recovery obligations; no public HTTP API |
 

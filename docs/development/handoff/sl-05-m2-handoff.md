@@ -1,5 +1,7 @@
 # SL-05.M2 Development Handoff
 
+> **Portrait producer amendment — 2026-09-24.S2M1S1-r2.** Consume [Entry-scoped ProfileIndexEntry](../../contracts/candidate/profile.md#pro-017): source_entry_id and all refs identify one Entry. Equal capability labels in different Entries remain separate; aggregate evidence across Entries only within the frozen DeepFit execution/result, never by mutating the stored Profile. A historical portrait eligible as an incremental baseline is not automatically current. Update result/source display to preserve exact Entry attribution. This producer change does not complete the pending Fit-specific Contract.
+
 > English is authoritative. User-requested implementation transfer; no implementation is delivered by this file.
 
 ## Current development transfer — 2026-09-24.S2M1S1-r1

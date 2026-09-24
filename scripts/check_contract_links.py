@@ -11,16 +11,16 @@ expected = {
     "COM": 51,
     "WSP": 15,
     "MAE": 18,
-    "STO": 58,
+    "STO": 59,
     "PRF": 24,
-    "PRO": 16,
-    "EVD": 23,
+    "PRO": 20,
+    "EVD": 24,
     "RES": 24,
-    "SAV": 25,
+    "SAV": 26,
     "MAT": 33,
     "DRW": 26,
     "EXR": 57,
-    "EVO": 27,
+    "EVO": 28,
     "CTX": 16,
     "TOL": 15,
     "BUD": 25,
@@ -181,8 +181,8 @@ supplement_rows = "\n".join(
     line for line in supplement_review.splitlines() if line.startswith("| [CG03S1-")
 )
 supplement_questions = re.findall(r"^\| \[CG03S1-Q(\d+)\]", supplement_rows, re.M)
-assert len(supplement_questions) == 36 and {int(q) for q in supplement_questions} == set(
-    range(6, 42)
+assert len(supplement_questions) == 41 and {int(q) for q in supplement_questions} == set(
+    range(6, 47)
 ), "CG03S1 decision coverage (Q1-Q5 withdrawn; Q24 mapped as superseded)"
 for baseline in (1, 2, 3):
     assert f"| [CG03S1-BC{baseline}]" in supplement_rows, "CG03S1 baseline coverage"
@@ -195,19 +195,25 @@ supplement_additions = {
         "COM": (50, 51),
         "WSP": (13, 15),
         "RES": (17, 24),
-        "EVD": (16, 23),
-        "PRO": (10, 16),
-        "SAV": (18, 25),
-        "STO": (54, 58),
+        "EVD": (16, 24),
+        "PRO": (10, 20),
+        "SAV": (18, 26),
+        "STO": (54, 59),
         "MAT": (31, 33),
         "PRF": (24, 24),
         "CTX": (16, 16),
         "TOL": (15, 15),
-        "EVO": (27, 27),
+        "EVO": (27, 28),
     }.items()
     for i in range(start, end + 1)
 }
 assert supplement_additions <= supplement_destinations, "CG03S1 normative destination coverage"
+supplement_register = (root / "docs/design/contract/sl-02-m1-supplement-grill.md").read_text()
+for number in range(42, 47):
+    accepted_section = supplement_register.split(f"### CG03S1-Q{number} —", 1)[1].split(
+        "\n### ", 1
+    )[0]
+    assert "**Status:** ACCEPTED" in accepted_section, "Entry-scoped amendment acceptance"
 ledger = trace.split("## 6. Contract normative scope readiness ledger", 1)[1].split("### 6.1", 1)[0]
 rows = [line for line in ledger.splitlines() if line.startswith("| `")]
 ready = sum(" | Ready" in line for line in rows)
@@ -218,6 +224,6 @@ assert f"other {pending} rows remain **Pending**" in ledger
 assert f"for {len(rows)} rows" in ledger
 print(
     f"{len(found)} unique requirements; {link_count} local links/anchors resolve; "
-    f"135 CG04 / 130 CG05 / 219 CG06 / 36 CG03S1 question mappings + 3 baselines; "
+    f"135 CG04 / 130 CG05 / 219 CG06 / 41 CG03S1 question mappings + 3 baselines; "
     f"readiness {ready} Ready / {pending} Pending / {len(rows)} total."
 )

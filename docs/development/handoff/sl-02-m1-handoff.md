@@ -1,10 +1,25 @@
 # SL-02.M1 Development Handoff — Saved Authority, Backend First
 
-## Current development transfer — 2026-09-24.S2M1S1-r1
+> **Current semantic transfer — 2026-09-24.S2M1S1-r2.** The [Q42–Q46 Entry-scoped Contract](../../contracts/candidate/profile.md#pro-017) and [scope review](../../progress/traceability.md#entry-incremental-review) now close the previously pending incremental interface. Every ProfileIndexEntry has one source_entry_id and refs only from that Entry. Consume PRO-011–014/017–020, EVD-023/024, SAV-020/022/026, STO-059, CTX-016 and EVO-028. Documentary readiness is not provider/runtime acceptance. Preserve the independent deterministic backend checkpoint and unrelated working-tree changes below.
+
+### Entry-level backend/frontend implementation delta
+
+- **Backend:** Add Entry-scoped Profile identity/ref validation and grouped per-Entry model output, complete same-Resume baseline/target diff, unchanged-group rebinding, deletion-only/exact-source zero-call paths and MODEL/INCREMENTAL/REUSE provenance. Freeze the compatible baseline, Entry partition/order and merge plan before dispatch; recover only that plan. Preserve the current one-request policy and fail-closed capacity; do not implement a loop per Entry.
+- **Command/persistence delta:** The deterministic schema-6 source foundation is reusable, but its Profile DTO/validators and any-active-build refresh dedup are not r2 completion. Persist AUTOMATIC versus FULL trigger, configuration/baseline/plan and successful-derivation ordering. FULL bypasses all reuse; matching FULL deduplicates, active AUTOMATIC is superseded by a new fence. Use a forward schema/configuration change if required; do not rewrite an existing migration or reset data for this amendment.
+- **Frontend:** Consume the new source_entry_id and generation enum through regenerated client types after backend availability. Keep unavailable/refresh behavior and exact source attribution. Refresh requests full regeneration without a new client mode field; never locally merge equal capability labels across Entries or show a reusable historical baseline as current. No new standalone M2 screen is required.
+- **Proof/order:** Deterministic source and direct Materials remain independent; actual SL-03.M2 protected invocation and configuration adoption precede semantic execution. Add Acceptance §4 Entry-scoped scenarios and EVO-028, including mode-aware refresh races, explicit-empty versus omitted output groups and durable frozen merge. Re-run the affected foundation/HTTP tests because refresh matching and Profile wire validation changed; old schema-6 results are not r2 acceptance.
+
+### Deterministic r2 backend checkpoint — 2026-09-24
+
+The pre-invocation r2 subset is implemented in the working tree at schema 7/revision `8c92f0d4ae31`: Entry-owned Profile rows, complete semantic Entry diff, grouped output validation/merge, compatible same-Resume baseline selection, target-version rebinding, deletion-only and exact-version zero-call completion, MODEL/INCREMENTAL/REUSE admission, AUTOMATIC/FULL refresh fencing, immutable durable plans and successful-derivation order. The schema-6-to-7 transition preserves rows, receipts and artifacts and creates no fictional derivation. [Progress §18](../../progress.md#18-sl-02m1-entry-scoped-incremental-portrait-foundation) and [traceability §13](../../progress/traceability.md#entry-incremental-backend-foundation) own current evidence and limits.
+
+The actual SL-03.M2 consumer remains the next prerequisite for semantic execution: finite provider/schema/capacity configuration, protected claim/Invocation linkage, one provider request, model-result publication, ending/deadline/crash reconciliation and Eval are not supplied by this checkpoint. No frontend file or public route changed, and no user database was migrated.
+
+## Prior development transfer — 2026-09-24.S2M1S1-r1
 
 **Classification:** Existing backend/frontend require source-model replacement. This addendum controls the replaced source scope; any older body below is a historical snapshot. [Owning plan](../../plans/slices/sl-02-saved-authority-materials.md) · [Accepted supplement](../../design/contract/sl-02-m1-supplement-grill.md) · [Current scope/evidence](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
 
-**Profile naming:** Implement `CandidateProfileProjection.entries: ProfileIndexEntry[]`; each entry is `{name, description, evidence_refs}`. The model-output collection is also `entries`, with PRO-013’s local-ID-to-EvidenceRef conversion preserved. Profile schema remains v1.
+**Profile naming:** Implement `CandidateProfileProjection.entries: ProfileIndexEntry[]`; each entry is `{source_entry_id, name, description, evidence_refs}`. PRO-013 now groups model output by source_entry_id under `entry_results`, with per-group `entries` and exact local-ID-to-EvidenceRef conversion. Profile schema remains v1.
 
 **Consumed scope:** COM-050–051; WSP-013–015; RES-017–024; EVD-016–023; PRO-010–016; SAV-018–025; STO-054–058; CTX-016/EVO-027 plus explicitly surviving shared values. Read the actual Contract bodies through [Contract Index](../../contracts/index.md); indexes/planned paths are not norms. Read Product/Architecture/Acceptance, AGENTS.md and maintained component guides before implementation. Old shared Profile/Evidence/Baseline authority, Knowledge-first Save, parallel Fits and mandatory current assistant apply are superseded only as recorded in those owners.
 
@@ -23,6 +38,12 @@
 **Required proof and open blockers:** Acceptance §4.1–4.2/§8–10 and EVO-027. Prove exact IDs/text, exclusion/privacy, unsupported whole-output rejection, ≤1 request per attempt, zero-call reuse, atomic crash obligation, ABA/stale publish/duplicate refresh/final delete. Full semantic completion awaits actual SL-03.M2 implementation and concrete provider/schema/capacity configuration evidence; deterministic Save must not wait for it. This is required future evidence. Ready replacement Contracts do not establish runtime/browser/model acceptance; unrelated Pending future scopes remain blocked until their own consumer definitions and upstream capabilities are ready.
 
 **Maintained verification entry:** [Backend guide](../../../backend/README.md), [frontend guide](../../../frontend/README.md), [Development](../../development.md), [UI system](../../ui/DESGIN.md). From repository root, inspect then use `UV_CACHE_DIR=/tmp/jobhunter-uv-cache ./scripts/check`, `npm --prefix frontend run api:generate`, `npm --prefix frontend run check` and `npm --prefix frontend run test:e2e` as consumed. Rendering requires the actual certified native/font environment; invocation requires its reviewed provider/configuration. For docs run `python3 scripts/check_contract_links.py` and `git diff --check`. Report executed commands and unexecuted scope; backend tests never substitute browser acceptance.
+
+### Deterministic backend checkpoint — 2026-09-24
+
+The first ordered stage is implemented in the working tree at schema 6/revision `f4b31d8c2a70`: independent ResumeVersion schema 2, stable Resume-owned IDs, six commands and receipts, revised default/removal rules, deterministic exact Evidence projection, atomic portrait source/build obligation, explicit full development reset and direct Materials source. [Progress §17](../../progress.md#17-sl-02m1-independent-resume-backend-foundation) and [traceability §12](../../progress/traceability.md#independent-resume-backend-foundation) own executed evidence and limits. The maintained backend check passes 329 tests. No frontend file was changed and no real user store was migrated.
+
+This is not semantic portrait completion. The actual SL-03.M2 consumer must still add frozen configuration, claim/Invocation association, model-visible filtering, one-call/reuse, whole-output validation, fenced paired publication, bounded recovery and Eval. The editor/client/browser stage also remains pending. Continue in the original engineering order; do not reinterpret queued durable builds as a READY portrait or as M1 completion.
 
 ## Historical handoff snapshot
 

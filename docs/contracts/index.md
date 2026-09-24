@@ -14,23 +14,23 @@ These existing files provide navigation or organization, not normative Contract 
 
 ## Existing normative Contracts
 
-Sixteen scoped normative bodies now exist: the preserved `2026-09-19.M1-r1`, `2026-09-20.M2-r1` and `2026-09-21.S2M1-r1` baselines plus `2026-09-21.S2M2-r1`, `2026-09-23.S3M1-r1` and `2026-09-24.S3M2-r1`. There are 453 stable requirement IDs, including 48 scoped additions in **2026-09-24.S2M1S1-r1**; replaced IDs remain historical with explicit applicability notices. Existence does not complete their future families; actual readiness/evidence is in [Progress](../progress/traceability.md#6-contract-normative-scope-readiness-ledger).
+Sixteen scoped normative bodies now exist: the preserved `2026-09-19.M1-r1`, `2026-09-20.M2-r1` and `2026-09-21.S2M1-r1` baselines plus `2026-09-21.S2M2-r1`, `2026-09-23.S3M1-r1` and `2026-09-24.S3M2-r1`. There are 461 stable requirement IDs, including 48 scoped additions in **2026-09-24.S2M1S1-r1** and eight Entry-scoped additions in **2026-09-24.S2M1S1-r2**; replaced IDs remain historical with explicit applicability notices. Existence does not complete their future families; actual readiness/evidence is in [Progress](../progress/traceability.md#6-contract-normative-scope-readiness-ledger).
 
 | Document | Existing scope | Requirement IDs |
 | --- | --- | --- |
 | [Common](common.md) | Shared expression and scoped SL-01/S2/SL-03.M1/M2 identity, scalar, path and error vocabulary | COM-001–051 |
 | [Workspace](foundation/workspace.md) | Local initialization/runtime and scoped default Resume selection | WSP-001–015 |
 | [ManualApplicationEntry](jobs/manual-application-entries.md) | Seven-field mutable entry, commands, HTTP, browser handoff and client recovery | MAE-001–018 |
-| [Storage](foundation/storage.md) | Explicit development reset/new source/projection persistence plus surviving local/runtime/material durability | STO-001–058 |
+| [Storage](foundation/storage.md) | Explicit development reset/new source/projection persistence plus surviving local/runtime/material durability | STO-001–059 |
 | [Preferences](candidate/preferences.md) | Complete collection intent, immutable history, Save/read/replay and future UI boundary | PRF-001–024 |
-| [Profile](candidate/profile.md) | Read-only schema-v1 capability projection; historical contact values reused by Resume | PRO-001–016 |
-| [Evidence/Baseline](candidate/evidence.md) | Deterministic exact-version Entry/Block projection; historical independent fact/Baseline model superseded | EVD-001–023 |
+| [Profile](candidate/profile.md) | Entry-scoped schema-v1 capability index, incremental merge/baseline and paired publication; historical contacts reused by Resume | PRO-001–020 |
+| [Evidence/Baseline](candidate/evidence.md) | Deterministic exact-version Entry/Block projection; historical independent fact/Baseline model superseded | EVD-001–024 |
 | [Resume](candidate/resumes-grounding.md) | Complete independent document/contacts/structured fields/canonical AST and stable logical IDs | RES-001–024 |
-| [Candidate Save](candidate/candidate-save.md) | Six current document/default/refresh commands, schema-2 receipts and atomic portrait obligation; legacy protocol superseded | SAV-001–025 |
+| [Candidate Save](candidate/candidate-save.md) | Six current document/default/refresh commands, schema-2 receipts and atomic portrait obligation; legacy protocol superseded | SAV-001–026 |
 | [Materials](applications/materials.md) | Direct exact Resume source/schema-2 manifest; surviving explicit demand/configuration/verified bytes | MAT-001–033 |
 | [Derived Work](foundation/derived-work.md) | Exact demand/receipts, atomic Work selection, execution/fencing/recovery and client protocol | DRW-001–026 |
 | [Execution Runtime](agent/execution-runtime.md) | Preserved M1 plus protected semantic-start/dispatch and controlled DeepSeek interface | EXR-001–057 |
-| [Evaluation / Observability](evaluation/evaluation-observability.md) | Preserved M1 plus isolated M2 evidence/evaluators/export and required proof | EVO-001–027 |
+| [Evaluation / Observability](evaluation/evaluation-observability.md) | Preserved M1 plus isolated M2 evidence/evaluators/export and required proof | EVO-001–028 |
 | [Tools](agent/tools.md) | Static typed registry, one-request admission, exact read projection and action recovery | TOL-001–015 |
 | [Context](agent/context.md) | Exact headless Package/Frame, provenance, capacity and historical access | CTX-001–016 |
 | [Budget](foundation/budget.md) | Foreground allocation, CNY reservation, absolute metering and unresolved exposure | BUD-001–025 |
