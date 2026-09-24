@@ -30,7 +30,7 @@ For a new task, read this index, the relevant directory README, the current owni
 | Target code organization | [Repository structure guide](development/repository-structure.md) | Provisional frontend/backend layout, physical responsibility mapping and incremental package creation |
 | API design and integration | [API guides](api/README.md), [SL-01.M1](api/sl-01-m1.md) | Implemented HTTP interfaces and [internal Invocation API](api/sl-03-m1.md), examples and consumer obligations derived from Contracts |
 | M1 development entry | [SL-01.M1 handoff](development/handoff/sl-01-m1-handoff.md) | Reviewed Contract scope, integration research, engineering preparation and required proof |
-| SL-02.M1 development entry | [SL-02.M1 handoff](development/handoff/sl-02-m1-handoff.md) | Reviewed saved-authority Contracts, schema-3 implementation scope and backend-first proof |
+| SL-02.M1 development entry | [SL-02.M1 handoff](development/handoff/sl-02-m1-handoff.md) | Current independent source/portrait replacement, historical implementation, backend/frontend delta and staged prerequisites |
 | Target technology choices | [Technology stack](development/technology-stack.md) | Planned backend/frontend tools and progressive adoption; actual versions and installation remain separate |
 | Status/readiness/evidence recording rules | [Progress README](progress/README.md) | Traceability, status meanings, parent/milestone reporting and scope-level readiness |
 | Actual state and remaining work | [Progress](progress.md) | Parent Slice aggregation and truthful current status |
@@ -55,6 +55,10 @@ These are seven document categories and six main documents. Slice plans support 
 | Harness design sources | [design/harness/README](design/harness/README.md) | Budget, Context, Memory, Recovery, Storage and Tools |
 | Eval design source | [design/eval/README](design/eval/README.md) | Accepted design provenance, not an installed Eval system |
 | Contract design inventory | [design/contract/README](design/contract/README.md) | Non-normative checklist, distinct from formal Contracts |
+
+## Supplemental source-model implementation route
+
+Use [CG03S1 review and per-milestone transfer](progress/traceability.md#67-sl-02m1-supplement-reviewed-scope) for the independent Resume/default-derived portrait redesign. It links every affected milestone handoff and distinguishes documentary Ready, old implementation adaptation, first delivery, verification-only and deferred work.
 
 ## Common task routes
 

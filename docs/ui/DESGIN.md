@@ -1,5 +1,7 @@
 # JobHunter Design System v1
 
+> **2026-09-24 supplemental baseline.** Candidate pages now follow CG03S1: independent Resume contacts/entries, stable IDs through the canonical editor adapter; “求职资料库” presents read-only default-derived portrait with source/edit/refresh. Unavailable portrait blocks new DeepFit with a clear Chinese message, not partial-Evidence UI. Default deletion preselects next/previous but permits manual choice. Empty selected optimization says “当前简历没有可供优化的内容，请补充资料”. No current assistant apply/adopt controls. This changes behavior within existing visual conventions, not the shared design system.
+
 > Status: FROZEN\
 > Version: 1.0\
 > Design anchor: Manual Applications\

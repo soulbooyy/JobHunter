@@ -1,5 +1,7 @@
 # Tools Contract — Typed Action Admission
 
+> **Current applicability — 2026-09-24.S2M1S1-r1.** Existing typed admission and conformance read/model formats survive; TOL-015 does not expose generic file/database/web access. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+
 > Normative scope revision: **2026-09-24.S3M2-r1**. English is authoritative. This defines required behavior, not implemented or executed acceptance. Earlier scoped consumers remain unchanged.
 
 [Decision register](../../design/contract/sl-03-m2-grill.md) · [Contract index](../index.md)
@@ -81,3 +83,10 @@ Decision sources: [CG06-Q58](../../design/contract/sl-03-m2-grill.md#cg06-q58), 
 **TOL-014.** **DeepSeek continuation.** For current DeepSeek Chat Completions, retaining an assistant turn with N tool_calls requires N lawful admitted corresponding Tool results before the next MODEL continuation. The selected action/result protocol defines truthful replies; M2 adds no synthetic denial-result protocol. Skill may execute only part and terminate this continuation path. It MUST NOT delete unexecuted calls, rewrite the original assistant turn into a subset, fabricate results or let the adapter execute remaining Tools. Preserve ordered requests, exact Provider ids and required reasoning history. Future Provider partial-continuation protocols require their own adapter agreement.
 
 Decision sources: [CG06-Q59](../../design/contract/sl-03-m2-grill.md#cg06-q59), [CG06-Q97](../../design/contract/sl-03-m2-grill.md#cg06-q97), [CG06-Q105](../../design/contract/sl-03-m2-grill.md#cg06-q105), [CG06-Q128](../../design/contract/sl-03-m2-grill.md#cg06-q128), [CG06-Q195](../../design/contract/sl-03-m2-grill.md#cg06-q195), [CG06-Q196](../../design/contract/sl-03-m2-grill.md#cg06-q196).
+
+## Supplement: frozen Evidence retrieval consumer boundary
+
+Scope revision **2026-09-24.S2M1S1-r1**. Provenance: CG03S1-BC1–BC3 and effective Q6–Q41; Q24 is superseded by Q38/Q41.
+
+<a id="tol-015"></a>
+**TOL-015.** DeepFit Evidence reads MUST be typed, read-only and scoped to the run’s frozen exact projection and permitted EVD-018 references. Support block reads and expansion to the corresponding entry or broader permitted projection coverage; return source-preserving admitted text/fields and exact provenance, with explicit missing/denied/unavailable outcomes. Enforce EVD-019 privacy on every result, before model visibility. No latest/other-Resume substitution, URL fetch, hidden derivation, Save, vector index or generic RAG fallback is authorized. Record actual selected and acquired inputs/coverage; EVD-021 governs negative conclusions. The future Fit consumer Contract still owns its concrete Tool request/result schema, orchestration and scoring; this interface alone does not make SL-05 implementation-ready.

@@ -1,5 +1,7 @@
 # Target Technology Stack
 
+> **2026-09-24 supplemental baseline.** The accepted editor path remains TipTap → canonical application Resume AST → Save, with entry/block IDs preserved in both adapters. Evidence consumes the saved canonical AST, not raw TipTap JSON or an LLM segmenter. This requires adapting the installed editor, not adopting a new editor/runtime; production Profile invocation still consumes actual SL-03.M2 adoption proof.
+
 > English is authoritative. This document records the user's planned frontend/backend technology choices. Selection does not establish installation, version compatibility, Contract readiness, implementation or passed acceptance. Introduce dependencies only for the milestone that actually needs them.
 
 [Development guides](README.md) · [Development discipline](../development.md) · [Target repository organization](repository-structure.md) · [Global documentation index](../index.md)

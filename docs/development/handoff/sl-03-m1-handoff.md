@@ -1,5 +1,27 @@
 # SL-03.M1 Development Handoff — Invocation Durability and Recovery Foundation
 
+## Current development transfer — 2026-09-24.S2M1S1-r1
+
+**Classification:** Runtime verification only; no identified behavior replacement. This addendum controls the replaced source scope; any older body below is a historical snapshot. [Owning plan](../../plans/slices/sl-03-invocation-requirements.md) · [Accepted supplement](../../design/contract/sl-02-m1-supplement-grill.md) · [Current scope/evidence](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+
+**Consumed scope:** Existing EXR/STO runtime scope plus PRO-014/SAV-023/CTX-016 consumer agreement. Read the actual Contract bodies through [Contract Index](../../contracts/index.md); indexes/planned paths are not norms. Read Product/Architecture/Acceptance, AGENTS.md and maintained component guides before implementation. Old shared Profile/Evidence/Baseline authority, Knowledge-first Save, parallel Fits and mandatory current assistant apply are superseded only as recorded in those owners.
+
+**Observed baseline:** HEAD `66e2bb8dfd081a44b3a28873d5b992805ce46d56`; backend runtime schema 5, migration head `d092ea64bf17_invocation_durability.py` after `a41d7e90c263`. Existing SL-02.M1 backend/frontend and M2 backend implement the old model. Runtime M1 is implemented; production SL-03.M2 and later consumers are not. Current documentation publication changes no product code, database, dependency or generated client. Recheck git status and preserve unrelated edits; historical test counts below are not rerun evidence.
+
+**Backend delta:** Reuse implemented agent/harness/runtime.py, invocation application/domain/bootstrap and durable response/fence/no-replay semantics. Verify new portrait consumer does not create competing dispatch authority or replay an uncertain request. Do not change controlled.model.v1/controlled.read.v1 meanings.
+
+**Frontend delta:** No frontend/public business HTTP scope is introduced.
+
+**Upstream and order:** Existing Runtime → production SL-03.M2 → SL-02 portrait adapter.
+
+**Data/API transition:** Q38/Q41 permits later explicit offline reset of the complete configured development DB/generated materials, including test Preferences/Entries/Runtime records, while preserving source/Git/configuration. Never reset on startup or during this documentary transfer. No legacy request adapter/data conversion/archive reader is required. Preserve published migration source history and post-transition immutable source/result/receipt histories. Coordinate changed backend schemas with generated clients; do not fabricate target availability from this handoff.
+
+**Required proof and open blockers:** Recorded 416 backend tests are historical schema-5 proof; do not claim rerun. Execute scoped regression when adapting real consumer/persistence. No reset/migration occurred in this documentation session. This is required future evidence. Ready replacement Contracts do not establish runtime/browser/model acceptance; unrelated Pending future scopes remain blocked until their own consumer definitions and upstream capabilities are ready.
+
+**Maintained verification entry:** [Backend guide](../../../backend/README.md), [frontend guide](../../../frontend/README.md), [Development](../../development.md), [UI system](../../ui/DESGIN.md). From repository root, inspect then use `UV_CACHE_DIR=/tmp/jobhunter-uv-cache ./scripts/check`, `npm --prefix frontend run api:generate`, `npm --prefix frontend run check` and `npm --prefix frontend run test:e2e` as consumed. Rendering requires the actual certified native/font environment; invocation requires its reviewed provider/configuration. For docs run `python3 scripts/check_contract_links.py` and `git diff --check`. Report executed commands and unexecuted scope; backend tests never substitute browser acceptance.
+
+## Historical handoff snapshot
+
 > English is authoritative. Transfer revision: **2026-09-23.S3M1-r1**, following accepted CG05-Q1–Q130 and explicit user authorization for closure review, necessary writeback and normative publication. Contract readiness is separate from implementation and executed acceptance. This handoff transfers a real backend task; it does not authorize a production model integration.
 
 [Milestone plan](../../plans/slices/sl-03-invocation-requirements.md#sl-03m1-invocation-durability-and-recovery-foundation) · [Review/evidence](../../progress/traceability.md#65-sl-03m1-reviewed-scope-and-interface-evidence) · [Decision register](../../design/contract/sl-03-m1-grill.md#cg05-pub) · [Contract Index](../../contracts/index.md)

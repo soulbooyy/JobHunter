@@ -1,5 +1,7 @@
 # SL-03 Shared controlled execution with RequirementParse
 
+> **2026-09-24 supplemental baseline.** SL-02.M1 semantic Profile derivation is a real protected-invocation consumer (PRO-014/CTX-016), with its own typed adapter and one-call policy. M2 foundation/conformance formats remain unchanged; M3 remains Job-only. M1 implementation needs regression verification; M2 production invocation remains unimplemented.
+
 > English is authoritative. This Slice plan is part of the Implementation Plan category and completed W7 review in its earlier form. Its affected scope/dependencies now reflect user-approved [CG01-BC1](../../design/contract/sl-01-m1-grill.md#cg01-bc1); scoped review is recorded in Progress. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 3 milestones remain in this document.
 
 [Documentation index](../../index.md) · [Slice index](README.md) · [Global Implementation Plan](../implementation-plan.md) · [Actual Progress](../../progress.md)
@@ -10,7 +12,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Scope:** Application Ensure and pure requirement reads for exact complete Jobs; durable single-flight parsing, compatible reuse, owner-only charging, bounded repair and usable-target checks. Introduce the shared Run/Model/Tool admission, exact Context, budget/reservation, response/recovery/fencing, cancellation, protected-input revocation and privacy/audit substrate required by this task, plus its real-path Eval/observability support.
 
-**Out of Scope:** Candidate/Resume Fit judgments, interactive Advisor/Session compaction, Memory learning, autonomous RAG, hidden SDK retries, whole-system generic framework work, fixed rollout thresholds or mandatory annotated parser certification.
+**Out of Scope:** DeepFit/optimization judgments, interactive Advisor/Session compaction, Memory learning, autonomous RAG, hidden SDK retries, whole-system generic framework work, fixed rollout thresholds or mandatory annotated parser certification.
 
 **Already-decided capabilities and provenance:** Q10, Q14, Q58–Q59, Q83, Q110–Q111, Q117, Q120–Q126, Q132, Q135–Q136, Q140–Q144, Q159, Q171–Q187, S7.1, S22.1, S24.1, S35.1. Actual behavior/mechanism owners: [P5.1](../../spec.md#51-shared-on-demand-requirements); [P9](../../spec.md#9-privacy-controlled-execution-and-honest-recovery); [P11](../../spec.md#11-quality-and-evidence-boundaries); [A6.1](../../architecture.md#61-independent-dependency-preparation); [A9](../../architecture.md#9-shared-harness-skills-and-controlled-actions); [A10](../../architecture.md#10-context-engineering); [A11](../../architecture.md#11-budgets-and-resource-admission); [A12](../../architecture.md#12-durable-execution-and-recovery); [A13](../../architecture.md#13-storage-retention-and-audit); [A15](../../architecture.md#15-eval-and-observability). These Q-IDs support the capabilities and exclusions; milestone placement/order is this plan's proposed delivery arrangement.
 

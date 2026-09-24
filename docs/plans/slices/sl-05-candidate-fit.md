@@ -1,69 +1,37 @@
-# SL-05 Independent Candidate Fit
+# SL-05 DeepFit
 
-> English is authoritative. This Slice plan is part of the Implementation Plan category and has completed W7 document review; user baseline approval remains pending. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 2 milestones remain in this document.
+> Revised by accepted CG03S1-Q26 at **2026-09-24.S2M1S1-r1**. Planning is not implemented capability or whole-file Contract readiness. Earlier source-model/allocation descriptions are superseded.
 
-[Documentation index](../../index.md) · [Slice index](README.md) · [Global Implementation Plan](../implementation-plan.md) · [Actual Progress](../../progress.md)
+[Global rules](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) · [Decisions](../../design/contract/sl-02-m1-supplement-grill.md) · [Progress](../../progress.md)
 
-The [global readiness and dependency rules](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) apply to every entry below. This file owns this Slice's detailed scope, required upstream capability, reused infrastructure, conditional integration, Contract portions and completion conditions. Product/Architecture/Acceptance retain their existing authority; actual readiness and evidence belong to Progress. Edit this file for local planning changes; reconcile other owners only when their real scope, shared interfaces, dependencies or evidence are affected.
+DeepFit produces one CandidateJobFitAnalysis with separate preference/capability meanings. No parallel ResumeFit or mandatory full-Evidence initial Frame remains.
 
-**Goal and business value:** Assess the user's admitted saved Knowledge against one Job's reusable Requirements, with bounded conclusions and defensible score availability.
+<a id="sl-05m1-single-target-candidate-fit"></a>
+## SL-05.M1 Single-target DeepFit
 
-**Scope:** Internally independent CandidateJobFit selection/Run/result behind unified DeepFit; two-stage freeze and actual complete admitted baseline; task-scoped assessment meanings, deterministic score/rescore policy, valid unscored results; target serialization/latest compatible success, history and multi-Job task orchestration.
+**Scope:** Exact Job/Requirements, READY default-derived pair and optional exact Preferences; Profile-first progressive block→entry→broader Evidence; supported findings, honest UNKNOWN/source-bounded negatives and historical frozen lineage.
 
-**Out of Scope:** Resume Fit as a prerequisite, merged dual-axis semantic analysis, score ordering/gaps, capability claims beyond inspected saved facts, automatic RAG/model switching or silent trimming.
+**Upstream:** Actual SL-02.M1 portrait; SL-03.M2 protected invocation; SL-03.M3 RequirementParse/Ensure and its formal Job producer SL-08.M2. Reuse scoped Runtime/Context/Tools/Budget/Eval, not test-only substitute calls. SL-01.M2 intent is optional at manual run admission; missing is unassessed.
 
-**Already-decided capabilities and provenance:** Q19, Q35, Q46, Q51, Q72, Q82–Q83, Q110–Q117, Q123, Q135, Q142, Q168, Q171–Q172, Q184, Q186, S22.1. Actual behavior/mechanism owners: [P5](../../spec.md#5-requirements-and-independent-fit-analyses); [A6](../../architecture.md#6-requirements-fit-and-analysis-orchestration); [A10.2](../../architecture.md#102-protected-inputs-and-ordered-reduction); [A11](../../architecture.md#11-budgets-and-resource-admission); [A15](../../architecture.md#15-eval-and-observability). These Q-IDs support the capabilities and exclusions; milestone placement/order is this plan's proposed delivery arrangement.
+**Required interfaces:** PRO-010–016/EVD-016–023, PRF-024, CTX-016/TOL-015/EVO-027. Future fit-analysis and Job/Requirement consumer scopes still must define run/admission/result/coverage/scoring/compatibility and typed Evidence Tool payloads before implementation; documentary boundary agreement is not whole Fit readiness.
 
-**Dependent Contract families:** F01, F03, F05, F06, F08, F09, F10, F11.
+**Backend/frontend:** First implementation of one analysis orchestration/result; UI single DeepFit action and unavailable prerequisite, separate intent/capability findings, exact source/citations, unknown/historical state. No document selection that silently switches default, no parallel fit results or forced intent mismatch rejection.
 
-**Test / Eval categories:** Actual Frame coverage and bounded negatives, UNKNOWN and valid unscored outcomes, unusable dependency fail-fast, no Memory/Resume leakage, capacity/revocation termination, competing targets and failed rerun preservation, partial batch outcomes and separate parse/Fit costs. Required proof destinations: [V5](../../acceptance.md#5-requirements-and-independent-fits); [V8.2](../../acceptance.md#82-exact-acquisition-reduction-and-checkpoints); [V9.1](../../acceptance.md#91-owners-reservations-and-limits); [Eval acceptance 2](../../acceptance/evaluation.md#2-eval-execution-and-evidence-integrity); [Eval acceptance 3](../../acceptance/evaluation.md#3-semantic-quality-reliability-and-efficiency-evidence). These are future obligations, not existing tests or results.
+**Proof:** Acceptance §5/§8–9 and EVO-027, actual progressive acquisition/coverage, hidden-input privacy, profile omission/source support, preference absence/mismatch, freeze across switch/save, revocation and cost honesty.
 
-**Upstream and required Contracts:** See the independent entries below and [global Plan 4](../implementation-plan.md#4-contract-document-and-joint-interface-map). Required parent milestones: [SL-05.M1](#sl-05m1-single-target-candidate-fit), [SL-05.M2](#sl-05m2-candidate-selection-batches-and-rescoring). Dependencies are implemented components, not completion of upstream parents.
+**Development entry:** [SL-05.M1 handoff](../../development/handoff/sl-05-m1-handoff.md). Reverify actual code and commands; do not infer implementation from this plan.
 
-**BC3 delivery boundary:** Internal Candidate capability remains independent of Resume possession/execution and can be implemented/verified first. Unified single-target product integration is owned by SL-06.M1 and needs this M1 capability; unified batch integration is owned by SL-06.M2 and also needs SL-05.M2. Candidate component acceptance alone does not establish the complete DeepFit user experience.
+<a id="sl-05m2-candidate-selection-batches-and-rescoring"></a>
+## SL-05.M2 Multi-Job analysis and result management
 
-## SL-05.M1 Single-target Candidate Fit
+**Scope:** Multi-Job selection, scheduling, independently truthful outcomes and exact result/history management over M1. Reuse one analysis capability; no paired Candidate/Resume tasks. Result compatibility/rescoring only after its owned policy is reviewed, not a newly invented numeric policy.
 
-**Goal/value:** Assess the candidate's saved eligible career baseline against one Job.
+**Upstream:** Implemented SL-05.M1 plus formal Job queries and applicable orchestration/runtime. M2-specific fit-analysis result/batch/score-policy Contracts remain pending.
 
-**Scope:** Internally independent Candidate task/result, complete baseline, selection then dependency preparation/full freeze, scoped four assessment meanings, valid unscored result, deterministic score when supported, per-target serialization/publication and protected-input revocation.
+**Backend/frontend:** First implementation of per-target frozen runs and result management; UI selection, per-target pending/unknown/success/failure, actual source/history and unavailable portrait. Undispatched members are not failed or successful.
 
-**Out of scope:** Resume Fit, Coverage/upper-bound comparison, required formal Resume possession/rendering, Advisor and Memory; multi-Job execution/rescore in M2.
+**Proof/completion:** Mixed target outcomes, concurrency/duplicate commands, old successful result after failed rerun, independent costs, default switch during batch and per-run historical lineage. M1 success alone cannot complete this milestone.
 
-**Required upstream capability:** [SL-02.M1](sl-02-saved-authority-materials.md#sl-02m1-complete-saved-authority-and-atomic-save) — saved task-eligible Evidence baseline; user possession of a formal Resume is unnecessary; [SL-03.M3](sl-03-invocation-requirements.md#sl-03m3-requirementparse-and-shared-ensure) — compatible usable Requirements/Ensure
+**Development entry:** [SL-05.M2 handoff](../../development/handoff/sl-05-m2-handoff.md). Reverify actual code and commands; do not infer implementation from this plan.
 
-**Reused component/infrastructure:** [SL-03.M2](sl-03-invocation-requirements.md#sl-03m2-protected-semantic-invocation-and-evidence) — protected invocation, Context, budget and evidence
-
-**Required Contract portions before development:** `jobs/fit-analysis.md` — Candidate, shared assessment/scoring and single-target freeze/publication; `candidate/evidence.md` — complete task-eligible baseline; `jobs/requirements.md` — usable target; `agent/context.md`, `agent/execution-runtime.md`, `foundation/budget.md` — actual Fit inputs/operation admission; `evaluation/evaluation-observability.md` — Candidate-scoped fixtures/judges and Skill/workflow attribution. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
-
-**Joint agreement:** Baseline eligibility is not actual Frame visibility. Agree Requirement producer cost versus Fit allowance; score absence is not task failure or an unusable target. No later success may publish over a serialized incompatible target.
-
-**Research / unresolved Grill detail:** Complete bounded MISSING/UNKNOWN and score policy expressions in Grill; assess representative candidate/job cases without defining a universal completeness Gate.
-
-**Tests / Eval:** V5.2–5.3, V8–9, V12–13: full baseline/exact Frame, two freezes, contention/revocation, honest unscored result, semantic entailment and unsupported claims. V denotes the corresponding section of [Acceptance](../../acceptance.md); the parent's links locate that proof. These are required future checks, not results.
-
-**Milestone completion:** A real Candidate result has the correct admitted baseline, scope, publication and evidence independently of Resume Fit. Record actual evidence under [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning); no current completion is claimed.
-
-## SL-05.M2 Candidate selection, batches and rescoring
-
-**Goal/value:** Compare selected Jobs and update scoring policy without rerunning semantic judgments unnecessarily.
-
-**Scope:** Candidate-side multi-Job selection/dependency orchestration, independent results/failures, task versus workflow evidence and explicit deterministic rescoring of retained valid assessment.
-
-**Out of scope:** Transactional batch success, new Pursuit state, automatic rerun on scoring change or Resume Fit dependency.
-
-**Required upstream capability:** [SL-05.M1](#sl-05m1-single-target-candidate-fit) — independent Candidate assessment/current-result capability
-
-**Reused component/infrastructure:** [SL-05.M1](#sl-05m1-single-target-candidate-fit) — single-target task controls and compatible shared Ensure/runtime paths
-
-**Required Contract portions before development:** `jobs/fit-analysis.md` — Candidate selection/batch orchestration and explicit rescore; `foundation/budget.md` — applicable shared operation ceilings; `evaluation/evaluation-observability.md` — multi-task/workflow scope and retained assessment evidence. Applicable common/storage scope from [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) also applies.
-
-**Joint agreement:** Each target retains M1 freeze/publication and parse ownership. Batch selection is temporary task intent, not durable pursuit or shared result identity.
-
-**Research / unresolved Grill detail:** Resolve actual batch admission/accounting and score-version compatibility; no quota or threshold is selected here.
-
-**Tests / Eval:** V5, V9.1, V12–13: partial failures, shared Ensure cost, concurrent targets, current-result validity, rescore without hidden model calls and honest aggregate evidence. V denotes the corresponding section of [Acceptance](../../acceptance.md); the parent's links locate that proof. These are required future checks, not results.
-
-**Milestone completion:** Actual selected Candidate tasks and rescoring preserve independent outcomes and original assessment authority. Record actual evidence under [global Plan 2](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning); no current completion is claimed.
-
-**Parent completion and remaining work:** The Candidate capability produces independently valid results/history for DeepFit; it does not expose a standalone Candidate Fit product action under BC3/A4; optional scoring absence is honest. Composed workflow evidence includes actual dependency preparation, and Skill-only trials do not claim parser quality. Each milestone's necessary Contract scope must have been written and reconciled before its development; completion needs actual acceptance evidence and Progress/matrix updates. No completion is claimed now. All 2 listed milestones must be accepted. Any accepted subset leaves the other listed scopes pending. Integrated proof must cover single Candidate assessment, independent batch outcomes and retained assessment rescoring. Parent completion is separate from rollout/production enablement.
+**Parent completion:** Single and multi-Job DeepFit plus actual integration/Eval; no dependency on SL-06 optimization or parallel analysis integration.

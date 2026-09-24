@@ -1,5 +1,7 @@
 # SL-01 Local Workspace, Manual Application Entries and Preferences
 
+> **2026-09-24 supplemental baseline.** PRF-024 adds optional manual DeepFit consumption of exact existing six-field Preferences. SL-01.M2 save/API/UI does not change; verify absent/mismatched intent at the consumer. Collection still requires its configured intent. Full development reset may remove test Preferences but adds no production mutation.
+
 > English is authoritative. This Slice plan is part of the Implementation Plan category and completed W7 review in its earlier form. The later user-approved CG01-BC1 revises its scope; current scoped review is recorded in Progress. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 2 milestones remain in this document.
 
 [Documentation index](../../index.md) · [Slice index](README.md) · [Global Implementation Plan](../implementation-plan.md) · [Actual Progress](../../progress.md)
@@ -26,7 +28,7 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Scope:** Local Workspace initialization/configuration; ManualApplicationEntry company, role title and user-provided application URL; repeated mutable edits and removal from current use; a separate view entered through a Job Pool button; explicit browser opening.
 
-**Out of scope:** Formal Job/JobVersion, JD input/version history, freshness/availability reporting, Requirements, both Fits, targeted Advisor, Preparation, automated Execution and Application History. Opening the URL is not collection or an application fact. Physical entry deletion and independently retained create receipts follow the actual Entry/Storage Contracts; no immutable Job history is introduced.
+**Out of scope:** Formal Job/JobVersion, JD input/version history, freshness/availability reporting, Requirements, DeepFit, targeted Advisor, Preparation, automated Execution and Application History. Opening the URL is not collection or an application fact. Physical entry deletion and independently retained create receipts follow the actual Entry/Storage Contracts; no immutable Job history is introduced.
 
 **Required upstream capability:** None.
 
@@ -65,4 +67,4 @@ The [global readiness and dependency rules](../implementation-plan.md#2-mileston
 
 **Milestone completion:** The declared Preference configuration/version/read/Save/concurrency capability and applicable proof are complete under ready Contracts. Collection/admission/query integration remains SL-08.M2's obligation. No implementation or acceptance is claimed by this plan revision.
 
-**Parent completion and remaining work:** Both milestones and their actual local integration are accepted: Workspace supports manual-entry maintenance/browser opening and saved complete versioned acquisition intent. Manual entries stay outside formal Job workflows. Formal Job views, independent queries, source acquisition and admission are verified in SL-08.M2. All 2 milestones require their own Contracts, implementation and evidence; parent completion remains separate from rollout.
+**Parent completion and remaining work:** Completion requires both milestones and their actual local integration to be accepted: Workspace supports manual-entry maintenance/browser opening and saved complete versioned acquisition intent. Manual entries stay outside formal Job workflows. Formal Job views, independent queries, source acquisition and admission require future verification owned by SL-08.M2. All 2 milestones require their own Contracts, implementation and evidence; parent completion remains separate from rollout.

@@ -1,5 +1,29 @@
 # SL-03.M2 — Protected Semantic Invocation Development Handoff
 
+## Current development transfer — 2026-09-24.S2M1S1-r1
+
+**Classification:** First production protected-invocation implementation. This addendum controls the replaced source scope; any older body below is a historical snapshot. [Owning plan](../../plans/slices/sl-03-invocation-requirements.md) · [Accepted supplement](../../design/contract/sl-02-m1-supplement-grill.md) · [Current scope/evidence](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+
+**Consumed scope:** Existing 2026-09-24.S3M2-r1 eight Ready portions; CTX-016/PRO-013–014/EVO-027 business interface. Read the actual Contract bodies through [Contract Index](../../contracts/index.md); indexes/planned paths are not norms. Read Product/Architecture/Acceptance, AGENTS.md and maintained component guides before implementation. Old shared Profile/Evidence/Baseline authority, Knowledge-first Save, parallel Fits and mandatory current assistant apply are superseded only as recorded in those owners.
+
+**Observed baseline:** HEAD `66e2bb8dfd081a44b3a28873d5b992805ce46d56`; backend runtime schema 5, migration head `d092ea64bf17_invocation_durability.py` after `a41d7e90c263`. Existing SL-02.M1 backend/frontend and M2 backend implement the old model. Runtime M1 is implemented; production SL-03.M2 and later consumers are not. Current documentation publication changes no product code, database, dependency or generated client. Recheck git status and preserve unrelated edits; historical test counts below are not rerun evidence.
+
+**Backend delta:** Implement the already-reviewed protected Context/Tools/Budget/Gateway foundations and adoption proof. Register portrait as a separate typed business adapter/result validator, with complete admitted deterministic Evidence, one-request/no-repair policy and durable-response local recovery. Do not repurpose the EVO conformance exercise format or weaken existing outcome reasons.
+
+**Frontend delta:** No standalone M2 UI is required by this supplement; SL-02 portrait consumes status through its owned API.
+
+**Upstream and order:** Actual M1 runtime → M2 adoption/configuration/guarded invocation → SL-02 semantic portrait. Deterministic source Save proceeds independently.
+
+**Data/API transition:** Q38/Q41 permits later explicit offline reset of the complete configured development DB/generated materials, including test Preferences/Entries/Runtime records, while preserving source/Git/configuration. Never reset on startup or during this documentary transfer. No legacy request adapter/data conversion/archive reader is required. Preserve published migration source history and post-transition immutable source/result/receipt histories. Coordinate changed backend schemas with generated clients; do not fabricate target availability from this handoff.
+
+**Invocation integration gate:** Register and prove PRO-014’s own complete derivation-decision reconciliation, Runtime ending mapping, frozen deadline/local-recovery bounds and finite configuration values. Do not inherit conformance-only ending/grace policies. A ready document source is not proof this executable integration exists.
+
+**Required proof and open blockers:** Production provider/model, finite input/output limits, SDK retry disablement, structured-output behavior and protected real invocation remain implementation/research proof. No dependencies installed/live call performed here. Do not mark M2 implemented or portrait complete from conformance-only success. This is required future evidence. Ready replacement Contracts do not establish runtime/browser/model acceptance; unrelated Pending future scopes remain blocked until their own consumer definitions and upstream capabilities are ready.
+
+**Maintained verification entry:** [Backend guide](../../../backend/README.md), [frontend guide](../../../frontend/README.md), [Development](../../development.md), [UI system](../../ui/DESGIN.md). From repository root, inspect then use `UV_CACHE_DIR=/tmp/jobhunter-uv-cache ./scripts/check`, `npm --prefix frontend run api:generate`, `npm --prefix frontend run check` and `npm --prefix frontend run test:e2e` as consumed. Rendering requires the actual certified native/font environment; invocation requires its reviewed provider/configuration. For docs run `python3 scripts/check_contract_links.py` and `git diff --check`. Report executed commands and unexecuted scope; backend tests never substitute browser acceptance.
+
+## Historical handoff snapshot
+
 > English is authoritative. Transfer checkpoint: 2026-09-24. The consumed M2 normative scope is **Ready** after accepted CG06-Q1–Q219 and scoped closure review. This transfers published Contracts and inspected source facts, not implemented capability. Executable model/configuration, dependency adoption and required tests remain gates before integration acceptance.
 
 [Milestone](../../plans/slices/sl-03-invocation-requirements.md#sl-03m2-protected-semantic-invocation-and-evidence) · [Scope/decision mapping](../../progress/traceability.md#66-sl-03m2-reviewed-scope-and-interface-evidence) · [Decision register](../../design/contract/sl-03-m2-grill.md#cg06-pub) · [Contract index](../../contracts/index.md)

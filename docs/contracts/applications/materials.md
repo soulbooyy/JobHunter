@@ -1,5 +1,7 @@
 # Materials Contract — Saved Sources, Preview and Export
 
+> **Current applicability — 2026-09-24.S2M1S1-r1.** MAT-001/002/005/006/007/008 source-join/manifest portions and MAT-014’s manifest/schema applicability change only for independent Resume sources under MAT-031–033. Exact-demand, configuration, verified bytes, rendering, retained history and external-consent boundaries otherwise survive. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+
 > English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. MAT-001–003 preserve the SL-02.M1 consumed scope. Sections 2–6 add **2026-09-21.S2M2-r1**; future Preparation/execution consumers remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
 
 [Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../design/contract/sl-02-m1-grill.md)
@@ -158,3 +160,16 @@ Successful responses MUST use full HTTP 200, Content-Type matching media_type, C
 
 <a id="mat-030"></a>
 **MAT-030.** Concrete catalog files, font rights/distribution, logical-font mappings, glyph/mark combinations, template field/label/wrapping behavior, PDF embedding/text extraction, PDF serialization tolerance, PNG assembly and practical execution/default limits MUST have explicit engineering evidence before the corresponding execution capability is declared usable. Research that needs a new source substitution/synthesis/output semantic exception MUST return to its Contract owner; implementation defaults MUST NOT silently supply authority. This normative publication itself supplies no installed renderer, font assets, runtime test, migration or frontend acceptance. Q99/Q100/Q123/Q128/Q134/Q135.
+
+## 7. Independent Resume material source
+
+Scope revision **2026-09-24.S2M1S1-r1**. Provenance: CG03S1-BC1–BC3 and effective Q6–Q41; Q24 is superseded by Q38/Q41.
+
+<a id="mat-031"></a>
+**MAT-031.** The complete exact schema-2 ResumeVersion MUST be the sole candidate source of rendered materials: owned contacts, Header, ordered sections/entries/fields/canonical text and presentation. No independent Profile/Evidence version joins, portrait readiness, default identity or semantic model input is a render prerequisite. Rendering does not read generated capability text. Logical entry/block IDs are provenance, not visible output. RES-018–023 value/AST rules and existing renderer layout/privacy/link behavior apply.
+
+<a id="mat-032"></a>
+**MAT-032.** RenderManifest schema_version MUST be 2 and contain exactly schema_version, resume_id, resume_version_id, render_configuration_id and artifact_id. Derive all values server-side from the exact accepted source/configuration/publication. No profile_version_id or Evidence source_sections remains. Artifact retains MAT-014’s seven fields with schema_version:2 and this manifest. Source/configuration/Artifact ownership must agree; a manifest cannot override content. Old-model data is reset under STO-054, not served through fake schema-2 lineage.
+
+<a id="mat-033"></a>
+**MAT-033.** New demand still requires an ACTIVE owning Resume; accepted exact demand and published historical material survive ordinary removal/new versions/default/portrait changes. Reuse requires exact ResumeVersion/configuration and verified bytes under MAT-016. Preview/download, Preparation selection, viewed-material confirmation and execution consent MUST NOT be retargeted or invalidated solely by default switch/portrait rebuild. Keep Draft preview separate from saved-source artifacts and material readiness separate from Save/portrait success.

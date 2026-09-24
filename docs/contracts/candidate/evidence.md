@@ -1,5 +1,7 @@
 # Evidence and Baseline Contract
 
+> **Current applicability — 2026-09-24.S2M1S1-r1.** EVD-001/002/006–015 independent fact authority, Baseline, CRUD, retirement and material joins are historical. The six kind values and EVD-003–005 field/value semantics are reused by Resume entries; ownership is now RES-018. EVD-016–023 defines the new read-only projection. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+
 > English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. The original clauses preserve SL-02.M1 scope; the final section adds the explicitly bounded 2026-09-21.S2M2-r1 consumer interface. Other future scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
 
 [Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../design/contract/sl-02-m1-grill.md)
@@ -97,3 +99,31 @@ Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics rema
 
 <a id="evd-015"></a>
 **EVD-015.** For each Resume member consumed by MAT-005, Evidence MUST provide exactly evidence_item_id, evidence_item_version_id, Item-owned kind and the corresponding complete EVD-003 fields shape, retaining the requested version's Item ownership and the consumer's member order. It MUST validate that actual structured input without substituting current/ACTIVE versions or requiring unused Evidence.content to parse/pass full body validation. This projection has no business ID, separate persisted authority or public endpoint. EVD-013's full exact HTTP reader and existing Save continue complete owned validation; the new internal projection MUST NOT weaken those consumers. Retired/historical refs remain usable for admitted exact demand; contradictory ownership is not a valid source. Q6/Q14/Q67/Q69/Q74/Q96.
+
+## 7. Deterministic CandidateEvidenceProjection
+
+Scope revision **2026-09-24.S2M1S1-r1**. Provenance: CG03S1-BC1–BC3 and effective Q6–Q41; Q24 is superseded by Q38/Q41.
+
+<a id="evd-016"></a>
+**EVD-016.** CandidateEvidenceProjection MUST be deterministically derived from one exact saved ResumeVersion schema 2, using registered immutable extraction rules. It MUST NOT accept user writes, model splitting, rewritten text, summaries or inference as Evidence. The original Resume remains authority. No union of other Resumes, past defaults, Memory or chat assertions is allowed. Evidence units may exist internally before Profile succeeds; this does not publish a usable partial portrait.
+
+<a id="evd-017"></a>
+**EVD-017.** The projection MUST contain exactly schema_version: integer 1, resume_version_id: UuidV4, extraction_key: string, entries: EntryEvidenceUnit[] and blocks: BlockEvidenceUnit[]. Both arrays may be empty and preserve the source order described below. extraction_key is an immutable registered parser/admission-rule identifier matching ^[A-Za-z0-9][A-Za-z0-9._+-]{0,63}$; changed rules get a new key. Entry units contain exactly evidence_id, entry_id, kind, fields and content, preserving the complete saved entry and its canonical AST. Block units contain exactly evidence_id, entry_id, block_id and text; text is the exact concatenation of that paragraph/listItem’s run.text, without trimming/normalizing, and parent entry resolves in this projection. Iterate Resume section/member/block/list-item order; identical text in different IDs stays distinct. Every valid paragraph or listItem yields one block; its nested editor paragraph is not another unit. Structured entries without body still yield an entry unit.
+
+<a id="evd-018"></a>
+**EVD-018.** An entry evidence_id MUST be "entry/" + canonical entry_id; a block evidence_id MUST be "block/" + canonical entry_id + "/" + canonical block_id. EvidenceRef MUST contain exactly resume_version_id: UuidV4, extraction_key and evidence_id. The full triple is identity: stable logical IDs can continue across versions but do not overwrite older Evidence. Source location is the exact version plus entry_id and nullable block_id (null for entry); character offsets/array indices may aid display but cannot be authoritative. Repeat projection with the same source/rules MUST reproduce the same identities/text.
+
+<a id="evd-019"></a>
+**EVD-019.** Retained source and model-visible projection MUST be distinct. Preserve complete original fields/AST/link targets for source display/provenance. Model admission excludes all contacts and Header, structured project_url and hidden LINK.url targets; visible run text and admitted structured career fields remain. Omit excluded fields rather than invent null facts. No URL fetch or inferred repository abilities is authorized. Apply privacy/permission checks before Frame construction and Tool results; excluded content cannot reappear through logging, summaries or fallback.
+
+<a id="evd-020"></a>
+**EVD-020.** A frozen consumer MUST resolve EvidenceRefs only inside its selected exact projection and verify parent/version/rule identity. Unknown or mismatched refs fail; never substitute current or search another Resume. Controlled retrieval may read specific blocks, expand to their complete admitted entry context, then inspect more permitted evidence. The portrait page may expose source attribution for a ready pair, but no standalone partial-Evidence interface or independent evidence-history archive is added.
+
+<a id="evd-021"></a>
+**EVD-021.** Profile is an index, not a completeness certificate. Missing Profile entries or retrieval misses MUST NOT establish absence. DeepFit must broaden inspection when needed; incomplete access, failed reads or capacity/budget limits produce UNKNOWN, not a definitive gap. A sufficiently inspected negative is only “this source Resume does not express the capability”, never “the candidate lacks it”. Record actual inspected references/coverage in the consumer’s result evidence; a reference alone does not prove content was seen. Future Fit Contract owns assessment/coverage serialization and scoring.
+
+<a id="evd-022"></a>
+**EVD-022.** Usable portrait source means at least one valid structured career entry; contacts/Header alone or sections=[] are empty. Deterministic projection of an empty source is legal, but MUST NOT dispatch semantic derivation or establish ready portrait. Non-default sources can be read for direct optimization without publishing global Evidence. Normal reads never create projections, dispatch models or alter default selection.
+
+<a id="evd-023"></a>
+**EVD-023.** Presentation-only reuse MUST first derive this new version’s exact Evidence and prove equality of all admitted semantic content, logical IDs/order and compatible extraction rules against the prior ready pair. Only then may Profile semantic entries be reused with every ref rebound to the new version; record reused_from_portrait_id, never label it fresh model output. If equivalence cannot be established, use ordinary bounded derivation. Excluded-only/contact/Header/presentation changes may qualify; changed career text/fields cannot. Old Evidence and analysis refs stay unchanged.

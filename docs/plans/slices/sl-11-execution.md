@@ -1,5 +1,7 @@
 # SL-11 Explicit authorized execution and independent batch outcomes
 
+> **2026-09-24 supplemental baseline.** MAT-033/RES-024 supplies exact independent Resume material through Preparation. M1/M2 remain first implementation; preserve frozen artifact/snapshot/approval through default switches, portrait rebuild/failure and other Resume edits. No portrait/Profile/Evidence source prerequisite is added. External consent, live checks, read-back and no-resend rules remain unchanged.
+
 > English is authoritative. This Slice plan is part of the Implementation Plan category and completed W7 review in its earlier form. Its affected scope/dependencies now reflect user-approved [CG01-BC1](../../design/contract/sl-01-m1-grill.md#cg01-bc1); scoped review is recorded in Progress. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 2 milestones remain in this document.
 
 [Documentation index](../../index.md) · [Slice index](README.md) · [Global Implementation Plan](../implementation-plan.md) · [Actual Progress](../../progress.md)

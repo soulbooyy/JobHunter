@@ -1,5 +1,7 @@
 # Workspace Contract — Local M1 Startup and Navigation
 
+> **Current applicability — 2026-09-24.S2M1S1-r1.** WSP-008–011 initialization, final-removal and replacement-selection clauses are superseded by WSP-013–015. Local placement, exclusive ownership, loopback and Host/Origin admission survive. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+
 > English is authoritative. Normative scope revision: **2026-09-19.M1-r1**. Scope: SL-01.M1 local startup, access and delivered navigation. Resume defaults and later Workspace capabilities remain outside this scope. [Progress](../../progress/traceability.md#6-contract-normative-scope-readiness-ledger) records readiness separately.
 
 [Index](../index.md) · [Common](../common.md) · [Entry](../jobs/manual-application-entries.md) · [Storage](storage.md) · [Decisions](../../design/contract/sl-01-m1-grill.md)
@@ -73,3 +75,16 @@ Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics rema
 
 <a id="wsp-012"></a>
 **WSP-012.** SL-02.M2 MUST retain WSP-001–004/006's single local user, placement, first-use, exclusive physical-directory ownership and configured loopback Host/Origin boundaries. STO-029–039 supplies the M2 binary's schema/registration applicability, superseding only older literal target-version references for that binary; no automatic migration is authorized. Its six Materials/Derived Work operations use DRW-022 transport, not SAV-012's no-query rule for the content operation or changed SL-01 parsing. Missing render dependencies MUST leave otherwise healthy startup and unrelated delivered APIs usable; configuration/persistence integrity failures remain explicit under STO-032/038. No new Workspace identity, login, general remote API or runtime-lock/lease authority is introduced. Q102/Q107/Q113/Q120/Q127.
+
+## 7. Independent documents and current portrait selection
+
+Scope revision **2026-09-24.S2M1S1-r1**. Provenance: CG03S1-BC1–BC3 and effective Q6–Q41; Q24 is superseded by Q38/Q41.
+
+<a id="wsp-013"></a>
+**WSP-013.** Workspace MUST own exactly one DefaultResumeSelection {default_resume_id: UuidV4|null, revision: Revision}, initially null/revision 1. No Candidate root/account/aggregate is added. null means no ACTIVE Resume, including after final removal; it is not restricted to revision 1. First creation while null selects that created Resume atomically and increments the then-current selection revision. Concurrent later creation preserves the established selection. No Profile root or EvidenceBaseline is seeded.
+
+<a id="wsp-014"></a>
+**WSP-014.** Set-default MUST check expected selection revision before equality and require an ACTIVE target. Same target is UNCHANGED and does not implicitly refresh; real change increments once and commits SAV-021’s new current build obligation. Default selection commits without waiting for a model. Save of its current document advances portrait source without changing selection revision; non-default Save/rename does not. Source and current-build identity together fence publication, including A→B→A.
+
+<a id="wsp-015"></a>
+**WSP-015.** Default removal with other ACTIVE Resumes MUST name a different ACTIVE replacement. The dialog MUST preselect the next Resume in RES-014 canonical list order, otherwise previous, and allow manual replacement selection; show the selected source change before confirmation. Backend MUST validate the submitted replacement and selection revision atomically, never silently choose another. Final removal MUST accept replacement_resume_id=null, clear default and current portrait, and increment selection once. Non-default removal requires null replacement and leaves selection unchanged. SAV-007’s receipt/target-revision/already-removed no-op precedence survives; LAST_RESUME_REQUIRED is retired. Ordinary removal retains exact history and is not physical erasure.

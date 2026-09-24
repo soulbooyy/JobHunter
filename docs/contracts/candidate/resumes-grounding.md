@@ -1,5 +1,7 @@
 # Resume Composition and Manual Lineage Contract
 
+> **Current applicability — 2026-09-24.S2M1S1-r1.** RES-001/002/005/010/011/013/015/016 source-authority and adoption rules, RES-003 final-removal prohibition and RES-006 no-ID rule are superseded by RES-017–024. RES-004 Header values, RES-007–009 text/canonicalization/bounds, RES-012 presentation and surviving lifecycle/read rules still apply as explicitly reused below. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+
 > English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. The original clauses preserve SL-02.M1 scope; the final section adds the explicitly bounded 2026-09-21.S2M2-r1 consumer interface. Other future scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
 
 [Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../design/contract/sl-02-m1-grill.md)
@@ -91,3 +93,31 @@ Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics rema
 
 <a id="res-016"></a>
 **RES-016.** For MAT-005, Resume MUST provide the complete requested immutable ResumeVersion with its saved Header, local AST, presentation and ordered exact refs. Derive resume_id, profile_version_id and source_sections server-side; do not accept duplicate client lineage fields or a Manifest as authority. Internal Materials projection validates required source identity/ownership without forcing EVD-013's unused full Evidence body into rendering admission. Existing RES-014 full Candidate reads and Save semantics remain unchanged. New render demand additionally requires ACTIVE owning Resume under MAT-006; previously accepted exact demand survives ordinary removal/new Save. No Save-triggered follow-current subscription, source propagation or automatic artifact invalidation is added. Q1/Q6/Q14/Q17/Q23/Q67/Q74/Q96.
+
+## 7. Independent Resume authority and stable editor identity
+
+Scope revision **2026-09-24.S2M1S1-r1**. Provenance: CG03S1-BC1–BC3 and effective Q6–Q41; Q24 is superseded by Q38/Q41.
+
+<a id="res-017"></a>
+**RES-017.** Each Resume MUST own its complete contacts, structured experience fields, text and presentation. Resumes have independent version chains, no Master/Application type and no mandatory derivation relation. Editing, optimizing, rendering or selecting B for application MUST NOT alter A or switch the Workspace default. Resume content is the candidate-material authority; projections are read-only observations, not independent fact stores.
+
+<a id="res-018"></a>
+**RES-018.** Resume root retains RES-002’s root shape. ResumeVersion MUST contain exactly resume_version_id, resume_id, schema_version: 2, contacts, header_presentation, sections, document_presentation and created_at. contacts MUST contain exactly full_name, phone_number, email with PRO-004/005 value/null/privacy rules; no profile_version_id exists. Header uses RES-004; presentation uses RES-012. sections is an ordered array of {kind, members}; kind uses the six EVD-001 enum values, unique per document. Each nonempty members array contains {entry_id, fields, content}; fields uses EVD-003–005 for that section kind. No EvidenceItem/Version references or separate fact Save is admitted. sections=[] and all-null contacts are legal.
+
+<a id="res-019"></a>
+**RES-019.** Canonical content MUST retain RES-006 paragraph/list/run/mark shapes, with block_id added to each PARAGRAPH and each list item {block_id, runs}; list containers and runs have no logical ID. entry_id MUST be unique across the document, and block_id unique across all its entries; validate duplicate/missing/invalid IDs before commit, never repair them. Retain RES-007/008 run admission/merging and RES-009 bounds (the old Profile/source-field exclusions now mean owned contacts/structured fields). IDs participate in canonical equality; JSON formatting/run segmentation alone does not.
+
+<a id="res-020"></a>
+**RES-020.** Logical IDs MUST survive text/mark edits, reorder and paragraph↔listItem conversion. New entries/blocks and copied/pasted content get new IDs. Split retains the original ID on the first block and gives the second a new ID; merge retains the first block ID and removes the other from the current document. Draft undo/redo restores both content and IDs. Copying a whole Resume creates a new root and fresh entry/block IDs, with no source-derivation relation. A Save may retain IDs from that Resume’s history (including restored draft content), but MUST NOT transplant an identity owned by another Resume. No fuzzy text/position matching establishes identity.
+
+<a id="res-021"></a>
+**RES-021.** The TipTap adapter MUST round-trip the application-owned canonical AST and logical IDs. Native TipTap/ProseMirror JSON is an editor representation, not the saved Contract. Map a top-level paragraph to a canonical paragraph and each listItem’s paragraph to one canonical list item without duplicate Evidence. Preserve supported marks/order/text/IDs; editor placeholders are omitted before Save, not silently repaired server-side. Evidence derives only from the saved canonical representation. Nested lists and other unsupported nodes remain outside the existing AST; this supplement does not enable them.
+
+<a id="res-022"></a>
+**RES-022.** Canonical document equality MUST compare contacts, Header, ordered section kinds/entries/fields/IDs/content and presentation; exclude name/root state/default/portrait. Real Save creates a new immutable Version of the same Resume; no-op retains current Version. A return to previous content creates a fresh Version when different from current. Valid empty/contact/Header-only content saves normally; only admitted structured career entries make a portrait source usable. Source Save never requires semantic extraction success.
+
+<a id="res-023"></a>
+**RES-023.** The editor MUST provide direct document-owned contacts and experience editing, page-local Draft preview and explicit Save with the existing dirty-navigation/uncertain-outcome rules. Remove Knowledge-first selection, separate Profile Save and source-adoption controls. Populated contacts display under the surviving PRO-006 null/display rule but come from this document. RES-014 exact/root/list reads retain their routes, snapshot consistency, ACTIVE ordering and removed-history semantics, returning schema 2; empty list may have null selection at any valid revision. No history picker or autosave guarantee is added.
+
+<a id="res-024"></a>
+**RES-024.** Materials and optimization MUST resolve the explicitly selected exact ResumeVersion directly. Neither needs default selection or a ready portrait. Current optimization is suggestion-only; candidate context consists solely of this selected version’s admitted content, with JobVersion/RequirementSet added only in targeted mode. No default Profile/Evidence, another Resume, Memory or conversational career assertion may supplement it, even as a hint. Empty selected career content returns a prerequisite message without model dispatch; populated B remains optimizable when default A is empty. Future assistant application, if approved later, must advance the same Resume and invoke ordinary Save/default consequences.

@@ -1,8 +1,12 @@
 # JobHunter Progress
 
-> English is authoritative. Snapshot: 2026-09-24. SL-03.M1 backend is implemented and verified on schema 5 with evidence in section 15. SL-02.M2 retains its schema-4 checkpoint and real PDF/PNG evidence in section 14; frontend/browser acceptance remains pending. SL-02.M1 consumed Contracts are Ready at 2026-09-21.S2M1-r1; its backend schema-3 checkpoint is recorded in section 12; frontend and scoped schema-5 Chromium integration are implemented in section 16, with final visual/milestone acceptance pending. SL-01.M2 backend is implemented with conformance evidence in section 9; M2 frontend and scoped Chromium integration are implemented with evidence below; final visual/milestone acceptance remains pending. SL-01.M1 backend retains its recorded 87-test evidence, with M1 frontend and Chromium integration evidence recorded below; final visual/milestone acceptance remains pending. Historical W7/global approval remains separate. This document records actual state; target architecture, Contract structure and planned milestones do not establish implemented capabilities.
+> English is authoritative. Snapshot: 2026-09-24. Current CG03S1 replacement scope is published; older S2 implementation/test statements below refer to the prior model and require adaptation under §1.  SL-03.M1 backend is implemented and verified on schema 5 with evidence in section 15. SL-02.M2 retains its schema-4 checkpoint and real PDF/PNG evidence in section 14; frontend/browser acceptance remains pending. SL-02.M1 consumed Contracts are Ready at 2026-09-21.S2M1-r1; its backend schema-3 checkpoint is recorded in section 12; frontend and scoped schema-5 Chromium integration are implemented in section 16, with final visual/milestone acceptance pending. SL-01.M2 backend is implemented with conformance evidence in section 9; M2 frontend and scoped Chromium integration are implemented with evidence below; final visual/milestone acceptance remains pending. SL-01.M1 backend retains its recorded 87-test evidence, with M1 frontend and Chromium integration evidence recorded below; final visual/milestone acceptance remains pending. Historical W7/global approval remains separate. This document records actual state; target architecture, Contract structure and planned milestones do not establish implemented capabilities.
 
 ## 1. Current state and task
+
+SL-02.M1 supplemental Grill and authorized formal writeback are published at **2026-09-24.S2M1S1-r1**. [CG03S1](design/contract/sl-02-m1-supplement-grill.md) closes effective Q6–Q41 and BC1–BC3: independent Resume content/contacts, stable canonical editor IDs, deterministic Entry/Block Evidence, schema-v1 supported capability Profile, atomic default/build lifecycle, one DeepFit, selected-only optimization suggestions and explicit development reset. Assistant apply/adopt-back is Deferred (SL-07.M3/SL-10.M2). [Review and implementation table](progress/traceability.md#67-sl-02m1-supplement-reviewed-scope) maps every decision and each affected backend/frontend handoff.
+
+Replacement documentary scope is Ready; **existing SL-02.M1 backend/frontend and M2 material-source implementation need adaptation**. Historical tests cover the prior model. Production SL-03.M2 is unimplemented and remains an upstream requirement for semantic portrait completion; deterministic document Save and direct rendering can proceed independently. No product code, generated client, data reset, dependency install or Git submission was performed. Future consumer-specific Contracts remain Pending.
 
 SL-03.M2 Contract closure is published at **2026-09-24.S3M2-r1** after accepted CG06-Q1–Q219 and the user's owner-writeback authorization. The [scope/decision review](progress/traceability.md#66-sl-03m2-reviewed-scope-and-interface-evidence) maps all 219 accepted decisions; all eight consumed documentary portions, including the exercise agreement, are **Ready**. Q217–Q219 preserve exercise-only success, owner-defined failure reasons and a consumer-bound finite recovery window. The [development handoff](development/handoff/sl-03-m2-handoff.md) records M1 reuse, implementation order and unresolved executable model/configuration/SDK adoption proof. M2 implementation and acceptance have not started; no live call, dependency installation or migration occurred. Parent SL-03 remains Partial (1/3).
 
@@ -16,7 +20,7 @@ Formal Job semantics remain owned by planned `jobs/jobs-screening.md`; SL-08.M2 
 
 The W7 handoff preserves review of the preceding baseline. The new scoped user approval does not retroactively approve every old baseline detail or reuse W7's PASS as evidence for new semantics. Current writeback checks are recorded in section 5. The original nine Grill sources, Inventory, Chinese authoring reference and historical handoffs remain unchanged; CG01-BC1 explicitly supersedes their Manual Job portions.
 
-The [Contract Index](contracts/index.md) now lists **sixteen actual normative bodies and 12 planned destinations**. The 300 preserved requirements plus 105 SL-03.M2 additions total **405**. 38 consumed scopes are Ready; 62 other scopes remain Pending, for 100 rows separating M2 foundations/exercise from future consumers. [S2 review](progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence) and [backend-first handoff](development/handoff/sl-02-m1-handoff.md) support the next development task. The current backend serves schema 5; implemented S2 authority/API/storage and remaining UI scope are recorded in section 12.
+The [Contract Index](contracts/index.md) now lists **sixteen actual normative bodies and 12 planned destinations**. The 405 historical requirements plus 48 supplemental additions total **453** retained IDs. 40 consumed scopes are Ready; 60 other scopes remain Pending, for 100 current rows; superseded authority/material-join scopes remain in historical review maps. [Current S2 review](progress/traceability.md#67-sl-02m1-supplement-reviewed-scope) and [backend-first handoff](development/handoff/sl-02-m1-handoff.md) support the next development task. The current backend serves schema 5; implemented S2 authority/API/storage and remaining UI scope are recorded in section 12.
 
 The user accepted CG01-Q1–Q45's effective decisions (Q7–Q10 were stopped), including Q42's optional safe transaction completion and Q45's implementation-independent browser safety. Normative writeback and scoped interface reviews are complete. The backend subset is now implemented; see [operation and evidence](../backend/README.md) and the [M1 development handoff](development/handoff/sl-01-m1-handoff.md). M1 and parent SL-01 are **Partial**: the frontend is implemented with scoped Chromium integration evidence below; final visual/milestone acceptance remains outstanding. M2 backend need not wait for M1 frontend; its own Contract prerequisites still apply.
 
@@ -34,7 +38,7 @@ The user accepted CG01-Q1–Q45's effective decisions (Q7–Q10 were stopped), i
 | W6 Implementation Plan | [Plan](plans/implementation-plan.md) and [W6 handoff](../.scratch/w6-implementation-plan-handoff.md), authored; scoped seams/checks reported | Earlier allocation reviewed in W7; CG01-BC1 dependency revision user-approved; no capability completion |
 | W7 joint baseline review | [W7 handoff](../.scratch/w7-joint-review-handoff.md): six main documents and current supporting plans/guides/records reviewed under both seams | Completed document review only; no runtime acceptance |
 | User direction | Explicit M1 start and CG01-BC1 architecture/plan revision approved | Scoped approval; do not infer retrospective blanket approval of all earlier baseline detail |
-| Detailed Contracts | Sixteen actual bodies, 405 IDs, 38 consumed portions Ready; 12 destinations remain planned | Other 62 portions remain Pending; S2 M1 backend/frontend implemented; M2 frontend and final visual/integration acceptance pending |
+| Detailed Contracts | Sixteen actual bodies, 453 retained IDs, 40 consumed portions Ready; 12 destinations remain planned | Other 60 portions remain Pending; S2 M1 old-model backend/frontend need adaptation; M2 frontend and final visual/integration acceptance pending |
 
 Historical handoffs preserve their own evidence snapshots; obsolete whole-Slice/global Contract gates do not override current [Development 5](development.md#5-future-slice-planning-and-test-first-work). English remains authoritative for all formal work.
 
@@ -66,16 +70,16 @@ Parent completion and child capability availability are recorded separately. SL-
 | SL-04 | Planned | 0 / 1 | SL-04.M1 | Not executed |
 | SL-05 | Planned | 0 / 2 | SL-05.M1, SL-05.M2 | Not executed |
 | SL-06 | Planned | 0 / 2 | SL-06.M1, SL-06.M2 | Not executed |
-| SL-07 | Planned | 0 / 3 | SL-07.M1, SL-07.M2, SL-07.M3 | Not executed |
+| SL-07 | Planned | 0 / 2 current | SL-07.M1/M2; M3 Deferred | Not executed |
 | SL-08 | Planned | 0 / 2 | SL-08.M1, SL-08.M2 | Not executed |
 | SL-09 | Planned | 0 / 1 | SL-09.M1 | Not executed |
-| SL-10 | Planned | 0 / 2 | SL-10.M1, SL-10.M2 | Not executed |
+| SL-10 | Planned | 0 / 1 current | SL-10.M1; M2 Deferred | Not executed |
 | SL-11 | Planned | 0 / 2 | SL-11.M1, SL-11.M2 | Not executed |
 | SL-12 | Planned | 0 / 2 | SL-12.M1, SL-12.M2 | Not executed |
 
 ### 3.2 Milestone and normative-scope records
 
-The [milestone ledger](progress/traceability.md#5-milestone-implementation-and-acceptance-ledger) records all 24 children with separate consumed-Contract readiness, implementation, acceptance and evidence columns. The [Contract scope ledger](progress/traceability.md#6-contract-normative-scope-readiness-ledger) records independently consumed responsibility portions rather than file-wide completion. SL-01.M1/M2, SL-02.M1/M2 and SL-03.M1/M2 have reviewed consumed Contract scopes. SL-01 backend/frontend evidence remains separately recorded; S2 M1 backend evidence is recorded in section 12, with frontend pending. The other 62 normative portions and their milestone readiness remain Pending; whole-Slice acceptance is not inferred.
+The [milestone ledger](progress/traceability.md#5-milestone-implementation-and-acceptance-ledger) records all 24 children with separate consumed-Contract readiness, implementation, acceptance and evidence columns. The [Contract scope ledger](progress/traceability.md#6-contract-normative-scope-readiness-ledger) records independently consumed responsibility portions rather than file-wide completion. SL-01.M1/M2, SL-02.M1/M2 and SL-03.M1/M2 have reviewed consumed Contract scopes. SL-01 backend/frontend evidence remains separately recorded; S2 M1 backend evidence is recorded in section 12 and frontend evidence in section 16. The other 60 normative portions and their milestone readiness remain Pending; whole-Slice acceptance is not inferred.
 
 These are current records, not the hypothetical READY/COMPLETE/PASSED example. Once a milestone is actually accepted, update its own evidence and expose its capability even if its parent remains Partial. Parent Implemented requires every required milestone plus integrated acceptance. “Verified” belongs to acceptance evidence, not a new Q26/Q32 implementation status. A ready Contract scope or written code alone does not establish accepted capability.
 
@@ -91,6 +95,9 @@ These are current records, not the hypothetical READY/COMPLETE/PASSED example. O
 | Rollout/explicit deferrals | Q117/Q175 certification/rollout and post-v1 RAG remain separate; no new defaults, Trial counts or release gate |
 
 ## 5. Verification scope and next step
+
+CG03S1 documentary closure: both Development §9.2 seams pass with the exact mapping and review corrections in [§6.7](progress/traceability.md#67-sl-02m1-supplement-reviewed-scope). The expanded documentation checker passes 453 unique IDs, current links and all historical/supplemental mappings (40 Ready / 60 Pending); Ruff lint/format and diff whitespace pass. Five injected invalid-document cases are correctly rejected. Only documentation and its maintained validation script changed; runtime/browser/provider/reset checks were not executed. Next implementation enters the revised milestone handoffs, starting with independent deterministic Resume source/Save and the ID-preserving editor; semantic portrait later consumes real SL-03.M2.
+
 
 W7's two-seam PASS remains evidence for its source-time baseline in the [historical handoff](../.scratch/w7-joint-review-handoff.md). CG01-BC1 changes product boundaries and dependencies after that review.
 
@@ -191,7 +198,7 @@ M1 and SL-01 remain Partial pending final visual/milestone acceptance; current c
 
 ## 10. SL-02.M1 Grill resumed after BC3 architecture writeback
 
-Historical decision/publication snapshot; current implementation is recorded in section 12.
+Historical decision/publication snapshot, superseded for candidate source/import/Fit scope by CG03S1 in §1/traceability §6.7. Section 12 records the old-model implementation, not replacement acceptance.
 
 The user approved [CG03-BC3 and A1–A5](design/contract/sl-02-m1-grill.md#cg03-bc3) and authorized writeback. Knowledge remains the sole confirmed career-fact authority; Resume binds exact historical Evidence/Profile versions and owns local expression/presentation. Knowledge/Profile publication or ordinary Evidence retirement no longer advances Resumes or invalidates unchanged document materials. Manual Save validates lineage/structure without automatic factual verification; AI rewrites retain explicit support constraints.
 

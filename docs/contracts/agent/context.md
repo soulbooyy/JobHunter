@@ -1,5 +1,7 @@
 # Context Contract — Protected Headless Inputs
 
+> **Current applicability — 2026-09-24.S2M1S1-r1.** Existing protected-invocation conformance schemas remain unchanged; this adds consumer-specific source admission, not a replacement controlled format. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+
 > Normative scope revision: **2026-09-24.S3M2-r1**. English is authoritative. This defines required behavior, not implemented or executed acceptance. Earlier scoped consumers remain unchanged.
 
 [Decision register](../../design/contract/sl-03-m2-grill.md) · [Contract index](../index.md)
@@ -80,3 +82,10 @@ Decision sources: [CG06-Q34](../../design/contract/sl-03-m2-grill.md#cg06-q34), 
 **CTX-015.** **Result inclusion.** Only lawfully durable complete model responses and action-owned admitted Tool result evidence may support subsequent input. Tool results are read by exact TOOL Invocation/result reference, not a caller-provided string claiming completion. Apply current content admission independently of action outcome. Allowed projection/redaction is recorded by CTX-006; rejection cannot erase known action completion. Preserve assistant Tool-call/result associations and necessary reasoning. A partial stream is never a recoverable complete conversation turn.
 
 Decision sources: [CG06-Q58](../../design/contract/sl-03-m2-grill.md#cg06-q58), [CG06-Q62](../../design/contract/sl-03-m2-grill.md#cg06-q62), [CG06-Q63](../../design/contract/sl-03-m2-grill.md#cg06-q63), [CG06-Q64](../../design/contract/sl-03-m2-grill.md#cg06-q64), [CG06-Q97](../../design/contract/sl-03-m2-grill.md#cg06-q97), [CG06-Q194](../../design/contract/sl-03-m2-grill.md#cg06-q194), [CG06-Q195](../../design/contract/sl-03-m2-grill.md#cg06-q195).
+
+## Supplement: portrait and independent document consumer boundaries
+
+Scope revision **2026-09-24.S2M1S1-r1**. Provenance: CG03S1-BC1–BC3 and effective Q6–Q41; Q24 is superseded by Q38/Q41.
+
+<a id="ctx-016"></a>
+**CTX-016.** Profile derivation MUST freeze one exact EVD-016 projection and registered extraction/model/output configuration; the admitted complete structured fields and exact visible Evidence text are protected input. Exclude EVD-019 content before construction; capacity preflight cannot silently truncate or substitute a summary. Its typed business invocation adapter and result validator MUST be registered separately from controlled.model.v1, with one-request PRO-014 policy and existing Context/Budget/Gateway admission. DeepFit freezes a ready portrait pair plus exact JobVersion/RequirementSet and optional exact Preferences; initially provide the small Profile and acquire only permitted exact Evidence as needed under TOL-015. These sources cannot be replaced by Memory/checkpoints/current pointers. Selected-Resume optimization receives only RES-024’s selected candidate content; neither conversation history nor summaries may inject excluded career facts. Missing scoped input returns the owned prerequisite outcome, not cross-Resume fallback.

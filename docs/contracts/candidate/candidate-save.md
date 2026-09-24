@@ -1,5 +1,7 @@
 # Candidate Commands, HTTP and Atomic Save Contract
 
+> **Current applicability — 2026-09-24.S2M1S1-r1.** The old nine-operation surface, Profile/Evidence/Baseline publication and Candidate fingerprint v1 are historical. SAV-018–025 replaces their shapes/participants. Existing strict transport, value validation, receipt-before-mutable-admission, no-op, uncertainty and exact render-demand rules survive where explicitly reused. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+
 > English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. The original clauses preserve SL-02.M1 scope; the final section adds the explicitly bounded 2026-09-21.S2M2-r1 consumer interface. Other future scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
 
 [Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../design/contract/sl-02-m1-grill.md)
@@ -136,3 +138,42 @@ Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics rema
 
 <a id="sav-017"></a>
 **SAV-017.** M2's actual demand is DRW-001/006 exact-version explicit RENDER_REQUEST. The nine existing Candidate commands MUST NOT create speculative render intent, advance an accepted target, invalidate unchanged historical material, or claim output readiness. SAV-006/016, STO-025 and MAT-003's Save-plus-intent requirement remains a conditional invariant for a future actual consumer needing both participants; it MUST NOT manufacture such a consumer in this exact-only scope. Materials command receipts use an independent namespace/prefix and preserve all old command tuples/results/fingerprints. Reuse COM-045's unchanged value encoder; no Candidate Save transport/body is extended to carry material demand. Q5/Q17/Q23/Q32/Q76/Q120.
+
+## 7. Revised document commands and portrait lifecycle
+
+Scope revision **2026-09-24.S2M1S1-r1**. Provenance: CG03S1-BC1–BC3 and effective Q6–Q41; Q24 is superseded by Q38/Q41.
+
+<a id="sav-018"></a>
+**SAV-018.** The current Candidate POST surface MUST be exactly the following, with request_id: UuidV4 on every body and no unknown keys. Root/path IDs and revisions retain Common admission. Every success is HTTP 200.
+
+| command_type | Route after /api/v1 | Body in addition to request_id |
+| --- | --- | --- |
+| RESUME_CREATE | /resumes | resume_name, contacts, header_presentation, sections, document_presentation |
+| RESUME_SAVE | /resumes/{resume_id}/save | revision, contacts, header_presentation, sections, document_presentation |
+| RESUME_RENAME | /resumes/{resume_id}/rename | revision, resume_name |
+| RESUME_REMOVE | /resumes/{resume_id}/remove | revision, default_resume_selection:{revision}, replacement_resume_id:UuidV4|null |
+| DEFAULT_RESUME_SET | /workspace/default-resume/set | revision, default_resume_id:UuidV4 |
+| PORTRAIT_REFRESH | /workspace/portrait/refresh | default_resume_selection:{revision}, source_resume_version_id:UuidV4 |
+
+RES-018–023 owns complete content, logical IDs and equality. Shared Profile/Evidence writes/reads and Baseline endpoints are removed, not compatibility adapters. Existing Resume GET routes return new values. GET /api/v1/workspace/portrait returns {state:CurrentPortraitState, portrait:PRO-012 pair|null} from one consistent snapshot; portrait is non-null only when READY. No query/body, exact portrait archive, source-switch or model dispatch is hidden in this GET.
+
+<a id="sav-019"></a>
+**SAV-019.** Apply SAV-002–005/011–015 receipt, timestamp, raw-admission, error and uncertainty mechanics to the six current commands, removing Evidence-kind lookup, source-adoption checks and last-Resume prohibition. Resume Create/Save retain the 8,388,608-byte bound; other commands use 65,536 bytes; node/depth bounds survive. RESUME_CREATE capacity remains 100 ACTIVE roots. Save validates owned document completely before receipt; then mutable root revision/lifecycle/capacity. Refresh validates syntax/fingerprint/receipt, then selection revision and exact current source; changed source uses 409 SOURCE_CONFLICT, stale selection REVISION_CONFLICT. Empty source uses 409 INVALID_STATE, no model. Missing logical IDs use REQUIRED; invalid UUID spelling or duplicates use INVALID_FORMAT; a supplied ID known to belong to another Resume uses INVALID_REFERENCE, all under 422 VALIDATION_ERROR at the appropriate field. Contradictory stored ownership is an internal integrity failure, not a client collision. No source freshness check against an independent Evidence authority remains.
+
+<a id="sav-020"></a>
+**SAV-020.** Success result for Resume/default commands MUST retain SAV-008’s applicable result fields/outcomes, returning schema-2 ResumeVersion; no Profile/Evidence outcomes remain. PORTRAIT_REFRESH success is {request_id, outcome:UPDATED|UNCHANGED, state:CurrentPortraitState}; UPDATED creates a fresh build, UNCHANGED observes matching QUEUED/RUNNING work. CandidateCommandReceipt schema_version MUST be 2 with the six tags and SAV-009’s applicable exact root/version/selection snapshots; refresh result_snapshot contains outcome-time state. Fingerprint MUST use UTF8("JobHunter:SL02:Command:2\n") followed by COM-045 encode([command_type,target_id,input]); \n denotes one LF. Include all admitted non-request_id fields and IDs/revisions, no output. Receipt replay returns original historical snapshot, never current status or a new build. Namespace remains separate from Preferences/Entries/Materials.
+
+<a id="sav-021"></a>
+**SAV-021.** A default change, final removal or real Save advancing default current_version MUST atomically publish its source mutation, current portrait invalidation/new source state, durable rebuild obligation when source is usable, and success receipt. No provider/render/network work runs inside that transaction. Assign a fresh server build_id as current publication fence whenever usable source needs rebuild/rebind; no-op and non-default Save do not. An empty/no-default source publishes EMPTY_SOURCE/NO_SOURCE with no invocation. Actual pair derivation/reuse follows commit. Model failure cannot roll back a committed ResumeVersion/default selection.
+
+<a id="sav-022"></a>
+**SAV-022.** PORTRAIT_REFRESH MUST bind the exact current default selection and source at commit. Matching active work deduplicates by current build identity without another provider call. If ready or terminal failed, explicit refresh commits a fresh build and immediately makes current portrait unavailable; it does not restore earlier currentness on failure. Refresh command replay/double-click same key cannot retry work. A later explicit retry uses a new request_id; GET never initiates one. Same-default SET is a no-op, not refresh. Every actual refresh retains its own receipt and bounded attempt history.
+
+<a id="sav-023"></a>
+**SAV-023.** Workers MUST freeze source, extraction rules and consumer configuration per build and publish only when the current source/version/selection generation and build_id still match. Serialize claim/completion under durable fences so no competing worker dispatches a second invocation for the same attempt. Model-derived decision/pair writes MUST also recheck current Runtime qualification and unended eligibility at their protected commit boundary; a build fence alone cannot override a Run ending. Obsolete completions cannot overwrite current state, including Save, removal, explicit refresh and A→B→A. A complete durable result may be retained historically without asserting currentness. Recovery reconciles the obligation with existing invocation/result records; never infer non-dispatch from a missing local completion or blindly replay remote work.
+
+<a id="sav-024"></a>
+**SAV-024.** Manual Save/import confirmation MUST require only valid owned content and storage admission. Portrait extraction is subsequent derived work, not semantic validation of Save. Suggestion generation MUST NOT call Save, create versions, select defaults or create material demand. Actual exact Materials demand remains DRW-006 and SAV-017’s separate namespace; no speculative generation follows Save/refresh. Existing Entry/Preferences behavior and local access boundaries remain independent.
+
+<a id="sav-025"></a>
+**SAV-025.** Clients MUST retain uncertain exact commands/keys under SAV-015, show confirmed source/default success separately from subsequent portrait status, and refresh current state after historical receipt success. Preserve dirty drafts and user replacement choice on rejection; never silently retarget/resubmit/merge. Use Chinese product wording without raw codes. No default directs create/import. Profile-unavailable DeepFit and empty selected-Resume optimization are distinct prerequisites; normal reload only observes. Coordinate backend DTO/OpenAPI generation and frontend migration in one implementation baseline; old-format client support is explicitly excluded.

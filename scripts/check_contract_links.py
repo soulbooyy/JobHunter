@@ -8,21 +8,21 @@ from urllib.parse import unquote, urlsplit
 root = Path(__file__).resolve().parents[1]
 contracts = root / "docs/contracts"
 expected = {
-    "COM": 49,
-    "WSP": 12,
+    "COM": 51,
+    "WSP": 15,
     "MAE": 18,
-    "STO": 53,
-    "PRF": 23,
-    "PRO": 9,
-    "EVD": 15,
-    "RES": 16,
-    "SAV": 17,
-    "MAT": 30,
+    "STO": 58,
+    "PRF": 24,
+    "PRO": 16,
+    "EVD": 23,
+    "RES": 24,
+    "SAV": 25,
+    "MAT": 33,
     "DRW": 26,
     "EXR": 57,
-    "EVO": 26,
-    "CTX": 15,
-    "TOL": 14,
+    "EVO": 27,
+    "CTX": 16,
+    "TOL": 15,
     "BUD": 25,
 }
 requirement_pattern = r"\b(?:" + "|".join(expected) + r")-\d{3}\b"
@@ -81,6 +81,20 @@ review_paths = [
     root / "docs/development/README.md",
     root / "docs/design/contract/README.md",
 ]
+# Review current owners and real transfer entries as well as preserved historical maps.
+review_paths = sorted(
+    set(review_paths)
+    | {
+        root / "docs/spec.md",
+        root / "docs/api/README.md",
+        root / "docs/api/sl-02-m1.md",
+        root / "docs/api/sl-02-m2.md",
+        root / "docs/design/contract/sl-02-m1-supplement-grill.md",
+        root / "docs/ui/DESGIN.md",
+        *sorted((root / "docs/plans/slices").glob("*.md")),
+        *sorted((root / "docs/development/handoff").glob("sl-*-handoff.md")),
+    }
+)
 anchor_cache: dict[Path, set[str]] = {}
 link_count = 0
 for path in [*contract_paths, *review_paths]:
@@ -139,16 +153,16 @@ assert len(semantic_questions) == 219 and {int(q) for q in semantic_questions} =
 ), "CG06 accepted mapping coverage"
 semantic_additions = {
     f"{prefix}-{i:03}"
-    for prefix, start in {
-        "EXR": 35,
-        "EVO": 8,
-        "COM": 49,
-        "STO": 46,
-        "CTX": 1,
-        "TOL": 1,
-        "BUD": 1,
+    for prefix, (start, end) in {
+        "EXR": (35, 57),
+        "EVO": (8, 26),
+        "COM": (49, 49),
+        "STO": (46, 53),
+        "CTX": (1, 15),
+        "TOL": (1, 14),
+        "BUD": (1, 25),
     }.items()
-    for i in range(start, expected[prefix] + 1)
+    for i in range(start, end + 1)
 }
 semantic_mapping_rows = "\n".join(
     line for line in semantic_review.splitlines() if line.startswith("| [CG06-Q")
@@ -160,6 +174,40 @@ semantic_register = (root / "docs/design/contract/sl-03-m2-grill.md").read_text(
 for number in range(1, 220):
     accepted_section = semantic_register.split(f"### CG06-Q{number} —", 1)[1].split("\n### ", 1)[0]
     assert "Status: ACCEPTED" in accepted_section, "CG06 accepted decision status"
+supplement_review = trace.split("### 6.7 SL-02.M1 supplement reviewed scope", 1)[1].split(
+    "\n## 7.", 1
+)[0]
+supplement_rows = "\n".join(
+    line for line in supplement_review.splitlines() if line.startswith("| [CG03S1-")
+)
+supplement_questions = re.findall(r"^\| \[CG03S1-Q(\d+)\]", supplement_rows, re.M)
+assert len(supplement_questions) == 36 and {int(q) for q in supplement_questions} == set(
+    range(6, 42)
+), "CG03S1 decision coverage (Q1-Q5 withdrawn; Q24 mapped as superseded)"
+for baseline in (1, 2, 3):
+    assert f"| [CG03S1-BC{baseline}]" in supplement_rows, "CG03S1 baseline coverage"
+supplement_destinations = set(re.findall(requirement_pattern, supplement_rows))
+for prefix, start, end in re.findall(r"\b([A-Z]{3})-(\d{3})[–-](\d{3})\b", supplement_rows):
+    supplement_destinations.update(f"{prefix}-{i:03}" for i in range(int(start), int(end) + 1))
+supplement_additions = {
+    f"{prefix}-{i:03}"
+    for prefix, (start, end) in {
+        "COM": (50, 51),
+        "WSP": (13, 15),
+        "RES": (17, 24),
+        "EVD": (16, 23),
+        "PRO": (10, 16),
+        "SAV": (18, 25),
+        "STO": (54, 58),
+        "MAT": (31, 33),
+        "PRF": (24, 24),
+        "CTX": (16, 16),
+        "TOL": (15, 15),
+        "EVO": (27, 27),
+    }.items()
+    for i in range(start, end + 1)
+}
+assert supplement_additions <= supplement_destinations, "CG03S1 normative destination coverage"
 ledger = trace.split("## 6. Contract normative scope readiness ledger", 1)[1].split("### 6.1", 1)[0]
 rows = [line for line in ledger.splitlines() if line.startswith("| `")]
 ready = sum(" | Ready" in line for line in rows)
@@ -170,6 +218,6 @@ assert f"other {pending} rows remain **Pending**" in ledger
 assert f"for {len(rows)} rows" in ledger
 print(
     f"{len(found)} unique requirements; {link_count} local links/anchors resolve; "
-    f"135 CG04 / 130 CG05 / 219 CG06 mappings; "
+    f"135 CG04 / 130 CG05 / 219 CG06 / 36 CG03S1 question mappings + 3 baselines; "
     f"readiness {ready} Ready / {pending} Pending / {len(rows)} total."
 )

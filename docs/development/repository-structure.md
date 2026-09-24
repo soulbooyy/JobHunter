@@ -1,5 +1,7 @@
 # Repository Organization
 
+> **2026-09-24 supplemental baseline.** CG03S1 replaces old candidate authority/module examples: Resume owns complete content, Evidence/Profile are read-only projections; DeepFit is one consumer and optimization is a separate suggestion capability reused by Advisor. Preserve Domain/Application/persistence/HTTP boundaries. TipTap maps to canonical AST with stable IDs; model dispatch remains the invocation owner, not candidate persistence. Examples of parallel Fits or independent Knowledge CRUD below are historical placement context.
+
 > English is authoritative. This document defines the required organization for frontend, backend, tests, Eval and supporting tooling. Place implementation and tests in the prescribed responsibility layers from the start of development. Create only the branches with actual consumers; incremental creation does not permit flattening code at the package or tests root. The full tree is not an existing-file inventory or an instruction to create empty packages.
 
 [Development guides](README.md) · [Development discipline](../development.md) · [Global documentation index](../index.md) · [Actual Progress](../progress.md)

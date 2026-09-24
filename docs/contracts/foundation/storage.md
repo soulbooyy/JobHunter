@@ -1,5 +1,7 @@
 # Storage Contract — Local Authority and Retained Evidence
 
+> **Current applicability — 2026-09-24.S2M1S1-r1.** Old schema seed/conversion requirements for shared Profile/Evidence/Baseline and their Materials joins are superseded for this redesign by STO-054–058. Published migration files and execution evidence remain history; the new target is not claimed implemented. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+
 > English is authoritative. Initial normative scope revision: **2026-09-19.M1-r1**. Scope: local Workspace/ManualApplicationEntry persistence, startup, receipts and privacy. This is not completion of immutable assets, Harness recovery, retention policies or later storage consumers. Review/readiness is recorded in [Progress](../../progress/traceability.md#6-contract-normative-scope-readiness-ledger).
 
 [Index](../index.md) · [Common](../common.md) · [Workspace](workspace.md) · [Entry](../jobs/manual-application-entries.md) · [Decisions](../../design/contract/sl-01-m1-grill.md)
@@ -274,3 +276,22 @@ Decision sources: [CG06-Q6](../../design/contract/sl-03-m2-grill.md#cg06-q6), [C
 **STO-053.** **Retained Eval evidence.** Trial evidence manifests MUST bind exact retained canonical evidence by identity/format/hash where availability is guaranteed. Eval-owned copies are permitted only for isolation/retention needs, not a duplicate Runtime archive by default. Capture necessary actual mutable post-state consistently; rehydrating initial fixtures cannot stand in for the original Trial's state. Retain independent evaluator-attempt identities/findings and original evidence selections; late accounting or a new rubric cannot overwrite earlier attempts. Optional export loss is separate from required local evidence capture failure, and neither authorizes Agent reexecution.
 
 Decision sources: [CG06-Q145](../../design/contract/sl-03-m2-grill.md#cg06-q145), [CG06-Q147](../../design/contract/sl-03-m2-grill.md#cg06-q147), [CG06-Q150](../../design/contract/sl-03-m2-grill.md#cg06-q150), [CG06-Q151](../../design/contract/sl-03-m2-grill.md#cg06-q151), [CG06-Q153](../../design/contract/sl-03-m2-grill.md#cg06-q153), [CG06-Q155](../../design/contract/sl-03-m2-grill.md#cg06-q155), [CG06-Q159](../../design/contract/sl-03-m2-grill.md#cg06-q159), [CG06-Q160](../../design/contract/sl-03-m2-grill.md#cg06-q160), [CG06-Q161](../../design/contract/sl-03-m2-grill.md#cg06-q161), [CG06-Q214](../../design/contract/sl-03-m2-grill.md#cg06-q214), [CG06-Q216](../../design/contract/sl-03-m2-grill.md#cg06-q216).
+
+## Supplement: development reset and independent source persistence
+
+Scope revision **2026-09-24.S2M1S1-r1**. Provenance: CG03S1-BC1–BC3 and effective Q6–Q41; Q24 is superseded by Q38/Q41.
+
+<a id="sto-054"></a>
+**STO-054.** This local development transition MAY discard the entire old development database and generated material files, including Preferences, Manual Entries and invocation test data. It MUST NOT delete source, Git history or configuration files. Reset is an explicit offline operation against the configured owned data directory, under exclusive ownership; startup/GET/Save MUST NOT silently erase data. No legacy data conversion, request adapter, retained old-model reader or archive UI is required. This documentary revision does not execute reset.
+
+<a id="sto-055"></a>
+**STO-055.** New schema initialization MUST atomically establish the existing local Workspace and null/revision-1 default selection, with no shared Profile, EvidenceItem or Baseline seed. Preferences remain lazy; Resumes start empty. Store schema recognition/explicit bootstrap, integrity rejection and migration history discipline remain; implement the new target through the maintained versioned entry point without pretending schema 5 already contains it. Whole-store reset is a development transition, not a reusable business erasure permission.
+
+<a id="sto-056"></a>
+**STO-056.** Persist Resume roots/immutable schema-2 Versions and retained logical-ID ownership within each Resume. Enforce root-current/version ownership, document identity uniqueness and complete JSON/field validity at the owned boundary. Persist immutable exact Evidence projections/Profile pairs with source/rule provenance and reuse lineage. They cannot become independently editable authorities. New-model ordinary removal/Save/default changes retain prior versions, projection pairs, analysis refs and artifacts; do not apply the one-time development reset exemption to runtime history.
+
+<a id="sto-057"></a>
+**STO-057.** Source/default mutations, current portrait state, durable build obligations and Candidate success receipts MUST share one atomic commit. Persist build identity, exact source/selection fence, extraction/configuration identity, claim and invocation association, outcome and immutable result reference sufficient for SAV-023 recovery. Maintain at most one publishable current build, with durable dedup/claim uniqueness. Provider request/response/usage belongs to the existing invocation owner; do not duplicate dispatch authority or replay policy in a generic work queue.
+
+<a id="sto-058"></a>
+**STO-058.** Materials exact-source readers MUST load schema-2 Resume content directly and derive MAT-032’s manifest, without Profile/Evidence joins. Continue exact-demand/work/receipt/verified-byte persistence and exclusive storage boundaries. Register changed output-affecting render configurations under existing immutable identity rules. Protection/redaction for complete Resume source, admitted model payload and diagnostic logs remains distinct; no raw Resume/contact/URL/prompt/response leakage is permitted in ordinary diagnostics.

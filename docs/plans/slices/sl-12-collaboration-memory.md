@@ -1,5 +1,7 @@
 # SL-12 Collaboration Memory with independent controls and forgetting
 
+> **2026-09-24 supplemental baseline.** M1/M2 remain first implementation of collaboration-only Memory. Add RES-024/CTX-016/EVO-027 actual-Frame proof that Memory, summaries and chat assertions cannot augment default-portrait or selected-Resume career facts, even as hints. Existing independent controls/learning/deletion rules survive; DeepFit’s accepted exact Evidence retrieval is not Memory RAG.
+
 > English is authoritative. This Slice plan is part of the Implementation Plan category and has completed W7 document review; user baseline approval remains pending. See [Progress](../../progress.md) for current review state. It does not establish Contract readiness, implementation or acceptance. Its 2 milestones remain in this document.
 
 [Documentation index](../../index.md) · [Slice index](README.md) · [Global Implementation Plan](../implementation-plan.md) · [Actual Progress](../../progress.md)

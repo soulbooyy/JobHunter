@@ -1,5 +1,7 @@
 # Preferences Contract — Collection Intent and Immutable Versions
 
+> **Current applicability — 2026-09-24.S2M1S1-r1.** Existing six-field Preferences save/configuration/collection semantics survive; PRF-024 adds the manual DeepFit interface without schema expansion. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+
 > English is authoritative. Normative scope revision: **2026-09-20.M2-r1**. Scope: SL-01.M2 configuration, persistence-facing objects, read/Save and recovery. This does not complete Collection/source admission or Job Pool queries. Readiness and implementation are separate in [Progress](../../progress/traceability.md#6-contract-normative-scope-readiness-ledger).
 
 [Index](../index.md) · [Common](../common.md) · [Workspace](../foundation/workspace.md) · [Storage](../foundation/storage.md) · [Decisions](../../design/contract/sl-01-m2-grill.md)
@@ -153,3 +155,10 @@ Unknown mode/type/education enum uses INVALID_FORMAT; empty sets or numeric/coun
 ## 6. Provenance and evolution
 
 CG02-BC1/S1 and accepted CG02-Q1–Q40 control as qualified by their recorded supersession. PRF-001 supersedes the historical M2 QuickScreen/current-Preference eligibility proposal, not any published Job Contract. Q12's target_job_keywords replaces the earlier proposed job_search_keywords name; Q29 rejects UUID ordering; Q38 rejects JSON byte equality; Q40 rejects UNKNOWN_FIELD for incompatible known value. No earlier PRF IDs existed or are reused. Required proof is mapped in [Acceptance](../../acceptance.md#32-sl-01m2-contract-conformance).
+
+## 7. Independent DeepFit intent consumer
+
+Scope revision **2026-09-24.S2M1S1-r1**. Provenance: CG03S1-BC1–BC3 and effective Q6–Q41; Q24 is superseded by Q38/Q41.
+
+<a id="prf-024"></a>
+**PRF-024.** PreferenceSetVersion MUST remain independently authored intent with PRF-002’s six fields, not copied into CandidateProfileProjection. Manual DeepFit may freeze a current exact PreferenceSetVersion or explicit absence. Absence means NOT_CONFIGURED/NOT_ASSESSED in meaning, not unrestricted acceptance or inferred intent. Mismatched city/salary/blacklist does not block manual analysis or prove capability mismatch; missing Job values remain indeterminate. Intent-dependent automatic recommendation, acquisition-scope or Shortlist features require configured intent if separately implemented; this clause adds no such feature and does not change Collection’s existing prerequisite. No work-mode field or candidate-attainment interpretation of max_required_education is added.

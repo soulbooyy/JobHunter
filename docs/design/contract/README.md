@@ -9,6 +9,7 @@
 | SL-01.M1 — Local Workspace and Manual Application Entries | [Decision register and current frontier](sl-01-m1-grill.md) |
 | SL-01.M2 — Collection Preferences and immutable versions | [Decision register and current frontier](sl-01-m2-grill.md) |
 | SL-02.M1 — Complete saved authority and atomic Save | [Decision register and current frontier](sl-02-m1-grill.md) |
+| SL-02.M1 supplement — Default-Resume-derived Knowledge and independent Resumes | [Closed supplemental decisions and publication](sl-02-m1-supplement-grill.md); [historical session instructions](../../development/handoff/contract_grill/sl-02-m1-supplement-contract-grill-handoff.md) |
 | SL-02.M2 — Demanded preview and export | [Decision register and current frontier](sl-02-m2-grill.md) |
 | SL-03.M1 — Invocation durability and recovery foundation | [Published decisions, supersession and closure](sl-03-m1-grill.md) |
 | SL-03.M2 — Protected semantic invocation and evidence | [Accepted Q1–Q219 and scoped publication closure](sl-03-m2-grill.md) |

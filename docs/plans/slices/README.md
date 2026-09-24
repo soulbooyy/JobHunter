@@ -7,12 +7,12 @@ Each Slice has one maintained file. All 24 milestones remain inside their twelve
 | Slice | Detailed plan |
 | --- | --- |
 | SL-01 | [Local Workspace, Manual Application Entries and Preferences](sl-01-workspace-jobs-preferences.md) |
-| SL-02 | [Saved Knowledge, formal Resumes and safe materials](sl-02-saved-authority-materials.md) |
+| SL-02 | [Independent Resumes, portrait and materials](sl-02-saved-authority-materials.md) |
 | SL-03 | [Shared controlled execution with RequirementParse](sl-03-invocation-requirements.md) |
-| SL-04 | [Two-stage reviewed Resume import](sl-04-resume-import.md) |
-| SL-05 | [Independent Candidate Fit](sl-05-candidate-fit.md) |
-| SL-06 | [Independent Resume Fit](sl-06-resume-fit.md) |
-| SL-07 | [Advisor discussion, exact Proposals and confirmed changes](sl-07-advisor.md) |
+| SL-04 | [Reviewed independent Resume import](sl-04-resume-import.md) |
+| SL-05 | [DeepFit](sl-05-candidate-fit.md) |
+| SL-06 | [Resume Optimization](sl-06-resume-fit.md) |
+| SL-07 | [Durable optimization conversations; apply deferred](sl-07-advisor.md) |
 | SL-08 | [BOSS collection and shared platform safety](sl-08-collection-platform-safety.md) |
 | SL-09 | [Human-reported applications and event-derived progress](sl-09-application-history.md) |
 | SL-10 | [Preparation, viewed-material confirmation and adopt-back](sl-10-preparation.md) |

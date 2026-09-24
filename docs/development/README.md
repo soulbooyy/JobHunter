@@ -11,14 +11,18 @@ Milestone-specific development handoffs live in `handoff/`; their Contract refer
 | [Evaluation development and evidence](evaluation.md) | Real-path Eval, experiments/Scenarios, evaluator admission, findings, regression retention and re-evaluation |
 | [Target repository organization](repository-structure.md) | Required responsibility layers, semantic test naming and incremental creation without empty scaffolding |
 | [SL-01.M1 development handoff](handoff/sl-01-m1-handoff.md) | Original research plus actual backend implementation handoff; frontend/browser work remains pending |
-| [SL-02.M1 development handoff](handoff/sl-02-m1-handoff.md) | Reviewed saved-authority scope, preserved schema-2 baseline and backend-first implementation transfer |
+| [SL-02.M1 development handoff](handoff/sl-02-m1-handoff.md) | Current independent source/portrait replacement and staged backend/frontend transfer; older evidence retained |
 | [SL-03.M1 backend development handoff](handoff/sl-03-m1-handoff.md) | Published internal invocation foundation, schema-4 source checkpoint, implementation sequence and required deterministic proof |
 | [SL-03.M2 development handoff](handoff/sl-03-m2-handoff.md) | Published protected-invocation foundations, closed exercise agreement, source checkpoint, adoption gates and required proof |
-| [SL-02.M2 backend development handoff](handoff/sl-02-m2-handoff.md) | Published exact-demand scope, actual upstream checkpoint, implementation order and unverified renderer/catalog prerequisites |
+| [SL-02.M2 backend development handoff](handoff/sl-02-m2-handoff.md) | Direct Resume source/manifest adaptation; surviving renderer/work proof; frontend first delivery |
 | [Backend README](../../backend/README.md) | Maintained installation, runtime configuration, API entry points and check commands |
 | [Target technology stack](technology-stack.md) | Planned backend/frontend tools, adoption boundaries and unresolved setup; not an installed dependency inventory |
 
 Use [Implementation Plan](../plans/implementation-plan.md) and its linked Slice plans for actual decomposition, dependencies and required Contract scope. Use [Progress recording rules](../progress/README.md) for status/readiness and evidence records. Architecture and Acceptance retain their mechanism/proof authority; [Eval acceptance](../acceptance/evaluation.md) is the specialized proof owner consumed by the execution guide; this directory guide is navigation only and supplies no implementation or review evidence.
+
+## Supplemental implementation handoffs
+
+The [CG03S1 impact table](../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope) links real SL-01.M2, SL-02/03, SL-04/05/06/07 and SL-10/11/12 milestone transfers. Use the top current addendum before historical snapshots; SL-07.M3/SL-10.M2 are explicitly deferred.
 
 ## Documentation maintenance
 
