@@ -1,6 +1,4 @@
-"""Historical schema-1 material repository used only for schema recognition/migration."""
-
-from typing import cast
+"""Schema-2 Resume material demand and artifact metadata repository."""
 
 from sqlalchemy.engine import Connection
 
@@ -13,7 +11,7 @@ from jobhunter.domain.derived_work.models import (
 )
 from jobhunter.domain.materials.models import Artifact, RenderConfiguration
 from jobhunter.domain.shared.errors import Failure
-from jobhunter.infrastructure.persistence.sqlalchemy.repositories.candidate import (
+from jobhunter.infrastructure.persistence.sqlalchemy.repositories.candidate_v2 import (
     CandidateRepository,
     Json,
     checked,
@@ -72,40 +70,16 @@ class MaterialsRepository(CandidateRepository):
         row = self.row("SELECT * FROM artifacts WHERE artifact_id=?", (identity,))
         if row is None:
             raise Failure("NOT_FOUND")
-        sections: list[Json] = []
-        for source in self.conn.exec_driver_sql(
-            "SELECT * FROM artifact_sources WHERE artifact_id=? ORDER BY "
-            "section_position,member_position",
-            (identity,),
-        ).mappings():
-            position = source["section_position"]
-            if position == len(sections):
-                sections.append({"kind": source["kind"], "evidence_refs": []})
-            if (
-                position >= len(sections)
-                or source["member_position"]
-                != len(cast(list[Json], sections[position]["evidence_refs"]))
-                or source["kind"] != sections[position]["kind"]
-            ):
-                raise Failure("INTERNAL_ERROR")
-            cast(list[Json], sections[position]["evidence_refs"]).append(
-                {
-                    "evidence_item_id": source["evidence_item_id"],
-                    "evidence_item_version_id": source["evidence_item_version_id"],
-                }
-            )
         manifest = {
             key: row[key]
             for key in (
                 "schema_version",
                 "resume_id",
                 "resume_version_id",
-                "profile_version_id",
                 "render_configuration_id",
                 "artifact_id",
             )
         }
-        manifest["source_sections"] = sections
         result = {
             key: row[key]
             for key in (
@@ -125,17 +99,8 @@ class MaterialsRepository(CandidateRepository):
             raise Failure("INTERNAL_ERROR") from None
         if configuration["output"]["media_type"] != row["media_type"]:
             raise Failure("INTERNAL_ERROR")
-        expected = self.conn.exec_driver_sql(
-            "SELECT section_position,position,evidence_item_id,evidence_item_version_id FROM "
-            "resume_members WHERE resume_version_id=? ORDER BY section_position,position",
-            (row["resume_version_id"],),
-        ).all()
-        actual = self.conn.exec_driver_sql(
-            "SELECT section_position,member_position,evidence_item_id,evidence_item_version_id "
-            "FROM artifact_sources WHERE artifact_id=? ORDER BY section_position,member_position",
-            (identity,),
-        ).all()
-        if expected != actual:
+        source = self.version(row["resume_version_id"], required=True)
+        if source["resume_id"] != row["resume_id"]:
             raise Failure("INTERNAL_ERROR")
         return result
 

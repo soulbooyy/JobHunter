@@ -8,7 +8,7 @@ from sqlalchemy.engine import Connection
 from jobhunter.application.materials.service import Materials
 from jobhunter.domain.derived_work.models import FailureCode, Work
 from jobhunter.domain.materials.models import RenderConfiguration
-from jobhunter.infrastructure.persistence.sqlalchemy.repositories.materials import (
+from jobhunter.infrastructure.persistence.sqlalchemy.repositories.materials_v2 import (
     MaterialsRepository,
 )
 
@@ -154,12 +154,11 @@ class Coordinator:
                 "artifacts",
                 {
                     "artifact_id": identity,
-                    "schema_version": 1,
+                    "schema_version": 2,
                     "creating_work_id": work.work_id,
                     "creator_status": "SUCCEEDED",
                     "resume_id": source.resume_version.resume_id,
                     "resume_version_id": work.resume_version_id,
-                    "profile_version_id": source.profile_version.profile_version_id,
                     "render_configuration_id": work.render_configuration_id,
                     "media_type": config["output"]["media_type"],
                     "byte_length": len(data),
@@ -167,20 +166,6 @@ class Coordinator:
                     "created_at": event,
                 },
             )
-            for section_position, section in enumerate(source.resume_version.sections):
-                for member_position, member in enumerate(section.members):
-                    repo.insert(
-                        "artifact_sources",
-                        {
-                            "artifact_id": identity,
-                            "resume_version_id": work.resume_version_id,
-                            "section_position": section_position,
-                            "member_position": member_position,
-                            "kind": section.kind,
-                            "evidence_item_id": member.evidence_item_id,
-                            "evidence_item_version_id": member.evidence_item_version_id,
-                        },
-                    )
             conn.exec_driver_sql(
                 "UPDATE render_work SET "
                 "status='SUCCEEDED',current_attempt_id=NULL,artifact_id=?,finished_at=? WHERE "

@@ -106,14 +106,14 @@ def error_field(error: dict[str, object], prefix: str = "") -> FieldFailure:
         "issuing_organization",
         "issued_month",
         "resume_name",
-        "profile_version_id",
+        "contacts",
         "header_presentation",
         "optional_items",
         "value",
         "sections",
         "members",
-        "evidence_item_id",
-        "evidence_item_version_id",
+        "entry_id",
+        "block_id",
         "document_presentation",
         "font_family",
         "font_size_pt",
@@ -124,7 +124,7 @@ def error_field(error: dict[str, object], prefix: str = "") -> FieldFailure:
         "default_resume_selection",
         "resume_id",
         "resume_version_id",
-        "evidence_baseline_snapshot_id",
+        "source_resume_version_id",
     }
     kind = str(error["type"])
     code = {

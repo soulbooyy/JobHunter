@@ -1,14 +1,16 @@
 """Typed immutable facts and plain semantic bodies; no Resume expression authority."""
 
+import re
 from typing import Annotated, Literal, Self
 
-from pydantic import AfterValidator, BeforeValidator, Field, model_validator
+from pydantic import AfterValidator, BeforeValidator, Field, field_validator, model_validator
 
 from jobhunter.domain.manual_application_entries.models import ApplicationUrl
 from jobhunter.domain.shared.candidate_values import Month, ShortText, no_controls, short_schema
 from jobhunter.domain.shared.values import (
     DTO,
     TRIM,
+    UUID_PATTERN,
     Revision,
     UtcTimestamp,
     UuidV4,
@@ -210,3 +212,73 @@ class EvidenceResult(EvidencePair):
     request_id: UuidV4
     outcome: Literal["CREATED", "UPDATED", "RETIRED", "UNCHANGED"]
     evidence_baseline_snapshot_id: UuidV4
+
+
+# Current independent-Resume projection. The older authority models above remain only
+# as historical types until their callers are removed by this schema transition.
+ExtractionKey = Annotated[
+    str,
+    Field(pattern=r"^[A-Za-z0-9][A-Za-z0-9._+-]{0,63}$"),
+    BeforeValidator(scalar),
+]
+
+
+class EvidenceRef(DTO):
+    resume_version_id: UuidV4
+    extraction_key: ExtractionKey
+    evidence_id: str
+
+    @field_validator("evidence_id")
+    @classmethod
+    def exact_id(cls, value: str) -> str:
+        value = scalar(value)
+        if not re.fullmatch(
+            rf"(?:entry/{UUID_PATTERN[1:-1]}|block/{UUID_PATTERN[1:-1]}/{UUID_PATTERN[1:-1]})",
+            value,
+        ):
+            invalid("INVALID_FORMAT")
+        return value
+
+
+class EntryEvidenceUnit(DTO):
+    evidence_id: str
+    entry_id: UuidV4
+    kind: Kind
+    fields: dict[str, object]
+    content: list[dict[str, object]]
+
+
+class BlockEvidenceUnit(DTO):
+    evidence_id: str
+    entry_id: UuidV4
+    block_id: UuidV4
+    text: str
+
+
+class CandidateEvidenceProjection(DTO):
+    schema_version: Literal[1]
+    resume_version_id: UuidV4
+    extraction_key: ExtractionKey
+    entries: list[EntryEvidenceUnit]
+    blocks: list[BlockEvidenceUnit]
+
+    @model_validator(mode="after")
+    def coherent_units(self) -> Self:
+        entries = {entry.entry_id: entry for entry in self.entries}
+        if len(entries) != len(self.entries):
+            invalid("INVALID_FORMAT")
+        for entry in self.entries:
+            if entry.evidence_id != f"entry/{entry.entry_id}":
+                invalid("INVALID_FORMAT")
+        block_ids: set[str] = set()
+        evidence_ids = {entry.evidence_id for entry in self.entries}
+        for block in self.blocks:
+            if block.entry_id not in entries or block.block_id in block_ids:
+                invalid("INVALID_FORMAT")
+            if block.evidence_id != f"block/{block.entry_id}/{block.block_id}":
+                invalid("INVALID_FORMAT")
+            block_ids.add(block.block_id)
+            evidence_ids.add(block.evidence_id)
+        if len(evidence_ids) != len(self.entries) + len(self.blocks):
+            invalid("INVALID_FORMAT")
+        return self

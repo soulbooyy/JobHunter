@@ -5,7 +5,6 @@ from typing import Annotated, Literal, cast
 
 from pydantic import BeforeValidator, Field
 
-from jobhunter.domain.evidence.models import Kind
 from jobhunter.domain.shared.values import DTO, UtcTimestamp, UuidV4, invalid, scalar
 
 
@@ -80,29 +79,17 @@ class ConfigurationList(DTO):
     items: list[ConfigurationAvailability]
 
 
-class EvidenceRef(DTO):
-    evidence_item_id: UuidV4
-    evidence_item_version_id: UuidV4
-
-
-class SourceSection(DTO):
-    kind: Kind
-    evidence_refs: list[EvidenceRef] = Field(min_length=1)
-
-
 class RenderManifest(DTO):
-    schema_version: Annotated[Literal[1], BeforeValidator(integer)]
+    schema_version: Annotated[Literal[2], BeforeValidator(integer)]
     resume_id: UuidV4
     resume_version_id: UuidV4
-    profile_version_id: UuidV4
-    source_sections: list[SourceSection]
     render_configuration_id: UuidV4
     artifact_id: UuidV4
 
 
 class Artifact(DTO):
     artifact_id: UuidV4
-    schema_version: Annotated[Literal[1], BeforeValidator(integer)]
+    schema_version: Annotated[Literal[2], BeforeValidator(integer)]
     manifest: RenderManifest
     media_type: Literal["application/pdf", "image/png"]
     byte_length: Annotated[int, Field(ge=1, le=9007199254740991), BeforeValidator(integer)]

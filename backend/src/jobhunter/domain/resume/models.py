@@ -1,12 +1,13 @@
-"""Independent Resume wording/presentation and exact source identities."""
+"""Independent schema-2 Resume documents with stable logical entry/block identities."""
 
 import re
-from typing import Annotated, Literal, Self
+from typing import Annotated, Literal, Self, cast
 
 from pydantic import AfterValidator, BeforeValidator, Field, field_validator, model_validator
 
-from jobhunter.domain.evidence.models import Kind
+from jobhunter.domain.evidence.models import FIELD_MODELS, Kind
 from jobhunter.domain.manual_application_entries.models import ApplicationUrl
+from jobhunter.domain.profile.models import ProfileContent
 from jobhunter.domain.shared.candidate_values import (
     ShortText,
     half_number,
@@ -86,10 +87,12 @@ Runs = Annotated[list[TextRun], Field(min_length=1), AfterValidator(merge_runs)]
 
 class Paragraph(DTO):
     type: Literal["PARAGRAPH"]
+    block_id: UuidV4
     runs: Runs
 
 
 class ListItem(DTO):
+    block_id: UuidV4
     runs: Runs
 
 
@@ -101,32 +104,62 @@ class RunList(DTO):
 Block = Annotated[Paragraph | RunList, Field(discriminator="type")]
 
 
-def text_size(blocks: list[Paragraph | RunList]) -> int:
-    return sum(
-        sum(len(r.text) for r in item.runs)
+def block_items(blocks: list[Paragraph | RunList]) -> list[Paragraph | ListItem]:
+    return [
+        item
         for block in blocks
         for item in ([block] if isinstance(block, Paragraph) else block.items)
-    )
+    ]
+
+
+def text_size(blocks: list[Paragraph | RunList]) -> int:
+    return sum(sum(len(run.text) for run in item.runs) for item in block_items(blocks))
 
 
 def body_capacity(blocks: list[Paragraph | RunList]) -> list[Paragraph | RunList]:
     if text_size(blocks) > 50000:
         invalid("OUT_OF_RANGE")
+    ids = [item.block_id for item in block_items(blocks)]
+    if len(ids) != len(set(ids)):
+        invalid("INVALID_FORMAT")
     return blocks
 
 
 Content = Annotated[list[Block], Field(max_length=100), AfterValidator(body_capacity)]
 
 
-class ResumeMember(DTO):
-    evidence_item_id: UuidV4
-    evidence_item_version_id: UuidV4
+class ResumeEntry(DTO):
+    entry_id: UuidV4
+    fields: dict[str, object]
     content: Content
 
 
 class Section(DTO):
     kind: Kind
-    members: list[ResumeMember] = Field(min_length=1, max_length=100)
+    members: list[ResumeEntry] = Field(min_length=1, max_length=100)
+
+    @model_validator(mode="before")
+    @classmethod
+    def canonical_fields(cls, value: object) -> object:
+        if not isinstance(value, dict):
+            return value
+        raw = cast(dict[str, object], value)
+        kind, members = raw.get("kind"), raw.get("members")
+        if isinstance(kind, str) and kind in FIELD_MODELS and isinstance(members, list):
+            copied = dict(raw)
+            normalized: list[object] = []
+            for member in cast(list[object], members):
+                if not isinstance(member, dict) or "fields" not in member:
+                    normalized.append(cast(object, member))
+                    continue
+                item = dict(cast(dict[str, object], member))
+                item["fields"] = (
+                    FIELD_MODELS[kind].model_validate(item["fields"]).model_dump(mode="json")
+                )
+                normalized.append(item)
+            copied["members"] = normalized
+            return copied
+        return raw
 
 
 class HeaderItem(DTO):
@@ -185,12 +218,16 @@ class Presentation(DTO):
 
 
 def sections_admission(sections: list[Section]) -> list[Section]:
-    members = [member for section in sections for member in section.members]
-    if len({section.kind for section in sections}) != len(sections) or len(
-        {m.evidence_item_id for m in members}
-    ) != len(members):
+    entries = [member for section in sections for member in section.members]
+    entry_ids = [entry.entry_id for entry in entries]
+    block_ids = [item.block_id for entry in entries for item in block_items(entry.content)]
+    if (
+        len({section.kind for section in sections}) != len(sections)
+        or len(entry_ids) != len(set(entry_ids))
+        or len(block_ids) != len(set(block_ids))
+    ):
         invalid("INVALID_FORMAT")
-    if len(members) > 100 or sum(text_size(m.content) for m in members) > 200000:
+    if len(entries) > 100 or sum(text_size(entry.content) for entry in entries) > 200000:
         invalid("OUT_OF_RANGE")
     return sections
 
@@ -201,7 +238,7 @@ ResumeName = Annotated[
 
 
 class ResumeContent(DTO):
-    profile_version_id: UuidV4
+    contacts: ProfileContent
     header_presentation: Header
     sections: Annotated[list[Section], AfterValidator(sections_admission)]
     document_presentation: Presentation
@@ -243,13 +280,22 @@ class Resume(DTO):
 class ResumeVersion(ResumeContent):
     resume_version_id: UuidV4
     resume_id: UuidV4
-    schema_version: Literal[1]
+    schema_version: Literal[2]
     created_at: UtcTimestamp
 
 
 class ResumePair(DTO):
     resume: Resume
     resume_version: ResumeVersion
+
+    @model_validator(mode="after")
+    def exact_current(self) -> Self:
+        if (
+            self.resume.resume_id != self.resume_version.resume_id
+            or self.resume.current_resume_version_id != self.resume_version.resume_version_id
+        ):
+            invalid("INVALID_FORMAT")
+        return self
 
 
 class ResumeList(DTO):

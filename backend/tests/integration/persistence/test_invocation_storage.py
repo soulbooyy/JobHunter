@@ -1,4 +1,4 @@
-"""Forward schema preservation and actual SQLite relational boundaries."""
+"""Forward schema reset and actual SQLite relational boundaries."""
 
 import sqlite3
 from pathlib import Path
@@ -7,20 +7,13 @@ from uuid import uuid4
 import pytest
 from alembic import command
 from alembic.config import Config
-from jobhunter.application.candidate.authority import CandidateAuthority
 from jobhunter.application.candidate.preferences import Preferences
 from jobhunter.application.manual_application_entries.service import Entries
-from jobhunter.application.materials.service import Materials
-from jobhunter.domain.derived_work.models import RenderRequest
 from jobhunter.domain.manual_application_entries.models import CreateEntry
 from jobhunter.domain.preferences.models import SavePreferences
 from jobhunter.domain.shared.errors import Failure
 from jobhunter.infrastructure.persistence.sqlalchemy.models.invocation import TABLES
-from jobhunter.infrastructure.persistence.sqlalchemy.repositories.materials import (
-    MaterialsRepository,
-)
 from jobhunter.infrastructure.persistence.sqlalchemy.uow.store import Store, no_fault
-from jobhunter.infrastructure.rendering.catalog import catalog
 from sqlalchemy import create_engine
 
 
@@ -57,7 +50,9 @@ def snapshot(store: Store) -> dict[str, list[tuple[object, ...]]]:
         }
 
 
-def test_schema_four_forward_migration_preserves_every_existing_row(tmp_path: Path) -> None:
+def test_schema_four_forward_migration_resets_all_application_domains(
+    tmp_path: Path,
+) -> None:
     historical_four(tmp_path)
     with Store.open(tmp_path, migration=True) as store:
         assert store.recognize() == 4
@@ -69,34 +64,6 @@ def test_schema_four_forward_migration_preserves_every_existing_row(tmp_path: Pa
                 application_url="https://example.test",
             )
         )
-        candidate = CandidateAuthority(store)
-        resume = candidate.command(
-            "RESUME_CREATE",
-            {
-                "request_id": str(uuid4()),
-                "resume_name": "Exact source",
-                "profile_version_id": candidate.pair("profile")["profile_version"][
-                    "profile_version_id"
-                ],
-                "header_presentation": {"optional_items": []},
-                "sections": [],
-                "document_presentation": {
-                    "font_family": "HEITI",
-                    "font_size_pt": 12,
-                    "line_spacing_pt": 14,
-                    "theme_color": "#000000",
-                },
-            },
-        )
-        configuration = catalog()[0]
-        store.run(lambda conn: MaterialsRepository(conn).register(configuration), write=True)
-        materials = Materials(store, capability=lambda _: True)
-        render_command = RenderRequest(
-            request_id=str(uuid4()),
-            resume_version_id=resume["resume_version"]["resume_version_id"],
-            render_configuration_id=configuration.render_configuration_id,
-        )
-        render_result = materials.request(render_command)
         preference_command = SavePreferences.model_validate(
             {
                 "request_id": str(uuid4()),
@@ -111,22 +78,32 @@ def test_schema_four_forward_migration_preserves_every_existing_row(tmp_path: Pa
                 },
             }
         )
-        preference_result = Preferences(store).save(preference_command)
-        before = snapshot(store)
+        Preferences(store).save(preference_command)
         assert store.migrate() == "MIGRATED"
         after = snapshot(store)
-        assert {k: after[k] for k in before} == before
+        assert after["manual_application_entries"] == []
+        assert after["manual_application_entry_create_receipts"] == []
+        assert after["preference_sets"] == []
+        assert after["preference_set_versions"] == []
+        assert after["preference_save_receipts"] == []
         assert all(after[name] == [] for name, _ in TABLES)
-        assert store.recognize() == 5
+        assert after["resumes"] == []
+        assert after["candidate_command_receipts"] == []
+        assert store.recognize() == 7
         assert store.migrate() == "UNCHANGED"
-        assert materials.request(render_command) == render_result
-        assert Preferences(store).save(preference_command) == preference_result
+        assert Preferences(store).current().status == "NOT_CONFIGURED"
     with Store.open(tmp_path) as store:
         assert snapshot(store) == after
 
 
 @pytest.mark.parametrize(
-    "stage", ["migration_" + name for name, _ in TABLES] + ["migration_invocation_version"]
+    "stage",
+    ["migration_" + name for name, _ in TABLES]
+    + [
+        "migration_invocation_version",
+        "migration_drop_profiles",
+        "migration_independent_resume_version",
+    ],
 )
 def test_interrupted_forward_migration_retains_complete_schema_four(
     tmp_path: Path, stage: str

@@ -53,6 +53,34 @@ class ArtifactFiles:
                 if opened >= 0:
                     os.close(opened)
 
+    def reset(self) -> None:
+        """Remove generated files during the explicit schema-6 development reset."""
+        root = child = -1
+        try:
+            root = os.open(self.directory, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            try:
+                child = os.open(
+                    "artifacts", os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=root
+                )
+            except FileNotFoundError:
+                return
+            for name in os.listdir(child):
+                info = os.stat(name, dir_fd=child, follow_symlinks=False)
+                if not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid():
+                    raise Failure("STORAGE_UNAVAILABLE")
+                os.unlink(name, dir_fd=child)
+            os.fsync(child)
+            os.rmdir("artifacts", dir_fd=root)
+            os.fsync(root)
+        except Failure:
+            raise
+        except OSError:
+            raise Failure("STORAGE_UNAVAILABLE") from None
+        finally:
+            for opened in (child, root):
+                if opened >= 0:
+                    os.close(opened)
+
     def place(self, identity: str, data: bytes) -> None:
         """Non-overwriting durable bytes first; a later DB rollback leaves a private orphan."""
         import fcntl

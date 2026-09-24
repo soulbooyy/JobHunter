@@ -97,4 +97,4 @@ def test_missing_fonts_retains_catalog_and_other_api(
         identity = rendering_catalog.catalog()[0].render_configuration_id
         exact = client.get("/api/v1/render-configurations/" + identity)
         assert exact.status_code == 200 and exact.json()["can_generate"] is False
-        assert client.get("/api/v1/profile").status_code == 200
+        assert client.get("/api/v1/resumes").status_code == 200

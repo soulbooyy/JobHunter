@@ -19,7 +19,7 @@ from jobhunter.application.manual_application_entries.service import Entries
 from jobhunter.application.materials.coordinator import Coordinator
 from jobhunter.application.materials.runner import Runner
 from jobhunter.application.materials.service import Materials
-from jobhunter.infrastructure.persistence.sqlalchemy.repositories.materials import (
+from jobhunter.infrastructure.persistence.sqlalchemy.repositories.materials_v2 import (
     MaterialsRepository,
 )
 from jobhunter.infrastructure.persistence.sqlalchemy.uow.store import Store

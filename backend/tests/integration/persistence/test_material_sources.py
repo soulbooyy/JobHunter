@@ -1,85 +1,87 @@
-"""Materials reads consumed exact inputs without requiring unused Evidence expression."""
+"""Materials consume one exact independent ResumeVersion and no retired authorities."""
 
 from pathlib import Path
+from typing import Any, cast
 from uuid import uuid4
 
 import pytest
 from jobhunter.application.candidate.authority import CandidateAuthority
 from jobhunter.domain.shared.errors import Failure
+from jobhunter.infrastructure.persistence.sqlalchemy.repositories.material_sources import (
+    MaterialSources,
+)
 from jobhunter.infrastructure.persistence.sqlalchemy.uow.store import Store
 
+Json = dict[str, Any]
 
-def test_material_projection_ignores_unused_body_but_full_reader_rejects(tmp_path: Path) -> None:
-    with Store.open(tmp_path) as store:
-        candidate = CandidateAuthority(store)
-        fact = candidate.command(
-            "EVIDENCE_CREATE",
+
+def create_resume(store: Store, *, populated: bool) -> Json:
+    sections: list[Json] = []
+    if populated:
+        sections = [
             {
-                "request_id": str(uuid4()),
-                "kind": "SKILL",
-                "fields": {"skill_name": "Python"},
-                "content": [],
-            },
-        )
-        evidence_id = fact["evidence_item"]["evidence_item_id"]
-        evidence_version = fact["evidence_item_version"]["evidence_item_version_id"]
-        saved = candidate.command(
-            "RESUME_CREATE",
-            {
-                "request_id": str(uuid4()),
-                "resume_name": "Name",
-                "profile_version_id": candidate.pair("profile")["profile_version"][
-                    "profile_version_id"
-                ],
-                "header_presentation": {"optional_items": []},
-                "sections": [
+                "kind": "PROJECT",
+                "members": [
                     {
-                        "kind": "SKILL",
-                        "members": [
+                        "entry_id": str(uuid4()),
+                        "fields": {
+                            "project_name": "Engine",
+                            "role_title": "Author",
+                            "project_url": "https://example.test/exact",
+                            "start_month": "2026-01",
+                            "end_month": None,
+                        },
+                        "content": [
                             {
-                                "evidence_item_id": evidence_id,
-                                "evidence_item_version_id": evidence_version,
-                                "content": [],
+                                "type": "PARAGRAPH",
+                                "block_id": str(uuid4()),
+                                "runs": [{"text": "Exact body", "marks": []}],
                             }
                         ],
                     }
                 ],
-                "document_presentation": {
-                    "font_family": "HEITI",
-                    "font_size_pt": 12,
-                    "line_spacing_pt": 14,
-                    "theme_color": "#000000",
-                },
+            }
+        ]
+    return CandidateAuthority(store).command(
+        "RESUME_CREATE",
+        {
+            "request_id": str(uuid4()),
+            "resume_name": "Exact source",
+            "contacts": {
+                "full_name": "Ada Lovelace" if populated else None,
+                "phone_number": None,
+                "email": "ada@example.test" if populated else None,
             },
-        )
-        with store.engine.begin() as conn:
-            conn.exec_driver_sql("UPDATE evidence_item_versions SET content='[{}]'")
-        with pytest.raises(Failure, match="INTERNAL_ERROR"):
-            candidate.version("resume", saved["resume_version"]["resume_version_id"])
-        from jobhunter.infrastructure.persistence.sqlalchemy.repositories.material_sources import (
-            MaterialSources,
-        )
+            "header_presentation": {"optional_items": []},
+            "sections": sections,
+            "document_presentation": {
+                "font_family": "HEITI",
+                "font_size_pt": 12,
+                "line_spacing_pt": 14,
+                "theme_color": "#112233",
+            },
+        },
+    )
 
+
+def test_material_source_is_the_exact_saved_resume_version(tmp_path: Path) -> None:
+    with Store.open(tmp_path) as store:
+        saved = create_resume(store, populated=True)
+        version = cast(Json, saved["resume_version"])
         result = store.run(
-            lambda conn: MaterialSources(conn).read(saved["resume_version"]["resume_version_id"])
+            lambda conn: MaterialSources(conn).read(cast(str, version["resume_version_id"]))
         )
-        assert result.model_dump(mode="json") == {
-            "resume_version": saved["resume_version"],
-            "profile_version": candidate.pair("profile")["profile_version"],
-            "evidence_sources": [
-                {
-                    "evidence_item_id": evidence_id,
-                    "evidence_item_version_id": evidence_version,
-                    "kind": "SKILL",
-                    "fields": {"skill_name": "Python"},
-                }
-            ],
-        }
+        assert result.model_dump(mode="json") == {"resume_version": version}
+
+
+def test_material_source_rejects_corrupt_saved_payload(tmp_path: Path) -> None:
+    with Store.open(tmp_path) as store:
+        saved = create_resume(store, populated=False)
+        version = cast(Json, saved["resume_version"])
+        identity = cast(str, version["resume_version_id"])
         with store.engine.begin() as conn:
-            conn.exec_driver_sql("UPDATE evidence_item_versions SET fields='{}'")
-        with pytest.raises(Failure, match="INTERNAL_ERROR"):
-            store.run(
-                lambda conn: MaterialSources(conn).read(
-                    saved["resume_version"]["resume_version_id"]
-                )
+            conn.exec_driver_sql(
+                "UPDATE resume_versions SET contacts='{}' WHERE resume_version_id=?", (identity,)
             )
+        with pytest.raises(Failure, match="INTERNAL_ERROR"):
+            store.run(lambda conn: MaterialSources(conn).read(identity))

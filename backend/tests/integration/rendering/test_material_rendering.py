@@ -15,7 +15,7 @@ from jobhunter.application.candidate.authority import CandidateAuthority
 from jobhunter.domain.derived_work.models import Work
 from jobhunter.domain.materials.models import RenderConfiguration
 from jobhunter.domain.materials.sources import MaterialSource
-from jobhunter.infrastructure.persistence.sqlalchemy.repositories.candidate import Json
+from jobhunter.infrastructure.persistence.sqlalchemy.repositories.candidate_v2 import Json
 from jobhunter.infrastructure.persistence.sqlalchemy.repositories.material_sources import (
     MaterialSources,
 )
@@ -33,15 +33,6 @@ def saved_source(
     url: str = "https://example.com/exact?value=1#fragment",
 ) -> Json:
     authority = CandidateAuthority(store)
-    fact = authority.command(
-        "EVIDENCE_CREATE",
-        {
-            "request_id": str(uuid4()),
-            "kind": "SKILL",
-            "fields": {"skill_name": "Engineering"},
-            "content": [],
-        },
-    )
     blocks: list[Json] = []
     for bold, italic, underline, link in itertools.product((False, True), repeat=4):
         marks: list[Json] = [
@@ -52,13 +43,20 @@ def saved_source(
         if link:
             marks.append({"type": "LINK", "url": url})
         blocks.append(
-            {"type": "PARAGRAPH", "runs": [{"text": text + "  A\u00a0B\u3000C", "marks": marks}]}
+            {
+                "type": "PARAGRAPH",
+                "block_id": str(uuid4()),
+                "runs": [{"text": text + "  A\u00a0B\u3000C", "marks": marks}],
+            }
         )
     blocks.append(
         {
             "type": "ORDERED_LIST",
             "items": [
-                {"runs": [{"text": f"Item {index} " + "longtoken" * 20, "marks": []}]}
+                {
+                    "block_id": str(uuid4()),
+                    "runs": [{"text": f"Item {index} " + "longtoken" * 20, "marks": []}],
+                }
                 for index in range(45)
             ],
         }
@@ -68,19 +66,19 @@ def saved_source(
         {
             "request_id": str(uuid4()),
             "resume_name": "Renderer fixture",
-            "profile_version_id": authority.pair("profile")["profile_version"][
-                "profile_version_id"
-            ],
+            "contacts": {
+                "full_name": "Renderer fixture",
+                "phone_number": None,
+                "email": None,
+            },
             "header_presentation": {"optional_items": []},
             "sections": [
                 {
                     "kind": "SKILL",
                     "members": [
                         {
-                            "evidence_item_id": fact["evidence_item"]["evidence_item_id"],
-                            "evidence_item_version_id": fact["evidence_item_version"][
-                                "evidence_item_version_id"
-                            ],
+                            "entry_id": str(uuid4()),
+                            "fields": {"skill_name": "Engineering"},
                             "content": blocks,
                         }
                     ],
@@ -215,7 +213,6 @@ def test_empty_document_is_one_page(tmp_path: Path) -> None:
     with Store.open(tmp_path) as store:
         source = saved_source(store, "KAITI")
         source["resume_version"]["sections"] = []
-        source["evidence_sources"] = []
         pdf, png = catalog()
         code, data = output(store, source, pdf)
         assert code == "OK"

@@ -37,7 +37,7 @@ def test_real_http_restart_privacy_and_bind(tmp_path: Path) -> None:
         assert startup == {
             "outcome": "INITIALIZED",
             "data_directory": str(tmp_path.resolve()),
-            "schema_version": 5,
+            "schema_version": 7,
         }
         with httpx.Client(base_url=f"http://127.0.0.1:{port}", trust_env=False) as client:
             for _ in range(100):
@@ -68,48 +68,28 @@ def test_real_http_restart_privacy_and_bind(tmp_path: Path) -> None:
             )
             assert client.get(preference_base, headers={"Origin": "null"}).status_code == 403
 
-            profile = client.post(
-                "/api/v1/profile/save",
-                json={
-                    "request_id": str(uuid4()),
-                    "revision": 1,
-                    "full_name": "Sensitive Profile",
-                    "phone_number": None,
-                    "email": None,
-                },
-            )
-            assert profile.status_code == 200
-            evidence = client.post(
-                "/api/v1/evidence-items",
-                json={
-                    "request_id": str(uuid4()),
-                    "kind": "SKILL",
-                    "fields": {"skill_name": "Sensitive Evidence"},
-                    "content": [],
-                },
-            )
-            assert evidence.status_code == 200
             resume = client.post(
                 "/api/v1/resumes",
                 json={
                     "request_id": str(uuid4()),
                     "resume_name": "Sensitive Resume",
-                    "profile_version_id": profile.json()["profile_version"]["profile_version_id"],
+                    "contacts": {
+                        "full_name": "Sensitive Profile",
+                        "phone_number": None,
+                        "email": None,
+                    },
                     "header_presentation": {"optional_items": []},
                     "sections": [
                         {
                             "kind": "SKILL",
                             "members": [
                                 {
-                                    "evidence_item_id": evidence.json()["evidence_item"][
-                                        "evidence_item_id"
-                                    ],
-                                    "evidence_item_version_id": evidence.json()[
-                                        "evidence_item_version"
-                                    ]["evidence_item_version_id"],
+                                    "entry_id": str(uuid4()),
+                                    "fields": {"skill_name": "Sensitive Evidence"},
                                     "content": [
                                         {
                                             "type": "PARAGRAPH",
+                                            "block_id": str(uuid4()),
                                             "runs": [
                                                 {
                                                     "text": "Sensitive local expression",

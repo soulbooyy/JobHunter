@@ -17,7 +17,7 @@ from jobhunter.infrastructure.persistence.sqlalchemy.repositories.candidate impo
 from jobhunter.infrastructure.persistence.sqlalchemy.repositories.material_sources import (
     MaterialSources,
 )
-from jobhunter.infrastructure.persistence.sqlalchemy.repositories.materials import (
+from jobhunter.infrastructure.persistence.sqlalchemy.repositories.materials_v2 import (
     MaterialsRepository,
 )
 from jobhunter.infrastructure.persistence.sqlalchemy.uow.store import Store
@@ -100,7 +100,7 @@ class Materials:
             )
             if source_row is None:
                 raise FieldFailure("resume_version_id", "INVALID_REFERENCE")
-            if repo.root("resume", source_row["resume_id"], required=True)["status"] != "ACTIVE":
+            if repo.root(source_row["resume_id"], required=True)["status"] != "ACTIVE":
                 raise Failure("INVALID_STATE")
             MaterialSources(conn).read(command.resume_version_id)
             try:

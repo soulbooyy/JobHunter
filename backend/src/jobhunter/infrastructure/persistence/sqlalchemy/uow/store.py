@@ -25,15 +25,27 @@ from jobhunter.infrastructure.persistence.sqlalchemy.models.candidate import (
 from jobhunter.infrastructure.persistence.sqlalchemy.models.candidate import (
     TABLES as CANDIDATE_TABLES,
 )
-from jobhunter.infrastructure.persistence.sqlalchemy.models.invocation import (
+from jobhunter.infrastructure.persistence.sqlalchemy.models.candidate_v2 import (
+    ALEMBIC_REVISION as SCHEMA_SIX_REVISION,
+)
+from jobhunter.infrastructure.persistence.sqlalchemy.models.candidate_v2 import (
+    TABLES as CANDIDATE_V2_TABLES,
+)
+from jobhunter.infrastructure.persistence.sqlalchemy.models.candidate_v3 import (
     ALEMBIC_REVISION as TARGET_REVISION,
 )
+from jobhunter.infrastructure.persistence.sqlalchemy.models.candidate_v3 import SCHEMA_VERSION
+from jobhunter.infrastructure.persistence.sqlalchemy.models.candidate_v3 import (
+    TABLES as CANDIDATE_V3_TABLES,
+)
 from jobhunter.infrastructure.persistence.sqlalchemy.models.invocation import (
-    SCHEMA_VERSION,
-    recognize_metadata,
+    ALEMBIC_REVISION as INVOCATION_REVISION,
 )
 from jobhunter.infrastructure.persistence.sqlalchemy.models.invocation import (
     TABLES as INVOCATION_TABLES,
+)
+from jobhunter.infrastructure.persistence.sqlalchemy.models.invocation import (
+    recognize_metadata,
 )
 from jobhunter.infrastructure.persistence.sqlalchemy.models.materials import (
     ALEMBIC_REVISION as MATERIAL_REVISION,
@@ -43,6 +55,12 @@ from jobhunter.infrastructure.persistence.sqlalchemy.models.materials import (
 )
 from jobhunter.infrastructure.persistence.sqlalchemy.models.materials import (
     TABLES as MATERIAL_TABLES,
+)
+from jobhunter.infrastructure.persistence.sqlalchemy.models.materials_v2 import (
+    INDEXES as MATERIAL_V2_INDEXES,
+)
+from jobhunter.infrastructure.persistence.sqlalchemy.models.materials_v2 import (
+    TABLES as MATERIAL_V2_TABLES,
 )
 from jobhunter.infrastructure.persistence.sqlalchemy.models.preference_values import (
     recognize_values,
@@ -65,8 +83,14 @@ from jobhunter.infrastructure.persistence.sqlalchemy.models.schema import (
 from jobhunter.infrastructure.persistence.sqlalchemy.repositories.candidate import (
     CandidateRepository,
 )
+from jobhunter.infrastructure.persistence.sqlalchemy.repositories.candidate_v2 import (
+    CandidateRepository as CandidateV2Repository,
+)
 from jobhunter.infrastructure.persistence.sqlalchemy.repositories.materials import (
     MaterialsRepository,
+)
+from jobhunter.infrastructure.persistence.sqlalchemy.repositories.materials_v2 import (
+    MaterialsRepository as MaterialsV2Repository,
 )
 
 Fault = Callable[[str], None]
@@ -232,7 +256,7 @@ class Store:
                 if conn.exec_driver_sql("PRAGMA application_id").scalar() != APPLICATION_ID:
                     raise Failure("STORAGE_NOT_RECOGNIZED")
                 schema_version = conn.exec_driver_sql("PRAGMA user_version").scalar()
-                if schema_version not in (1, 2, 3, 4, 5):
+                if schema_version not in (1, 2, 3, 4, 5, 6, 7):
                     raise Failure("SCHEMA_UNSUPPORTED")
                 if schema_version == 1 and any(
                     conn.exec_driver_sql(
@@ -246,8 +270,11 @@ class Store:
                     (RECEIPT_TABLE, RECEIPT_DDL),
                     ("alembic_version", ALEMBIC_DDL),
                     *(TABLES if schema_version >= 2 else ()),
-                    *(CANDIDATE_TABLES if schema_version >= 3 else ()),
-                    *(MATERIAL_TABLES if schema_version >= 4 else ()),
+                    *(CANDIDATE_TABLES if 3 <= schema_version <= 5 else ()),
+                    *(CANDIDATE_V2_TABLES if schema_version == 6 else ()),
+                    *(CANDIDATE_V3_TABLES if schema_version >= 7 else ()),
+                    *(MATERIAL_TABLES if 4 <= schema_version <= 5 else ()),
+                    *(MATERIAL_V2_TABLES if schema_version >= 6 else ()),
                     *(INVOCATION_TABLES if schema_version >= 5 else ()),
                 ):
                     sql = conn.exec_driver_sql(
@@ -265,7 +292,9 @@ class Store:
                         2: PREFERENCE_REVISION,
                         3: CANDIDATE_REVISION,
                         4: MATERIAL_REVISION,
-                        5: TARGET_REVISION,
+                        5: INVOCATION_REVISION,
+                        6: SCHEMA_SIX_REVISION,
+                        7: TARGET_REVISION,
                     }[schema_version]
                 ]:
                     raise Failure("STORAGE_NOT_RECOGNIZED")
@@ -280,7 +309,7 @@ class Store:
                     for name, _ in CANDIDATE_TABLES
                 ):
                     raise Failure("STORAGE_NOT_RECOGNIZED")
-                if schema_version >= 3:
+                if 3 <= schema_version <= 5:
                     try:
                         CandidateRepository(conn).recognize()
                     except Exception:
@@ -292,7 +321,7 @@ class Store:
                     for name, _ in MATERIAL_TABLES
                 ):
                     raise Failure("STORAGE_NOT_RECOGNIZED")
-                if schema_version >= 4:
+                if 4 <= schema_version <= 5:
                     for name, ddl in MATERIAL_INDEXES:
                         actual = conn.exec_driver_sql(
                             "SELECT sql FROM sqlite_master WHERE type='index' AND name=?", (name,)
@@ -303,6 +332,20 @@ class Store:
                             raise Failure("STORAGE_NOT_RECOGNIZED")
                     try:
                         MaterialsRepository(conn).recognize_materials()
+                    except Exception:
+                        raise Failure("STORAGE_CORRUPT") from None
+                if schema_version >= 6:
+                    for name, ddl in MATERIAL_V2_INDEXES:
+                        actual = conn.exec_driver_sql(
+                            "SELECT sql FROM sqlite_master WHERE type='index' AND name=?", (name,)
+                        ).scalar()
+                        if not isinstance(actual, str) or " ".join(actual.split()) != " ".join(
+                            ddl.split()
+                        ):
+                            raise Failure("STORAGE_NOT_RECOGNIZED")
+                    try:
+                        CandidateV2Repository(conn).recognize()
+                        MaterialsV2Repository(conn).recognize_materials()
                     except Exception:
                         raise Failure("STORAGE_CORRUPT") from None
                 if schema_version >= 5:
@@ -328,8 +371,14 @@ class Store:
 
     def migrate(self) -> str:
         """Offline, under the same lifetime lock; never replay an upgrade after uncertainty."""
-        if self.recognize() == SCHEMA_VERSION:
+        source_version = self.recognize()
+        if source_version == SCHEMA_VERSION:
             return "UNCHANGED"
+
+        from jobhunter.infrastructure.filesystem.artifacts import ArtifactFiles
+
+        if source_version <= 5:
+            ArtifactFiles(self.directory).reset()
 
         def upgrade(conn: Connection) -> None:
             config = Config(str(Path(__file__).resolve().parents[6] / "alembic.ini"))
@@ -346,7 +395,7 @@ class Store:
                 version = self.recognize()
             except Failure:
                 raise Failure("OUTCOME_UNKNOWN") from None
-            if version in (1, 2, 3, 4):
+            if version in (1, 2, 3, 4, 5, 6):
                 raise Failure("STORAGE_UNAVAILABLE") from None
             return "MIGRATED"
         if self.recognize() != SCHEMA_VERSION:

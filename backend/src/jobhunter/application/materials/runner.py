@@ -13,7 +13,7 @@ from jobhunter.domain.shared.errors import Failure
 from jobhunter.infrastructure.persistence.sqlalchemy.repositories.material_sources import (
     MaterialSources,
 )
-from jobhunter.infrastructure.persistence.sqlalchemy.repositories.materials import (
+from jobhunter.infrastructure.persistence.sqlalchemy.repositories.materials_v2 import (
     MaterialsRepository,
 )
 from jobhunter.infrastructure.rendering.process import ProcessRenderer

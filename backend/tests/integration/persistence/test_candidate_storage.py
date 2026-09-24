@@ -1,364 +1,349 @@
-"""Schema 3 initialization, explicit upgrades, constraints and outcome recovery."""
+"""Schema-7 migration, relational integrity and deterministic projection storage."""
 
-import json
 import sqlite3
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any
-from uuid import uuid4
+from typing import Any, cast
+from uuid import UUID, uuid4
 
 import pytest
-from fastapi.testclient import TestClient
+from alembic import command
+from alembic.config import Config
 from jobhunter.application.candidate.authority import CandidateAuthority
-from jobhunter.application.candidate.preferences import Preferences
-from jobhunter.bootstrap.container import create_app
-from jobhunter.domain.preferences.models import SavePreferences
 from jobhunter.domain.shared.errors import Failure
-from jobhunter.infrastructure.persistence.sqlalchemy.models.candidate import TABLES
-from jobhunter.infrastructure.persistence.sqlalchemy.models.preferences import (
-    ALEMBIC_REVISION as V2,
-)
-from jobhunter.infrastructure.persistence.sqlalchemy.models.preferences import (
-    TABLES as PREFERENCE_TABLES,
-)
-from jobhunter.infrastructure.persistence.sqlalchemy.models.schema import (
-    ALEMBIC_DDL,
-    ALEMBIC_REVISION,
-    APPLICATION_ID,
-    ENTRY_DDL,
-    RECEIPT_DDL,
+from jobhunter.infrastructure.persistence.sqlalchemy.repositories.candidate_v2 import (
+    CandidateRepository,
+    encoded,
 )
 from jobhunter.infrastructure.persistence.sqlalchemy.uow.store import Store, no_fault
+from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
 
-Json = dict[str, Any]
+
+def historical(directory: Path, revision: str) -> None:
+    database = directory / "jobhunter.sqlite3"
+    engine = create_engine(
+        "sqlite://", creator=lambda: sqlite3.connect(database, isolation_level=None)
+    )
+    try:
+        with engine.connect() as conn:
+            conn.exec_driver_sql("PRAGMA foreign_keys=ON")
+            conn.exec_driver_sql("BEGIN IMMEDIATE")
+            config = Config(str(Path(__file__).resolve().parents[3] / "alembic.ini"))
+            config.attributes["connection"] = conn
+            config.attributes["fault"] = no_fault
+            command.upgrade(config, revision)
+            conn.commit()
+    finally:
+        engine.dispose()
 
 
-def source(directory: Path, version: int) -> None:
-    with sqlite3.connect(directory / "jobhunter.sqlite3") as conn:
-        for ddl in (
-            ENTRY_DDL,
-            RECEIPT_DDL,
-            ALEMBIC_DDL,
-            *(ddl for _, ddl in PREFERENCE_TABLES if version == 2),
-        ):
-            conn.execute(ddl)
-        conn.execute(
-            "INSERT INTO alembic_version VALUES (?)", (ALEMBIC_REVISION if version == 1 else V2,)
-        )
-        conn.execute(f"PRAGMA application_id={APPLICATION_ID}")
-        conn.execute(f"PRAGMA user_version={version}")
-
-
-def profile_command() -> Json:
+def populated() -> dict[str, object]:
     return {
         "request_id": str(uuid4()),
-        "revision": 1,
-        "full_name": "private contact",
-        "phone_number": None,
-        "email": None,
+        "resume_name": "Stored",
+        "contacts": {"full_name": "Ada", "phone_number": None, "email": None},
+        "header_presentation": {"optional_items": []},
+        "sections": [
+            {
+                "kind": "SKILL",
+                "members": [
+                    {
+                        "entry_id": str(uuid4()),
+                        "fields": {"skill_name": "Python"},
+                        "content": [
+                            {
+                                "type": "PARAGRAPH",
+                                "block_id": str(uuid4()),
+                                "runs": [{"text": "Exact UTF-8 学", "marks": []}],
+                            }
+                        ],
+                    }
+                ],
+            }
+        ],
+        "document_presentation": {
+            "font_family": "HEITI",
+            "font_size_pt": 12,
+            "line_spacing_pt": 14,
+            "theme_color": "#000000",
+        },
     }
 
 
-def evidence_command() -> Json:
-    return {
-        "request_id": str(uuid4()),
-        "kind": "SKILL",
-        "fields": {"skill_name": "private fact"},
-        "content": [],
-    }
-
-
-@pytest.mark.parametrize("version", [1, 2])
-def test_explicit_sources_seed_once_and_preserve_preferences(tmp_path: Path, version: int) -> None:
-    source(tmp_path, version)
-    preference = None
-    body: Json = {}
-    with Store.open(tmp_path, migration=True) as store:
-        if version == 2:
-            body = json.loads(
-                (Path(__file__).parents[2] / "fixtures/preference_save.json").read_text()
-            )
-            preference = Preferences(store).save(SavePreferences.model_validate(body))
-    with pytest.raises(Failure, match="SCHEMA_UNSUPPORTED"):
-        Store.open(tmp_path)
-    with Store.open(tmp_path, migration=True) as store:
-        assert store.migrate() == "MIGRATED"
-        candidate = CandidateAuthority(store)
-        original = candidate.pair("profile")
-        baseline = candidate.baseline()
-        assert store.migrate() == "UNCHANGED"
-        assert candidate.pair("profile") == original
-        assert candidate.baseline() == baseline
-        assert candidate.list_resumes() == {
-            "resumes": [],
-            "default_resume_selection": {"default_resume_id": None, "revision": 1},
-        }
-        if preference is not None:
-            assert Preferences(store).save(SavePreferences.model_validate(body)) == preference
-        else:
-            assert Preferences(store).current().status == "NOT_CONFIGURED"
+def test_fresh_schema_seven_has_no_fabricated_candidate_history(tmp_path: Path) -> None:
     with Store.open(tmp_path) as store:
-        assert store.recognize() == 5
-        assert CandidateAuthority(store).pair("profile") == original
-
-
-@pytest.mark.parametrize(
-    "stage",
-    ["migration_" + name for name, _ in TABLES]
-    + ["migration_profile_seed", "migration_candidate_seeds", "migration_candidate_version"],
-)
-@pytest.mark.parametrize("source_version", [0, 2])
-def test_candidate_ddl_and_seeds_atomic(tmp_path: Path, stage: str, source_version: int) -> None:
-    if source_version:
-        source(tmp_path, source_version)
-
-    def fault(point: str) -> None:
-        if point == stage:
-            raise OSError("private failure")
-
-    if source_version:
-        with Store.open(tmp_path, migration=True, fault=fault) as store:
-            with pytest.raises(Failure, match="STORAGE_UNAVAILABLE"):
-                store.migrate()
-            assert store.recognize() == source_version
-    else:
-        with pytest.raises(Failure, match="INITIALIZATION_FAILED"):
-            Store.open(tmp_path, fault=fault)
-    with sqlite3.connect(tmp_path / "jobhunter.sqlite3") as conn:
-        assert conn.execute("PRAGMA user_version").fetchone() == (source_version,)
-        for name, _ in TABLES:
-            assert (
-                conn.execute("SELECT name FROM sqlite_master WHERE name=?", (name,)).fetchall()
-                == []
-            )
-
-
-@pytest.mark.parametrize(
-    "stage,committed",
-    [
-        ("candidate_after_publication", False),
-        ("candidate_after_receipt", False),
-        ("before_commit", False),
-        ("commit_before_driver", False),
-        ("commit_after_driver", True),
-        ("response_after_commit", True),
-    ],
-)
-def test_command_receipt_atomic_and_no_hidden_replay(
-    tmp_path: Path, stage: str, committed: bool
-) -> None:
-    body = profile_command()
-    calls: list[str] = []
-    with Store.open(tmp_path) as store, TestClient(create_app(store)) as client:
-
-        def fault(point: str) -> None:
-            calls.append(point)
-            if point == stage:
-                raise OSError("private business/SQL parameter/fingerprint")
-
-        store.fault = fault
-        response = client.post("/api/v1/profile/save", json=body)
-        assert response.status_code == 503
-        assert response.json()["code"] == (
-            "OUTCOME_UNKNOWN"
-            if stage.startswith(("commit_", "response_"))
-            else "STORAGE_UNAVAILABLE"
-        )
-        assert response.json()["field_errors"] == []
-        assert "private" not in response.text
-        assert calls.count("candidate_after_publication") == 1
-        store.fault = no_fault
-        assert client.get("/api/v1/profile").json()["profile"]["revision"] == (
-            2 if committed else 1
-        )
+        assert store.recognize() == 7
         with store.engine.connect() as conn:
-            assert conn.exec_driver_sql(
-                "SELECT count(*) FROM candidate_command_receipts"
-            ).scalar_one() == int(committed)
-        verified = client.post("/api/v1/profile/save", json=body)
-        assert verified.status_code == 200
-    with Store.open(tmp_path) as store, TestClient(create_app(store)) as client:
-        assert client.post("/api/v1/profile/save", json=body).json() == verified.json()
+            assert conn.exec_driver_sql("PRAGMA user_version").scalar_one() == 7
+            for table in (
+                "resumes",
+                "resume_versions",
+                "candidate_evidence_projections",
+                "portrait_builds",
+                "portraits",
+                "candidate_command_receipts",
+            ):
+                assert conn.exec_driver_sql(f"SELECT count(*) FROM {table}").scalar_one() == 0
+        assert CandidateAuthority(store).list_resumes()["default_resume_selection"] == {
+            "default_resume_id": None,
+            "revision": 1,
+        }
+        assert CandidateAuthority(store).portrait()["state"]["status"] == "NO_SOURCE"
 
 
-@pytest.mark.parametrize(
-    "sql",
-    [
-        "DELETE FROM profiles",
-        "DELETE FROM profile_versions",
-        "DELETE FROM current_evidence_baseline",
-        "DELETE FROM evidence_baselines",
-        "DELETE FROM default_resume_selection",
-        "UPDATE profile_versions SET full_name=''",
-    ],
-)
-def test_missing_mandatory_authority_is_not_repaired(tmp_path: Path, sql: str) -> None:
-    with Store.open(tmp_path):
-        pass
+def test_schema_five_transition_performs_explicit_full_development_reset(
+    tmp_path: Path,
+) -> None:
+    historical(tmp_path, "d092ea64bf17")
     with sqlite3.connect(tmp_path / "jobhunter.sqlite3") as conn:
-        conn.execute(sql)
-        before = conn.iterdump()
-        snapshot = list(before)
-    with pytest.raises(Failure, match="STORAGE_CORRUPT"):
-        Store.open(tmp_path)
-    with sqlite3.connect(tmp_path / "jobhunter.sqlite3") as conn:
-        assert list(conn.iterdump()) == snapshot
-
-
-def test_composite_lineage_and_receipt_constraints(tmp_path: Path) -> None:
-    with Store.open(tmp_path) as store:
-        service = CandidateAuthority(store)
-        one = service.command("EVIDENCE_CREATE", evidence_command())
-        two = service.command("EVIDENCE_CREATE", evidence_command())
-        a, b = one["evidence_item"]["evidence_item_id"], two["evidence_item"]["evidence_item_id"]
-        bv = two["evidence_item_version"]["evidence_item_version_id"]
-        statements = [
+        old_profile_count = conn.execute("SELECT count(*) FROM profiles").fetchone()[0]
+        assert old_profile_count == 1
+        conn.execute(
+            "INSERT INTO manual_application_entries VALUES (?,?,?,?,?,?,?)",
             (
-                (
-                    "UPDATE evidence_items SET current_evidence_item_version_id=? WHERE "
-                    "evidence_item_id=?"
-                ),
-                (bv, a),
+                str(uuid4()),
+                "Company",
+                "Role",
+                "https://example.test",
+                1,
+                "2026-09-20T00:00:00.000Z",
+                "2026-09-20T00:00:00.000Z",
             ),
-            (
-                (
-                    "UPDATE candidate_command_receipts SET evidence_item_version_id=? WHERE "
-                    "evidence_item_id=?"
-                ),
-                (bv, a),
-            ),
-            (
-                (
-                    "UPDATE evidence_baseline_members SET evidence_item_version_id=? WHERE "
-                    "evidence_item_id=?"
-                ),
-                (bv, a),
-            ),
-            (
-                "UPDATE candidate_command_receipts SET evidence_item_id=? WHERE evidence_item_id=?",
-                (b, a),
-            ),
-            ("UPDATE evidence_items SET revision=0", ()),
-            ("UPDATE evidence_items SET status='REMOVED'", ()),
-            ("UPDATE default_resume_selection SET default_resume_id=?", (str(uuid4()),)),
-            ("UPDATE candidate_command_receipts SET schema_version=2", ()),
-        ]
-        for sql, args in statements:
-            with store.engine.connect() as conn, pytest.raises(IntegrityError):
-                conn.exec_driver_sql("BEGIN IMMEDIATE")
-                conn.exec_driver_sql(sql, args)
-                conn.commit()
-        assert (
-            service.pair("evidence_item", a)["evidence_item_version"]
-            == one["evidence_item_version"]
         )
+    artifact_directory = tmp_path / "artifacts"
+    artifact_directory.mkdir(mode=0o700)
+    (artifact_directory / str(uuid4())).write_bytes(b"obsolete generated bytes")
+    with Store.open(tmp_path, migration=True) as store:
+        assert store.recognize() == 5
+        assert store.migrate() == "MIGRATED"
+        assert store.recognize() == 7
+        with store.engine.connect() as conn:
+            for table in (
+                "manual_application_entries",
+                "manual_application_entry_create_receipts",
+                "preference_sets",
+                "agent_runs",
+                "resumes",
+                "candidate_command_receipts",
+                "artifacts",
+            ):
+                assert conn.exec_driver_sql(f"SELECT count(*) FROM {table}").scalar_one() == 0
+        assert not artifact_directory.exists()
+        assert store.migrate() == "UNCHANGED"
 
 
-def test_detected_corrupt_historical_body_is_internal_not_missing_reference(tmp_path: Path) -> None:
-    with Store.open(tmp_path) as store, TestClient(create_app(store)) as client:
-        created = client.post("/api/v1/evidence-items", json=evidence_command()).json()
-        version = created["evidence_item_version"]["evidence_item_version_id"]
-        with store.engine.begin() as conn:
-            conn.exec_driver_sql("UPDATE evidence_item_versions SET fields='{}'")
-        response = client.get("/api/v1/evidence-items/versions/" + version)
-        assert response.status_code == 500
-        assert response.json()["code"] == "INTERNAL_ERROR"
-        assert response.json()["field_errors"] == []
+def test_schema_six_to_seven_preserves_source_receipts_and_artifacts(tmp_path: Path) -> None:
+    historical(tmp_path, "f4b31d8c2a70")
+    request_id = str(uuid4())
+    entry_id = str(uuid4())
+    with sqlite3.connect(tmp_path / "jobhunter.sqlite3") as conn:
+        conn.execute(
+            "INSERT INTO manual_application_entries VALUES (?,?,?,?,?,?,?)",
+            (
+                entry_id,
+                "Company",
+                "Role",
+                "https://example.test",
+                1,
+                "2026-09-24T00:00:00.000Z",
+                "2026-09-24T00:00:00.000Z",
+            ),
+        )
+        conn.execute(
+            "INSERT INTO candidate_command_receipts VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+            (
+                request_id,
+                "DEFAULT_RESUME_SET",
+                "0" * 64,
+                2,
+                "UNCHANGED",
+                '{"default_resume_selection":{"default_resume_id":null,"revision":1}}',
+                None,
+                None,
+                None,
+                None,
+                None,
+            ),
+        )
+    artifact_directory = tmp_path / "artifacts"
+    artifact_directory.mkdir(mode=0o700)
+    artifact = artifact_directory / str(uuid4())
+    artifact.write_bytes(b"preserved generated bytes")
+
+    with Store.open(tmp_path, migration=True) as store:
+        assert store.recognize() == 6
+        assert store.migrate() == "MIGRATED"
+        assert store.recognize() == 7
+        with store.engine.connect() as conn:
+            assert (
+                conn.exec_driver_sql(
+                    "SELECT company_name FROM manual_application_entries "
+                    "WHERE manual_application_entry_id=?",
+                    (entry_id,),
+                ).scalar_one()
+                == "Company"
+            )
+            assert (
+                conn.exec_driver_sql(
+                    "SELECT count(*) FROM candidate_command_receipts WHERE request_id=?",
+                    (request_id,),
+                ).scalar_one()
+                == 1
+            )
+            assert (
+                conn.exec_driver_sql("SELECT count(*) FROM portrait_derivations").scalar_one() == 0
+            )
+        assert artifact.read_bytes() == b"preserved generated bytes"
+
+
+def test_schema_six_to_seven_failure_rolls_back_without_artifact_reset(tmp_path: Path) -> None:
+    historical(tmp_path, "f4b31d8c2a70")
+    artifact_directory = tmp_path / "artifacts"
+    artifact_directory.mkdir(mode=0o700)
+    artifact = artifact_directory / str(uuid4())
+    artifact.write_bytes(b"must survive")
+
+    def fault(stage: str) -> None:
+        if stage == "migration_entry_incremental_current_portrait_state":
+            raise RuntimeError("injected migration failure")
+
+    with Store.open(tmp_path, migration=True, fault=fault) as store:
+        with pytest.raises(Failure, match="INTERNAL_ERROR"):
+            store.migrate()
+        assert store.recognize() == 6
+        assert artifact.read_bytes() == b"must survive"
+
+    with Store.open(tmp_path, migration=True) as recovered:
+        assert recovered.migrate() == "MIGRATED"
+        assert recovered.recognize() == 7
+        assert artifact.read_bytes() == b"must survive"
 
 
 @pytest.mark.parametrize(
-    "stage,version",
-    [("migration_candidate_seeds", 2), ("commit_before_driver", 2), ("commit_after_driver", 5)],
+    "stage,expected",
+    [("migration_drop_profiles", 5), ("commit_before_driver", 5), ("commit_after_driver", 7)],
 )
 def test_migration_process_death_recovers_source_or_target(
-    tmp_path: Path, stage: str, version: int
+    tmp_path: Path, stage: str, expected: int
 ) -> None:
-    source(tmp_path, 2)
+    historical(tmp_path, "d092ea64bf17")
     script = """
 import os,sys
 from pathlib import Path
-from jobhunter.infrastructure.persistence.sqlalchemy.uow.store import Store, no_fault
+from jobhunter.infrastructure.persistence.sqlalchemy.uow.store import Store
 def fault(point):
     if point==sys.argv[2]: os._exit(29)
 with Store.open(Path(sys.argv[1]),migration=True,fault=fault) as store: store.migrate()
 """
     result = subprocess.run(
-        [sys.executable, "-c", script, str(tmp_path), stage], capture_output=True, timeout=10
+        [sys.executable, "-c", script, str(tmp_path), stage], capture_output=True, timeout=15
     )
-    assert result.returncode == 29
-    assert not result.stderr
+    assert result.returncode == 29 and not result.stderr
     with Store.open(tmp_path, migration=True) as store:
-        assert store.recognize() == version
-        assert store.migrate() == ("UNCHANGED" if version == 5 else "MIGRATED")
+        assert store.recognize() == expected
+        assert store.migrate() == ("UNCHANGED" if expected == 7 else "MIGRATED")
 
 
-def test_resume_relational_sources_and_snapshot_corruption(tmp_path: Path) -> None:
-    with Store.open(tmp_path) as store, TestClient(create_app(store)) as client:
-        service = CandidateAuthority(store)
-        a = service.command("EVIDENCE_CREATE", evidence_command())
-        b = service.command("EVIDENCE_CREATE", evidence_command())
-        body: Json = {
-            "request_id": str(uuid4()),
-            "resume_name": "R",
-            "profile_version_id": service.pair("profile")["profile_version"]["profile_version_id"],
-            "header_presentation": {"optional_items": []},
-            "sections": [
-                {
-                    "kind": "SKILL",
-                    "members": [
-                        {
-                            "evidence_item_id": a["evidence_item"]["evidence_item_id"],
-                            "evidence_item_version_id": a["evidence_item_version"][
-                                "evidence_item_version_id"
-                            ],
-                            "content": [],
-                        }
-                    ],
-                }
-            ],
-            "document_presentation": {
-                "font_family": "HEITI",
-                "font_size_pt": 12,
-                "line_spacing_pt": 14,
-                "theme_color": "#000000",
-            },
-        }
-        first = service.command("RESUME_CREATE", body)
-        second = service.command("RESUME_CREATE", {**body, "request_id": str(uuid4())})
+def test_projection_is_exact_persisted_bytes_and_corruption_is_detected(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    resume_id = "00000000-0000-4000-8000-000000000001"
+    version_id = "00000000-0000-4000-8000-000000000002"
+    entry_id = "00000000-0000-4000-8000-000000000003"
+    block_id = "00000000-0000-4000-8000-000000000004"
+    identities = iter((UUID(resume_id), UUID(version_id)))
+    monkeypatch.setattr("jobhunter.application.candidate.authority.uuid4", lambda: next(identities))
+    command = populated()
+    sections = cast(list[dict[str, Any]], command["sections"])
+    member = cast(list[dict[str, Any]], sections[0]["members"])[0]
+    member["entry_id"] = entry_id
+    member["content"][0]["block_id"] = block_id
+    with Store.open(tmp_path) as store:
+        saved = CandidateAuthority(store).command("RESUME_CREATE", command)
+        assert saved["resume"]["resume_id"] == resume_id
+        assert saved["resume_version"]["resume_version_id"] == version_id
+        projection = store.run(
+            lambda conn: CandidateRepository(conn).evidence_projection(version_id)
+        )
+        assert projection["entries"][0]["evidence_id"] == "entry/" + entry_id
+        assert projection["blocks"][0]["text"] == "Exact UTF-8 学"
+        with store.engine.connect() as conn:
+            raw = conn.exec_driver_sql(
+                "SELECT projection FROM candidate_evidence_projections WHERE resume_version_id=?",
+                (version_id,),
+            ).scalar_one()
+        expected = (
+            '{"schema_version":1,"resume_version_id":"'
+            + version_id
+            + '","extraction_key":"resume.v1","entries":[{"evidence_id":"entry/'
+            + entry_id
+            + '","entry_id":"'
+            + entry_id
+            + '","kind":"SKILL","fields":{"skill_name":"Python"},"content":'
+            '[{"type":"PARAGRAPH","block_id":"'
+            + block_id
+            + '","runs":[{"text":"Exact UTF-8 学","marks":[]}]}]}],"blocks":'
+            '[{"evidence_id":"block/'
+            + entry_id
+            + "/"
+            + block_id
+            + '","entry_id":"'
+            + entry_id
+            + '","block_id":"'
+            + block_id
+            + '","text":"Exact UTF-8 学"}]}'
+        )
+        assert raw.encode("utf-8") == expected.encode("utf-8")
+        with store.engine.begin() as conn:
+            conn.exec_driver_sql(
+                "UPDATE candidate_evidence_projections SET projection=? WHERE resume_version_id=?",
+                (encoded({**projection, "blocks": []}), version_id),
+            )
+        with pytest.raises(Failure, match="INTERNAL_ERROR"):
+            store.run(lambda conn: CandidateRepository(conn).evidence_projection(version_id))
+
+
+def test_relational_constraints_reject_cross_owner_and_broken_current_links(tmp_path: Path) -> None:
+    with Store.open(tmp_path) as store:
+        first = CandidateAuthority(store).command("RESUME_CREATE", populated())
+        second = CandidateAuthority(store).command("RESUME_CREATE", populated())
         statements = [
-            ("UPDATE resume_versions SET profile_version_id=?", (str(uuid4()),)),
             (
                 "UPDATE resumes SET current_resume_version_id=? WHERE resume_id=?",
                 (second["resume_version"]["resume_version_id"], first["resume"]["resume_id"]),
             ),
             (
-                "UPDATE resume_members SET evidence_item_version_id=?",
-                (b["evidence_item_version"]["evidence_item_version_id"],),
-            ),
-            ("UPDATE resume_members SET kind='PROJECT'", ()),
-            (
-                "UPDATE candidate_command_receipts SET resume_version_id=? WHERE request_id=?",
-                (second["resume_version"]["resume_version_id"], body["request_id"]),
+                "UPDATE resume_entries SET resume_id=? WHERE resume_version_id=?",
+                (second["resume"]["resume_id"], first["resume_version"]["resume_version_id"]),
             ),
             (
-                "UPDATE current_evidence_baseline SET evidence_baseline_snapshot_id=?",
+                "UPDATE default_resume_selection SET default_resume_id=?",
                 (str(uuid4()),),
             ),
         ]
-        for sql, args in statements:
+        for sql, params in statements:
             with store.engine.connect() as conn, pytest.raises(IntegrityError):
                 conn.exec_driver_sql("BEGIN IMMEDIATE")
-                conn.exec_driver_sql(sql, args)
+                conn.exec_driver_sql(sql, params)
                 conn.commit()
-        # A malformed persisted receipt must not trigger command execution.
-        with store.engine.begin() as conn:
-            conn.exec_driver_sql(
-                "UPDATE candidate_command_receipts SET result_snapshot='{}' WHERE request_id=?",
-                (body["request_id"],),
-            )
-        response = client.post("/api/v1/resumes", json=body)
-        assert response.status_code == 500
-        assert response.json()["code"] == "INTERNAL_ERROR"
-        assert len(service.list_resumes()["resumes"]) == 2
+
+
+def test_missing_required_singletons_and_malformed_payload_are_not_repaired(tmp_path: Path) -> None:
+    for index, statement in enumerate(
+        (
+            "DELETE FROM default_resume_selection",
+            "DELETE FROM current_portrait_state",
+            "UPDATE current_portrait_state SET status='READY'",
+        )
+    ):
+        directory = tmp_path / str(index)
+        directory.mkdir()
+        with Store.open(directory):
+            pass
+        with sqlite3.connect(directory / "jobhunter.sqlite3") as conn:
+            conn.execute("PRAGMA ignore_check_constraints=ON")
+            conn.execute(statement)
+        with pytest.raises(Failure, match="STORAGE_CORRUPT"):
+            Store.open(directory)

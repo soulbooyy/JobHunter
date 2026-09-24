@@ -1,4 +1,4 @@
-"""Saved Profile/Evidence/Resume authority through HTTP and real SQLite."""
+"""Independent Resume authority reads, receipt replay and missing-target ordering."""
 
 from pathlib import Path
 from uuid import uuid4
@@ -8,46 +8,67 @@ from jobhunter.bootstrap.container import create_app
 from jobhunter.infrastructure.persistence.sqlalchemy.uow.store import Store
 
 
-def test_initial_authority_and_profile_receipt(tmp_path: Path) -> None:
+def resume_body() -> dict[str, object]:
+    return {
+        "request_id": str(uuid4()),
+        "resume_name": "R",
+        "contacts": {"full_name": None, "phone_number": None, "email": None},
+        "header_presentation": {"optional_items": []},
+        "sections": [],
+        "document_presentation": {
+            "font_family": "HEITI",
+            "font_size_pt": 12,
+            "line_spacing_pt": 14,
+            "theme_color": "#000000",
+        },
+    }
+
+
+def test_initial_state_create_and_exact_receipt_replay(tmp_path: Path) -> None:
     with Store.open(tmp_path) as store, TestClient(create_app(store)) as client:
-        initial = client.get("/api/v1/profile")
-        assert initial.status_code == 200
-        pair = initial.json()
-        assert pair["profile"]["revision"] == 1
-        assert pair["profile_version"]["full_name"] is None
-        assert client.get("/api/v1/evidence-baselines/current").json()["members"] == []
         assert client.get("/api/v1/resumes").json() == {
             "resumes": [],
             "default_resume_selection": {"default_resume_id": None, "revision": 1},
         }
-        command = {
+        command = resume_body()
+        first = client.post("/api/v1/resumes", json=command)
+        assert first.status_code == 200
+        assert client.post("/api/v1/resumes", json=command).json() == first.json()
+        changed = {**command, "resume_name": "changed"}
+        response = client.post("/api/v1/resumes", json=changed)
+        assert response.status_code == 409 and response.json()["code"] == "REQUEST_CONFLICT"
+        assert len(client.get("/api/v1/resumes").json()["resumes"]) == 1
+
+
+def test_missing_target_and_invalid_state_do_not_publish_receipts(tmp_path: Path) -> None:
+    with Store.open(tmp_path) as store, TestClient(create_app(store)) as client:
+        missing_request = str(uuid4())
+        response = client.post(
+            f"/api/v1/resumes/{uuid4()}/rename",
+            json={"request_id": missing_request, "revision": 1, "resume_name": "X"},
+        )
+        assert response.status_code == 404 and response.json()["code"] == "NOT_FOUND"
+        with store.engine.connect() as conn:
+            assert (
+                conn.exec_driver_sql(
+                    "SELECT count(*) FROM candidate_command_receipts WHERE request_id=?",
+                    (missing_request,),
+                ).scalar_one()
+                == 0
+            )
+
+        command = resume_body()
+        created = client.post("/api/v1/resumes", json=command).json()
+        remove = {
             "request_id": str(uuid4()),
             "revision": 1,
-            "full_name": " Ada ",
-            "phone_number": None,
-            "email": None,
+            "default_resume_selection": {"revision": 2},
+            "replacement_resume_id": None,
         }
-        saved = client.post("/api/v1/profile/save", json=command)
-        assert saved.status_code == 200
-        assert saved.json()["profile_version"]["full_name"] == "Ada"
-        assert client.post("/api/v1/profile/save", json=command).json() == saved.json()
-
-
-def test_evidence_update_missing_target_precedes_receipt(tmp_path: Path) -> None:
-    with Store.open(tmp_path) as store, TestClient(create_app(store)) as client:
-        request_id = str(uuid4())
-        created = client.post(
-            "/api/v1/evidence-items",
-            json={
-                "request_id": request_id,
-                "kind": "SKILL",
-                "fields": {"skill_name": "Python"},
-                "content": [],
-            },
+        target = created["resume"]["resume_id"]
+        assert client.post(f"/api/v1/resumes/{target}/remove", json=remove).status_code == 200
+        rename = client.post(
+            f"/api/v1/resumes/{target}/rename",
+            json={"request_id": str(uuid4()), "revision": 2, "resume_name": "X"},
         )
-        assert created.status_code == 200
-        response = client.post(
-            f"/api/v1/evidence-items/{uuid4()}/save",
-            json={"request_id": request_id, "revision": 1, "fields": {}, "content": []},
-        )
-        assert response.status_code == 404
+        assert rename.status_code == 409 and rename.json()["code"] == "INVALID_STATE"

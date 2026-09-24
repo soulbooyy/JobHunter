@@ -49,7 +49,8 @@ def runs(values: list[Json]) -> str:
 
 def document(source: MaterialSource) -> tuple[str, str]:
     data = source.model_dump(mode="json")
-    resume, profile = data["resume_version"], data["profile_version"]
+    resume = data["resume_version"]
+    profile = resume["contacts"]
     parts: list[str] = []
     if profile["full_name"] is not None:
         parts.append("<h1>" + escape(profile["full_name"]) + "</h1>")
@@ -58,11 +59,10 @@ def document(source: MaterialSource) -> tuple[str, str]:
         parts.append("<p>" + escape(" | ".join(contacts)) + "</p>")
     for item in resume["header_presentation"]["optional_items"]:
         parts.append("<p>" + LABELS[item["kind"]] + ": " + escape(item["value"]) + "</p>")
-    sources = {item["evidence_item_version_id"]: item for item in data["evidence_sources"]}
     for section in resume["sections"]:
         parts.append("<h2>" + LABELS[section["kind"]] + "</h2>")
         for member in section["members"]:
-            fields = sources[member["evidence_item_version_id"]]["fields"]
+            fields = member["fields"]
             values: list[str] = []
             for key, value in fields.items():
                 if value is not None and key not in ("start_month", "end_month"):

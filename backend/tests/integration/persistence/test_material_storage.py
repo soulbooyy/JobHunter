@@ -1,4 +1,4 @@
-"""Materials schema is a forward-only consumer of retained candidate authority."""
+"""Materials schema is a forward-only consumer of independent Resume authority."""
 
 from pathlib import Path
 
@@ -7,7 +7,7 @@ from jobhunter.infrastructure.persistence.sqlalchemy.uow.store import Store
 
 def test_fresh_material_storage_creates_no_speculative_demand(tmp_path: Path) -> None:
     with Store.open(tmp_path) as store:
-        assert store.recognize() == 5
+        assert store.recognize() == 7
         with store.engine.connect() as conn:
             for table in (
                 "render_intents",
@@ -53,7 +53,7 @@ with Store.open(Path(sys.argv[1])) as store:
     while True:
         try:
             with Store.open(tmp_path) as store:
-                assert store.recognize() == 5
+                assert store.recognize() == 7
             break
         except Failure as exc:
             assert exc.code == "DATA_DIRECTORY_IN_USE" and time.monotonic() < deadline
@@ -85,20 +85,19 @@ def historical_three(directory: Path) -> None:
         engine.dispose()
 
 
-def test_explicit_schema_three_migration_preserves_authority(tmp_path: Path) -> None:
+def test_explicit_schema_three_migration_resets_retired_candidate_authority(tmp_path: Path) -> None:
     import pytest
-    from jobhunter.application.candidate.authority import CandidateAuthority
     from jobhunter.domain.shared.errors import Failure
 
     historical_three(tmp_path)
-    with Store.open(tmp_path, migration=True) as store:
-        original = CandidateAuthority(store).pair("profile")
     with pytest.raises(Failure, match="SCHEMA_UNSUPPORTED"):
         Store.open(tmp_path)
     with Store.open(tmp_path, migration=True) as store:
         assert store.migrate() == "MIGRATED"
-        assert CandidateAuthority(store).pair("profile") == original
-        assert store.recognize() == 5
+        assert store.recognize() == 7
+        with store.engine.connect() as conn:
+            assert conn.exec_driver_sql("SELECT count(*) FROM resumes").scalar_one() == 0
+            assert conn.exec_driver_sql("SELECT count(*) FROM render_work").scalar_one() == 0
         assert store.migrate() == "UNCHANGED"
 
 

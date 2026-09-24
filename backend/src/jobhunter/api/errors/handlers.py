@@ -48,10 +48,9 @@ def install_error_handlers(app: FastAPI) -> None:
             )
         if request.url.path.startswith(
             (
-                "/api/v1/profile",
-                "/api/v1/evidence-",
                 "/api/v1/resumes",
                 "/api/v1/workspace/default-resume",
+                "/api/v1/workspace/portrait",
             )
         ):
             return JSONResponse(error_field(dict(exc.errors()[0])).body(), status_code=422)
@@ -108,7 +107,6 @@ STATUS = {
         for code in (
             "INVALID_STATE",
             "SOURCE_CONFLICT",
-            "LAST_RESUME_REQUIRED",
             "CAPACITY_EXCEEDED",
         )
     },

@@ -1,4 +1,4 @@
-"""Derived schema refinements for kind-selected fields and raw admission limits."""
+"""Derived schema refinements for independent Resume admission limits."""
 
 from typing import Any
 
@@ -18,27 +18,34 @@ def refine_candidate_schema(app: FastAPI) -> None:
             name = model.__name__ + "Input"
             schemas[name] = model.model_json_schema(mode="validation")
             refs[kind] = {"$ref": "#/components/schemas/" + name}
-        schemas["EvidenceCreate"]["allOf"] = [
+        section_schema = schemas.get("Section-Input", schemas.get("Section"))
+        if section_schema is None:
+            return result
+        resume_entry_name = "ResumeEntry-Input" if "ResumeEntry-Input" in schemas else "ResumeEntry"
+        section_schema["allOf"] = [
             {
                 "if": {"properties": {"kind": {"const": kind}}},
-                "then": {"properties": {"fields": ref}},
+                "then": {
+                    "properties": {
+                        "members": {
+                            "items": {
+                                "allOf": [
+                                    {"$ref": "#/components/schemas/" + resume_entry_name},
+                                    {"properties": {"fields": ref}},
+                                ]
+                            }
+                        }
+                    }
+                },
             }
             for kind, ref in refs.items()
         ]
-        schemas["EvidenceUpdate"]["properties"]["fields"] = {
-            "oneOf": list(refs.values()),
-            "description": (
-                "Selected by the target Item permanent kind (SAV-003). An absent"
-                " target precedes this schema admission and receipt lookup."
-            ),
-        }
         for path, operations in result["paths"].items():
             if not path.startswith(
                 (
-                    "/api/v1/profile",
-                    "/api/v1/evidence-",
                     "/api/v1/resumes",
                     "/api/v1/workspace/default-resume",
+                    "/api/v1/workspace/portrait",
                 )
             ):
                 continue
@@ -55,21 +62,18 @@ def refine_candidate_schema(app: FastAPI) -> None:
                         8_388_608
                         if path == "/api/v1/resumes"
                         or (path.startswith("/api/v1/resumes/") and path.endswith("/save"))
-                        else 1_048_576
-                        if path == "/api/v1/evidence-items"
-                        or (path.startswith("/api/v1/evidence-items/") and path.endswith("/save"))
                         else 65_536
                     )
                     operation["x-max-body-bytes"] = maximum
                     operation["x-max-json-nodes"] = 100000
                     operation["x-max-json-container-depth"] = 32
                     operation["description"] = (
-                        "SAV-001–016: complete closed body, exact JSON numbers, UTF-8 "
+                        "SAV-018–025: complete closed body, exact JSON numbers, UTF-8 "
                         "application/json, identity encoding, no query or duplicate object "
-                        "keys. Shared request_id namespace for these nine commands. Receipt"
+                        "keys. Shared request_id namespace for these six commands. Receipt"
                         " replay returns the original completion snapshot; read current "
                         "separately. Limits apply before canonicalization. No "
-                        "network/model/rendering invocation."
+                        "network/model/rendering invocation occurs inside the command transaction."
                     )
         return result
 

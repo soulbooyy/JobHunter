@@ -116,9 +116,6 @@ class CandidateRoute(APIRoute):
                     8_388_608
                     if path == "/api/v1/resumes"
                     or (path.startswith("/api/v1/resumes/") and path.endswith("/save"))
-                    else 1_048_576
-                    if path == "/api/v1/evidence-items"
-                    or (path.startswith("/api/v1/evidence-items/") and path.endswith("/save"))
                     else 65_536
                 )
                 raw = bytearray()

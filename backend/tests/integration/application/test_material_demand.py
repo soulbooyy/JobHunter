@@ -9,7 +9,7 @@ from jobhunter.application.materials.service import Materials
 from jobhunter.domain.derived_work.models import RenderRequest
 from jobhunter.domain.materials.models import RenderConfiguration
 from jobhunter.domain.shared.errors import Failure
-from jobhunter.infrastructure.persistence.sqlalchemy.repositories.materials import (
+from jobhunter.infrastructure.persistence.sqlalchemy.repositories.materials_v2 import (
     MaterialsRepository,
 )
 from jobhunter.infrastructure.persistence.sqlalchemy.uow.store import Store, no_fault
@@ -36,9 +36,7 @@ def source(store: Store) -> str:
         {
             "request_id": str(uuid4()),
             "resume_name": "Local",
-            "profile_version_id": candidate.pair("profile")["profile_version"][
-                "profile_version_id"
-            ],
+            "contacts": {"full_name": "Local", "phone_number": None, "email": None},
             "header_presentation": {"optional_items": []},
             "sections": [],
             "document_presentation": {
@@ -344,8 +342,8 @@ def test_removed_source_finishes_and_expired_prepublication_cannot_publish(tmp_p
         version = source(store)
         replacement = source(store)
         authority = CandidateAuthority(store)
-        removed_id = authority.version("resume", version)["resume_id"]
-        replacement_id = authority.version("resume", replacement)["resume_id"]
+        removed_id = authority.version(version)["resume_id"]
+        replacement_id = authority.version(replacement)["resume_id"]
         service = Materials(store, capability=lambda _: True)
         command = RenderRequest(
             request_id=str(uuid4()),

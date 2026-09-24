@@ -7,7 +7,7 @@ from uuid import uuid4
 
 from fastapi.testclient import TestClient
 from jobhunter.bootstrap.container import create_app
-from jobhunter.infrastructure.persistence.sqlalchemy.repositories.candidate import Json
+from jobhunter.infrastructure.persistence.sqlalchemy.repositories.candidate_v2 import Json
 from jobhunter.infrastructure.persistence.sqlalchemy.uow.store import Store
 
 
@@ -17,13 +17,16 @@ def test_render_demand_to_download_and_restart_replay(tmp_path: Path) -> None:
         with TestClient(create_app(store)) as client:
             configurations = client.get("/api/v1/render-configurations").json()["items"]
             assert len(configurations) == 2
-            profile = client.get("/api/v1/profile").json()["profile_version"]
             saved = client.post(
                 "/api/v1/resumes",
                 json={
                     "request_id": str(uuid4()),
                     "resume_name": "Empty permitted",
-                    "profile_version_id": profile["profile_version_id"],
+                    "contacts": {
+                        "full_name": "Empty permitted",
+                        "phone_number": None,
+                        "email": None,
+                    },
                     "header_presentation": {"optional_items": []},
                     "sections": [],
                     "document_presentation": {
