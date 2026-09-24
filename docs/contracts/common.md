@@ -240,3 +240,17 @@ Decision sources: CG05-Q3, CG05-Q4, CG05-Q12, CG05-Q21, CG05-Q43, CG05-Q46, CG05
 **COM-048.** **Runtime requirement and error scope.** `EXR` identifies Execution Runtime requirements and `EVO` identifies scoped evaluation/evidence requirements. Internal operation errors, persisted Runtime failure_code and consumer business outcomes MUST remain distinct. EXR-032's caller errors do not automatically fail a Run. M1 provides no new public HTTP envelope/status mapping, universal business error registry or generic recovery-denial code. Reuse existing Common HTTP rules only when a later actual HTTP consumer is defined.
 
 Decision sources: CG05-Q1, CG05-Q53, CG05-Q98, CG05-Q105, CG05-Q111, CG05-Q120.
+
+
+## SL-03.M2 protected semantic scope
+
+> Normative scope revision: **2026-09-24.S3M2-r1**. English is authoritative. This defines required behavior, not implemented or executed acceptance. Earlier scoped consumers remain unchanged.
+
+[Decision register](../design/contract/sl-03-m2-grill.md) · [Contract index](index.md)
+
+
+
+<a id="com-049"></a>
+**COM-049.** **M2 internal expression.** SL-03.M2 MUST reuse COM-017 UTC milliseconds, COM-025 Unicode scalar strings without implicit normalization, COM-027 UUIDv4, COM-032 Sha256Hex and COM-047 exact keys/closed logical shapes. Budget's signed-64-bit nonnegative integer range does not enlarge M1 execution_generation. Byte limits are positive finite exact integers. Owner-defined optional values use explicit null only where declared; no coercion of Boolean/string/fraction into integer, silent trimming, duplicate-key acceptance, default repair or unknown properties. Internal error outcomes remain distinct from persisted failure_code and business outcomes under COM-048; no public HTTP envelope is introduced. New requirement prefixes are CTX (Context), TOL (Tools) and BUD (Budget). COM-045 is reused for semantic-start fingerprints and the typed Context encodings; it MUST NOT replace the separate fixed-order DeepSeek terminal JSON format. Each owner defines finite technical parsing/size bounds in its controlled configuration; this does not create a universal business-input schema.
+
+Decision sources: [CG06-Q11](../design/contract/sl-03-m2-grill.md#cg06-q11), [CG06-Q21](../design/contract/sl-03-m2-grill.md#cg06-q21), [CG06-Q31](../design/contract/sl-03-m2-grill.md#cg06-q31), [CG06-Q39](../design/contract/sl-03-m2-grill.md#cg06-q39), [CG06-Q41](../design/contract/sl-03-m2-grill.md#cg06-q41), [CG06-Q42](../design/contract/sl-03-m2-grill.md#cg06-q42), [CG06-Q43](../design/contract/sl-03-m2-grill.md#cg06-q43), [CG06-Q116](../design/contract/sl-03-m2-grill.md#cg06-q116), [CG06-Q129](../design/contract/sl-03-m2-grill.md#cg06-q129), [CG06-Q137](../design/contract/sl-03-m2-grill.md#cg06-q137), [CG06-Q138](../design/contract/sl-03-m2-grill.md#cg06-q138), [CG06-Q139](../design/contract/sl-03-m2-grill.md#cg06-q139), [CG06-Q162](../design/contract/sl-03-m2-grill.md#cg06-q162), [CG06-Q172](../design/contract/sl-03-m2-grill.md#cg06-q172), [CG06-Q182](../design/contract/sl-03-m2-grill.md#cg06-q182).

@@ -6,6 +6,8 @@ For SL-03.M1 backend work, use the [Invocation durability/recovery handoff](deve
 
 For SL-02.M2 backend work, use the [demanded preview/export handoff](development/handoff/sl-02-m2-handoff.md), its current normative scope and the [review/evidence ledger](progress/traceability.md#64-sl-02m2-reviewed-scope-and-interface-evidence). Published Contracts do not establish renderer, migration or UI delivery.
 
+For SL-03.M2, use the [protected-invocation handoff](development/handoff/sl-03-m2-handoff.md) and [CG06 scope review](progress/traceability.md#66-sl-03m2-reviewed-scope-and-interface-evidence). The consumed Contracts and concrete exercise agreement are Ready; executable configuration/SDK adoption, implementation and acceptance remain outstanding.
+
 ## Start here
 
 For a new task, read this index, the relevant directory README, the current owning documents and the latest applicable handoff. For baseline review and subsequent milestone work, use the [W7 joint-review handoff](../.scratch/w7-joint-review-handoff.md), its preceding [W6 handoff](../.scratch/w6-implementation-plan-handoff.md), and the [English authoring guide](../.scratch/document-authoring-spec.en.md). Handoffs describe their own snapshots; current paths and documents below control navigation. A targeted task need not read every Slice plan; joint baseline review must include all twelve.

@@ -65,6 +65,14 @@ Later platform integration verification must use actual selected versions and de
 
 **Sources:** Q173–Q187, S35.1; Architecture 15; Eval sections 4–6, 18–31 and research Appendix A.
 
+### 2.5 SL-03.M2 infrastructure proof
+
+Apply [EVO-008–021](../contracts/evaluation/evaluation-observability.md#evo-008) and [Acceptance 9.4](../acceptance.md#94-sl-03m2-protected-invocation-conformance). Authorized fixture task/source data may enter the Agent; reference answers, evaluator rubrics and future Scenario events may not. Replay uses a controlled replay transport with no live fallback; live uses only that Trial's explicit allowed configuration, without inheriting production secrets/connections.
+
+Retain exact references to canonical evidence when availability is assured; copy only independently required evidence, including actual mutable post-state needed for re-evaluation. Every actual evaluator execution has independent identity and result/error/resource evidence. Prove it cannot debit the tested Agent's foreground Budget. No mandatory generic semantic Judge is added to M2 completion. EVO-022–026 distinguish exercise semantic failure from infrastructure invariant violation, preserve failure ownership and require proof of the nonrenewing consumer recovery window without loss of completed facts. Re-evaluation creates a new attempt against retained evidence without Agent reexecution or rewriting prior conclusions.
+
+Selected LangGraph/Langfuse integration must demonstrate pre-SDK export admission, countable Harness/callback separation, truthful CNY/unknown costs, correlated late accounting and bounded best-effort shutdown/failure behavior. Source research, a configured mask or a passing local mock alone is not executed export proof.
+
 ## 3. Semantic quality, reliability, and efficiency evidence
 
 ### 3.1 Capability-specific review

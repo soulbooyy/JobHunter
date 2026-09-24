@@ -360,6 +360,10 @@ Primary, parse, Fit, Advisor, validation repair, semantic compaction, size rescu
 
 **Sources:** Q47, Q120–Q122, Q126–Q127, Q132, Q135, Q138–Q140, Q155, Q176, S7.1, S17.4, S22.1.
 
+The scoped [SL-03.M2 Runtime](contracts/agent/execution-runtime.md#exr-035) uses a stable idempotent semantic-start identity and freezes only exact nonsecret execution bindings at Run level. Historical start confirmation precedes fresh admission and returns the original run_id. The first production integration is ModelInvocationRuntime → ModelGateway → DeepSeekAdapter → official DeepSeek Chat Completions; the adapter isolates third-party protocol details without a multi-Provider registry or arbitrary endpoint. Semantic mapping finishes before Frame freeze. The controlled transport cannot hide retry, fallback, route changes or TLS bypass; HTTPX is the first implementation choice, not a permanent architecture constraint.
+
+M2's current semantic consumer admits at most one active MODEL/TOOL Invocation, without imposing a permanent concurrency field on all Runs. Static Skill definitions declare semantic bounds; Budget owns resource accounting. The first proof consumer is an Eval conformance Skill over the real path, not a product capability or alternate Agent. Future business validators/repair and progressively disclosed Skill guidance remain with their actual consumers.
+
 ### 9.2 Tool capability is not permission
 
 Effective action access is the intersection of registration, Skill action allowlist, Context/acquisition restrictions, and current runtime permission. Before execution validate arguments, referenced objects, resource scope, Run authority, and any required approval. Readmit returned content for privacy and task scope before a Frame. Stored data, generated paths/IDs, JD/web content, quoted instructions, Tool output, and checkpoints cannot expand permissions.
@@ -369,6 +373,8 @@ Expose typed business read/list/search/write operations through Application boun
 The specifically accepted action `job.requirements.read` returns an existing compatible Set or missing-dependency information; Application owns EnsureRequirementSet. ResumeAdvisor itself performs optimization; no duplicate `suggest_improvement` Tool is added. Other illustrative names are not a finalized catalog. Tool replay safety depends on the actual action contract, never a convenient name or framework default.
 
 **Sources:** Q120–Q122, Q126, Q128, Q138–Q144; [Tool Actions](design/harness/tool.md), sections 1–7 and 9–10.
+
+The [M2 Tool scope](contracts/agent/tools.md) uses a finite static registry of typed owned actions. Provider schema is a controlled projection; Runtime admission enforces the full action protocol. One selected model request maps to one independently admitted TOOL Invocation; Skill owns list scheduling. Action completion survives later result-representation/admission failure. Reexecution defaults to forbidden unless an explicit action agreement permits it.
 
 ## 10. Context Engineering
 
@@ -383,6 +389,8 @@ ContextPackage is the immutable initial scope/policy/input/capability manifest. 
 First lazy resolution pins exact versions. A same-task authorized write may add actual committed versions after admission, without guessing IDs, changing independent frozen tasks, or adopting unrelated edits. In the Proposal flow the generating Run has already ended; follow-up narration uses new execution.
 
 **Sources:** Q19, Q72, Q80, Q83, Q94, Q134, Q138–Q139, Q143, Q146, Q158; [Context](design/harness/context.md), sections 1–3.
+
+The [M2 headless Context scope](contracts/agent/context.md) freezes Provider-effective semantic content, not SDK objects or network request bytes. Provenance is immutable and attached to that Frame; it cannot replace actual content or become another independently current manifest. Deterministic local candidate preparation is discardable until the owned publication boundary. One estimator evaluation supplies Context capacity and Budget reservation inputs, while their policies remain separate. Historical Frame/Package audit/recovery reading remains lawful under its own access rules; permission to reuse content in a new model input is checked independently. M2 supplies no interactive compaction or Memory implementation.
 
 ### 10.2 Protected inputs and ordered reduction
 
@@ -412,13 +420,17 @@ One shared Budget Runtime serves distinct owners. Application foreground operati
 
 Before each charged or limited invocation, require valid execution scope and Provider/runtime capacity, then atomically check the owner's remaining envelope, Run totals, and applicable local allowance and reserve before durable dispatch. Conceptually, available budget excludes both settled usage and outstanding reservations. Concurrent calls cannot spend the same balance or allowance. Do not hold a transaction while waiting for a network response.
 
-Actual usage settles the invocation idempotently and releases excess reservation. Record overruns honestly; their handling is a later policy. Dispatched unknown outcomes retain conservative exposure and are not zero cost. Restart and explicit Retry do not create an unused budget or erase old reservations. Safe local reconciliation must not reserve or settle twice. Releasing a concurrency slot does not release uncertain spend.
+Actual usage settles the invocation idempotently and releases excess reservation. Record overruns honestly; the M2 foreground policy preserves exact admitted usage and prevents subsequent overspending without clipping usage or silently increasing allocation. Other owners retain their own future policies. Dispatched unknown outcomes retain conservative exposure and are not zero cost. Restart and explicit Retry do not create an unused budget or erase old reservations. Safe local reconciliation must not reserve or settle twice. Releasing a concurrency slot does not release uncertain spend.
 
 RequirementParse and Full Context Fits have one primary invocation and at most one validation-guided repair. Semantic compaction and reactive rescue each have their own once-per-Run ceiling. These are ceilings within Run totals, not extra credit. All real calls are counted even when validation fails; deterministic reductions have no model invocation but remain bounded work.
 
-Money/token budget, actual Context capacity, Provider headroom, runtime concurrency, and recruiting-platform safety are distinct resources. Background work yields to foreground headroom even if its monetary budget is sufficient. Insufficient budget prevents new dispatch, preserves independently completed results, and produces no Fit negative. Unknown-usage reconciliation, amounts, allocation, prices, estimation, overrun, and scheduler thresholds remain pending.
+Money/token budget, actual Context capacity, Provider headroom, runtime concurrency, and recruiting-platform safety are distinct resources. Background work yields to foreground headroom even if its monetary budget is sufficient. Insufficient budget prevents new dispatch, preserves independently completed results, and produces no Fit negative. The [M2 Budget Contract](contracts/foundation/budget.md) closes foreground allocation, reservation, trustworthy absolute usage, per-dimension unknown exposure, overrun and checked arithmetic. Other owner envelopes, billing collection and scheduler thresholds remain future work.
 
 **Sources:** Q35, Q110–Q112, Q121–Q124, Q130, Q132, Q135, Q140, Q142, Q144, Q155, Q158–Q160, Q169–Q172, Q176; [Budget](design/harness/budget.md), sections 1–12.
+
+M2 identifies the foreground owner by Application-held operation_id; this is neither a business aggregate nor a universal Operation lifecycle. It may share one envelope across Runs. Operation limits are optional MODEL calls, total tokens and CNY money, with at least one enabled; semantic Runs require finite call/token/deadline ceilings and acquire no second monetary wallet. There is no speculative Operation Tool-count ledger. Monetary accounting uses immutable applicable price bases, exact decimals and conservative ledger quantization separately from raw usage. Unknown cost is not zero or estimated final settlement; accounting overflow preserves evidence and blocks affected unsafe admission. Real capacity acquisition must be atomic, not a capacity-available precheck.
+
+Scoped source: [CG06 decisions](design/contract/sl-03-m2-grill.md#cg06-pub), [BUD-001–025](contracts/foundation/budget.md).
 
 ## 12. Durable execution and recovery
 
@@ -445,6 +457,8 @@ Consumer-established deadlines do not universally start at Run creation. Expiry 
 Scoped source: [CG05 closure](design/contract/sl-03-m1-grill.md#cg05-pub), especially Q28/Q58/Q71/Q83/Q89/Q126/Q127.
 
 **Sources:** Q40, Q116, Q122, Q124–Q125, Q135, Q140–Q142; [Recovery](design/harness/recovery.md), sections 1–4 and 9.
+
+M2 adds atomic semantic Frame/reservation/descriptor/intent publication and confirmation of the entire committed association. Confirmation issues no transferable dispatch right. Provider protocol completion is independent of useful semantic output; the current DeepSeek streaming terminal format is adapter-specific. Usage and optional Provider observations remain outside immutable response equality and may reconcile independently after execution. Model identifiers/system_fingerprint do not prove immutable weights. Initial semantic-start rejection creates no durable rejected-task lifecycle. The conformance-only agreement in EVO-022–026/EXR-057 keeps consumer validation distinct from Runtime faults while coordinating terminal failure under existing CAS. Its frozen local-recovery grace belongs to the consumer binding; expiry prevents new recovery grants without deleting evidence or rewriting completed facts. A model behavioral failure in this exercise is not by itself an infrastructure Contract violation.
 
 ### 12.2 Ownership, cancellation, and reconciliation
 
@@ -496,6 +510,8 @@ Physical layouts, encryption/key choices, retention durations, cleanup coordinat
 
 CG04's M2 extension adds forward migration from the implementation-time head, preserving existing authority and receipt histories without backfilling material demand. A concrete next schema number belongs to implementation evidence, not Materials semantics. Immutable configuration registration is separate from schema migration and current executability: missing rendering dependencies can yield false capability while the application remains usable; conflicting/corrupt historically referenced records cannot be repaired from a catalog. Persisted technical state and managed regular-file payloads obey [STO-029–039](contracts/foundation/storage.md#sto-029), including non-overwriting durable publication, verified content snapshots, retained published history and cleanup only after reference/commit/writer uncertainty is resolved.
 
+The [M2 Storage extension](contracts/foundation/storage.md#sto-046) preserves M1 and earlier consumers while adding atomic semantic bindings/Packages, per-Invocation Frames/provenance, Tool request associations and Budget evidence. Retain exact recoverable evidence, including ended histories; M2 adds no purge or TTL. Eval references canonical immutable evidence when retained availability is assured and copies only what it must independently retain. Schema version and physical layout are implementation choices starting from the actual migration head.
+
 ## 14. Collaboration Memory
 
 ### 14.1 Ownership, admission, and controls
@@ -535,6 +551,8 @@ Evaluate outcome, trajectory, Tool behavior, Context, grounding, authorization/s
 Independent LLM judges assess existing outputs under separate Eval invocation, budget/cost, model, prompt/rubric, and observability configuration. Their results do not mutate Domain, direct the business decision, or change the original Run outcome. Judge failure/cost remains separate from task failure/cost. Langfuse-managed judges are not assumed to inherit business Runtime atomic reservation, fencing, or recovery guarantees. Semantic support needs appropriate human calibration; resolvable references alone do not prove entailment.
 
 **Sources:** Q117, Q173–Q176, S35.1; [Agent Evaluation](design/eval/agent-evaluation.md), sections 1–7, 16–17, and 26–28.
+
+The [M2 Eval scope](contracts/evaluation/evaluation-observability.md#evo-008) delivers isolation/evidence infrastructure and independent evaluator identities/resources, without requiring a Generic Quality Judge. A real consumer first defines its rubric and semantic success. Its LLM evaluator is bounded/read-only with admitted evidence and no Tools, Memory, retrieval or business writes. Re-evaluation uses retained actual Trial evidence with a new evaluator attempt; it never reruns the Agent to manufacture an old result.
 
 ### 15.2 Isolated exact trials and input separation
 
@@ -585,6 +603,8 @@ Local canonical state determines business commit, invocation completion, settlem
 Default exports favor admitted minimal references, hashes, versions, usage, source categories, and outcomes. Self-hosting does not authorize full sensitive payload copies, secrets, or a second Knowledge database. Evaluator raw-evidence access is separately admitted. Verify actual selected platform/SDK versions, workers, callback behavior, masking, judge connections, and deployment later; research appendix statements are not claims of deployed capability.
 
 **Sources:** Q125, Q174, Q176, Q178, Q184, S35.1; [Agent Evaluation](design/eval/agent-evaluation.md), sections 22–28 and Appendix A.
+
+M2 export is optional bounded best-effort, not a durable outbox or exactly-once system. An allowlist applies before SDK callbacks/media/logging can process raw payloads. Explicit Harness observations own countable Invocation and usage/cost facts; LangGraph callbacks describe correlated workflow mechanics without a second generation or debit. Exact CNY values cannot be sent as Langfuse native USD/float cost. Late accounting may use a correlated non-generation event after execution ends, preserving prior Trial and timing facts. Selected SDK versions, export samples and bounded failure/shutdown behavior require implementation proof; source inspection alone is insufficient.
 
 ## 16. Contract document structure and responsibility plan
 
