@@ -17,25 +17,8 @@ export const router = createBrowserRouter([
         }),
       },
       {
-        path: '/candidate-knowledge/profile',
-        lazy: async () => ({
-          Component: (await import('@/pages/candidate-knowledge/profile-page'))
-            .ProfilePage,
-        }),
-      },
-      {
-        path: '/candidate-knowledge/evidence/new/:kind',
-        lazy: async () => ({
-          Component: (await import('@/pages/candidate-knowledge/evidence-page'))
-            .EvidencePage,
-        }),
-      },
-      {
-        path: '/candidate-knowledge/evidence/:id/edit',
-        lazy: async () => ({
-          Component: (await import('@/pages/candidate-knowledge/evidence-page'))
-            .EvidencePage,
-        }),
+        path: '/candidate-knowledge/*',
+        element: <Navigate to="/candidate-knowledge" replace />,
       },
       {
         path: '/resumes',

@@ -8,18 +8,18 @@ export function ResumeEditorPage() {
     navigate = useNavigate();
   const query = useQuery({
     queryKey: ['candidate', 'editor', id ?? 'new'],
-    queryFn: async () => ({
-      profile: await candidateApi.profile(),
-      initial: id ? await candidateApi.resume(id) : undefined,
-    }),
+    queryFn: () => candidateApi.resume(id!),
+    enabled: !!id,
     gcTime: 0,
   });
+  if (!id)
+    return <ResumeEditor key="new" onClose={() => navigate('/resumes')} />;
   return (
     <ReadView query={query} label="简历编辑内容">
-      {(data) => (
+      {(initial) => (
         <ResumeEditor
           key={id ?? 'new'}
-          {...data}
+          initial={initial ?? undefined}
           onClose={() => navigate('/resumes')}
         />
       )}

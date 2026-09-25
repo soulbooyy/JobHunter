@@ -2,17 +2,7 @@ import { z } from 'zod';
 import { api as client } from '@/shared/api/client';
 import { apiResult } from '@/shared/api/result';
 import type { components } from '@/shared/api/schema';
-import {
-  profilePair,
-  profileVersion,
-  profileResult,
-} from '@/entities/profile/model';
-import {
-  evidencePair,
-  evidenceList,
-  evidenceExact,
-  evidenceResult,
-} from '@/entities/evidence/model';
+import { portraitRead, portraitRefreshResult } from '@/entities/profile/model';
 import {
   resumePair,
   resumeList,
@@ -21,6 +11,7 @@ import {
   resumeSelectionResult,
   selectionResult,
 } from '@/entities/resume/model';
+
 const options = () => ({ signal: AbortSignal.timeout(15000) });
 type S = components['schemas'];
 function result<T>(
@@ -32,85 +23,15 @@ function result<T>(
   return apiResult(
     operation,
     schema.refine(
-      (v) =>
-        !requestId || (v as { request_id?: string }).request_id === requestId,
+      (value) =>
+        !requestId ||
+        (value as { request_id?: string }).request_id === requestId,
     ),
     write,
     'candidate',
   );
 }
 export const candidateApi = {
-  profile: () =>
-    result(() => client.GET('/api/v1/profile', options()), profilePair),
-  profileVersion: (id: string) =>
-    result(
-      () =>
-        client.GET('/api/v1/profile/versions/{profile_version_id}', {
-          ...options(),
-          params: { path: { profile_version_id: id } },
-        }),
-      profileVersion.refine((v) => v.profile_version_id === id),
-    ),
-  saveProfile: (body: S['ProfileSave']) =>
-    result(
-      () => client.POST('/api/v1/profile/save', { ...options(), body }),
-      profileResult,
-      true,
-      body.request_id,
-    ),
-  evidence: () =>
-    result(() => client.GET('/api/v1/evidence-items', options()), evidenceList),
-  evidenceItem: (id: string) =>
-    result(
-      () =>
-        client.GET('/api/v1/evidence-items/{evidence_item_id}', {
-          ...options(),
-          params: { path: { evidence_item_id: id } },
-        }),
-      evidencePair.refine((v) => v.evidence_item.evidence_item_id === id),
-    ),
-  evidenceVersion: (id: string) =>
-    result(
-      () =>
-        client.GET(
-          '/api/v1/evidence-items/versions/{evidence_item_version_id}',
-          { ...options(), params: { path: { evidence_item_version_id: id } } },
-        ),
-      evidenceExact.refine(
-        (v) => v.evidence_item_version.evidence_item_version_id === id,
-      ),
-    ),
-  createEvidence: (body: S['EvidenceCreate']) =>
-    result(
-      () => client.POST('/api/v1/evidence-items', { ...options(), body }),
-      evidenceResult,
-      true,
-      body.request_id,
-    ),
-  saveEvidence: (id: string, body: S['EvidenceUpdate']) =>
-    result(
-      () =>
-        client.POST('/api/v1/evidence-items/{evidence_item_id}/save', {
-          ...options(),
-          params: { path: { evidence_item_id: id } },
-          body,
-        }),
-      evidenceResult.refine((v) => v.evidence_item.evidence_item_id === id),
-      true,
-      body.request_id,
-    ),
-  retireEvidence: (id: string, body: S['EvidenceRetire']) =>
-    result(
-      () =>
-        client.POST('/api/v1/evidence-items/{evidence_item_id}/retire', {
-          ...options(),
-          params: { path: { evidence_item_id: id } },
-          body,
-        }),
-      evidenceResult.refine((v) => v.evidence_item.evidence_item_id === id),
-      true,
-      body.request_id,
-    ),
   resumes: () =>
     result(() => client.GET('/api/v1/resumes', options()), resumeList),
   resume: (id: string) =>
@@ -120,7 +41,7 @@ export const candidateApi = {
           ...options(),
           params: { path: { resume_id: id } },
         }),
-      resumePair.refine((v) => v.resume.resume_id === id),
+      resumePair.refine((value) => value.resume.resume_id === id),
     ),
   resumeVersion: (id: string) =>
     result(
@@ -129,7 +50,7 @@ export const candidateApi = {
           ...options(),
           params: { path: { resume_version_id: id } },
         }),
-      resumeVersion.refine((v) => v.resume_version_id === id),
+      resumeVersion.refine((value) => value.resume_version_id === id),
     ),
   createResume: (body: S['ResumeCreate']) =>
     result(
@@ -146,7 +67,7 @@ export const candidateApi = {
           params: { path: { resume_id: id } },
           body,
         }),
-      resumeResult.refine((v) => v.resume.resume_id === id),
+      resumeResult.refine((value) => value.resume.resume_id === id),
       true,
       body.request_id,
     ),
@@ -158,7 +79,7 @@ export const candidateApi = {
           params: { path: { resume_id: id } },
           body,
         }),
-      resumeResult.refine((v) => v.resume.resume_id === id),
+      resumeResult.refine((value) => value.resume.resume_id === id),
       true,
       body.request_id,
     ),
@@ -170,7 +91,7 @@ export const candidateApi = {
           params: { path: { resume_id: id } },
           body,
         }),
-      resumeSelectionResult.refine((v) => v.resume.resume_id === id),
+      resumeSelectionResult.refine((value) => value.resume.resume_id === id),
       true,
       body.request_id,
     ),
@@ -182,6 +103,22 @@ export const candidateApi = {
           body,
         }),
       selectionResult,
+      true,
+      body.request_id,
+    ),
+  portrait: () =>
+    result(
+      () => client.GET('/api/v1/workspace/portrait', options()),
+      portraitRead,
+    ),
+  refreshPortrait: (body: S['PortraitRefresh']) =>
+    result(
+      () =>
+        client.POST('/api/v1/workspace/portrait/refresh', {
+          ...options(),
+          body,
+        }),
+      portraitRefreshResult,
       true,
       body.request_id,
     ),

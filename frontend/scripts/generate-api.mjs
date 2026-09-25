@@ -23,18 +23,16 @@ const schema = JSON.parse(
     { cwd: root, encoding: 'utf8' },
   ),
 );
-// Select consumed Manual Applications, Preferences and saved Candidate authority paths.
+// Select consumed Manual Applications, Preferences, Resume and portrait paths.
 schema.paths = Object.fromEntries(
   Object.entries(schema.paths).filter(
     ([path]) =>
       path.startsWith('/api/v1/manual-application-entries') ||
       path.startsWith('/api/v1/preferences') ||
       [
-        '/api/v1/profile',
-        '/api/v1/evidence-items',
-        '/api/v1/evidence-baselines',
         '/api/v1/resumes',
         '/api/v1/workspace/default-resume',
+        '/api/v1/workspace/portrait',
       ].some((prefix) => path.startsWith(prefix)),
   ),
 );

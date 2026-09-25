@@ -21,8 +21,11 @@ import { Dialog } from '@/shared/ui/dialog';
 import { FormControl } from '@/shared/ui/form-control';
 import { httpUrlIssue } from '@/shared/lib/http-url';
 import type { LocalContent } from '@/entities/resume/model';
-import type { EvidenceContent } from '@/entities/evidence/model';
-import { toEditorDocument, fromEditorDocument } from './editor-document';
+import {
+  LogicalBlockIds,
+  toEditorDocument,
+  fromEditorDocument,
+} from './editor-document';
 const FlatListItem = ListItem.extend({
   content: 'paragraph',
   addKeyboardShortcuts() {
@@ -43,12 +46,12 @@ const SemanticEnter = Extension.create({
 export function BlockEditor({
   value,
   onChange,
-  rich = false,
+  rich = true,
   disabled = false,
   label = '内容',
 }: {
-  value: EvidenceContent | LocalContent;
-  onChange: (value: EvidenceContent | LocalContent) => void;
+  value: LocalContent;
+  onChange: (value: LocalContent) => void;
   rich?: boolean;
   disabled?: boolean;
   label?: string;
@@ -84,8 +87,9 @@ export function BlockEditor({
       }),
       FlatListItem,
       SemanticEnter,
+      LogicalBlockIds,
     ],
-    content: toEditorDocument(value, rich),
+    content: toEditorDocument(value),
     editable: !disabled,
     enableInputRules: false,
     enablePasteRules: false,
@@ -106,7 +110,7 @@ export function BlockEditor({
           .split('\n')
           .map((line) =>
             view.state.schema.nodes.paragraph!.create(
-              null,
+              { blockId: crypto.randomUUID() },
               line ? view.state.schema.text(line) : undefined,
             ),
           );
@@ -116,7 +120,7 @@ export function BlockEditor({
       },
     },
     onUpdate: ({ editor: current }) => {
-      onChange(fromEditorDocument(current.getJSON(), rich));
+      onChange(fromEditorDocument(current.getJSON()));
     },
   });
   const state = useEditorState({
@@ -138,10 +142,10 @@ export function BlockEditor({
   useEffect(() => {
     if (
       editor &&
-      JSON.stringify(fromEditorDocument(editor.getJSON(), rich)) !==
+      JSON.stringify(fromEditorDocument(editor.getJSON())) !==
         JSON.stringify(value)
     )
-      editor.commands.setContent(toEditorDocument(value, rich), {
+      editor.commands.setContent(toEditorDocument(value), {
         emitUpdate: false,
       });
   }, [editor, value, rich]);

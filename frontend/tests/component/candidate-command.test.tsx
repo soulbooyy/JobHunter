@@ -1,7 +1,13 @@
 import { act, renderHook } from '@testing-library/react';
+import type { ReactNode } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { useCandidateCommand } from '@/features/candidate/use-command';
 import { ApiFailure } from '@/shared/api/result';
+import { ToastProvider } from '@/shared/ui/toast';
+
+const wrapper = ({ children }: { children: ReactNode }) => (
+  <ToastProvider>{children}</ToastProvider>
+);
 
 describe('Candidate command recovery', () => {
   it('keeps the original request after unknown and later rejection, without automatic retry', async () => {
@@ -11,7 +17,13 @@ describe('Candidate command recovery', () => {
       .mockRejectedValueOnce(new ApiFailure('rejected', 'REVISION_CONFLICT'))
       .mockResolvedValue({ id: 'receipt' });
     const after = vi.fn().mockResolvedValue(undefined);
-    const { result } = renderHook(() => useCandidateCommand(send, after));
+    const { result } = renderHook(
+      () =>
+        useCandidateCommand(send, after, {
+          message: '操作成功',
+        }),
+      { wrapper },
+    );
     const body = {
       request_id: 'original',
       revision: 3,
@@ -50,7 +62,13 @@ describe('Candidate command recovery', () => {
       .fn()
       .mockRejectedValueOnce(new Error('read unavailable'))
       .mockResolvedValue(undefined);
-    const { result } = renderHook(() => useCandidateCommand(send, after));
+    const { result } = renderHook(
+      () =>
+        useCandidateCommand(send, after, {
+          message: '操作成功',
+        }),
+      { wrapper },
+    );
     await act(async () => {
       await result.current.execute({ request_id: 'one' });
     });

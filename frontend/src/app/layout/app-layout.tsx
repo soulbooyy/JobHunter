@@ -6,10 +6,14 @@ import {
   Library,
   FileText,
 } from 'lucide-react';
+import { useState } from 'react';
 import { NavLink, Outlet } from 'react-router';
 import { cn } from '@/shared/lib/cn';
+import { AppHeaderActionsTargetContext } from './app-header-actions-context';
 
 export function AppLayout() {
+  const [headerActionsTarget, setHeaderActionsTarget] =
+    useState<HTMLDivElement | null>(null);
   const navClass = ({ isActive }: { isActive: boolean }) =>
     cn(
       'flex h-9 items-center gap-2 rounded-md px-3 text-sm transition-colors hover:bg-hover',
@@ -34,7 +38,7 @@ export function AppLayout() {
         <nav className="space-y-1 p-2">
           <NavLink to="/candidate-knowledge" className={navClass}>
             <Library size={16} aria-hidden="true" />
-            求职资料库
+            用户画像
           </NavLink>
           <NavLink to="/resumes" className={navClass}>
             <FileText size={16} aria-hidden="true" />
@@ -64,16 +68,25 @@ export function AppLayout() {
       </aside>
       <div className="ml-48 lg:ml-60">
         <header className="flex h-12 items-center gap-2 border-b border-border px-6 text-xs text-text-muted">
-          <span>工作区</span>
-          <span aria-hidden="true">/</span>
-          <span className="text-foreground">JobHunter</span>
+          <div className="flex items-center gap-2">
+            <span>工作区</span>
+            <span aria-hidden="true">/</span>
+            <span className="text-foreground">JobHunter</span>
+          </div>
+          <div
+            ref={setHeaderActionsTarget}
+            aria-label="页面操作"
+            className="ml-auto flex items-center gap-2"
+          />
         </header>
         <main
           id="main-content"
           tabIndex={-1}
           className="mx-auto max-w-[1400px] px-6 py-6 lg:px-8"
         >
-          <Outlet />
+          <AppHeaderActionsTargetContext value={headerActionsTarget}>
+            <Outlet />
+          </AppHeaderActionsTargetContext>
         </main>
       </div>
     </div>

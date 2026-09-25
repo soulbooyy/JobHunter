@@ -1,5 +1,6 @@
 import { useId, type ReactNode } from 'react';
 import { Input, inputClass } from './input';
+import { cn } from '@/shared/lib/cn';
 export function FormControl({
   label,
   value,
@@ -11,6 +12,7 @@ export function FormControl({
   disabled = false,
   options,
   help,
+  compact = false,
 }: {
   label: string;
   value: string | null;
@@ -22,11 +24,15 @@ export function FormControl({
   disabled?: boolean;
   options?: Record<string, string>;
   help?: string;
+  compact?: boolean;
 }) {
   const id = useId();
   return (
-    <div className="space-y-2">
-      <label htmlFor={id} className="block text-sm font-medium">
+    <div className={compact ? 'space-y-1' : 'space-y-2'}>
+      <label
+        htmlFor={id}
+        className={cn('block font-medium', compact ? 'text-xs' : 'text-sm')}
+      >
         {label}
         {required && <span className="ml-1 text-destructive">*</span>}
       </label>
@@ -34,7 +40,7 @@ export function FormControl({
         {options ? (
           <select
             id={id}
-            className={inputClass + ' w-full min-w-0'}
+            className={cn(inputClass, 'w-full min-w-0', compact && 'h-9 px-2')}
             value={value ?? ''}
             onChange={(e) => onChange(e.target.value)}
             disabled={disabled}
@@ -50,7 +56,7 @@ export function FormControl({
           </select>
         ) : (
           <Input
-            className="w-full min-w-0"
+            className={cn('w-full min-w-0', compact && 'h-9 px-2')}
             id={id}
             type={type}
             value={value ?? ''}
@@ -85,12 +91,12 @@ export function FormSection({
   action?: ReactNode;
 }) {
   return (
-    <section className="space-y-4 border-b border-border-subtle py-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
+    <section className="mb-4 overflow-hidden rounded-md border border-border bg-surface shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border-subtle px-4 py-3">
         <h2 className="text-sm font-semibold">{title}</h2>
         {action}
       </div>
-      {children}
+      <div className="space-y-4 p-4">{children}</div>
     </section>
   );
 }

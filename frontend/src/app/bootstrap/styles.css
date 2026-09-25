@@ -21,6 +21,15 @@
   --notice-accent: #9b6266;
   --error: #ad3941;
   --focus: #52525b;
+  --toast-success-background: #f0faf6;
+  --toast-success-border: #75c7a6;
+  --toast-success-accent: #147a55;
+  --toast-delete-background: #fff3f3;
+  --toast-delete-border: #e4a4a8;
+  --toast-delete-accent: #a72f37;
+  --toast-warning-background: #fff8e8;
+  --toast-warning-border: #e5ae4e;
+  --toast-warning-accent: #a35f00;
   --radius: 0.5rem;
 }
 @theme inline {
@@ -45,6 +54,15 @@
   --color-notice-accent: var(--notice-accent);
   --color-error: var(--error);
   --color-focus: var(--focus);
+  --color-toast-success-background: var(--toast-success-background);
+  --color-toast-success-border: var(--toast-success-border);
+  --color-toast-success-accent: var(--toast-success-accent);
+  --color-toast-delete-background: var(--toast-delete-background);
+  --color-toast-delete-border: var(--toast-delete-border);
+  --color-toast-delete-accent: var(--toast-delete-accent);
+  --color-toast-warning-background: var(--toast-warning-background);
+  --color-toast-warning-border: var(--toast-warning-border);
+  --color-toast-warning-accent: var(--toast-warning-accent);
   --color-muted: var(--surface-muted);
   --color-muted-foreground: var(--text-muted);
   --color-accent: var(--hover);
@@ -54,6 +72,21 @@
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
   --radius-lg: var(--radius);
+}
+
+@keyframes toast-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toast-enter {
+  animation: toast-enter 160ms ease-out;
 }
 @layer base {
   body {

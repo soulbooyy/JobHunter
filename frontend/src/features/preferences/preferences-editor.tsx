@@ -3,6 +3,7 @@ import { useBlocker } from 'react-router';
 import { Button } from '@/shared/ui/button';
 import { InlineNotice } from '@/shared/ui/inline-notice';
 import { AlertDialog } from '@/shared/ui/alert-dialog';
+import { useToast } from '@/shared/ui/use-toast';
 import {
   ApiFailure,
   failureMessage,
@@ -31,6 +32,7 @@ export function PreferencesEditor({
 }: {
   initial: CurrentPreferences;
 }) {
+  const toast = useToast();
   const [base, setBase] = useState(initial);
   const [draft, setDraft] = useState(() => draftFromCurrent(initial));
   const [baseline, setBaseline] = useState(() =>
@@ -44,7 +46,6 @@ export function PreferencesEditor({
   const [latest, setLatest] = useState<CurrentPreferences>();
   const [errors, setErrors] = useState<FieldMessages>({});
   const [notice, setNotice] = useState('');
-  const [message, setMessage] = useState('');
   const [discard, setDiscard] = useState(false);
   const summary = useRef<HTMLDivElement>(null);
   const dirty = JSON.stringify(draft) !== baseline;
@@ -73,7 +74,6 @@ export function PreferencesEditor({
   function change(next: PreferenceDraft) {
     if (locked.current || phase === 'unknown' || phase === 'confirmed') return;
     setDraft(next);
-    setMessage('');
   }
   function add(field: TagField) {
     if (locked.current || phase === 'unknown' || phase === 'confirmed') return;
@@ -117,15 +117,23 @@ export function PreferencesEditor({
         current.preference_set.preference_set_id === result.preference_set_id;
       install(current);
       setNotice('');
-      setMessage(
+      toast.show(
         matches
-          ? result.outcome === 'UNCHANGED'
-            ? '保存已确认，配置内容没有变化。'
-            : '搜索偏好已保存。'
-          : '本次保存已确认；当前配置已发生后续变化，现显示最新读取的配置。',
+          ? {
+              message:
+                result.outcome === 'UNCHANGED'
+                  ? '保存已确认，配置内容没有变化。'
+                  : '搜索偏好已保存。',
+              variant: 'success',
+            }
+          : {
+              message:
+                '本次保存已确认；当前配置已发生后续变化，现显示最新读取的配置。',
+              variant: 'warning',
+            },
       );
     } catch {
-      setMessage('本次保存已确认。');
+      toast.success('本次保存已确认。');
       setNotice('本次保存已确认，但暂时无法读取当前配置。请重新读取后再编辑。');
     }
   }
@@ -178,7 +186,6 @@ export function PreferencesEditor({
     locked.current = true;
     setBusy(true);
     setNotice('');
-    setMessage('');
     setErrors({});
     try {
       const result = await preferencesApi.save(request);
@@ -186,7 +193,6 @@ export function PreferencesEditor({
       pendingRequest.current = undefined;
       setPhase('confirmed');
       setBaseline(JSON.stringify(draft));
-      setMessage('本次保存已确认，正在读取当前配置…');
       await readAfterSuccess(result);
     } catch (error) {
       const failure =
@@ -268,7 +274,7 @@ export function PreferencesEditor({
     }
     pendingRequest.current = undefined;
     setNotice('');
-    setMessage('已放弃本地修改。这不会撤销已生效的保存。');
+    toast.warning('已放弃本地修改。这不会撤销已生效的保存。');
     setDiscard(false);
     if (blocker.state === 'blocked') blocker.proceed();
   }
@@ -296,14 +302,6 @@ export function PreferencesEditor({
             <time dateTime={base.preference_set.updated_at}>
               {new Date(base.preference_set.updated_at).toLocaleString('zh-CN')}
             </time>
-          </p>
-        )}
-        {message && (
-          <p
-            role="status"
-            className="rounded-md border border-border bg-surface-muted p-3 text-sm"
-          >
-            {message}
           </p>
         )}
         {phase === 'conflict' && (

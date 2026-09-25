@@ -8,6 +8,7 @@ import { PreferencesEditor } from '@/features/preferences/preferences-editor';
 import { PreferencesPage } from '@/pages/job-pool/preferences/page';
 import { preferencesApi } from '@/features/preferences/api';
 import { ApiFailure } from '@/shared/api/result';
+import { ToastProvider } from '@/shared/ui/toast';
 import { current, saved } from '../fixtures/preferences';
 import type { CurrentPreferences } from '@/features/preferences/model';
 vi.mock('@/features/preferences/api', () => ({
@@ -32,9 +33,11 @@ function mount(initial: CurrentPreferences = current(), page = false) {
     { path: '/away', element: <p>其他页面</p> },
   ]);
   render(
-    <QueryClientProvider client={createQueryClient()}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>,
+    <ToastProvider>
+      <QueryClientProvider client={createQueryClient()}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </ToastProvider>,
   );
   return router;
 }

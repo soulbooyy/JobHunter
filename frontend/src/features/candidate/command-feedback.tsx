@@ -14,14 +14,7 @@ export function CommandFeedback({
 }) {
   return (
     <div className="space-y-3">
-      {command.message && (
-        <p
-          role="status"
-          className="rounded-md border border-border bg-surface-muted p-3 text-sm"
-        >
-          {command.message}
-        </p>
-      )}
+      {command.message && <InlineNotice title={command.message} />}
       {command.unknown ? (
         <InlineNotice title="暂时无法确认操作结果">
           <p>

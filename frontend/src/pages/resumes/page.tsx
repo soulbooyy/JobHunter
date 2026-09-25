@@ -22,7 +22,7 @@ export function ResumesPage() {
     <>
       <PageHeader
         title="我的简历"
-        description="基于求职资料创建不同版本的简历，独立维护表达与排版。"
+        description="每份简历独立维护基本信息、经历内容和排版。"
         action={
           <Button asChild>
             <Link to="/resumes/new">新建简历</Link>
@@ -93,7 +93,7 @@ export function ResumesPage() {
             ) : (
               <StatePanel
                 title="还没有简历"
-                description="可以先创建空白简历，再选择资料并完善内容。"
+                description="创建空白简历后，直接填写基本信息和经历内容。"
                 action={
                   <Button asChild>
                     <Link to="/resumes/new">新建简历</Link>

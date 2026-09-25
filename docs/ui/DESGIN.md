@@ -1055,7 +1055,11 @@ Use one full-width editing surface per experience, with enough height for severa
 
 Resume bold, italic and underline controls show their active state. Toggling at a caret affects subsequent input; moving the caret inherits the preceding text's marks. Formatting is visible in the editor as well as the preview. A list action applies to the whole current line or the lines touched by a selection, even when only part of a line is selected. Preserve selection when using the toolbar and provide visible keyboard focus.
 
-Place document font, font size, line spacing and theme color in a compact row immediately above the Resume preview. These document-level controls are separate from inline text marks. Resume rows open editing directly; secondary management actions remain independently operable. The existing outline-styled personal-information action opens the shared Profile form in a Dialog and explains that saving updates Knowledge. Applying that saved version to the current Resume remains explicit; other Resumes do not change automatically.
+Place document font, font size, line spacing and theme color in a compact row immediately above the Resume preview. These document-level controls are separate from inline text marks. Resume rows open editing directly; secondary management actions remain independently operable. Contacts and structured experiences are fields of the current Resume and save with that document. There is no separate Profile publication, Knowledge-first picker, source update comparison or adoption action. Make the document-local ownership clear near contact editing so users do not expect another Resume to change.
+
+The “用户画像” page is read-only. Show the server-owned no-source, empty-source, queued, running, available and failed states with one clear next action. An available capability always displays its source experience and same-Entry evidence; identical names from different experiences remain separate rows. Offer “编辑来源简历” and an explicit “重新生成” action when allowed. Loading the page or reloading the browser only reads state and never starts generation.
+
+The Resume editor omits a duplicate page title and explanatory subtitle. Cancel and Save use the shared application-header action slot, leaving the main content area for editing. One shared module-creation strip begins at the top of the left editor column for Work, Project, Education, Skill, Award and Certification. A permanent “基本信息” card appears below it and combines the three owned contact fields with user-added optional Header information; Basic Information itself cannot be selected, omitted or removed as a module. Its compact responsive grid should fit several fields on each row without reducing legibility. Every Basic Information or Entry-kind module uses the same bordered card container with a distinct header and body. On the desktop layout, the creation strip stays outside the editor-content scroll area; the editor content and the Resume preview have independent vertical scrolling, and document presentation controls stay outside the preview scroll area. The two columns use the vertical space released by the removed page heading. Removing the final Entry from a section removes that now-empty section from the draft. A new blank Resume defaults to `SOURCE_HAN_SANS` (思源黑体); an existing Resume retains its saved font.
 
 ---
 
@@ -1684,9 +1688,23 @@ Use a restrained focus ring consistent with the neutral palette.
 
 ---
 
-## 31.3 Success
+## 31.3 Transient notifications
 
-Use small toast feedback when useful.
+Use the shared top-centred Toast component for short-lived command feedback. It
+must enter from above, remain readable over the current page and provide a
+close control. Use one of three semantic variants consistently:
+
+| Variant | Use                                                    | Treatment   |
+| ------- | ------------------------------------------------------ | ----------- |
+| Success | Creation, save and other non-destructive updates       | Muted green |
+| Delete  | Confirmed deletion or removal                          | Muted red   |
+| Warning | A lightweight caution or unsuccessful external handoff | Muted amber |
+
+Do not create page-specific success banners or page-specific Toast variants.
+A short form-level prompt such as “请检查标记的内容” uses the Warning Toast;
+the specific field errors remain beside their fields. Conflicts, unknown
+outcomes and any state with a recovery action remain inline because the user
+must be able to inspect and act on them.
 
 Examples:
 

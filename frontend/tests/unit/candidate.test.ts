@@ -1,94 +1,119 @@
-import { describe, it, expect } from 'vitest';
-import { profileValues } from '@/entities/profile/model';
-import { evidenceValues } from '@/entities/evidence/model';
+import { describe, it, expect, vi } from 'vitest';
 import {
-  initializeContent,
-  resumeDocument,
+  contacts,
+  copyResumeEntry,
   defaultPresentation,
+  fieldsByKind,
+  resumeDocument,
 } from '@/entities/resume/model';
-describe('Candidate source and document admission', () => {
-  it('allows cleared contacts but not blank strings or invalid phone spelling', () => {
+
+const entryId = '11111111-1111-4111-8111-111111111111';
+const blockId = '22222222-2222-4222-8222-222222222222';
+describe('independent Resume admission', () => {
+  it('allows cleared document-owned contacts but rejects blank names and invalid phones', () => {
+    expect(defaultPresentation.font_family).toBe('SOURCE_HAN_SANS');
     expect(
-      profileValues.safeParse({
+      contacts.safeParse({
         full_name: null,
         phone_number: null,
         email: null,
       }).success,
     ).toBe(true);
     expect(
-      profileValues.safeParse({
+      contacts.safeParse({
         full_name: ' ',
         phone_number: null,
         email: null,
       }).success,
     ).toBe(false);
     expect(
-      profileValues.safeParse({
+      contacts.safeParse({
         full_name: null,
         phone_number: 'abc',
         email: null,
       }).success,
     ).toBe(false);
   });
-  it('validates kind fields and exact months without requiring known dates', () => {
-    const v = {
-      fields: {
-        project_name: '项目',
-        role_title: null,
-        project_url: null,
-        start_month: null,
-        end_month: null,
-      },
-      content: [],
+  it('validates each kind fields without inventing dates', () => {
+    const fields = {
+      project_name: '项目',
+      role_title: null,
+      project_url: null,
+      start_month: null,
+      end_month: null,
     };
-    expect(evidenceValues('PROJECT').safeParse(v).success).toBe(true);
+    expect(fieldsByKind.PROJECT.safeParse(fields).success).toBe(true);
     expect(
-      evidenceValues('PROJECT').safeParse({
-        ...v,
-        fields: { ...v.fields, start_month: '2026-09', end_month: '2025-01' },
+      fieldsByKind.PROJECT.safeParse({
+        ...fields,
+        project_url: 'javascript:alert(1)',
       }).success,
     ).toBe(false);
   });
-  it('rejects controls in source body before trimming and initializes unmarked local content once', () => {
-    expect(
-      evidenceValues('SKILL').safeParse({
-        fields: { skill_name: 'React' },
-        content: [{ type: 'PARAGRAPH', text: '\tReact' }],
-      }).success,
-    ).toBe(false);
-    const source = [{ type: 'PARAGRAPH' as const, text: 'React' }];
-    const local = initializeContent(source);
-    source[0]!.text = 'Changed';
-    expect(local).toEqual([
-      { type: 'PARAGRAPH', runs: [{ text: 'React', marks: [] }] },
-    ]);
-  });
-  it('allows empty documents but rejects duplicate sections and marked whitespace', () => {
+  it('keeps entry and block identities and rejects duplicates', () => {
     const draft = {
-      profile_version_id: '11111111-1111-4111-8111-111111111111',
+      contacts: { full_name: null, phone_number: null, email: null },
       header_presentation: { optional_items: [] },
-      sections: [],
+      sections: [
+        {
+          kind: 'SKILL' as const,
+          members: [
+            {
+              entry_id: entryId,
+              fields: { skill_name: 'React' },
+              content: [
+                {
+                  type: 'PARAGRAPH' as const,
+                  block_id: blockId,
+                  runs: [{ text: 'React', marks: [] }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
       document_presentation: defaultPresentation,
     };
     expect(resumeDocument.safeParse(draft).success).toBe(true);
-    const member = {
-      evidence_item_id: draft.profile_version_id,
-      evidence_item_version_id: draft.profile_version_id,
+    expect(
+      resumeDocument.safeParse({
+        ...draft,
+        sections: [
+          {
+            ...draft.sections[0],
+            members: [
+              ...draft.sections[0]!.members,
+              draft.sections[0]!.members[0],
+            ],
+          },
+        ],
+      }).success,
+    ).toBe(false);
+  });
+  it('assigns fresh logical identities when duplicating an entry', () => {
+    vi.stubGlobal('crypto', {
+      randomUUID: vi
+        .fn()
+        .mockReturnValueOnce('33333333-3333-4333-8333-333333333333')
+        .mockReturnValueOnce('44444444-4444-4444-8444-444444444444'),
+    });
+    const copied = copyResumeEntry({
+      entry_id: entryId,
+      fields: { skill_name: 'React' },
       content: [
-        { type: 'PARAGRAPH', runs: [{ text: ' ', marks: [{ type: 'BOLD' }] }] },
+        {
+          type: 'PARAGRAPH',
+          block_id: blockId,
+          runs: [{ text: 'React', marks: [] }],
+        },
       ],
-    };
-    expect(
-      resumeDocument.safeParse({
-        ...draft,
-        sections: [{ kind: 'SKILL', members: [member] }],
-      }).success,
-    ).toBe(false);
-    expect(
-      resumeDocument.safeParse({
-        ...draft,
-        document_presentation: { ...defaultPresentation, font_size_pt: 12.1 },
-      }).success,
-    ).toBe(false);
+    });
+    expect(copied.entry_id).not.toBe(entryId);
+    const copiedBlock = copied.content[0]!;
+    expect(copiedBlock.type).toBe('PARAGRAPH');
+    if (copiedBlock.type === 'PARAGRAPH') {
+      expect(copiedBlock.block_id).not.toBe(blockId);
+    }
+    vi.unstubAllGlobals();
   });
 });

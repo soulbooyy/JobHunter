@@ -1,9 +1,19 @@
 import { useRef, useState } from 'react';
 import { ApiFailure } from '@/shared/api/result';
+import { useToast } from '@/shared/ui/use-toast';
+import type { ToastVariant } from '@/shared/ui/toast-context';
 export function useCandidateCommand<T, R>(
   send: (request: T) => Promise<R>,
-  after: (result: R) => Promise<void>,
+  after: (
+    result: R,
+  ) => Promise<
+    | { message: string; variant: ToastVariant; duration?: number }
+    | undefined
+    | void
+  >,
+  feedback: { message: string; variant?: ToastVariant },
 ) {
+  const toast = useToast();
   const pending = useRef<T | undefined>(undefined),
     receipt = useRef<R | undefined>(undefined),
     locked = useRef(false);
@@ -14,9 +24,15 @@ export function useCandidateCommand<T, R>(
     [message, setMessage] = useState('');
   async function read(result: R) {
     try {
-      await after(result);
+      const override = await after(result);
       setConfirmed(false);
-      setMessage('操作已确认。');
+      setMessage('');
+      toast.show(
+        override ?? {
+          message: feedback.message,
+          variant: feedback.variant ?? 'success',
+        },
+      );
     } catch {
       setConfirmed(true);
       setMessage('操作已确认，但暂时无法读取当前状态。请重新读取后再编辑。');

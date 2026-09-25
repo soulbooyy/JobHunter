@@ -14,7 +14,6 @@ const fieldCode = z.enum([
 const statuses = {
   INVALID_STATE: 409,
   SOURCE_CONFLICT: 409,
-  LAST_RESUME_REQUIRED: 409,
   CAPACITY_EXCEEDED: 409,
   BAD_REQUEST: 400,
   REQUEST_TOO_LARGE: 413,
@@ -75,12 +74,9 @@ export async function apiResult<T>(
         ? failure.data.code !== 'REQUEST_TOO_LARGE'
         : failure.data.code !== 'ORIGINAL_ENTRY_DELETED') &&
       (scope === 'candidate' ||
-        ![
-          'INVALID_STATE',
-          'SOURCE_CONFLICT',
-          'LAST_RESUME_REQUIRED',
-          'CAPACITY_EXCEEDED',
-        ].includes(failure.data.code)) &&
+        !['INVALID_STATE', 'SOURCE_CONFLICT', 'CAPACITY_EXCEEDED'].includes(
+          failure.data.code,
+        )) &&
       failure.data.field_errors.every(
         (field) =>
           validErrorField(field.field, scope) &&
@@ -114,8 +110,7 @@ export async function apiResult<T>(
 export function failureMessage(error: ApiFailure): string {
   const messages: Record<string, string> = {
     INVALID_STATE: '这条资料或简历已被移除，无法继续此操作。',
-    SOURCE_CONFLICT: '引用的资料已变化，请重新确认资料来源。',
-    LAST_RESUME_REQUIRED: '至少需要保留一份简历。',
+    SOURCE_CONFLICT: '来源简历或默认选择已变化，请刷新后重新确认。',
     CAPACITY_EXCEEDED: '已达到数量上限，请先管理现有内容。',
     BAD_REQUEST: '请求无法处理，请保留输入并重试。',
     REQUEST_TOO_LARGE: '提交内容过大，请减少内容后重试。',
@@ -156,7 +151,7 @@ function validErrorField(
   if (scope === 'candidate') {
     if (field === '$') return true;
     const known = new Set(
-      'request_id revision full_name phone_number email kind fields content school_name degree major start_month end_month company_name role_title project_name project_url skill_name award_name awarding_organization awarded_month certification_name issuing_organization issued_month resume_name profile_version_id header_presentation optional_items value sections members evidence_item_id evidence_item_version_id document_presentation font_family font_size_pt line_spacing_pt theme_color type text runs marks url items default_resume_selection replacement_resume_id default_resume_id resume_id resume_version_id evidence_baseline_snapshot_id'.split(
+      'request_id revision full_name phone_number email contacts kind fields content school_name degree major start_month end_month company_name role_title project_name project_url skill_name award_name awarding_organization awarded_month certification_name issuing_organization issued_month resume_name header_presentation optional_items value sections members entry_id block_id document_presentation font_family font_size_pt line_spacing_pt theme_color type text runs marks url items default_resume_selection replacement_resume_id default_resume_id resume_id resume_version_id source_resume_version_id source_entry_id evidence_refs'.split(
         ' ',
       ),
     );

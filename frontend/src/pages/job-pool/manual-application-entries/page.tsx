@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
-import { ChevronRight, Plus, RefreshCw, X } from 'lucide-react';
+import { ChevronRight, Plus, RefreshCw } from 'lucide-react';
 import type { ManualApplicationEntry } from '@/entities/manual-application-entry/model';
 import { EntryList } from '@/features/manual-application-entries/entry-list';
 import { EntryFormDialog } from '@/features/manual-application-entries/entry-form-dialog';
@@ -12,6 +12,8 @@ import { manualApplicationEntriesQuery } from '@/features/manual-application-ent
 import { Button } from '@/shared/ui/button';
 import { PageHeader } from '@/shared/ui/page-header';
 import { ViewTabs } from '@/shared/ui/view-tabs';
+import { useToast } from '@/shared/ui/use-toast';
+import type { ToastVariant } from '@/shared/ui/toast-context';
 import { jobPoolViews } from '../views';
 type Action =
   | { kind: 'create' }
@@ -19,8 +21,8 @@ type Action =
   | { kind: 'delete'; entry: ManualApplicationEntry };
 export function ManualApplicationEntriesPage() {
   const client = useQueryClient();
+  const toast = useToast();
   const [action, setAction] = useState<Action>();
-  const [message, setMessage] = useState('');
   const [openingId, setOpeningId] = useState<string>();
   const opening = useRef(false);
   function refresh() {
@@ -28,18 +30,21 @@ export function ManualApplicationEntriesPage() {
       queryKey: manualApplicationEntriesQuery.queryKey,
     });
   }
-  function done(text: string) {
+  function done(text: string, variant: ToastVariant = 'success') {
     setAction(undefined);
-    setMessage(text);
+    toast.show({ message: text, variant });
     refresh();
   }
   async function navigate(entry: ManualApplicationEntry) {
     if (opening.current) return;
     opening.current = true;
     setOpeningId(entry.manual_application_entry_id);
-    setMessage('正在核验申请链接…');
     try {
-      setMessage(await openEntry(entry));
+      const message = await openEntry(entry);
+      toast.show({
+        message,
+        variant: message.startsWith('已发起') ? 'success' : 'warning',
+      });
     } finally {
       opening.current = false;
       setOpeningId(undefined);
@@ -65,7 +70,6 @@ export function ManualApplicationEntriesPage() {
           <Button
             id="add-entry"
             onClick={() => {
-              setMessage('');
               setAction({ kind: 'create' });
             }}
           >
@@ -83,22 +87,6 @@ export function ManualApplicationEntriesPage() {
           </Button>
         }
       />
-      {message && (
-        <div
-          role="status"
-          className="mb-4 flex items-center justify-between gap-3 rounded-md border border-border bg-surface-muted px-3 py-2 text-sm"
-        >
-          <p>{message}</p>
-          <Button
-            variant="ghost"
-            className="size-7 shrink-0 px-0"
-            aria-label="关闭提示"
-            onClick={() => setMessage('')}
-          >
-            <X aria-hidden="true" />
-          </Button>
-        </div>
-      )}
       <EntryList
         onCreate={() => setAction({ kind: 'create' })}
         onEdit={(entry) =>
@@ -128,7 +116,7 @@ export function ManualApplicationEntriesPage() {
             setAction(undefined);
             refresh();
           }}
-          onDeleted={() => done('手动申请已删除')}
+          onDeleted={() => done('手动申请已删除', 'delete')}
         />
       )}
     </section>
