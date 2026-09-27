@@ -33,7 +33,7 @@ def test_source_refused_by_runtime(tmp_path: Path) -> None:
 def test_fresh_schema_has_lazy_preferences(tmp_path: Path) -> None:
     with Store.open(tmp_path) as store:
         with store.engine.connect() as conn:
-            assert conn.exec_driver_sql("PRAGMA user_version").scalar() == 7
+            assert conn.exec_driver_sql("PRAGMA user_version").scalar() == 8
             assert conn.exec_driver_sql("PRAGMA foreign_keys").scalar() == 1
             assert conn.exec_driver_sql("SELECT count(*) FROM preference_sets").scalar() == 0
 
@@ -98,7 +98,7 @@ def test_migration_discards_entries_and_receipts_during_full_development_reset(
         ("migration_version", 1),
         ("before_commit", 1),
         ("commit_before_driver", 1),
-        ("commit_after_driver", 7),
+        ("commit_after_driver", 8),
     ],
 )
 def test_migration_atomicity_and_completion(tmp_path: Path, stage: str, target: int) -> None:
@@ -268,7 +268,7 @@ def test_offline_cli_lock_alias_and_exit_release(tmp_path: Path) -> None:
     assert json.loads(migrated.stdout) == {
         "outcome": "MIGRATED",
         "data_directory": str(tmp_path.resolve()),
-        "schema_version": 7,
+        "schema_version": 8,
     }
     assert not migrated.stderr
     unchanged = subprocess.run(args, capture_output=True, text=True, timeout=10)
@@ -276,7 +276,7 @@ def test_offline_cli_lock_alias_and_exit_release(tmp_path: Path) -> None:
 
 
 @pytest.mark.parametrize(
-    "stage,target", [("migration_preference_set_versions", 1), ("commit_after_driver", 7)]
+    "stage,target", [("migration_preference_set_versions", 1), ("commit_after_driver", 8)]
 )
 def test_migration_process_death_recovers_and_releases_lock(
     tmp_path: Path, stage: str, target: int

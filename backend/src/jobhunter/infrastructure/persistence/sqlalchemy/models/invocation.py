@@ -1,6 +1,4 @@
-"""Schema 5: relational execution authority and exact BLOB recovery evidence."""
-
-from sqlalchemy.engine import Connection
+"""Frozen schema-5 DDL retained only for historical forward migrations."""
 
 from jobhunter.infrastructure.persistence.sqlalchemy.models.candidate import fk
 from jobhunter.infrastructure.persistence.sqlalchemy.models.materials import (
@@ -89,22 +87,3 @@ CHECK((result_sha256 IS NULL)=(result_byte_length IS NULL)),
 {identity("run_id", True)}, {fk("run_id", "agent_runs", "run_id")})""",
     ),
 )
-
-
-def recognize_metadata(conn: Connection) -> None:
-    """Validate structure without scanning historical response/descriptor payloads."""
-    from jobhunter.domain.invocation.models import LocalRead, ModelInvocation, Run
-    from jobhunter.domain.shared.errors import Failure
-
-    try:
-        for row in conn.exec_driver_sql("SELECT * FROM agent_runs").mappings():
-            Run.model_validate(dict(row))
-        columns = ",".join(ModelInvocation.model_fields)
-        for row in conn.exec_driver_sql(f"SELECT {columns} FROM model_invocations").mappings():
-            values = dict(row)
-            values["max_response_bytes"] = int(values["max_response_bytes"])
-            ModelInvocation.model_validate(values)
-        for row in conn.exec_driver_sql("SELECT * FROM controlled_local_reads").mappings():
-            LocalRead.model_validate(dict(row))
-    except ValueError:
-        raise Failure("STORAGE_CORRUPT") from None

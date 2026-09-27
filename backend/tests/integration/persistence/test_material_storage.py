@@ -7,7 +7,7 @@ from jobhunter.infrastructure.persistence.sqlalchemy.uow.store import Store
 
 def test_fresh_material_storage_creates_no_speculative_demand(tmp_path: Path) -> None:
     with Store.open(tmp_path) as store:
-        assert store.recognize() == 7
+        assert store.recognize() == 8
         with store.engine.connect() as conn:
             for table in (
                 "render_intents",
@@ -53,7 +53,7 @@ with Store.open(Path(sys.argv[1])) as store:
     while True:
         try:
             with Store.open(tmp_path) as store:
-                assert store.recognize() == 7
+                assert store.recognize() == 8
             break
         except Failure as exc:
             assert exc.code == "DATA_DIRECTORY_IN_USE" and time.monotonic() < deadline
@@ -94,7 +94,7 @@ def test_explicit_schema_three_migration_resets_retired_candidate_authority(tmp_
         Store.open(tmp_path)
     with Store.open(tmp_path, migration=True) as store:
         assert store.migrate() == "MIGRATED"
-        assert store.recognize() == 7
+        assert store.recognize() == 8
         with store.engine.connect() as conn:
             assert conn.exec_driver_sql("SELECT count(*) FROM resumes").scalar_one() == 0
             assert conn.exec_driver_sql("SELECT count(*) FROM render_work").scalar_one() == 0

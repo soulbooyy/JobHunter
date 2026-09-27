@@ -395,7 +395,6 @@ class CandidateRepository:
                 "baseline_portrait_id": None,
                 "reattachment_portrait_id": None,
                 "plan": None,
-                "run_id": None,
                 "result_portrait_id": None,
                 "disposition": None,
             },
