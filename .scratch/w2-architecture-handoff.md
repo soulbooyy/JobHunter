@@ -16,15 +16,15 @@ W2 considered all nine source records, including the full Harness and Eval desig
 
 | Source | Reading and control used in W2 |
 | --- | --- |
-| [Decision Register](../docs/design/grill-me-design-tree.md) | Purpose/Session State, all topic groups in the coverage index, stage rules Q4/Q22/S24.2/S37.1/S38.1, clause-level later corrections, Q173–Q187, and source-maintenance supplements |
-| [Tool Actions](../docs/design/harness/tool.md) | Application actions, permission intersections, pure reads/Ensure, Proposal confirmation, source refs, external access and replay |
-| [Context](../docs/design/harness/context.md) | Protected control, exact acquisition, Package/Frame, compaction ordering and publication, dynamic Recall, bounded rescue, revocation |
-| [Memory](../docs/design/harness/memory.md) | Authority rules, independent controls, admitted types/sources, background ownership, conservative learning, non-resurrection and source deletion |
-| [Budget](../docs/design/harness/budget.md) | Operation/Run/background owners, atomic admission and reservation, local/total ceilings, settlement, unknown exposure, foreground capacity |
-| [Recovery](../docs/design/harness/recovery.md) | Durable intent/response/result, fencing, startup, action-specific replay, stream presentation, safe derivatives and independent committed effects |
-| [Storage](../docs/design/harness/storage.md) | Four responsibilities, active recovery retention, historical availability, sensitive transport exclusions, deletion distinctions |
-| [Agent Evaluation](../docs/design/eval/agent-evaluation.md) | Complete task/platform responsibilities and Q173–Q187: exact isolated trials, fixed Scenarios, scoped evidence, coherent N+1, per-check outcomes, regression retention, re-evaluation and independent judges |
-| [Contract Design Inventory](../docs/design/contract/contract-design-inventory.md) | Candidate responsibility/dependency checklist only; conceptual rows, example layouts, fields, status names and operational examples did not become normative Contracts |
+| [Decision Register](../docs/.grill/grill-me-design-tree.md) | Purpose/Session State, all topic groups in the coverage index, stage rules Q4/Q22/S24.2/S37.1/S38.1, clause-level later corrections, Q173–Q187, and source-maintenance supplements |
+| [Tool Actions](../docs/.grill/harness/tool.md) | Application actions, permission intersections, pure reads/Ensure, Proposal confirmation, source refs, external access and replay |
+| [Context](../docs/.grill/harness/context.md) | Protected control, exact acquisition, Package/Frame, compaction ordering and publication, dynamic Recall, bounded rescue, revocation |
+| [Memory](../docs/.grill/harness/memory.md) | Authority rules, independent controls, admitted types/sources, background ownership, conservative learning, non-resurrection and source deletion |
+| [Budget](../docs/.grill/harness/budget.md) | Operation/Run/background owners, atomic admission and reservation, local/total ceilings, settlement, unknown exposure, foreground capacity |
+| [Recovery](../docs/.grill/harness/recovery.md) | Durable intent/response/result, fencing, startup, action-specific replay, stream presentation, safe derivatives and independent committed effects |
+| [Storage](../docs/.grill/harness/storage.md) | Four responsibilities, active recovery retention, historical availability, sensitive transport exclusions, deletion distinctions |
+| [Agent Evaluation](../docs/.grill/eval/agent-evaluation.md) | Complete task/platform responsibilities and Q173–Q187: exact isolated trials, fixed Scenarios, scoped evidence, coherent N+1, per-check outcomes, regression retention, re-evaluation and independent judges |
+| [Contract Design Inventory](../docs/.grill/contract/contract-design-inventory.md) | Candidate responsibility/dependency checklist only; conceptual rows, example layouts, fields, status names and operational examples did not become normative Contracts |
 
 Later controlling clauses prevail over earlier ACCEPTED wording. For example, the inventory's integration-row wording about Collector/Executor being disabled by default is not sufficient to establish a default-enablement decision: the original source does not settle that default, and Q175 leaves rollout/default enablement for later work. Architecture sections 2.2, 15.4 and 17 keep examples, research obligations, and pending rollout separate. No new default was selected.
 

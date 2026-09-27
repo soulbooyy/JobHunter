@@ -11,13 +11,13 @@
 
 ### Deterministic r2 backend checkpoint — 2026-09-24
 
-The pre-invocation r2 subset is implemented in the working tree at schema 7/revision `8c92f0d4ae31`: Entry-owned Profile rows, complete semantic Entry diff, grouped output validation/merge, compatible same-Resume baseline selection, target-version rebinding, deletion-only and exact-version zero-call completion, MODEL/INCREMENTAL/REUSE admission, AUTOMATIC/FULL refresh fencing, immutable durable plans and successful-derivation order. The schema-6-to-7 transition preserves rows, receipts and artifacts and creates no fictional derivation. [Progress §18](../../progress.md#18-sl-02m1-entry-scoped-incremental-portrait-foundation) and [traceability §13](../../progress/traceability.md#entry-incremental-backend-foundation) own current evidence and limits.
+The pre-invocation r2 subset is implemented in the working tree at schema 7/revision `8c92f0d4ae31`: Entry-owned Profile rows, complete semantic Entry diff, grouped output validation/merge, compatible same-Resume baseline selection, target-version rebinding, deletion-only and exact-version zero-call completion, MODEL/INCREMENTAL/REUSE admission, AUTOMATIC/FULL refresh fencing, immutable durable plans and successful-derivation order. The schema-6-to-7 transition preserves rows, receipts and artifacts and creates no fictional derivation. [Progress §18](../../progress/traceability.md#entry-incremental-backend-foundation) and [traceability §13](../../progress/traceability.md#entry-incremental-backend-foundation) own current evidence and limits.
 
 The actual SL-03.M2 consumer remains the next prerequisite for semantic execution: finite provider/schema/capacity configuration, protected claim/Invocation linkage, one provider request, model-result publication, ending/deadline/crash reconciliation and Eval are not supplied by this checkpoint. No frontend file or public route changed, and no user database was migrated.
 
 ## Prior development transfer — 2026-09-24.S2M1S1-r1
 
-**Classification:** Existing backend/frontend require source-model replacement. This addendum controls the replaced source scope; any older body below is a historical snapshot. [Owning plan](../../plans/slices/sl-02-saved-authority-materials.md) · [Accepted supplement](../../design/contract/sl-02-m1-supplement-grill.md) · [Current scope/evidence](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+**Classification:** Existing backend/frontend require source-model replacement. This addendum controls the replaced source scope; any older body below is a historical snapshot. [Owning plan](../../plans/slices/sl-02-saved-authority-materials.md) · [Accepted supplement](../../.grill/contract/sl-02-m1-supplement/decisions.md) · [Current scope/evidence](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
 
 **Profile naming:** Implement `CandidateProfileProjection.entries: ProfileIndexEntry[]`; each entry is `{source_entry_id, name, description, evidence_refs}`. PRO-013 now groups model output by source_entry_id under `entry_results`, with per-group `entries` and exact local-ID-to-EvidenceRef conversion. Profile schema remains v1.
 
@@ -41,7 +41,7 @@ The actual SL-03.M2 consumer remains the next prerequisite for semantic executio
 
 ### Deterministic backend checkpoint — 2026-09-24
 
-The first ordered stage is implemented in the working tree at schema 6/revision `f4b31d8c2a70`: independent ResumeVersion schema 2, stable Resume-owned IDs, six commands and receipts, revised default/removal rules, deterministic exact Evidence projection, atomic portrait source/build obligation, explicit full development reset and direct Materials source. [Progress §17](../../progress.md#17-sl-02m1-independent-resume-backend-foundation) and [traceability §12](../../progress/traceability.md#independent-resume-backend-foundation) own executed evidence and limits. The maintained backend check passes 329 tests. No frontend file was changed and no real user store was migrated.
+The first ordered stage is implemented in the working tree at schema 6/revision `f4b31d8c2a70`: independent ResumeVersion schema 2, stable Resume-owned IDs, six commands and receipts, revised default/removal rules, deterministic exact Evidence projection, atomic portrait source/build obligation, explicit full development reset and direct Materials source. [Progress §17](../../progress/traceability.md#independent-resume-backend-foundation) and [traceability §12](../../progress/traceability.md#independent-resume-backend-foundation) own executed evidence and limits. The maintained backend check passes 329 tests. No frontend file was changed and no real user store was migrated.
 
 This is not semantic portrait completion. The actual SL-03.M2 consumer must still add frozen configuration, claim/Invocation association, model-visible filtering, one-call/reuse, whole-output validation, fenced paired publication, bounded recovery and Eval. The editor/client/browser stage also remains pending. Continue in the original engineering order; do not reinterpret queued durable builds as a READY portrait or as M1 completion.
 
@@ -49,7 +49,7 @@ This is not semantic portrait completion. The actual SL-03.M2 consumer must stil
 
 > English is authoritative. Target normative revision: **2026-09-21.S2M1-r1**, following accepted CG03-Q1–Q100 and the Q98 missing-target clarification. This is a cross-context development transfer, not implementation evidence. [Reviewed scope](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence) records documentary readiness; no S2 runtime work has been performed.
 
-[Milestone plan](../../plans/slices/sl-02-saved-authority-materials.md#sl-02m1-complete-saved-authority-and-atomic-save) · [Contract Index](../../contracts/index.md) · [Decisions](../../design/contract/sl-02-m1-grill.md) · [Acceptance](../../acceptance.md#4-saved-facts-resumes-grounding-and-derived-artifacts)
+[Milestone plan](../../plans/slices/sl-02-saved-authority-materials.md#sl-02m1-complete-saved-authority-and-atomic-save) · [Contract Index](../../contracts/index.md) · [Decisions](../../.grill/contract/sl-02-m1/decisions.md) · [Acceptance](../../acceptance.md#4-saved-facts-resumes-grounding-and-derived-artifacts)
 
 ## 1. Backend scope to implement
 
@@ -116,7 +116,7 @@ No schema3 implementation, dependency install, migration, user-data modification
 
 ## 6. Backend-to-frontend and next-consumer transfer — 2026-09-21
 
-The sections above preserve the Contract-publication snapshot. The backend subset is now implemented on schema 3; current checks and requirement mappings are maintained in [Progress](../../progress.md#12-sl-02m1-backend-authority-and-schema-3) and [traceability](../../progress/traceability.md#saved-candidate-backend-evidence), not duplicated as a new milestone summary. Start from the [candidate API guide](../../api/sl-02-m1.md), live `/openapi.json`, [backend operation guide](../../../backend/README.md), and [derived codec fixture](../../../backend/tests/fixtures/candidate_fingerprint.json).
+The sections above preserve the Contract-publication snapshot. The backend subset is now implemented on schema 3; current checks and requirement mappings are maintained in [Progress](../../progress/traceability.md#saved-candidate-backend-evidence) and [traceability](../../progress/traceability.md#saved-candidate-backend-evidence), not duplicated as a new milestone summary. Start from the [candidate API guide](../api/sl-02-m1.md), live `/openapi.json`, [backend operation guide](../../../backend/README.md), and [derived codec fixture](../../../backend/tests/fixtures/candidate_fingerprint.json).
 
 Use `uv run --locked python -m jobhunter.main` from the repository root. Existing recognized schema 1/2 requires the explicit offline migration command in section 2, now extended atomically through revision `ef03c92ba671`/schema 3. Source revisions and their definitions are unchanged. No real user store was migrated during development. No dependency change was needed; supported macOS/Python/SQLite/framework versions were rechecked and recorded in the evidence owner.
 

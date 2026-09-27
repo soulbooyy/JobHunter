@@ -98,7 +98,7 @@ Preferences exposes only:
 - `POST /api/v1/preferences/save`: complete Save with `request_id`, explicit nullable `revision`, and six-field `configuration`.
 - `GET /api/v1/preferences/versions/{preference_set_version_id}`: retained exact version.
 
-See the [Preferences API integration guide](../docs/api/sl-01-m2.md), generated `/openapi.json`, and derived [Save fixture](tests/fixtures/preference_save.json). Domain admission is under `domain/preferences/`, application coordination under `application/candidate/`, SQL under `infrastructure/persistence/sqlalchemy/repositories/`, and HTTP under `api/v1/preferences/`. Shared Common scalars now live in `domain/shared/values.py`; Entry URL rules remain Entry-owned.
+See the [Preferences API integration guide](../docs/development/api/sl-01-m2.md), generated `/openapi.json`, and derived [Save fixture](tests/fixtures/preference_save.json). Domain admission is under `domain/preferences/`, application coordination under `application/candidate/`, SQL under `infrastructure/persistence/sqlalchemy/repositories/`, and HTTP under `api/v1/preferences/`. Shared Common scalars now live in `domain/shared/values.py`; Entry URL rules remain Entry-owned.
 
 Preferences transport enforces a streaming 1 MiB body budget, duplicate decoded object-key rejection, compatible UTF-8 JSON media type and identity-only Content-Encoding. The stricter transport is isolated from M1. Input OpenAPI arrays describe the 1000-item raw budget with canonical-capacity extensions; output schemas describe canonical capacities. Save equality/fingerprints share canonical admission; JSON serialization is not equality. Lifetime receipts include no-op outcomes. A retry returns the original success, even after later publications, and never resets current. Preserve the full original request after uncertain outcomes; only an explicit retry with that same request establishes its result. Current reads do not establish a prior request's outcome.
 
@@ -106,7 +106,7 @@ No Collection, QuickScreen, history-list/restore/reset or frontend behavior is s
 
 ## Independent Resume and portrait authority
 
-The backend exposes independent Resume history and default selection through six commands and four reads. See the [candidate API guide](../docs/api/sl-02-m1.md) and live OpenAPI for the exact request/result schemas. The former shared Profile, Evidence Item and Evidence Baseline HTTP authorities are removed. Implementations are in `domain/resume`, the deterministic projection and incremental-plan types in `domain/evidence` and `domain/profile`, `domain/workspace`, `application/candidate`, `api/v1/candidate`, and the current candidate repository.
+The backend exposes independent Resume history and default selection through six commands and four reads. See the [candidate API guide](../docs/development/api/sl-02-m1.md) and live OpenAPI for the exact request/result schemas. The former shared Profile, Evidence Item and Evidence Baseline HTTP authorities are removed. Implementations are in `domain/resume`, the deterministic projection and incremental-plan types in `domain/evidence` and `domain/profile`, `domain/workspace`, `application/candidate`, `api/v1/candidate`, and the current candidate repository.
 
 Each ResumeVersion schema 2 owns nullable contacts, ordered typed entries, exact local AST and presentation. `entry_id` and `block_id` are stable UUIDv4 logical identities: an identity remains permanently owned by one Resume, may be restored from that Resume's retained history, and cannot move between Resumes. Create, Save, rename, remove and default changes publish their state and lifetime receipt in one short `BEGIN IMMEDIATE` transaction; successful replay returns the original result. The first Resume becomes default. Removing the final Resume is allowed and clears the default. Reads never create or repair state.
 
@@ -120,7 +120,7 @@ No real user directory was migrated during development. For an existing schema-1
 
 ## Saved Resume Materials
 
-The schema-8 runtime retains the schema-6 Materials tables, RenderConfigurations, exact RenderIntents, private fenced Work, Artifacts/provenance and the independent Materials receipt namespace. Six operations and client obligations are documented in the [Materials API guide](../docs/api/sl-02-m2.md). The renderer consumes the exact schema-2 ResumeVersion directly, including contacts, entry fields and local AST; it has no Profile/Evidence authority join. Schemas 1 through 7 are recognized but never silently migrated.
+The schema-8 runtime retains the schema-6 Materials tables, RenderConfigurations, exact RenderIntents, private fenced Work, Artifacts/provenance and the independent Materials receipt namespace. Six operations and client obligations are documented in the [Materials API guide](../docs/development/api/sl-02-m2.md). The renderer consumes the exact schema-2 ResumeVersion directly, including contacts, entry fields and local AST; it has no Profile/Evidence authority join. Schemas 1 through 7 are recognized but never silently migrated.
 
 ```sh
 uv sync --locked

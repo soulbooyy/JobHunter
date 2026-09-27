@@ -1,10 +1,10 @@
 # Workspace Contract — Local M1 Startup and Navigation
 
-> **Current applicability — 2026-09-24.S2M1S1-r1.** WSP-008–011 initialization, final-removal and replacement-selection clauses are superseded by WSP-013–015. Local placement, exclusive ownership, loopback and Host/Origin admission survive. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+> **Current applicability — 2026-09-24.S2M1S1-r1.** WSP-008–011 initialization, final-removal and replacement-selection clauses are superseded by WSP-013–015. Local placement, exclusive ownership, loopback and Host/Origin admission survive. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../.grill/contract/sl-02-m1-supplement/decisions.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
 
 > English is authoritative. Normative scope revision: **2026-09-19.M1-r1**. Scope: SL-01.M1 local startup, access and delivered navigation. Resume defaults and later Workspace capabilities remain outside this scope. [Progress](../../progress/traceability.md#6-contract-normative-scope-readiness-ledger) records readiness separately.
 
-[Index](../index.md) · [Common](../common.md) · [Entry](../jobs/manual-application-entries.md) · [Storage](storage.md) · [Decisions](../../design/contract/sl-01-m1-grill.md)
+[Index](../index.md) · [Common](../common.md) · [Entry](../jobs/manual-application-entries.md) · [Storage](storage.md) · [Decisions](../../.grill/contract/sl-01-m1/decisions.md)
 
 ## 1. Workspace meaning and initialization
 
@@ -71,7 +71,7 @@ Scope revision **2026-09-21.S2M1-r1**. WSP-001–007 remain preserved for their 
 
 ## 6. SL-02.M2 runtime applicability
 
-Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../design/contract/sl-02-m2-grill.md).
+Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../.grill/contract/sl-02-m2/decisions.md).
 
 <a id="wsp-012"></a>
 **WSP-012.** SL-02.M2 MUST retain WSP-001–004/006's single local user, placement, first-use, exclusive physical-directory ownership and configured loopback Host/Origin boundaries. STO-029–039 supplies the M2 binary's schema/registration applicability, superseding only older literal target-version references for that binary; no automatic migration is authorized. Its six Materials/Derived Work operations use DRW-022 transport, not SAV-012's no-query rule for the content operation or changed SL-01 parsing. Missing render dependencies MUST leave otherwise healthy startup and unrelated delivered APIs usable; configuration/persistence integrity failures remain explicit under STO-032/038. No new Workspace identity, login, general remote API or runtime-lock/lease authority is introduced. Q102/Q107/Q113/Q120/Q127.

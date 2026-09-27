@@ -1,6 +1,6 @@
 # JobHunter Product Specification
 
-> **2026-09-24 supplemental baseline.** [CG03S1](design/contract/sl-02-m1-supplement-grill.md) supersedes shared Profile/Evidence authority and parallel Fits. Independent Resumes, default-derived read-only portrait and suggestion-only optimization below are approved scope; implementation status is separate.
+> **2026-09-24 supplemental baseline.** [CG03S1](.grill/contract/sl-02-m1-supplement/decisions.md) supersedes shared Profile/Evidence authority and parallel Fits. Independent Resumes, default-derived read-only portrait and suggestion-only optimization below are approved scope; implementation status is separate.
 
 > English is the authoritative documentation language. This document defines intended product behavior; it does not report implemented features or passed tests.
 
@@ -10,7 +10,7 @@ JobHunter is a single-user, local-first personal job-search workspace. It helps 
 
 This specification owns product behavior; [Architecture](architecture.md), [Contracts](contracts/index.md), [Acceptance](acceptance.md), and the [other documentation owners](index.md#formal-document-owners) own their respective responsibilities.
 
-**Sources:** Q1–Q6, Q11, Q22, Q26, Q32, Q53, S24.2, S37.1, S38.1; Q/S references identify provenance in the [Decision Register](design/grill-me-design-tree.md).
+**Sources:** Q1–Q6, Q11, Q22, Q26, Q32, Q53, S24.2, S37.1, S38.1; Q/S references identify provenance in the [Decision Register](.grill/grill-me-design-tree.md).
 
 ## 2. Workspace and task organization
 
@@ -40,7 +40,7 @@ Job Pool defaults to a flat Job list. It may offer a Company aggregation view th
 
 ManualApplicationEntry records appear only in their separate view within Job Pool, never mixed into the formal Job list or Company projection. They provide a manual application shortcut without another top-level navigation entry.
 
-A one-run Fit selection, Collection admission, beginning preparation, and a real application are different actions. Long-lived pursuit/bookmark intent remains deferred; that exclusion does not exclude the explicitly accepted ManualApplicationEntry capability. See [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1).
+A one-run Fit selection, Collection admission, beginning preparation, and a real application are different actions. Long-lived pursuit/bookmark intent remains deferred; that exclusion does not exclude the explicitly accepted ManualApplicationEntry capability. See [CG01-BC1](.grill/contract/sl-01-m1/decisions.md#cg01-bc1).
 
 **Sources:** Q6, Q23, Q146, Q153, S5.1, S5.3, S17.1–S17.4; S37.1 removes compatibility-only retention of old Shortlisted behavior.
 
@@ -69,7 +69,7 @@ Default switch commits immediately and rebuilds asynchronously. A meaningful sav
 
 Deleting default with other Resumes preselects next, otherwise previous, in the canonical list, allows the user to choose another replacement and shows the change before confirmation. Backend cannot silently reselect after a race. Final Resume removal is allowed and clears default/portrait. Empty or contacts/Header-only Resumes can save and be default, but produce no usable portrait or model call. Create/import is available; Preferences and manual application entries remain independent.
 
-Automatic semantic updates use the Resume Entry as their rebuild unit: a Block or admitted background-field change dirties that whole Entry. Re-derive its Profile group from complete current admitted background and original Evidence; reuse/rebind proven unchanged Entries and remove deleted Entries' groups. No cross-Entry capability refs or recursive propagation exist. All six structured Entry kinds participate. Use a compatible successful same-Resume baseline despite intermediate failures; without one, generate all Entries. Switching back to an unchanged exact version can reattach its latest compatible successful historical portrait under a new current build; a different version requires a new exact pair. Explicit refresh always requests full regeneration and only deduplicates matching active full work. In the current consumer version, all required Entries use one model request; capacity excess fails without truncation or automatic batching. See [Q42–Q46](design/contract/sl-02-m1-supplement-grill.md#cg03s1-q42).
+Automatic semantic updates use the Resume Entry as their rebuild unit: a Block or admitted background-field change dirties that whole Entry. Re-derive its Profile group from complete current admitted background and original Evidence; reuse/rebind proven unchanged Entries and remove deleted Entries' groups. No cross-Entry capability refs or recursive propagation exist. All six structured Entry kinds participate. Use a compatible successful same-Resume baseline despite intermediate failures; without one, generate all Entries. Switching back to an unchanged exact version can reattach its latest compatible successful historical portrait under a new current build; a different version requires a new exact pair. Explicit refresh always requests full regeneration and only deduplicates matching active full work. In the current consumer version, all required Entries use one model request; capacity excess fails without truncation or automatic batching. See [Q42–Q46](.grill/contract/sl-02-m1-supplement/decisions.md#cg03s1-q42).
 
 ### 3.5 Current use, grounding, and generated materials
 
@@ -91,7 +91,7 @@ An entry is not a Requirements, DeepFit, Job-targeted optimization, Job-targeted
 
 Formal BOSS collection admits only validated complete details/JD, creating a Job and its first immutable JobVersion together. There is no Manual root-only exception in the formal Job family. Complete canonical JD and exact immutable content snapshots remain required.
 
-**Sources:** Q12–Q13, Q17, Q44, Q48–Q49, S9.1, with later [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1) replacing the Manual Job path while retaining formal Job completeness/version/history invariants.
+**Sources:** Q12–Q13, Q17, Q44, Q48–Q49, S9.1, with later [CG01-BC1](.grill/contract/sl-01-m1/decisions.md#cg01-bc1) replacing the Manual Job path while retaining formal Job completeness/version/history invariants.
 
 <a id="42-preferences-and-deterministic-quickscreen"></a>
 ### 4.2 Preferences as future collection intent
@@ -104,11 +104,11 @@ Before first formal acquisition, the user must explicitly choose a legal value f
 
 City intent is city-level, without inferred neighbouring cities, districts or commute distances. Salary intent is a minimum CNY pre-tax monthly base amount, without automatic annual/day-rate, bonus/equity or extra-month conversion. Recruitment types support multi-selection of CAMPUS, INTERNSHIP, EXPERIENCED and PART_TIME; unrestricted is not a persisted type enum member. These are user acquisition categories, not a claim of one mutually exclusive source field. Company exclusions use complete display-name equality after fixed outer trim without case/Unicode/width or suffix/alias conversion, without implicit fuzzy/substring/affiliate matching. `max_required_education` limits a Job's required education; MASTER means master's and below, not the Candidate's own credential. CG02-Q18 defines six ordered education levels, grouping high school and secondary vocational/technical school into UPPER_SECONDARY; source qualification mapping remains later Collection work.
 
-The canonical dimension fields are `target_job_keywords`, `accepted_cities`, `minimum_salary`, `recruitment_types`, `excluded_companies` and `max_required_education` under [CG02-Q11–Q15](design/contract/sl-01-m2-grill.md#cg02-q11). Keyword/city/company controls add one structured item at a time and display removable Chips; there is no comma-string parser. The other five dimensions have explicit UNLIMITED checkboxes that disable their concrete controls. Salary UI accepts ordinary integer input in CNY/month; the backend accepts exact JSON integer values in [1, 300000], including equivalent decimal/exponent spellings, without coercing strings or rounding invalid fractions; recruitment types are multi-select and education is single-select. Short UI labels use explanatory text to distinguish monthly base pay and Job-required education from Candidate credentials. Any invalid field makes the complete Save fail atomically; backend validation cannot be replaced by UI checks. Inactive unsaved drafts are not authoritative constraints.
+The canonical dimension fields are `target_job_keywords`, `accepted_cities`, `minimum_salary`, `recruitment_types`, `excluded_companies` and `max_required_education` under [CG02-Q11–Q15](.grill/contract/sl-01-m2/decisions.md#cg02-q11). Keyword/city/company controls add one structured item at a time and display removable Chips; there is no comma-string parser. The other five dimensions have explicit UNLIMITED checkboxes that disable their concrete controls. Salary UI accepts ordinary integer input in CNY/month; the backend accepts exact JSON integer values in [1, 300000], including equivalent decimal/exponent spellings, without coercing strings or rounding invalid fractions; recruitment types are multi-select and education is single-select. Short UI labels use explanatory text to distinguish monthly base pay and Job-required education from Candidate credentials. Any invalid field makes the complete Save fail atomically; backend validation cannot be replaced by UI checks. Inactive unsaved drafts are not authoritative constraints.
 
 Only successful explicit Save publishes authority. Ordinary Save checks revision before canonical comparison; stale revision conflicts even for equal content. A current-revision canonical no-op creates neither a version nor a revision increment. A real change publishes a new immutable PreferenceSetVersion. Keyword/city/type/company values are unordered sets; backend field-specific normalization/deduplication and deterministic ordering establish equality, so order/duplicate-only differences are no-ops. Keywords use fixed Common outer trim without case/Unicode/width/internal-space or synonym conversion. Cities/companies use the same fixed trim and preserve other text. Text sets use Unicode code-point order; recruitment types use their declared enum order. CG02-Q20 fixes item/canonical-set limits; complete request/error/retry representation remains Contract work. PreferenceSet is lazily created with its first immutable version and current pointer in the first successful complete Save; Workspace initialization creates none, and failed first Save leaves no root. First publication starts revision at 1; real changes increment it, while maximum revision still permits a valid no-op. Successful immutable versions retain complete content for the Workspace lifetime, without automatic expiry, single-version deletion or rollback. Reading current Preferences before first Save succeeds as NOT_CONFIGURED and creates nothing. Each logical Save has a request identity for durable successful replay, which returns its original result without restoring an old current pointer. Successful request receipts, including no-op receipts, are retained for the Workspace lifetime and committed atomically with their outcomes. Current reads return a consistent root/version pair; exact-version reads never substitute current. Save success distinguishes CREATED, UPDATED and UNCHANGED and replays the original result. The actual [Preferences Contract](contracts/candidate/preferences.md) now owns these operations and their detailed error/receipt interfaces. No named SearchProfiles or parallel long-lived configurations are introduced.
 
-**Sources:** Q45/Q55/Q56/Q161 and S17.1 as explicitly revised by [CG02-BC1](design/contract/sl-01-m2-grill.md#cg02-bc1), [CG02-Q6–Q10](design/contract/sl-01-m2-grill.md#cg02-q6) and [CG02-S1](design/contract/sl-01-m2-grill.md#cg02-s1). The former M2 QuickScreen, current-Preference re-screening and CG02-Q2 versioning deferral are superseded.
+**Sources:** Q45/Q55/Q56/Q161 and S17.1 as explicitly revised by [CG02-BC1](.grill/contract/sl-01-m2/decisions.md#cg02-bc1), [CG02-Q6–Q10](.grill/contract/sl-01-m2/decisions.md#cg02-q6) and [CG02-S1](.grill/contract/sl-01-m2/decisions.md#cg02-s1). The former M2 QuickScreen, current-Preference re-screening and CG02-Q2 versioning deferral are superseded.
 
 ### 4.3 Local browsing and explicit collection
 
@@ -122,13 +122,13 @@ Changing Preferences must not delete or hide existing formal Jobs, add preferenc
 
 JobPoolViewFilter is independent browsing/query state over existing Jobs. Company/role query, city, batch, industry and update-time filters are examples, not a finalized schema. View filters do not modify Preferences, create PreferenceSetVersion, affect future Collection, delete or mutate Jobs, or generate QuickScreenResult. They may remain frontend state or be carried as backend query parameters; persistence and concrete fields belong to the later query/UI Contract under jobs-screening. No new Company authority or query document is introduced.
 
-**Sources:** Q49/Q161 and S9.1, with [CG02-BC1](design/contract/sl-01-m2-grill.md#cg02-bc1) superseding current-Preference formal-Job filtering while preserving exact collection provenance, complete admission, stop and retention boundaries.
+**Sources:** Q49/Q161 and S9.1, with [CG02-BC1](.grill/contract/sl-01-m2/decisions.md#cg02-bc1) superseding current-Preference formal-Job filtering while preserving exact collection provenance, complete admission, stop and retention boundaries.
 
 ### 4.4 Freshness and availability
 
 The pool distinguishes when content was captured, when a source listing was last reliably observed, and when availability was directly verified. Unchanged content can update observations without creating a new JobVersion. Semantic change creates a new version without rewriting old consumers.
 
-Old data can be stale without being closed. Absence from one search result is not closure. Reliable source evidence of closure blocks new automatic application but retains the Job and history. These freshness/availability meanings apply to formal Jobs, not ManualApplicationEntry. User reports remain distinguishable from direct source verification; formal content eligibility, material readiness and application progress remain separate concerns. [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1) replaces the former Manual Job UNKNOWN rule.
+Old data can be stale without being closed. Absence from one search result is not closure. Reliable source evidence of closure blocks new automatic application but retains the Job and history. These freshness/availability meanings apply to formal Jobs, not ManualApplicationEntry. User reports remain distinguishable from direct source verification; formal content eligibility, material readiness and application progress remain separate concerns. [CG01-BC1](.grill/contract/sl-01-m1/decisions.md#cg01-bc1) replaces the former Manual Job UNKNOWN rule.
 
 **Sources:** Q7, Q44, Q48, Q50.
 
@@ -227,7 +227,7 @@ Platform limits and delays quoted in research are not official guarantees or fro
 
 ### 8.3 Real application history
 
-Technical ExecutionEvents describe actions and observations. ApplicationEvents represent real business facts established through reliable channel read-back or explicit human report. Contact, material sending, formal application, and replies remain distinguishable; no universal channel sequence is implied. Human reporting for a formal Job creates human-reported history without fabricating browser execution, approvals, or snapshots. It does not require prior automated execution. ManualApplicationEntry cannot be its target, and opening an entry URL establishes no application fact ([CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1)).
+Technical ExecutionEvents describe actions and observations. ApplicationEvents represent real business facts established through reliable channel read-back or explicit human report. Contact, material sending, formal application, and replies remain distinguishable; no universal channel sequence is implied. Human reporting for a formal Job creates human-reported history without fabricating browser execution, approvals, or snapshots. It does not require prior automated execution. ManualApplicationEntry cannot be its target, and opening an entry URL establishes no application fact ([CG01-BC1](.grill/contract/sl-01-m1/decisions.md#cg01-bc1)).
 
 One ApplicationRecord represents one real application attempt for a Job/channel/account. Reapplication creates a new record. Events are append-only and deduplicated; delayed events retain occurrence and observation distinctions. Corrections and retractions append new events rather than erasing history.
 
@@ -245,7 +245,7 @@ Advisor uses typed, permitted business actions. It is not a general Shell, SQL, 
 
 Saved scope, admitted scope, and what a model actually saw are separate. References alone are not proof of content inspection. Revocation and future-use restrictions apply even when immutable historical records remain readable. Content already sent to a Provider cannot be retracted by local deletion or a switch change.
 
-**Sources:** Q19, Q54, Q72, Q82–Q83, Q94, Q120–Q121, Q126, Q128, Q138–Q139, Q143–Q144, Q172; [Tool Actions](design/harness/tool.md).
+**Sources:** Q19, Q54, Q72, Q82–Q83, Q94, Q120–Q121, Q126, Q128, Q138–Q139, Q143–Q144, Q172; [Tool Actions](.grill/harness/tool.md).
 
 ### 9.2 Bounded work and recoverable outcomes
 
@@ -257,7 +257,7 @@ If a complete response is durably available, local processing can recover withou
 
 Partial streamed text is temporary presentation, not a durable Suggestion, completed Turn, Memory source, or proof of Save. It may disappear after refresh and cannot be joined to a Retry's output. Frontend disconnection does not itself cancel a healthy backend; reconnection can retrieve its completed result.
 
-**Sources:** Q116, Q122, Q124–Q125, Q135, Q140–Q142, Q147, Q152, Q156, Q165; [Recovery](design/harness/recovery.md), [Budget](design/harness/budget.md), [Storage](design/harness/storage.md).
+**Sources:** Q116, Q122, Q124–Q125, Q135, Q140–Q142, Q147, Q152, Q156, Q165; [Recovery](.grill/harness/recovery.md), [Budget](.grill/harness/budget.md), [Storage](.grill/harness/storage.md).
 
 ### 9.3 Conversation context and retention
 
@@ -265,7 +265,7 @@ Conversation continuity does not mean every past message is sent on every model 
 
 Formal business history, Session content, collaboration Memory, protected recovery payload, and minimal audit/logging have different purposes and retention. Ordinary logs must not contain secrets or complete sensitive Resume/Evidence/prompt/response payloads. Cleaning payload or chat does not erase independent business history. If exact historical invocation content is unavailable, the product must not imply it can reconstruct it from current facts or a summary. A necessary unavailable source prevents reliable continuation or requires user input; it does not authorize automatic platform revisits or external replay. Exact retention periods and cleanup interfaces remain deferred.
 
-**Sources:** Q47, Q52, Q83, Q125, Q127, Q131–Q132, Q136, Q139, Q141; [Context](design/harness/context.md), [Storage](design/harness/storage.md).
+**Sources:** Q47, Q52, Q83, Q125, Q127, Q131–Q132, Q136, Q139, Q141; [Context](.grill/harness/context.md), [Storage](.grill/harness/storage.md).
 
 ## 10. Collaboration Memory
 
@@ -277,7 +277,7 @@ Current explicit instructions override remembered interaction style for that int
 
 RequirementParse, Profile derivation and DeepFit receive no Long-term Memory, including through summaries or Tools. Advisor may use admitted collaboration preferences, feedback, and working style. Storing reusable learning does not implicitly authorize Advisor to read that category or introduce a General Assistant/interview Skill.
 
-**Sources:** Q127–Q129, Q133, Q138–Q139; [Memory](design/harness/memory.md), sections 3, 4, and 9.
+**Sources:** Q127–Q129, Q133, Q138–Q139; [Memory](.grill/harness/memory.md), sections 3, 4, and 9.
 
 ### 10.2 Three independent user controls
 
@@ -291,7 +291,7 @@ Learning off does not turn Recall off, and Recall off does not disable learning.
 
 Direct Memory blocks are excluded from Context checkpoints so that Recall controls future admission. v1 does not promise to remove indirect influence already present in actual assistant history or retract earlier transmissions.
 
-**Sources:** Q131–Q132, Q137, Q139, Q145; [Memory](design/harness/memory.md), sections 6, 8, 10, and 13. Q139 controls over earlier combined-switch wording.
+**Sources:** Q131–Q132, Q137, Q139, Q145; [Memory](.grill/harness/memory.md), sections 6, 8, 10, and 13. Q139 controls over earlier combined-switch wording.
 
 ### 10.3 Learning, failure, and forgetting
 
@@ -303,7 +303,7 @@ Forgetting stops future admission and removes the entry from valid derived summa
 
 Session deletion and Memory forgetting are distinct. Deleting a source Session prevents new extraction or publication from its pending/in-flight ranges but does not delete previously accepted Memory. Already committed business facts remain. Cancellation where possible and truthful usage/audit remain necessary; deletion cannot retract remote transmission or establish zero cost.
 
-**Sources:** Q127–Q131, Q139, Q141, Q145, Q155–Q156, Q169–Q170; [Memory](design/harness/memory.md), sections 6, 7, and 13–15.
+**Sources:** Q127–Q131, Q139, Q141, Q145, Q155–Q156, Q169–Q170; [Memory](.grill/harness/memory.md), sections 6, 7, and 13–15.
 
 ## 11. Quality and evidence boundaries
 
@@ -315,7 +315,7 @@ Evaluators and observations assess outcomes; they do not decide whether a fact c
 
 The Architecture and Acceptance drafts own Eval responsibilities and required evidence mapping; concrete Eval interfaces remain Contract work. This document defines no trial count, numerical acceptance threshold, automatic enablement or release policy. Formal annotated ParserVersion certification remains deferred; real-JD tests, manual inspection, and traceable quality work remain required. No implementation or Eval results are asserted by this specification.
 
-**Sources:** Q82, Q117, Q168, Q173–Q180, Q184–Q186, S17.1, S35.1; [Agent Evaluation](design/eval/agent-evaluation.md), especially sections 18–20.
+**Sources:** Q82, Q117, Q168, Q173–Q180, Q184–Q186, S17.1, S35.1; [Agent Evaluation](.grill/eval/agent-evaluation.md), especially sections 18–20.
 
 ## 12. Non-goals and pending detail
 
@@ -325,7 +325,7 @@ The following are not v1 requirements established by this specification:
 
 - Multiple Candidates, tenants, a unified Candidate Aggregate, or speculative ownership fields: Q53.
 - Cross-platform canonical merging or historical Job merge operations: Q12 controls; Q13 is rejected.
-- Bookmark/pursuit UX retained merely for compatibility: Q23, S37.1. The explicitly accepted ManualApplicationEntry in section 4.1 is separate current scope ([CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1)).
+- Bookmark/pursuit UX retained merely for compatibility: Q23, S37.1. The explicitly accepted ManualApplicationEntry in section 4.1 is separate current scope ([CG01-BC1](.grill/contract/sl-01-m1/decisions.md#cg01-bc1)).
 - Named SearchProfiles and parallel saved search configurations: Q55.
 - Competing private Knowledge fact stores, arbitrary historical-version pickers, persistent atomic Assertions or independently editable bullet-level fact authorities (read-only exact-version block Evidence is required). BC3 supersedes the old ban on retained historical Resume bindings and alternate local expression; Q109's rejected Overlay-isolation mechanism is not reinstated.
 - Knowledge completeness confirmation, persisted Resume coverage scoring, a joint Fit score, or a mandatory Fit-before-Advisor pipeline: Q24, Q56, Q112–Q113.

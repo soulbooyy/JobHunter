@@ -2,7 +2,7 @@
 
 ## Current development transfer — 2026-09-24.S2M1S1-r1
 
-**Classification:** Backend targeted adaptation; frontend first implementation. This addendum controls the replaced source scope; any older body below is a historical snapshot. [Owning plan](../../plans/slices/sl-02-saved-authority-materials.md) · [Accepted supplement](../../design/contract/sl-02-m1-supplement-grill.md) · [Current scope/evidence](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+**Classification:** Backend targeted adaptation; frontend first implementation. This addendum controls the replaced source scope; any older body below is a historical snapshot. [Owning plan](../../plans/slices/sl-02-saved-authority-materials.md) · [Accepted supplement](../../.grill/contract/sl-02-m1-supplement/decisions.md) · [Current scope/evidence](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
 
 **Consumed scope:** MAT-031–033; RES-018–024; STO-058; surviving MAT/DRW/COM/WSP/SAV-017 exact-demand scopes. Read the actual Contract bodies through [Contract Index](../../contracts/index.md); indexes/planned paths are not norms. Read Product/Architecture/Acceptance, AGENTS.md and maintained component guides before implementation. Old shared Profile/Evidence/Baseline authority, Knowledge-first Save, parallel Fits and mandatory current assistant apply are superseded only as recorded in those owners.
 
@@ -24,7 +24,7 @@
 
 > English is authoritative. Transfer revision: **2026-09-21.S2M2-r1**, following effective CG04-Q1–Q135 and explicit user authorization for closure review, necessary writeback and normative publication. This is a development entry point, not implementation or renderer evidence. Read [scope review and prerequisites](../../progress/traceability.md#64-sl-02m2-reviewed-scope-and-interface-evidence) before work.
 
-[Milestone plan](../../plans/slices/sl-02-saved-authority-materials.md#sl-02m2-demanded-preview-and-export) · [Contract Index](../../contracts/index.md) · [Decision register](../../design/contract/sl-02-m2-grill.md) · [Acceptance](../../acceptance.md#43-demand-and-safe-derivative-recovery)
+[Milestone plan](../../plans/slices/sl-02-saved-authority-materials.md#sl-02m2-demanded-preview-and-export) · [Contract Index](../../contracts/index.md) · [Decision register](../../.grill/contract/sl-02-m2/decisions.md) · [Acceptance](../../acceptance.md#43-demand-and-safe-derivative-recovery)
 
 ## 1. Backend scope and consumed definitions
 
@@ -73,7 +73,7 @@ The following are unfinished engineering work, not approved concrete catalog val
 | File protocol | Validate stable-snapshot serving, non-overwriting final placement, flush/directory durability and crash behavior on the supported filesystem; separate logical state from live renderer/file ownership |
 | Output conformance | Verify fixed A4 pages, actual PDF numerical serialization tolerance, embedded/textual fonts, permitted links/no active content, complete PNG assembly and failure behavior for unsupported glyphs/limits |
 
-The Grill's [research record](../../design/contract/sl-02-m2-grill.md#research-and-verification-boundaries) supplies primary-source observations. WeasyPrint → PDFium → PNG assembly is a candidate research path, not a selected or tested stack. Pango's synthesis API is not evidence that synthesis survives a PDF path. Do not install an entire proposed stack without the repository's normal component-adoption work in the implementation task.
+The Grill's [research record](../../.grill/contract/sl-02-m2/decisions.md#research-and-verification-boundaries) supplies primary-source observations. WeasyPrint → PDFium → PNG assembly is a candidate research path, not a selected or tested stack. Pango's synthesis API is not evidence that synthesis survives a PDF path. Do not install an entire proposed stack without the repository's normal component-adoption work in the implementation task.
 
 A structurally valid configuration can register while dependencies are missing, with can_generate=false. Existing artifact reads/Candidate APIs may remain usable. All four logical font choices and applicable output dependencies must meet their gates before advertising true. A false flag is truthful partial availability, not fulfillment of M2's rendering delivery requirement.
 
@@ -103,11 +103,11 @@ Current publication checks are recorded in the ledger. No runtime tests, depende
 
 ## Scoped implementation-time font correction — 2026-09-23
 
-The original prerequisite table above is a historical checkpoint. [The accepted font amendment](../../design/contract/sl-02-m2-grill.md#cg04-font-20260923) and current MAT-012 supersede its native-four-face requirement and Source Han Sans-only exception: Sarasa Gothic SC uses four native faces; Source Han Sans SC 2.005R and Source Han Serif CN use official Regular/Bold plus deterministic italic derivatives; LXGW WenKai 1.522 maps Regular/Medium to regular/bold with corresponding italic derivatives. All four final role hashes are required. No rendering capability is established by this correction alone.
+The original prerequisite table above is a historical checkpoint. [The accepted font amendment](../../.grill/contract/sl-02-m2/decisions.md#cg04-font-20260923) and current MAT-012 supersede its native-four-face requirement and Source Han Sans-only exception: Sarasa Gothic SC uses four native faces; Source Han Sans SC 2.005R and Source Han Serif CN use official Regular/Bold plus deterministic italic derivatives; LXGW WenKai 1.522 maps Regular/Medium to regular/bold with corresponding italic derivatives. All four final role hashes are required. No rendering capability is established by this correction alone.
 
 ## Backend-to-client transfer — 2026-09-23
 
-The backend now targets schema 4 through `a41d7e90c263`, preserving all earlier revision definitions and requiring explicit offline migration. Exact Materials source projection, retained demand/receipts, one fenced execution slot, fixed verified PDF/PNG pipeline and the six public routes are implemented. Read the maintained [backend operation guide](../../../backend/README.md#saved-resume-materials), [derived API guide](../../api/sl-02-m2.md), live `/openapi.json` and [actual requirement/test evidence](../../progress/traceability.md#materials-backend-evidence); this checkpoint supersedes the original “not installed/not implemented” snapshot only for those delivered backend responsibilities.
+The backend now targets schema 4 through `a41d7e90c263`, preserving all earlier revision definitions and requiring explicit offline migration. Exact Materials source projection, retained demand/receipts, one fenced execution slot, fixed verified PDF/PNG pipeline and the six public routes are implemented. Read the maintained [backend operation guide](../../../backend/README.md#saved-resume-materials), [derived API guide](../api/sl-02-m2.md), live `/openapi.json` and [actual requirement/test evidence](../../progress/traceability.md#materials-backend-evidence); this checkpoint supersedes the original “not installed/not implemented” snapshot only for those delivered backend responsibilities.
 
 The fixed renderer currently verifies macOS 26.6.2 arm64, Python 3.12.13 and exact pinned native dependencies. Install reviewed font assets explicitly with `uv run --locked python scripts/install_render_fonts.py`; an unavailable renderer leaves the configuration list empty without disabling unrelated APIs/retained artifacts. The 2026-09-23 user-approved font amendment above is effective; it does not remove actual-output capability gates.
 

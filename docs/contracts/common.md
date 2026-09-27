@@ -1,10 +1,10 @@
 # Common Contract — Shared Expression and M1 Types
 
-> **Current applicability — 2026-09-24.S2M1S1-r1.** COM-038’s server-generated-ID rule gains the logical-ID exception below; COM-038’s schema-1 literals for ResumeVersion/CandidateCommandReceipt and COM-043’s schema-1 Artifact/RenderManifest literals are superseded by RES-018/SAV-020/MAT-032 for the new schema-2 objects; existing scalar, privacy, error and value-encoder definitions retain their meanings. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../design/contract/sl-02-m1-supplement-grill.md); [current review](../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+> **Current applicability — 2026-09-24.S2M1S1-r1.** COM-038’s server-generated-ID rule gains the logical-ID exception below; COM-038’s schema-1 literals for ResumeVersion/CandidateCommandReceipt and COM-043’s schema-1 Artifact/RenderManifest literals are superseded by RES-018/SAV-020/MAT-032 for the new schema-2 objects; existing scalar, privacy, error and value-encoder definitions retain their meanings. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../.grill/contract/sl-02-m1-supplement/decisions.md); [current review](../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
 
 > English is authoritative. Normative scope revision: **2026-09-19.M1-r1**. Scope: conventions and types actually consumed by SL-01.M1. Later additions below publish only their stated consumer scopes; other formal-asset, invocation and immutable-reference schemas remain unassigned. Readiness and review evidence belong to [Progress](../progress/traceability.md#6-contract-normative-scope-readiness-ledger), not this header.
 
-[Index](index.md) · [Decision provenance](../design/contract/sl-01-m1-grill.md) · [Entry](jobs/manual-application-entries.md) · [Workspace](foundation/workspace.md) · [Storage](foundation/storage.md)
+[Index](index.md) · [Decision provenance](../.grill/contract/sl-01-m1/decisions.md) · [Entry](jobs/manual-application-entries.md) · [Workspace](foundation/workspace.md) · [Storage](foundation/storage.md)
 
 ## 1. Naming and normative expression
 
@@ -196,7 +196,7 @@ Scope revision **2026-09-21.S2M1-r1**. Existing COM-001–037 and SL-01 consumer
 
 ## 6. SL-02.M2 shared expression
 
-Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer scopes remain effective unless an applicability extension below explicitly says otherwise. Provenance: [CG04](../design/contract/sl-02-m2-grill.md).
+Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer scopes remain effective unless an applicability extension below explicitly says otherwise. Provenance: [CG04](../.grill/contract/sl-02-m2/decisions.md).
 
 <a id="com-043"></a>
 **COM-043.** SL-02.M2 MUST consume COM-001–028, COM-029/032 and COM-038/039's closed-field and validation conventions; MAT-012 owns the four required logical font-role mappings. The additional owner prefix is DRW (Derived Work). Artifact, RenderIntent, Work and attempt identities MUST be distinct server-generated UuidV4 values; shipped RenderConfiguration identities are fixed application-assigned UuidV4 values. request_id remains client-generated in its own command namespace. Serialized RenderConfiguration, RenderManifest, Artifact and Materials receipt schema_version MUST be integer 1; this does not select a database migration version. No other object acquires a schema_version, revision or timestamp field merely by analogy. Q1–Q16, Q33/Q48/Q75/Q88/Q127.

@@ -1,6 +1,6 @@
 # JobHunter Architecture
 
-> **2026-09-24 supplemental baseline.** [CG03S1](design/contract/sl-02-m1-supplement-grill.md) replaces the candidate source model and downstream allocation. New normative revision is 2026-09-24.S2M1S1-r1; earlier design records remain scoped history, not current authority.
+> **2026-09-24 supplemental baseline.** [CG03S1](.grill/contract/sl-02-m1-supplement/decisions.md) replaces the candidate source model and downstream allocation. New normative revision is 2026-09-24.S2M1S1-r1; earlier design records remain scoped history, not current authority.
 
 > English is the authoritative documentation language. This W2 draft describes the target architecture, not an existing implementation. See [Progress](progress.md) for current joint-review and user-approval state. Contract architectural boundaries remain here; concrete document organization is in Contract Structure. Reviewed consumed Contracts are reached through Contract Index; future scopes retain their separate Contract Grill.
 
@@ -8,7 +8,7 @@
 
 The [Product Specification](spec.md) owns user tasks, entry points, prerequisites, and visible behavior. This document owns the supporting system responsibilities, business authority, dependencies, persistence, concurrency, permissions, recovery, Harness, and Eval boundaries. Repeating a product consequence here explains its mechanism; it does not create a competing definition.
 
-The [English authoring spec](../.scratch/document-authoring-spec.en.md) and [W1 handoff](../.scratch/w1-product-spec-handoff.md) guide document production. The [Decision Register](design/grill-me-design-tree.md), six Harness records, and detailed Eval record provide design provenance. Later corrections control the specific clauses they replace, regardless of an earlier record's ACCEPTED label. The [Contract Design Inventory](design/contract/contract-design-inventory.md) is a non-normative checklist, not a schema or independent source of new requirements.
+The [English authoring spec](../.scratch/document-authoring-spec.en.md) and [W1 handoff](../.scratch/w1-product-spec-handoff.md) guide document production. The [Decision Register](.grill/grill-me-design-tree.md), six Harness records, and detailed Eval record provide design provenance. Later corrections control the specific clauses they replace, regardless of an earlier record's ACCEPTED label. The [Contract Design Inventory](.grill/contract/contract-design-inventory.md) is a non-normative checklist, not a schema or independent source of new requirements.
 
 The [Acceptance](acceptance.md) draft owns required future proof of behavior, and [Development](development.md) owns delivery discipline. [Progress](progress.md) and its supporting [Traceability Matrix](progress/traceability.md) record actual status and evidence. Detailed `docs/contracts/*` remain planned and will own business/data/interface norms. This document does not supply missing fields, types, enums, state-transition tables, API payloads, database schemas, validation errors, or migrations. Existing conceptual names and bounded invariants do not finalize their representation.
 
@@ -22,7 +22,7 @@ The [user-approved process revision](../.scratch/document-authoring-spec.en.md#f
 
 SL-01.M1's accepted runtime is a loopback local backend with a browser frontend. Workspace owns first-use semantics and delivered navigation; Storage owns the stable startup-selected data directory, one-backend ownership, recognition, transactions and diagnostics. They are infrastructure boundaries, not multiple Workspace identities. The four [M1 Contracts](contracts/index.md#existing-normative-contracts) define their actual fields and protocols. Browser navigation waits for revision-checked resolution and satisfies final opener/referrer safety properties without becoming an Executor action.
 
-JobHunter is one single-user, local-first workspace. The five navigation entries and two Advisor entry modes are owned by Product section 2; navigation organizes tasks without defining Domain ownership. Company aggregation over formal Jobs is a read view, and no unified Candidate Aggregate or tenant hierarchy is introduced. ManualApplicationEntry is a separate mutable record outside the formal Job family; its browser-opening action is ordinary user navigation, not Collector or Executor activity ([CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1)).
+JobHunter is one single-user, local-first workspace. The five navigation entries and two Advisor entry modes are owned by Product section 2; navigation organizes tasks without defining Domain ownership. Company aggregation over formal Jobs is a read view, and no unified Candidate Aggregate or tenant hierarchy is introduced. ManualApplicationEntry is a separate mutable record outside the formal Job family; its browser-opening action is ordinary user navigation, not Collector or Executor activity ([CG01-BC1](.grill/contract/sl-01-m1/decisions.md#cg01-bc1)).
 
 | Responsibility | Owns | Must not own |
 | --- | --- | --- |
@@ -106,14 +106,14 @@ ManualApplicationEntry has separate identity and mutable company/role/applicatio
 
 The normative definition owner of formal Job identity, content, completeness, versions, lineage and read semantics remains `jobs/jobs-screening.md`. `jobs/collection.md` owns acquisition and adapter workflow under that Contract; SL-08.M2 is the first planned producer and integration milestone, not a semantic owner. `jobs/manual-application-entries.md` is the separate planned entry Contract owner.
 
-**Sources:** Q12–Q13, Q17, Q44, Q48–Q50, S9.1; later [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1) supersedes the Manual Job branch only and preserves formal canonical Job completeness and immutable history.
+**Sources:** Q12–Q13, Q17, Q44, Q48–Q50, S9.1; later [CG01-BC1](.grill/contract/sl-01-m1/decisions.md#cg01-bc1) supersedes the Manual Job branch only and preserves formal canonical Job completeness and immutable history.
 
 <a id="42-pure-screening-and-local-persistence"></a>
 ### 4.2 Acquisition intent, collection admission and local queries
 
-[CG02-BC1](design/contract/sl-01-m2-grill.md#cg02-bc1) separates three owners: Preferences expresses future acquisition intent; Collection consumes exact immutable PreferenceSetVersion through source planning/admission; Job Pool independently queries already-saved formal Jobs. The six dimensions and explicit-choice gate are defined in Product 4.2. Preferences does not own a source query plan, per-candidate predicate or continuing Job eligibility invariant.
+[CG02-BC1](.grill/contract/sl-01-m2/decisions.md#cg02-bc1) separates three owners: Preferences expresses future acquisition intent; Collection consumes exact immutable PreferenceSetVersion through source planning/admission; Job Pool independently queries already-saved formal Jobs. The six dimensions and explicit-choice gate are defined in Product 4.2. Preferences does not own a source query plan, per-candidate predicate or continuing Job eligibility invariant.
 
-SL-01.M2 supplies complete configuration, immutable versions, read/Save/concurrency and persistence. Under [CG02-S1](design/contract/sl-01-m2-grill.md#cg02-s1), all six dimensions require explicit legal choices before successful Save establishes configured state; no implicit all-empty unrestricted version. Revision admission precedes canonical no-op comparison; real changes create immutable versions. [CG02-Q11–Q15](design/contract/sl-01-m2-grill.md#cg02-q15) adds lazy atomic creation: Workspace bootstrap creates no Preference root; first valid Save creates root, first immutable version and current pointer together, with no residue after failure. Root carries the stable identity/current pointer/revision; versions carry immutable identity and owning-root reference, without is_current. [CG02-Q21–Q25](design/contract/sl-01-m2-grill.md#cg02-q21) defines complete root/version objects, revision-1 first publication, monotonic revision for real changes, successful request receipts and Workspace-lifetime immutable content retention. A replay identifies the original successful result without resetting current authority. Unconfigured reads succeed without creating state. [CG02-Q26–Q30](design/contract/sl-01-m2-grill.md#cg02-q26) fixes versioned Save/current/exact-version HTTP operations, replay-stable success outcomes and lifetime success receipts, including no-ops. Publications share one timestamp, clamped to the previous root.updated_at on clock rollback; no-op/replay refresh nothing. UUIDv4 and created_at provide no strict historical total order; current pointer identifies current, while revision orders root modifications. M2 adds no sequence field. [CG02-Q31–Q35](design/contract/sl-01-m2-grill.md#cg02-q31) fixes strict M2 input admission, bounded raw requests, nested field-error locations and explicit uncertain-Save retry. Common owns shared error representation/vocabulary and the scoped path grammar; Preferences owns triggers and operation mappings. Validated receipt replay precedes ordinary revision admission; errors do not permit hidden command reexecution. The consumed detail now has one normative owner in [Preferences PRF-001–023](contracts/candidate/preferences.md), with shared COM-033–037/WSP-007/STO-014–020 additions. Q38 keeps canonical business equality independent of JSON serialization; Q40 uses INVALID_FORMAT for known mode-incompatible value. [M2 scope review](progress/traceability.md#62-sl-01m2-reviewed-scope-and-interface-evidence) records readiness; implementation remains separate.
+SL-01.M2 supplies complete configuration, immutable versions, read/Save/concurrency and persistence. Under [CG02-S1](.grill/contract/sl-01-m2/decisions.md#cg02-s1), all six dimensions require explicit legal choices before successful Save establishes configured state; no implicit all-empty unrestricted version. Revision admission precedes canonical no-op comparison; real changes create immutable versions. [CG02-Q11–Q15](.grill/contract/sl-01-m2/decisions.md#cg02-q15) adds lazy atomic creation: Workspace bootstrap creates no Preference root; first valid Save creates root, first immutable version and current pointer together, with no residue after failure. Root carries the stable identity/current pointer/revision; versions carry immutable identity and owning-root reference, without is_current. [CG02-Q21–Q25](.grill/contract/sl-01-m2/decisions.md#cg02-q21) defines complete root/version objects, revision-1 first publication, monotonic revision for real changes, successful request receipts and Workspace-lifetime immutable content retention. A replay identifies the original successful result without resetting current authority. Unconfigured reads succeed without creating state. [CG02-Q26–Q30](.grill/contract/sl-01-m2/decisions.md#cg02-q26) fixes versioned Save/current/exact-version HTTP operations, replay-stable success outcomes and lifetime success receipts, including no-ops. Publications share one timestamp, clamped to the previous root.updated_at on clock rollback; no-op/replay refresh nothing. UUIDv4 and created_at provide no strict historical total order; current pointer identifies current, while revision orders root modifications. M2 adds no sequence field. [CG02-Q31–Q35](.grill/contract/sl-01-m2/decisions.md#cg02-q31) fixes strict M2 input admission, bounded raw requests, nested field-error locations and explicit uncertain-Save retry. Common owns shared error representation/vocabulary and the scoped path grammar; Preferences owns triggers and operation mappings. Validated receipt replay precedes ordinary revision admission; errors do not permit hidden command reexecution. The consumed detail now has one normative owner in [Preferences PRF-001–023](contracts/candidate/preferences.md), with shared COM-033–037/WSP-007/STO-014–020 additions. Q38 keeps canonical business equality independent of JSON serialization; Q40 uses INVALID_FORMAT for known mode-incompatible value. [M2 scope review](progress/traceability.md#62-sl-01m2-reviewed-scope-and-interface-evidence) records readiness; implementation remains separate.
 
 SL-08.M2 owns the actual source consumer. `jobs/collection.md` defines exact-version query/admission mapping and source adapter workflow; `jobs/jobs-screening.md` remains the sole definition owner of formal Job admission/content/history and local query semantics. It retains its catalog filename but supplies no M2 QuickScreen component. Search keywords need not appear literally in returned titles. No implicit synonym or model query expansion is introduced in the first release.
 
@@ -151,7 +151,7 @@ Save admission validates full owned content, logical IDs, canonical equality, re
 
 After commit deterministic Evidence is constructed and the protected model generates Profile. Publish a coherent pair only if the exact source and current build fence still match. A→B→A, new Save, refresh or removal makes earlier completion obsolete. Durable obligation discovery must recover without losing a source update or dispatching a second call. A complete durable model response may resume local validation/publication; uncertain calls cannot replay automatically. The current consumer version permits at most one request per attempt; deterministic Entry reuse/deletion assembly uses zero and remaps refs to the target exact version.
 
-Under [Q42–Q46](design/contract/sl-02-m1-supplement-grill.md#cg03s1-q42), ProfileIndexEntry is scoped to one source_entry_id; every ref belongs to that Entry. A changed Block or admitted background field dirties the whole Entry, whose complete current admitted fields/Evidence enter generation. Reuse unchanged groups, remove deleted groups and assemble in target Entry order; no persisted cross-Entry skill merge or dependency closure exists. DeepFit may aggregate at execution time. The current source schema has no separate global career-fact field.
+Under [Q42–Q46](.grill/contract/sl-02-m1-supplement/decisions.md#cg03s1-q42), ProfileIndexEntry is scoped to one source_entry_id; every ref belongs to that Entry. A changed Block or admitted background field dirties the whole Entry, whose complete current admitted fields/Evidence enter generation. Reuse unchanged groups, remove deleted groups and assemble in target Entry order; no persisted cross-Entry skill merge or dependency closure exists. DeepFit may aggregate at execution time. The current source schema has no separate global career-fact field.
 
 Automatic work chooses a successful compatible same-Resume baseline, including across failed versions; an exact compatible historical pair may reattach under fresh current qualification. New source versions require new Evidence/ref bindings and a new pair, even for zero-model reuse. Freeze the target, baseline, semantic configuration, Entry diff and merge/provenance plan before dispatch. Recover only that frozen merge from a lawful durable response. MODEL/INCREMENTAL/REUSE distinguish newly generated, mixed and zero-call assembled pairs; exact reattachment preserves its old immutable generation metadata. Explicit refresh records FULL intent, bypasses reuse and only deduplicates active FULL work; it supersedes AUTOMATIC work with a new fence without pretending its remote effects were cancelled. The current consumer batches all required Entries into at most one request and fails closed on capacity. Future controlled multi-request implementations need their own reviewed execution policy; Entry scope is the enduring semantic rule.
 
@@ -226,7 +226,7 @@ ApplicationExecutionSnapshot is immutable intended input, not execution permissi
 
 Executor's necessary authorized live identity/availability checks do not refresh JobVersion, parse Requirements, replace frozen inputs, or add model Job analysis. Mismatch/closure stops subsequent actions for explicit refresh/repreparation. All access also passes shared PlatformAccessSafety.
 
-ExecutionEvents describe technical actions/observations. Only reliable channel read-back or explicit human report establishes ApplicationEvents. Human reports about formal Jobs do not require automated execution and do not fabricate Snapshot/Approval/Executor history. ManualApplicationEntry is not an ApplicationRecord target; opening its URL creates no Attempt or application fact ([CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1)). ApplicationRecord identifies one real Job/channel/account attempt; reapplication creates another. Events are deduplicated and append-only, retain occurrence/observation distinctions, and use appended corrections/retractions. Versioned ApplicationProgressPolicy derives the read view; it is not independently writable status. Interviews remain ApplicationEvents without a new Aggregate.
+ExecutionEvents describe technical actions/observations. Only reliable channel read-back or explicit human report establishes ApplicationEvents. Human reports about formal Jobs do not require automated execution and do not fabricate Snapshot/Approval/Executor history. ManualApplicationEntry is not an ApplicationRecord target; opening its URL creates no Attempt or application fact ([CG01-BC1](.grill/contract/sl-01-m1/decisions.md#cg01-bc1)). ApplicationRecord identifies one real Job/channel/account attempt; reapplication creates another. Events are deduplicated and append-only, retain occurrence/observation distinctions, and use appended corrections/retractions. Versioned ApplicationProgressPolicy derives the read view; it is not independently writable status. Interviews remain ApplicationEvents without a new Aggregate.
 
 Batch application groups membership, scheduling, and progress, while each Job has its own Preparation, Snapshot, Approval, Attempt, and optional real application record. Bulk confirmation does not merge approval scopes or create an atomic business batch. Undispatched members are not failed/applied. Shared risk may stop later dispatch without rewriting completed outcomes.
 
@@ -264,7 +264,7 @@ Expose typed business read/list/search/write operations through Application boun
 
 ResumeAdvisor owns interaction and reuses SL-06 generic/Job-targeted optimization suggestions. It does not implement another optimizer or acquire authority to apply changes. Typed Tool admission and concrete task permissions remain required.
 
-**Sources:** Q120–Q122, Q126, Q128, Q138–Q144; [Tool Actions](design/harness/tool.md), sections 1–7 and 9–10.
+**Sources:** Q120–Q122, Q126, Q128, Q138–Q144; [Tool Actions](.grill/harness/tool.md), sections 1–7 and 9–10.
 
 The [M2 Tool scope](contracts/agent/tools.md) uses a finite static registry of typed owned actions. Provider schema is a controlled projection; Runtime admission enforces the full action protocol. One selected model request maps to one independently admitted TOOL Invocation; Skill owns list scheduling. Action completion survives later result-representation/admission failure. Reexecution defaults to forbidden unless an explicit action agreement permits it.
 
@@ -280,7 +280,7 @@ ContextPackage is the immutable initial scope/policy/input/capability manifest. 
 
 First lazy resolution pins exact versions. A same-task authorized write may add actual committed versions after admission, without guessing IDs, changing independent frozen tasks, or adopting unrelated edits. In the Proposal flow the generating Run has already ended; follow-up narration uses new execution.
 
-**Sources:** Q19, Q72, Q80, Q83, Q94, Q134, Q138–Q139, Q143, Q146, Q158; [Context](design/harness/context.md), sections 1–3.
+**Sources:** Q19, Q72, Q80, Q83, Q94, Q134, Q138–Q139, Q143, Q146, Q158; [Context](.grill/harness/context.md), sections 1–3.
 
 The [M2 headless Context scope](contracts/agent/context.md) freezes Provider-effective semantic content, not SDK objects or network request bytes. Provenance is immutable and attached to that Frame; it cannot replace actual content or become another independently current manifest. Deterministic local candidate preparation is discardable until the owned publication boundary. One estimator evaluation supplies Context capacity and Budget reservation inputs, while their policies remain separate. Historical Frame/Package audit/recovery reading remains lawful under its own access rules; permission to reuse content in a new model input is checked independently. M2 supplies no interactive compaction or Memory implementation.
 
@@ -292,7 +292,7 @@ Apply the accepted order: classify protected/compactable content; externalize la
 
 Trigger threshold and target watermark are separate to avoid repeated near-limit compaction. Values remain unfrozen. Capacity uses actual serialized input, control/Tool overhead, output reserve, and margin, not remaining money alone. If protected full inputs cannot fit, fail before invocation; do not trim, summarize them, change models automatically, or enable deferred RAG.
 
-**Sources:** Q80, Q121, Q123, Q132, Q139; [Context](design/harness/context.md), sections 4–10 and 16–17.
+**Sources:** Q80, Q121, Q123, Q132, Q139; [Context](.grill/harness/context.md), sections 4–10 and 16–17.
 
 ### 10.3 Checkpoint publication and bounded rescue
 
@@ -304,7 +304,7 @@ Retain exact payload while it is an active recovery dependency; terminal histori
 
 Mid-run revocation of protected EAGER_EXACT input ends that frozen task and prevents later Frames/repair/Tools from using it or publishing a valid current analysis. A new admitted scope requires a new task; historical frames and truthful prior usage remain. Initial exclusions retain UNKNOWN semantics, and transmitted content cannot be retracted.
 
-**Sources:** Q83, Q122–Q125, Q132, Q135–Q136, Q139–Q140, Q172; [Context](design/harness/context.md), sections 10–18.
+**Sources:** Q83, Q122–Q125, Q132, Q135–Q136, Q139–Q140, Q172; [Context](.grill/harness/context.md), sections 10–18.
 
 ## 11. Budgets and resource admission
 
@@ -318,7 +318,7 @@ RequirementParse retains one primary invocation and at most one deterministic-va
 
 Money/token budget, actual Context capacity, Provider headroom, runtime concurrency, and recruiting-platform safety are distinct resources. Background work yields to foreground headroom even if its monetary budget is sufficient. Insufficient budget prevents new dispatch, preserves independently completed results, and produces no Fit negative. The concrete Budget Contract is pending redesign. Other owner envelopes, billing collection and scheduler thresholds remain future work.
 
-**Sources:** Q35, Q110–Q112, Q121–Q124, Q130, Q132, Q135, Q140, Q142, Q144, Q155, Q158–Q160, Q169–Q172, Q176; [Budget](design/harness/budget.md), sections 1–12.
+**Sources:** Q35, Q110–Q112, Q121–Q124, Q130, Q132, Q135, Q140, Q142, Q144, Q155, Q158–Q160, Q169–Q172, Q176; [Budget](.grill/harness/budget.md), sections 1–12.
 
 The former SL-03.M2 detailed Budget decisions have been withdrawn for redesign. Replacement Contract review must resolve concrete owner identities, dimensions, representations and admission interfaces.
 
@@ -344,9 +344,9 @@ An original live dispatch winner may continue after an uncertain intent acknowle
 
 Consumer-established deadlines do not universally start at Run creation. Expiry prohibits new remote effects and late first response publication. A response legitimately durable before expiry can support explicitly admitted, finitely bounded local recovery under fresh authority without extending the deadline or reopening an ended Run. Canonical business writes retain their own current eligibility checks. Consumer whole-Run completion may be reconciled without unneeded raw-response access, but ending still requires lawful recovery qualification or atomic ownerless coordination. A single committed result is not automatically proof that the whole Run completed.
 
-Scoped source: [CG05 closure](design/contract/sl-03-m1-grill.md#cg05-pub), especially Q28/Q58/Q71/Q83/Q89/Q126/Q127.
+Scoped source: [CG05 closure](archived/sl-03-m1-grill.md#cg05-pub), especially Q28/Q58/Q71/Q83/Q89/Q126/Q127.
 
-**Sources:** Q40, Q116, Q122, Q124–Q125, Q135, Q140–Q142; [Recovery](design/harness/recovery.md), sections 1–4 and 9.
+**Sources:** Q40, Q116, Q122, Q124–Q125, Q135, Q140–Q142; [Recovery](.grill/harness/recovery.md), sections 1–4 and 9.
 
 M2 adds atomic semantic Frame/reservation/descriptor/intent publication and confirmation of the entire committed association. Confirmation issues no transferable dispatch right. Provider protocol completion is independent of useful semantic output; the current DeepSeek streaming terminal format is adapter-specific. Usage and optional Provider observations remain outside immutable response equality and may reconcile independently after execution. Model identifiers/system_fingerprint do not prove immutable weights. Initial semantic-start rejection creates no durable rejected-task lifecycle. The conformance-only agreement in EVO-022–026/EXR-057 keeps consumer validation distinct from Runtime faults while coordinating terminal failure under existing CAS. Its frozen local-recovery grace belongs to the consumer binding; expiry prevents new recovery grants without deleting evidence or rewriting completed facts. A model behavioral failure in this exercise is not by itself an infrastructure Contract violation.
 
@@ -360,7 +360,7 @@ Tool replay is action-specific: eligible local reads may repeat after validation
 
 M1's controlled exact-version pure local-read proof may recover the original unfinished ToolInvocation with unchanged exact inputs and fresh qualification under its explicit action agreement. This is distinct from a new Context acquisition. It performs no hidden Ensure, remote parsing or business write. A Run ending fences all sibling Invocations without inventing remote completion or discarding independent committed facts. Missing historical consumer/read-format capabilities isolate and lawfully converge affected OPEN Runs; they do not require unrelated application startup failure.
 
-**Sources:** Q30–Q31, Q40, Q116, Q122, Q124, Q126, Q136, Q142, Q155, Q172; [Recovery](design/harness/recovery.md), sections 5–8 and 13.
+**Sources:** Q30–Q31, Q40, Q116, Q122, Q124, Q126, Q136, Q142, Q155, Q172; [Recovery](.grill/harness/recovery.md), sections 5–8 and 13.
 
 ### 12.3 Independent committed and presented outcomes
 
@@ -368,7 +368,7 @@ Persisted mutation success survives later narration failure. The same confirmed 
 
 For Proposal-specific examples in this paragraph, apply them only to the separately reviewed deferred SL-07.M3/SL-10.M2 consumer; generic runtime/Context/evaluation rules remain current. Pending Proposals outlive the generating Run but not their current Session eligibility. Unsaved page Drafts have no recovery guarantee. Safe derived-work recovery finds durable intent and respects current demand/reference checks; it does not replay model or recruiting-platform work. These are separate recovery subjects with separate owners.
 
-**Sources:** Q141, Q146–Q149, Q152, Q156, Q158, Q165–Q167; [Recovery](design/harness/recovery.md), sections 9–12.
+**Sources:** Q141, Q146–Q149, Q152, Q156, Q158, Q165–Q167; [Recovery](.grill/harness/recovery.md), sections 9–12.
 
 
 ## 13. Storage, retention, and audit
@@ -393,7 +393,7 @@ Auto Learning controls automatic pending work/extraction/publication. Recall ind
 
 RequirementParse, Profile derivation and DeepFit admit no Long-term Memory. Advisor admits collaboration preferences, feedback, and working style; reusable-learning storage is not an automatic Advisor grant. A small derived summary and scoped on-demand lookup suffice; no all-chat scan, embedding graph, or complex consolidation is required. New chats do not inherit prior temporary Resume/Job scope.
 
-**Sources:** Q127–Q129, Q131–Q133, Q137, Q139; [Memory](design/harness/memory.md), sections 1–5 and 8–11.
+**Sources:** Q127–Q129, Q131–Q133, Q137, Q139; [Memory](.grill/harness/memory.md), sections 1–5 and 8–11.
 
 ### 14.2 Independent background learning and non-resurrection
 
@@ -407,7 +407,7 @@ Forgetting removes future Context eligibility, invalidates derived summaries/ind
 
 Deleted source Sessions cannot dispatch new automatic extraction or publish late candidates from pending/in-flight ranges. Recheck sources before dispatch and publication; cancel where possible. Existing accepted Memory retains its own lifecycle. Source deletion/Recall disablement does not prove remote work ceased or cost zero. Direct Memory is excluded from checkpoints; indirect influence already in real dialogue is not removed in v1.
 
-**Sources:** Q127–Q132, Q139, Q141, Q145, Q155–Q156, Q169–Q170; [Memory](design/harness/memory.md), sections 6–7 and 12–17.
+**Sources:** Q127–Q132, Q139, Q141, Q145, Q155–Q156, Q169–Q170; [Memory](.grill/harness/memory.md), sections 6–7 and 12–17.
 
 ## 15. Eval and observability
 
@@ -419,7 +419,7 @@ Evaluate outcome, trajectory, Tool behavior, Context, grounding, authorization/s
 
 Independent LLM judges assess existing outputs under separate Eval invocation, budget/cost, model, prompt/rubric, and observability configuration. Their results do not mutate Domain, direct the business decision, or change the original Run outcome. Judge failure/cost remains separate from task failure/cost. Langfuse-managed judges are not assumed to inherit business Runtime atomic reservation, fencing, or recovery guarantees. Semantic support needs appropriate human calibration; resolvable references alone do not prove entailment.
 
-**Sources:** Q117, Q173–Q176, S35.1; [Agent Evaluation](design/eval/agent-evaluation.md), sections 1–7, 16–17, and 26–28.
+**Sources:** Q117, Q173–Q176, S35.1; [Agent Evaluation](.grill/eval/agent-evaluation.md), sections 1–7, 16–17, and 26–28.
 
 The former M2-specific Eval agreement is withdrawn. Replacement infrastructure and consumer interfaces require fresh Contract review.
 
@@ -433,7 +433,7 @@ Partition task input, evaluation reference, and Scenario control. Agent-under-te
 
 Semantic judges receive only the exact admitted evidence for Profile support, DeepFit’s actual acquired coverage, or selected-Resume optimization; broader audit access cannot leak extra candidate facts. A citation-valid claim still needs semantic support evidence. Evaluators never own commit, permissions or runtime endings (EVO-027).
 
-**Sources:** Q173, Q177, Q184–Q185; [Agent Evaluation](design/eval/agent-evaluation.md), sections 4–5 and 30.
+**Sources:** Q173, Q177, Q184–Q185; [Agent Evaluation](.grill/eval/agent-evaluation.md), sections 4–5 and 30.
 
 ### 15.3 N+1, full Scenarios, and experiment claims
 
@@ -445,7 +445,7 @@ Skill-focused and composed-workflow experiments make different claims. A Fit ben
 
 Ordinary comparable Advisor Trials freeze isolated initial Memory, Recall, and permissions and use supported controls to prevent unscripted learning. Memory-specific Scenarios explicitly drive real learning and track separate background evidence/cost. Disabled learning cannot claim Extraction coverage. Neither mode changes production defaults or relaxes guards.
 
-**Sources:** Q158, Q173, Q177–Q178, Q180, Q183, Q186–Q187; [Agent Evaluation](design/eval/agent-evaluation.md), sections 4, 14, 27, and 30.
+**Sources:** Q158, Q173, Q177–Q178, Q180, Q183, Q186–Q187; [Agent Evaluation](.grill/eval/agent-evaluation.md), sections 4, 14, 27, and 30.
 
 ### 15.4 Judgments, regression retention, and re-evaluation
 
@@ -461,7 +461,7 @@ New evaluators may reassess the same retained actual Trial outputs/trajectory/po
 
 Hard authority/permission/replay violations cannot be offset by aggregate quality. Report quality, stability, cost, and latency separately, and distinguish absolute target attainment from relative regression. Q175 leaves thresholds, Trial counts, default enablement, release ladders, and repository/CI rollout policy undecided. Q117's formal annotated ParserVersion certification remains deferred, while real-JD tests, manual checks, and traceable quality work remain required.
 
-**Sources:** Q117, Q168, Q173, Q175, Q177–Q182, Q186; [Agent Evaluation](design/eval/agent-evaluation.md), sections 8–21 and 31.
+**Sources:** Q117, Q168, Q173, Q175, Q177–Q182, Q186; [Agent Evaluation](.grill/eval/agent-evaluation.md), sections 8–21 and 31.
 
 ### 15.5 Derived telemetry and platform verification
 
@@ -471,7 +471,7 @@ Local canonical state determines business commit, invocation completion, settlem
 
 Default exports favor admitted minimal references, hashes, versions, usage, source categories, and outcomes. Self-hosting does not authorize full sensitive payload copies, secrets, or a second Knowledge database. Evaluator raw-evidence access is separately admitted. Verify actual selected platform/SDK versions, workers, callback behavior, masking, judge connections, and deployment later; research appendix statements are not claims of deployed capability.
 
-**Sources:** Q125, Q174, Q176, Q178, Q184, S35.1; [Agent Evaluation](design/eval/agent-evaluation.md), sections 22–28 and Appendix A.
+**Sources:** Q125, Q174, Q176, Q178, Q184, S35.1; [Agent Evaluation](.grill/eval/agent-evaluation.md), sections 22–28 and Appendix A.
 
 M2 export is optional bounded best-effort, not a durable outbox or exactly-once system. An allowlist applies before SDK callbacks/media/logging can process raw payloads. Explicit Harness observations own countable Invocation and usage/cost facts; LangGraph callbacks describe correlated workflow mechanics without a second generation or debit. Exact CNY values cannot be sent as Langfuse native USD/float cost. Late accounting may use a correlated non-generation event after execution ends, preserving prior Trial and timing facts. Selected SDK versions, export samples and bounded failure/shutdown behavior require implementation proof; source inspection alone is insufficient.
 

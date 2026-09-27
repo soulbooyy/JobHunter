@@ -2,7 +2,7 @@
 
 > Revised by accepted CG03S1-Q26 at **2026-09-24.S2M1S1-r1**. Planning is not implemented capability or whole-file Contract readiness. Earlier source-model/allocation descriptions are superseded.
 
-[Global rules](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) · [Decisions](../../design/contract/sl-02-m1-supplement-grill.md) · [Progress](../../progress.md)
+[Global rules](../implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) · [Decisions](../../.grill/contract/sl-02-m1-supplement/decisions.md) · [Progress](../../progress.md)
 
 Source authority is complete independent Resume content. Default selects one current source for a read-only portrait; materials consume the explicitly selected document. No independent Knowledge/Profile fact editing or two-way synchronization remains.
 

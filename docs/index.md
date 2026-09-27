@@ -2,11 +2,11 @@
 
 > English is authoritative. This is the global navigation entry, not a new normative authority or evidence of review, implementation or acceptance. Read [Progress](progress.md) for actual state. W7 document review is recorded; user baseline approval remains pending.
 
-For SL-03.M1 backend work, use the [Invocation durability/recovery handoff](development/handoff/sl-03-m1-handoff.md), [published Runtime](contracts/agent/execution-runtime.md) and [review/evidence ledger](progress/traceability.md#65-sl-03m1-reviewed-scope-and-interface-evidence). Contract scope is Ready; the internal backend and controlled deterministic acceptance are implemented on schema 5. See the [executed requirement mapping](progress/traceability.md#invocation-backend-evidence); production M2/M3 scope remains separate.
+The former SL-03.M1/M2 Contract scopes and Grill transfers have been withdrawn or deleted for redesign. Read the [M1 withdrawal](progress/traceability.md#65-sl-03m1-reviewed-scope-and-interface-evidence) and [M2 withdrawal](progress/traceability.md#66-sl-03m2-reviewed-scope-and-interface-evidence). Earlier Runtime implementation and readiness statements do not establish an available replacement.
 
 For SL-02.M2 backend work, use the [demanded preview/export handoff](development/handoff/sl-02-m2-handoff.md), its current normative scope and the [review/evidence ledger](progress/traceability.md#64-sl-02m2-reviewed-scope-and-interface-evidence). Published Contracts do not establish renderer, migration or UI delivery.
 
-SL-03.M2 Contracts, Grill and handoffs have been deleted for S3 redevelopment. See the [withdrawal status](progress/traceability.md#66-sl-03m2-reviewed-scope-and-interface-evidence); replacement design and review remain pending.
+Grill continuation starts from [Grill records](.grill/README.md); implementation transfers remain in `development/handoff/`.
 
 ## Start here
 
@@ -24,19 +24,19 @@ For a new task, read this index, the relevant directory README, the current owni
 | Contract Index | [index.md](contracts/index.md) | Navigation to planned and existing Contract documents |
 | Contract Structure | [structure.md](contracts/structure.md) | Non-normative file organization, family mapping and consumer references |
 | Product/system acceptance | [Acceptance](acceptance.md) | Unified business/runtime scenarios and required proof |
-| Specialized Eval proof | [Eval acceptance](acceptance/evaluation.md) | Evaluation integrity and semantic quality/reliability/efficiency evidence |
+| Specialized Eval proof | [Eval acceptance](evaluation.md#2-evaluation-acceptance-criteria) | Evaluation integrity and semantic quality/reliability/efficiency evidence |
 | Delivery and maintenance method | [Development](development.md) | Stage order, Contract-ready development, test-first work, source/research discipline, verification routing and handoffs |
-| Specialized Eval procedure | [Evaluation guide](development/evaluation.md) | Real-path Eval, experiments, evaluator admission, findings and evidence handling |
+| Specialized Eval procedure | [Evaluation guide](evaluation.md#3-evaluation-workflow) | Real-path Eval, experiments, evaluator admission, findings and evidence handling |
 | Target code organization | [Repository structure guide](development/repository-structure.md) | Provisional frontend/backend layout, physical responsibility mapping and incremental package creation |
-| API design and integration | [API guides](api/README.md), [SL-01.M1](api/sl-01-m1.md) | Implemented HTTP interfaces and [internal Invocation API](api/sl-03-m1.md), examples and consumer obligations derived from Contracts |
+| API design and integration | [API guides](development/api/README.md), [SL-01.M1](development/api/sl-01-m1.md) | Derived interface references and consumer obligations; the former Invocation guide has been deleted with its withdrawn scope |
 | M1 development entry | [SL-01.M1 handoff](development/handoff/sl-01-m1-handoff.md) | Reviewed Contract scope, integration research, engineering preparation and required proof |
 | SL-02.M1 development entry | [SL-02.M1 handoff](development/handoff/sl-02-m1-handoff.md) | Current independent source/portrait replacement, historical implementation, backend/frontend delta and staged prerequisites |
 | Target technology choices | [Technology stack](development/technology-stack.md) | Planned backend/frontend tools and progressive adoption; actual versions and installation remain separate |
-| Status/readiness/evidence recording rules | [Progress README](progress/README.md) | Traceability, status meanings, parent/milestone reporting and scope-level readiness |
+| Status/readiness/evidence recording rules | [Progress recording rules](progress/recording-rules.md) | Traceability, status meanings, parent/milestone reporting and scope-level readiness |
 | Actual state and remaining work | [Progress](progress.md) | Parent Slice aggregation and truthful current status |
 | Source trace, milestone evidence and Contract scope readiness | [Progress matrix](progress/traceability.md) | Supporting records within the Progress category |
 
-These are seven document categories and six main documents. Slice plans support the Implementation Plan category; Contract Structure supports non-normative organization within Contracts. Eval acceptance supports the Acceptance category, the Eval procedure guide supports Development, and the Progress README owns recording rules within Progress; neither adds a category or competing business/architecture authority. Other index/README files provide navigation. File existence does not establish approved normative scope or capability completion.
+These are seven document categories and six main documents. Slice plans support the Implementation Plan category; Contract Structure supports non-normative organization within Contracts. Evaluation section 2 supports Acceptance and section 3 supports Development within one document, and the Progress recording guide owns recording rules within Progress; neither adds a category or competing business/architecture authority. Other index/README files provide navigation. File existence does not establish approved normative scope or capability completion.
 
 ## Directory map
 
@@ -45,16 +45,13 @@ These are seven document categories and six main documents. Slice plans support 
 | Documentation root | [README](README.md) | Layout and navigation/maintenance rules |
 | Implementation planning | [plans/README](plans/README.md) | Global versus Slice responsibilities |
 | Slice plans | [plans/slices/README](plans/slices/README.md) | Twelve stable Slice IDs and their detailed files |
-| API integration references | [api/README](api/README.md) | HTTP and internal interface guides; Contracts retain normative ownership |
+| API integration references | [api/README](development/api/README.md) | HTTP and internal interface guides; Contracts retain normative ownership |
 | Formal Contracts | [Overview](contracts/README.md), [Index](contracts/index.md), [Structure](contracts/structure.md) | Directory guide, navigation and non-normative organization; reviewed consumed SL-01.M1/M2 and SL-02.M1 portions exist; future portions remain pending |
-| Acceptance support | [acceptance/README](acceptance/README.md) | Specialized Eval proof criteria; business/runtime scenarios stay unified |
 | Development guides | [development/README](development/README.md) | Specialized Eval procedure, target code organization and technology choices under core development discipline |
-| Cross-directory Eval navigation | [evaluation/README](evaluation/README.md) | Links Architecture, Acceptance, Development, Contracts and design history without duplicating their content |
-| Progress rules and records | [progress/README](progress/README.md) | Recording discipline plus source, child milestone and Contract-scope ledgers |
-| Grill design provenance | [design/README](design/README.md) | Original source register and detailed design modules |
-| Harness design sources | [design/harness/README](design/harness/README.md) | Budget, Context, Memory, Recovery, Storage and Tools |
-| Eval design source | [design/eval/README](design/eval/README.md) | Accepted design provenance, not an installed Eval system |
-| Contract design inventory | [design/contract/README](design/contract/README.md) | Non-normative checklist, distinct from formal Contracts |
+| Evaluation | [Evaluation guide](evaluation.md) | Acceptance criteria, execution workflow and related-owner navigation in distinct sections |
+| Progress rules and records | [Progress recording rules](progress/recording-rules.md) | Recording discipline plus source, child milestone and Contract-scope ledgers |
+| Grill decisions and session transfers | [Grill records](.grill/README.md) | Retained Architecture/Contract decisions, structural discussion and Grill handoffs |
+| Contract design inventory | [Inventory](.grill/contract/contract-design-inventory.md) | Historical non-normative checklist; later accepted corrections control |
 
 ## Supplemental source-model implementation route
 
@@ -72,4 +69,4 @@ Use [CG03S1 review and per-milestone transfer](progress/traceability.md#67-sl-02
 
 The former `docs/implementation-plan.md` has moved to [`docs/plans/implementation-plan.md`](plans/implementation-plan.md). Its detailed SL-01–SL-12 and milestone sections now live in the linked Slice files. Current references point directly to their owners. Historical handoffs and original sources retain their snapshot paths; this relocation changes neither Q/S identifiers nor milestone identifiers.
 
-Development 7's detailed Eval procedure now lives in [development/evaluation.md](development/evaluation.md); Development 8's recording rules now live in [progress/README.md](progress/README.md). Historical subsection anchors remain relocation entry points; current references point to the detailed owners.
+Development 7's detailed Eval procedure now lives in [Evaluation workflow](evaluation.md#3-evaluation-workflow); Development 8's recording rules now live in [progress/recording-rules.md](progress/recording-rules.md). Historical subsection anchors remain relocation entry points; current references point to the detailed owners.

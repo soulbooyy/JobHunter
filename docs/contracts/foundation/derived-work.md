@@ -2,7 +2,7 @@
 
 > English is authoritative. Normative scope revision: **2026-09-21.S2M2-r1**. This body defines SL-02.M2 exact-version material demand, Work and local recovery. It does not define a generic job framework, invocation recovery or future follow-current subscriptions. Documentary readiness and actual execution evidence are separate in [Progress](../../progress/traceability.md#64-sl-02m2-reviewed-scope-and-interface-evidence).
 
-[Index](../index.md) · [Materials](../applications/materials.md) · [Common](../common.md#com-043) · [Storage](storage.md#sto-029) · [Decisions](../../design/contract/sl-02-m2-grill.md)
+[Index](../index.md) · [Materials](../applications/materials.md) · [Common](../common.md#com-043) · [Storage](storage.md#sto-029) · [Decisions](../../.grill/contract/sl-02-m2/decisions.md)
 
 ## 1. Scope, records and results
 

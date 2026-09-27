@@ -1,12 +1,12 @@
 # Candidate Commands, HTTP and Atomic Save Contract
 
-> **Current Entry-scoped amendment — 2026-09-24.S2M1S1-r2.** Accepted [Q42–Q46](../../design/contract/sl-02-m1-supplement-grill.md#cg03s1-q42) replaces the earlier whole-source-only reuse/input policy with Entry-scoped generation, exact baseline reuse and explicit full refresh. The amended clauses and additions below control that scope; original source/privacy/transaction/Runtime guarantees survive. [Reviewed scope](../../progress/traceability.md#entry-incremental-review) separates Contract readiness from implementation.
+> **Current Entry-scoped amendment — 2026-09-24.S2M1S1-r2.** Accepted [Q42–Q46](../../.grill/contract/sl-02-m1-supplement/decisions.md#cg03s1-q42) replaces the earlier whole-source-only reuse/input policy with Entry-scoped generation, exact baseline reuse and explicit full refresh. The amended clauses and additions below control that scope; original source/privacy/transaction/Runtime guarantees survive. [Reviewed scope](../../progress/traceability.md#entry-incremental-review) separates Contract readiness from implementation.
 
-> **Current applicability — 2026-09-24.S2M1S1-r1.** The old nine-operation surface, Profile/Evidence/Baseline publication and Candidate fingerprint v1 are historical. SAV-018–025 replaces their shapes/participants. Existing strict transport, value validation, receipt-before-mutable-admission, no-op, uncertainty and exact render-demand rules survive where explicitly reused. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+> **Current applicability — 2026-09-24.S2M1S1-r1.** The old nine-operation surface, Profile/Evidence/Baseline publication and Candidate fingerprint v1 are historical. SAV-018–025 replaces their shapes/participants. Existing strict transport, value validation, receipt-before-mutable-admission, no-op, uncertainty and exact render-demand rules survive where explicitly reused. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../.grill/contract/sl-02-m1-supplement/decisions.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
 
 > English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. The original clauses preserve SL-02.M1 scope; the final section adds the explicitly bounded 2026-09-21.S2M2-r1 consumer interface. Other future scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
 
-[Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../design/contract/sl-02-m1-grill.md)
+[Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../.grill/contract/sl-02-m1/decisions.md)
 
 ## 1. Complete write interfaces
 
@@ -136,7 +136,7 @@ Supplied reference failures use INVALID_REFERENCE at the corresponding path; unk
 
 ## 6. Exact-demand Materials consumer agreement
 
-Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../design/contract/sl-02-m2-grill.md).
+Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../.grill/contract/sl-02-m2/decisions.md).
 
 <a id="sav-017"></a>
 **SAV-017.** M2's actual demand is DRW-001/006 exact-version explicit RENDER_REQUEST. The nine existing Candidate commands MUST NOT create speculative render intent, advance an accepted target, invalidate unchanged historical material, or claim output readiness. SAV-006/016, STO-025 and MAT-003's Save-plus-intent requirement remains a conditional invariant for a future actual consumer needing both participants; it MUST NOT manufacture such a consumer in this exact-only scope. Materials command receipts use an independent namespace/prefix and preserve all old command tuples/results/fingerprints. Reuse COM-045's unchanged value encoder; no Candidate Save transport/body is extended to carry material demand. Q5/Q17/Q23/Q32/Q76/Q120.

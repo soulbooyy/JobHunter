@@ -326,15 +326,15 @@
 
 | 来源 | 路径 | 阅读用途 |
 | --- | --- | --- |
-| Decision Register | [grill-me-design-tree.md](../docs/design/grill-me-design-tree.md) | 全部 Q／S、后续修正、正式归属与交付顺序 |
-| Tool Actions | [tool.md](../docs/design/harness/tool.md) | 纯读／Application Ensure、action 权限、Proposal 与业务写入边界 |
-| Context | [context.md](../docs/design/harness/context.md) | acquisition、Package／Frame、pinning、compaction 与保护输入 |
-| Memory | [memory.md](../docs/design/harness/memory.md) | 协作记忆、准入、三个控制、后台来源与遗忘 |
-| Budget | [budget.md](../docs/design/harness/budget.md) | 多 owner、局部／总限额、原子 reserve、未知费用与容量 |
-| Recovery | [recovery.md](../docs/design/harness/recovery.md) | 持久边界、ownership／fencing、retry 与安全派生恢复 |
-| Storage | [storage.md](../docs/design/harness/storage.md) | 四层存储、retention、payload availability、历史与当前资格 |
-| Eval | [agent-evaluation.md](../docs/design/eval/agent-evaluation.md) | 完整评估设计、Q173–Q187、平台研究与未定细节 |
-| 非规范性 inventory | [contract-design-inventory.md](../docs/design/contract/contract-design-inventory.md) | 候选职责、相关对象与后续细节检查，不作 Contract authority |
+| Decision Register | [grill-me-design-tree.md](../docs/.grill/grill-me-design-tree.md) | 全部 Q／S、后续修正、正式归属与交付顺序 |
+| Tool Actions | [tool.md](../docs/.grill/harness/tool.md) | 纯读／Application Ensure、action 权限、Proposal 与业务写入边界 |
+| Context | [context.md](../docs/.grill/harness/context.md) | acquisition、Package／Frame、pinning、compaction 与保护输入 |
+| Memory | [memory.md](../docs/.grill/harness/memory.md) | 协作记忆、准入、三个控制、后台来源与遗忘 |
+| Budget | [budget.md](../docs/.grill/harness/budget.md) | 多 owner、局部／总限额、原子 reserve、未知费用与容量 |
+| Recovery | [recovery.md](../docs/.grill/harness/recovery.md) | 持久边界、ownership／fencing、retry 与安全派生恢复 |
+| Storage | [storage.md](../docs/.grill/harness/storage.md) | 四层存储、retention、payload availability、历史与当前资格 |
+| Eval | [agent-evaluation.md](../docs/.grill/eval/agent-evaluation.md) | 完整评估设计、Q173–Q187、平台研究与未定细节 |
+| 非规范性 inventory | [contract-design-inventory.md](../docs/.grill/contract/contract-design-inventory.md) | 候选职责、相关对象与后续细节检查，不作 Contract authority |
 
 所有任务先读本文件、Decision Register 的 Purpose／Session State、Q4／Q22／S24.2／S37.1／S38.1，再读主题对应 Q-ID 和详细模块。跨模块语义以相关最终决定核对，不能只读 inventory 或本文件的摘要。若来源在后续任务期间变动，先记录变动及影响再续写，不默默使用旧快照。
 

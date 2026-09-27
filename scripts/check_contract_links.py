@@ -81,8 +81,8 @@ trace = trace_path.read_text()
 review_paths = [
     trace_path,
     root / "docs/development/handoff/sl-02-m2-handoff.md",
-    root / "docs/design/contract/sl-02-m2-grill.md",
-    root / "docs/acceptance/evaluation.md",
+    root / "docs/.grill/contract/sl-02-m2/decisions.md",
+    root / "docs/evaluation.md",
     root / "docs/architecture.md",
     root / "docs/acceptance.md",
     root / "docs/plans/implementation-plan.md",
@@ -90,17 +90,17 @@ review_paths = [
     root / "docs/progress.md",
     root / "docs/index.md",
     root / "docs/development/README.md",
-    root / "docs/design/contract/README.md",
+    root / "docs/.grill/README.md",
 ]
 # Review current owners and real transfer entries as well as preserved historical maps.
 review_paths = sorted(
     set(review_paths)
     | {
         root / "docs/spec.md",
-        root / "docs/api/README.md",
-        root / "docs/api/sl-02-m1.md",
-        root / "docs/api/sl-02-m2.md",
-        root / "docs/design/contract/sl-02-m1-supplement-grill.md",
+        root / "docs/development/api/README.md",
+        root / "docs/development/api/sl-02-m1.md",
+        root / "docs/development/api/sl-02-m2.md",
+        root / "docs/.grill/contract/sl-02-m1-supplement/decisions.md",
         root / "docs/ui/DESGIN.md",
         *sorted((root / "docs/plans/slices").glob("*.md")),
         *sorted((root / "docs/development/handoff").glob("sl-*-handoff.md")),
@@ -167,7 +167,7 @@ supplement_additions = {
     for i in range(start, end + 1)
 }
 assert supplement_additions <= supplement_destinations, "CG03S1 normative destination coverage"
-supplement_register = (root / "docs/design/contract/sl-02-m1-supplement-grill.md").read_text()
+supplement_register = (root / "docs/.grill/contract/sl-02-m1-supplement/decisions.md").read_text()
 for number in range(42, 47):
     accepted_section = supplement_register.split(f"### CG03S1-Q{number} —", 1)[1].split(
         "\n### ", 1

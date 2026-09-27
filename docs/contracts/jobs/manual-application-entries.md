@@ -2,7 +2,7 @@
 
 > English is authoritative. Normative scope revision: **2026-09-19.M1-r1**. Consumer: SL-01.M1. This document owns the independent mutable entry, its commands, HTTP interface and browser-only effect. Formal Job/JobVersion semantics remain with the planned `jobs/jobs-screening.md`. See [scope readiness](../../progress/traceability.md#6-contract-normative-scope-readiness-ledger) for actual review state.
 
-[Index](../index.md) · [Common](../common.md) · [Workspace](../foundation/workspace.md) · [Storage](../foundation/storage.md) · [Decision register](../../design/contract/sl-01-m1-grill.md)
+[Index](../index.md) · [Common](../common.md) · [Workspace](../foundation/workspace.md) · [Storage](../foundation/storage.md) · [Decision register](../../.grill/contract/sl-01-m1/decisions.md)
 
 ## 1. Record and admission
 

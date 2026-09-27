@@ -19,8 +19,8 @@ This document maintains planned Contract file decomposition, family mapping, ass
 | Planned Contract document arrangement | This structure plan; subordinate to existing behavior/architecture, not an additional authority |
 | Detailed normative requirements | Reviewed normative bodies reached through [Contract Index](index.md); SL-01.M1/M2 and SL-02.M1/M2 scopes remain, while SL-03.M2 is withdrawn for redesign |
 | Exact milestone scope/dependencies/completion | [Global Implementation Plan](../plans/implementation-plan.md) and its [Slice plans](../plans/slices/README.md); consumer locators below do not replace those entries |
-| Required proof and delivery discipline | [Acceptance](../acceptance.md) and [Development](../development.md); [Evaluation guide](../development/evaluation.md) for specialized Eval procedure |
-| Readiness/status recording rules and actual evidence | [Progress recording rules](../progress/README.md), [Progress](../progress.md) and its [scope ledger](../progress/traceability.md#6-contract-normative-scope-readiness-ledger) |
+| Required proof and delivery discipline | [Acceptance](../acceptance.md) and [Development](../development.md); [Evaluation guide](../evaluation.md#3-evaluation-workflow) for specialized Eval procedure |
+| Readiness/status recording rules and actual evidence | [Progress recording rules](../progress/recording-rules.md), [Progress](../progress.md) and its [scope ledger](../progress/traceability.md#6-contract-normative-scope-readiness-ledger) |
 
 README explains the directory and these authority boundaries; index navigates planned/existing documents. Neither repeats normative rules. Placement under `docs/contracts/` does not make README, index or this structure plan normative. Only the later actual Contract bodies define detailed Contract requirements within their existing authority.
 
@@ -31,7 +31,7 @@ Historical M2 source revision consumed Profile/Evidence joins; current source ap
 
 ## 2. Provenance and retained structural decisions
 
-The agreed structure originated in Architecture 16 and the [Contract structure handoff](../../.scratch/contract-structure-grill-handoff.md). The user's current extraction instruction relocates concrete document organization here while preserving architectural ownership. Historical handoffs retain their source-time paths; this document is the current structural destination.
+The agreed structure originated in Architecture 16 and the [Contract structure handoff](../.grill/contract/structure/handoff.md). The user's current extraction instruction relocates concrete document organization here while preserving architectural ownership. Historical handoffs retain their source-time paths; this document is the current structural destination.
 
 | Decision locator | Preserved agreement and current organizational destination |
 | --- | --- |
@@ -45,7 +45,7 @@ CS1–CS5 are explicit later user structural/process decisions, not new Q/S reco
 
 **Sources:** Q2–Q5, Q11, Q22, Q26, Q32, S24.2, S29.2, S37.1, S38.1; the structural handoff; [authoring Further Notes F](../../.scratch/document-authoring-spec.en.md#f-user-approved-delivery-process-revision). Per-file controlling Q/S and actual Product/Architecture/Acceptance destinations remain in the migrated catalog.
 
-The later user-approved [CG01-BC1](../design/contract/sl-01-m1-grill.md#cg01-bc1) adds an independent ManualApplicationEntry destination and replaces only the old Manual Job branch. Formal `jobs/jobs-screening.md` ownership remains unchanged. The accepted 12-Slice/24-milestone plan is revised in its owning Slice files.
+The later user-approved [CG01-BC1](../.grill/contract/sl-01-m1/decisions.md#cg01-bc1) adds an independent ManualApplicationEntry destination and replaces only the old Manual Job branch. Formal `jobs/jobs-screening.md` ownership remains unchanged. The accepted 12-Slice/24-milestone plan is revised in its owning Slice files.
 
 ### Directory layout
 
@@ -94,7 +94,7 @@ docs/contracts/
 
 Section 6 continues to own the Contract-to-Slice/milestone mapping. Development handoffs live under `docs/development/handoff/`; the [SL-01.M1 handoff](../development/handoff/sl-01-m1-handoff.md) consumes these paths without duplicating that mapping or normative ownership.
 
-[CG02-BC1](../design/contract/sl-01-m2-grill.md#cg02-bc1) removes the standalone M2 QuickScreen consumer and separates Preferences, source acquisition/admission and local Job Pool queries. The existing jobs-screening filename is retained as an organizational destination, not a requirement to retain the removed component. M2 consumes Preferences plus actual Common/Storage scope; SL-08.M2 consumes the source/admission/query agreements.
+[CG02-BC1](../.grill/contract/sl-01-m2/decisions.md#cg02-bc1) removes the standalone M2 QuickScreen consumer and separates Preferences, source acquisition/admission and local Job Pool queries. The existing jobs-screening filename is retained as an organizational destination, not a requirement to retain the removed component. M2 consumes Preferences plus actual Common/Storage scope; SL-08.M2 consumes the source/admission/query agreements.
 
 ## 3. Family-to-document mapping
 
@@ -134,7 +134,7 @@ The Slice labels above identify structural consumers, not mandatory whole-Slice 
 
 The 28 paths below describe the full organizational catalog; Contract Index distinguishes the five existing scoped bodies from the 23 still-planned documents. The catalog retains the original responsibility, exclusion/reference, provenance and later-Grill columns. It supplies no normative body, empty placeholder, field/type/schema/API definition, detailed transition or requirement ID. Section descriptions are independently consumable planning portions, not finalized anchors or whole-file readiness.
 
-P refers to [Product](../spec.md), A to [Architecture](../architecture.md), and V to [Acceptance](../acceptance.md). V12/V13 and their subsections are retained provenance locators: detailed criteria now live in [Eval acceptance 2–3](../acceptance/evaluation.md#2-eval-execution-and-evidence-integrity), reached through the main Acceptance routing sections. The linked milestone index in section 6 connects document planning to actual implementation-planning locators.
+P refers to [Product](../spec.md), A to [Architecture](../architecture.md), and V to [Acceptance](../acceptance.md). V12/V13 and their subsections are retained provenance locators: detailed criteria now live in [Eval acceptance 2–3](../evaluation.md#21-eval-execution-and-evidence-integrity), reached through the main Acceptance routing sections. The linked milestone index in section 6 connects document planning to actual implementation-planning locators.
 
 ### Shared and personal workspace
 
@@ -163,7 +163,7 @@ The standalone candidate-save document owns the agreed Application protocol boun
 
 | Planned document | Planned sections and exclusive responsibility | Exclusions and references | Provenance and actual destinations | Later Grill topics |
 | --- | --- | --- | --- | --- |
-| <a id="planned-manual-application-entries"></a>`docs/contracts/jobs/manual-application-entries.md` | Independent mutable ManualApplicationEntry: company, role title, user-provided application URL; maintenance/removal, separate view and explicit browser opening | Outside formal Job family; no JobVersion, JD ingestion, Requirements/Fits, targeted Advisor, Preparation, Execution or Application History. Reference common/workspace/storage only as consumed | [CG01-BC1](../design/contract/sl-01-m1-grill.md#cg01-bc1); P2.2/P4.1, A2–4, V3 | Exact entry fields, validation, commands, revision, URL-opening outcomes and removal/retention |
+| <a id="planned-manual-application-entries"></a>`docs/contracts/jobs/manual-application-entries.md` | Independent mutable ManualApplicationEntry: company, role title, user-provided application URL; maintenance/removal, separate view and explicit browser opening | Outside formal Job family; no JobVersion, JD ingestion, Requirements/Fits, targeted Advisor, Preparation, Execution or Application History. Reference common/workspace/storage only as consumed | [CG01-BC1](../.grill/contract/sl-01-m1/decisions.md#cg01-bc1); P2.2/P4.1, A2–4, V3 | Exact entry fields, validation, commands, revision, URL-opening outcomes and removal/retention |
 | <a id="planned-jobs-screening"></a>`docs/contracts/jobs/jobs-screening.md` | Sole normative owner of formal Job identity/admission, complete canonical JD, immutable content versions and exact history; observations/freshness/availability; independent local Job Pool query semantics and applicable candidate admission definitions | Preferences owns future acquisition intent; collection owns source-specific query/admission mapping and workflow; platform-safety owns shared access risk; requirements owns semantic parsing. No M2 QuickScreen, current-Preference Job gate, ManualApplicationEntry, cross-platform merging or rejected-content store | F05; Q12–Q13/Q17/Q44–Q50/Q55–Q56/Q110/Q161/S5.1/S9.1 as revised by CG01-BC1 and CG02-BC1; P4, A4, V3/V7 | Consumer-justified content, admission/observation policy and independent query representation; SL-08.M2 is first producer, not semantic owner |
 | <a id="planned-collection"></a>`docs/contracts/jobs/collection.md` | Exact PreferenceSetVersion to source query/admission mapping, adapters, transient candidates, aggregate audit, frozen-input collection, explicit refresh, stop and partial saved results | Reference preferences for complete intent and jobs-screening for formal content/admission; platform-safety before access, execution-runtime for applicable durable effects, storage for audit. No M2 QuickScreen dependency, retrospective preference filtering, hidden parse or implicit keyword expansion | F05; Q3/Q27/Q49/Q55–Q56/Q110/Q122/Q160–Q161/S9.1 with CG02-BC1/Q6–Q10/S1; P4/P8.2, A2.2/A4/A12, V3/V7/V9.2 | Pinned source mapping, query pushdown/local admission, overlapping recruitment categories, salary/education/company comparison and admitted audit |
 | <a id="planned-platform-safety"></a>`docs/contracts/jobs/platform-safety.md` | Shared platform/account access admission, capacity/risk distinction, persistent blocking and explicit restoration | Collector and Executor consume the same owner. No execution consent, business outcome, mandatory Monitor or fixed source quota. Reference shared durable-effect/storage obligations without requiring an AgentRun | F05, consumed by F07; Q36/Q49/Q160/Q164; P8.2, A4.3/A8, V3/V7/V9.2 | Actual signal classification, access/restore interface and consumer coordination after channel research |
@@ -199,7 +199,7 @@ Preparation is the agreed planned definition owner of ApplicationExecutionSnapsh
 
 P = actual Product sections; A = Architecture sections; V = Acceptance sections. Current detailed consumers are linked in section 6 and the Slice plans. These destinations are structural trace locators, not proof of executed acceptance.
 
-[CG03-BC3/A1–A5](../design/contract/sl-02-m1-grill.md#cg03-bc3) controls these revised planned responsibilities. Existing paths are retained while the exact lineage/AI-support objects and command schemas are grilled. No DeepFitAnalysis or new document family is introduced. SL-06.M1/M2 owns single/batch product integration with the corresponding SL-05 capabilities; internal scopes remain independently consumable.
+[CG03-BC3/A1–A5](../.grill/contract/sl-02-m1/decisions.md#cg03-bc3) controls these revised planned responsibilities. Existing paths are retained while the exact lineage/AI-support objects and command schemas are grilled. No DeepFitAnalysis or new document family is introduced. SL-06.M1/M2 owns single/batch product integration with the corresponding SL-05 capabilities; internal scopes remain independently consumable.
 
 ## 6. Milestone consumption and progressive readiness
 
@@ -244,13 +244,13 @@ Consumers depend on usable implemented capabilities, not parent completion: SL-0
 
 Every milestone also inherits only its applicable common/storage portions from [global Plan 2](../plans/implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning). The reverse index lists direct named scopes; transitive reuse and conditionally selected scope remain in the owning Slice. A consumer link is not evidence that any scope exists or is ready.
 
-**Contract file existence ≠ Contract family complete; section complete ≠ document complete.** Complete the selected milestone's actual normative scope, required shared clauses and both sides of necessary interfaces before development. Unrelated sections/files/families and same-parent milestones may remain pending. Scope-level readiness, actual implementation/acceptance and parent completion stay separate; use [Progress readiness rules](../progress/README.md#5-two-level-progress-and-scope-level-contract-readiness) and the [Progress scope ledger](../progress/traceability.md#6-contract-normative-scope-readiness-ledger) for the governing method and current records.
+**Contract file existence ≠ Contract family complete; section complete ≠ document complete.** Complete the selected milestone's actual normative scope, required shared clauses and both sides of necessary interfaces before development. Unrelated sections/files/families and same-parent milestones may remain pending. Scope-level readiness, actual implementation/acceptance and parent completion stay separate; use [Progress readiness rules](../progress/recording-rules.md#5-two-level-progress-and-scope-level-contract-readiness) and the [Progress scope ledger](../progress/traceability.md#6-contract-normative-scope-readiness-ledger) for the governing method and current records.
 
 Actual scope writeback supplies genuine section/requirement IDs, reviewed revision, covered/open clauses and interface evidence. A mixed-completeness portion must be identified more narrowly before being marked ready. Changes to shared scope require impact review of earlier consumers, implementation, tests/Eval, references and evidence. Parent completion still requires all necessary milestones plus integrated proof.
 
 ## 7. Later detailed Grill boundary and maintenance
 
-W7 reviewed the historical baseline. The user has completed SL-01.M1 Grill through CG01-Q45 and approved CG01-BC1; this scoped authorization does not assert retrospective approval of every baseline detail. The four actual M1 bodies now own their consumed representations and IDs. Additional fields, transitions, payloads, schemas, policies and protocols remain for the Grill of their real later consumers. The catalog's conceptual terms and source examples are not frozen representations. The [Contract Design Inventory](../design/contract/contract-design-inventory.md) remains a non-normative checklist.
+W7 reviewed the historical baseline. The user has completed SL-01.M1 Grill through CG01-Q45 and approved CG01-BC1; this scoped authorization does not assert retrospective approval of every baseline detail. The four actual M1 bodies now own their consumed representations and IDs. Additional fields, transitions, payloads, schemas, policies and protocols remain for the Grill of their real later consumers. The catalog's conceptual terms and source examples are not frozen representations. The [Contract Design Inventory](../.grill/contract/contract-design-inventory.md) remains a non-normative checklist.
 
 Later document work must preserve the existing Product/Architecture/Acceptance owners, consume the actual Slice scope and reconcile necessary interfaces. Research/feasibility and explicit deferred rollout/certification/retrieval boundaries remain with their existing owners; this structural move does not decide them or launch another Architecture Grill.
 

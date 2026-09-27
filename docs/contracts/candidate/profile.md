@@ -1,12 +1,12 @@
 # Candidate Profile Contract
 
-> **Current Entry-scoped amendment — 2026-09-24.S2M1S1-r2.** Accepted [Q42–Q46](../../design/contract/sl-02-m1-supplement-grill.md#cg03s1-q42) replaces the earlier whole-source-only reuse/input policy with Entry-scoped generation, exact baseline reuse and explicit full refresh. The amended clauses and additions below control that scope; original source/privacy/transaction/Runtime guarantees survive. [Reviewed scope](../../progress/traceability.md#entry-incremental-review) separates Contract readiness from implementation.
+> **Current Entry-scoped amendment — 2026-09-24.S2M1S1-r2.** Accepted [Q42–Q46](../../.grill/contract/sl-02-m1-supplement/decisions.md#cg03s1-q42) replaces the earlier whole-source-only reuse/input policy with Entry-scoped generation, exact baseline reuse and explicit full refresh. The amended clauses and additions below control that scope; original source/privacy/transaction/Runtime guarantees survive. [Reviewed scope](../../progress/traceability.md#entry-incremental-review) separates Contract readiness from implementation.
 
-> **Current applicability — 2026-09-24.S2M1S1-r1.** PRO-001–003/006–009 shared contact authority, separate Save/adoption, initialization and material joins are superseded. PRO-004/005 contact validation and PRO-006 display/null/privacy behavior survive only for Resume-owned contacts. CandidateProfileProjection is a different read-only capability index. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+> **Current applicability — 2026-09-24.S2M1S1-r1.** PRO-001–003/006–009 shared contact authority, separate Save/adoption, initialization and material joins are superseded. PRO-004/005 contact validation and PRO-006 display/null/privacy behavior survive only for Resume-owned contacts. CandidateProfileProjection is a different read-only capability index. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../.grill/contract/sl-02-m1-supplement/decisions.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
 
 > English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. The original clauses preserve SL-02.M1 scope; the final section adds the explicitly bounded 2026-09-21.S2M2-r1 consumer interface. Other future scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
 
-[Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../design/contract/sl-02-m1-grill.md)
+[Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../.grill/contract/sl-02-m1/decisions.md)
 
 ## 1. Authority and saved representation
 
@@ -47,7 +47,7 @@ Business values MUST occur only in the immutable Version. The current pointer MU
 
 ## 4. Materials exact contact projection
 
-Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../design/contract/sl-02-m2-grill.md).
+Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../.grill/contract/sl-02-m2/decisions.md).
 
 <a id="pro-009"></a>
 **PRO-009.** For MAT-005, Profile MUST provide the complete retained ProfileVersion identified by ResumeVersion.profile_version_id, with PRO-002/006's three-field contact/null/display semantics. Validate actual source identity and consumed fields, not currentness of the Profile root; never substitute current contacts or a private Materials copy. This internal capability adds no HTTP operation and does not weaken PRO-007 full-read behavior. Actual permission/availability remains enforced. Q1/Q14/Q67/Q69/Q74/Q96.
@@ -56,7 +56,7 @@ Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics rema
 
 The 2026-09-24.S2M1S1-r2 amendment adds source_entry_id to each ProfileIndexEntry and INCREMENTAL generation provenance. Public Profile schema remains v1 for this development transition; model output is now grouped by Entry under PRO-013. Existing deterministic backend shapes must be adapted before semantic integration; this document does not claim the new wire shape is already served.
 
-Scope revision **2026-09-24.S2M1S1-r1**. The [user-approved naming amendment](../../design/contract/sl-02-m1-supplement-grill.md#cg03s1-profile-entry-naming) names the collection entries and its element ProfileIndexEntry; the schema remains v1. Provenance: CG03S1-BC1–BC3 and effective Q6–Q41; Q24 is superseded by Q38/Q41.
+Scope revision **2026-09-24.S2M1S1-r1**. The [user-approved naming amendment](../../.grill/contract/sl-02-m1-supplement/decisions.md#cg03s1-profile-entry-naming) names the collection entries and its element ProfileIndexEntry; the schema remains v1. Provenance: CG03S1-BC1–BC3 and effective Q6–Q41; Q24 is superseded by Q38/Q41.
 
 <a id="pro-010"></a>
 **PRO-010.** CandidateProfileProjection schema v1 MUST describe only supported capabilities observed from EVD-016’s default-source Evidence. User intent remains PreferenceSetVersion; no desired city/salary/role, contact/Header value, proficiency score, personality label or unsupported capability upgrade is allowed. Education, skills, experience domains and demonstrated directions use the same entry shape; no fixed category taxonomy is required.
@@ -85,7 +85,7 @@ Registration MUST freeze a positive finite execution timeout and nonnegative fin
 
 ## 6. Entry-scoped incremental generation
 
-Scope revision **2026-09-24.S2M1S1-r2**. Provenance: [Entry amendment and Q42–Q46](../../design/contract/sl-02-m1-supplement-grill.md#cg03s1-entry-incremental). These requirements refine the prior generation/reuse policy without changing Resume authority or paired publication.
+Scope revision **2026-09-24.S2M1S1-r2**. Provenance: [Entry amendment and Q42–Q46](../../.grill/contract/sl-02-m1-supplement/decisions.md#cg03s1-entry-incremental). These requirements refine the prior generation/reuse policy without changing Resume authority or paired publication.
 
 <a id="pro-017"></a>
 **PRO-017.** Profile is an Entry-scoped semantic index. Every ProfileIndexEntry MUST belong to exactly one source_entry_id; all of its Entry-level or Block-level evidence_refs MUST have that parent Entry. Entry means any admitted Resume kind, including EDUCATION, WORK_EXPERIENCE, PROJECT, SKILL, AWARD and CERTIFICATION; structured-only Entries participate even without Blocks. Distinct Entries may independently yield the same capability label. Do not persist a global capability that merges their refs or recursively expand rebuilding through shared names/skills. Cross-Entry capability aggregation belongs to downstream DeepFit or another reviewed consumer at execution time. The current Resume schema has no admitted global career-fact field outside Entries; Header/contact/presentation changes do not create a global dirty scope.

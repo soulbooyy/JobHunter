@@ -4,20 +4,19 @@
 
 The main Development document is the stable authority for delivery sequence, Contract-ready development, test-first work, source/research discipline, verification routing and handoffs. This directory contains specialized procedures, required code organization and technology selections within the same Development category.
 
-Milestone-specific development handoffs live in `handoff/`; their Contract references point to the current grouped paths in [Contract Structure](../contracts/structure.md#directory-layout).
+Milestone-specific implementation, integration and verification handoffs live in `handoff/`. Grill continuation prompts live beside their decision registers under [Grill records](../.grill/README.md), and are not implementation instructions. Development handoffs are created only for a real transfer; their Contract references point to the current grouped paths in [Contract Structure](../contracts/structure.md#directory-layout).
 
 | Guide | Responsibility |
 | --- | --- |
-| [Evaluation development and evidence](evaluation.md) | Real-path Eval, experiments/Scenarios, evaluator admission, findings, regression retention and re-evaluation |
+| [Evaluation development and evidence](../evaluation.md#3-evaluation-workflow) | Real-path Eval, experiments/Scenarios, evaluator admission, findings, regression retention and re-evaluation |
 | [Target repository organization](repository-structure.md) | Required responsibility layers, semantic test naming and incremental creation without empty scaffolding |
 | [SL-01.M1 development handoff](handoff/sl-01-m1-handoff.md) | Original research plus actual backend implementation handoff; frontend/browser work remains pending |
 | [SL-02.M1 development handoff](handoff/sl-02-m1-handoff.md) | Current independent source/portrait replacement and staged backend/frontend transfer; older evidence retained |
-| [SL-03.M1 backend development handoff](handoff/sl-03-m1-handoff.md) | Published internal invocation foundation, schema-4 source checkpoint, implementation sequence and required deterministic proof |
 | [SL-02.M2 backend development handoff](handoff/sl-02-m2-handoff.md) | Direct Resume source/manifest adaptation; surviving renderer/work proof; frontend first delivery |
 | [Backend README](../../backend/README.md) | Maintained installation, runtime configuration, API entry points and check commands |
 | [Target technology stack](technology-stack.md) | Planned backend/frontend tools, adoption boundaries and unresolved setup; not an installed dependency inventory |
 
-Use [Implementation Plan](../plans/implementation-plan.md) and its linked Slice plans for actual decomposition, dependencies and required Contract scope. Use [Progress recording rules](../progress/README.md) for status/readiness and evidence records. Architecture and Acceptance retain their mechanism/proof authority; [Eval acceptance](../acceptance/evaluation.md) is the specialized proof owner consumed by the execution guide; this directory guide is navigation only and supplies no implementation or review evidence.
+Use [Implementation Plan](../plans/implementation-plan.md) and its linked Slice plans for actual decomposition, dependencies and required Contract scope. Use [Progress recording rules](../progress/recording-rules.md) for status/readiness and evidence records. Architecture and Acceptance retain their mechanism/proof authority; [Eval acceptance](../evaluation.md#2-evaluation-acceptance-criteria) is the specialized proof owner consumed by the execution guide; this directory guide is navigation only and supplies no implementation or review evidence.
 
 ## Supplemental implementation handoffs
 

@@ -10,11 +10,11 @@
 
 This supporting Development document owns the target physical file organization and its incremental creation/maintenance principles. [Architecture](../architecture.md#2-system-responsibilities-and-dependency-direction) owns logical responsibilities, dependency direction and runtime authority. [Product](../spec.md) owns behavior; [Contracts](../contracts/index.md) own detailed normative definitions when written; [Acceptance](../acceptance.md) owns proof. A package name or placement cannot override those owners.
 
-[Implementation Plan](../plans/implementation-plan.md) and its [Slice plans](../plans/slices/README.md) own milestone scope, dependencies, required Contract portions and completion conditions. This document does not assign every target directory to a milestone or create another implementation schedule. [Progress rules](../progress/README.md) govern actual readiness/evidence recording; actual values belong in [Progress](../progress.md) and the [matrix](../progress/traceability.md).
+[Implementation Plan](../plans/implementation-plan.md) and its [Slice plans](../plans/slices/README.md) own milestone scope, dependencies, required Contract portions and completion conditions. This document does not assign every target directory to a milestone or create another implementation schedule. [Progress rules](../progress/recording-rules.md) govern actual readiness/evidence recording; actual values belong in [Progress](../progress.md) and the [matrix](../progress/traceability.md).
 
 **Source:** The user's supplied repository tree and subsequent approval to persist the recommended target-organization/just-in-time creation approach in this document. This is a later user engineering-organization direction, not an original Grill Q-ID, a detailed Contract or a claim of final stack selection. Existing architecture commitments still apply. The current user clarification makes responsibility-layer placement mandatory from first implementation. Document a justified structural change here before applying it; unused branches still need not exist.
 
-The current [CG01-BC1 decision](../design/contract/sl-01-m1-grill.md#cg01-bc1) controls ManualApplicationEntry separation. The tree below makes its target placement explicit without changing that decision. Historical handoffs and original Grill records are preserved.
+The current [CG01-BC1 decision](../.grill/contract/sl-01-m1/decisions.md#cg01-bc1) controls ManualApplicationEntry separation. The tree below makes its target placement explicit without changing that decision. Historical handoffs and original Grill records are preserved.
 
 The later user-supplied [target technology stack](technology-stack.md) records the backend/frontend tool selections, including SQLAlchemy and Alembic. This guide continues to own placement only; exact versions, verified adoption and actual installation are separate from the target tree.
 
@@ -390,7 +390,7 @@ Use the current [SL-01.M1 plan](../plans/slices/sl-01-workspace-jobs-preferences
 
 `run/`, `invocation/`, `recovery/` and `runtime/` are proposed subdivisions of the existing Harness responsibilities. They are not four independent lifecycle designs. Start with the smallest useful grouping and split only where concrete code and maintenance needs justify it. The bounded [SL-03 plan](../plans/slices/sl-03-invocation-requirements.md) controls its actual capability, Contract and proof scope; path availability cannot turn invocation durability into a universal side-effect framework.
 
-The Eval task/Scenario branches shown are not an exhaustive coverage inventory. Absence of a named Memory task file, for example, does not remove required Memory Eval. Add the actual adapters/checks with their consuming milestone under [Eval development procedure](evaluation.md) and [Eval acceptance](../acceptance/evaluation.md), without precreating unused task files now.
+The Eval task/Scenario branches shown are not an exhaustive coverage inventory. Absence of a named Memory task file, for example, does not remove required Memory Eval. Add the actual adapters/checks with their consuming milestone under [Eval development procedure](../evaluation.md#3-evaluation-workflow) and [Eval acceptance](../evaluation.md#2-evaluation-acceptance-criteria), without precreating unused task files now.
 
 ## 5. Incremental creation principles
 

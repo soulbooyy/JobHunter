@@ -11,15 +11,15 @@ At this handoff, the other four main documents, `docs/contracts/*`, and the Prog
 ## Sources consulted and reading scope
 
 - English authoring spec: document ownership, Implementation Decisions, both verification seams, the semantic regression checklist, W1–W6 responsibilities, coverage index, and pending-detail boundaries.
-- [Decision Register](../docs/design/grill-me-design-tree.md): Purpose/Session State; Q4/Q22/S24.2/S37.1/S38.1; W1 topic records for navigation, assets, Jobs, Fit, Advisor, preparation, execution/tracking, privacy, Memory, and their later corrections. Earlier clauses were checked against the controlling decisions listed below, rather than accepted by status alone.
-- [Memory](../docs/design/harness/memory.md): complete module, including independent controls, source admission, forgetting, failed ranges, deleted-source behavior, and future-Skill exclusions.
-- [Context](../docs/design/harness/context.md): source/control/acquisition, entry and page boundaries, exact lazy reads, foreground serialization, human versus dependency waits, Session deletion, protected inputs, oversized Fit, score availability, revocation, and dynamic Memory sections.
-- [Tool Actions](../docs/design/harness/tool.md): action purity/permission, dependency preparation, exact reads, target-specific Proposal and confirmation, material approval, deletion, derived work, and platform boundaries.
-- [Recovery](../docs/design/harness/recovery.md): durable remote-call and streaming boundaries, allowed local recovery, explicit Retry, per-target serialization, and shared parse ownership.
-- [Budget](../docs/design/harness/budget.md): unknown usage, exhaustion/partial success, and Context-capacity boundaries.
-- [Storage](../docs/design/harness/storage.md): independent retention, durable derived-work intent, stale-artifact publication, and honest interpretation after purge.
-- [Agent Evaluation](../docs/design/eval/agent-evaluation.md): status/precedence and sections 18–20 on reliability, distinct evidence, and deferred release policy; the authoring spec supplies the wider W2/W3 Eval agenda.
-- [Contract Design Inventory](../docs/design/contract/contract-design-inventory.md): purpose, reading rules, and controlling-change notice only. It was not used to generate schemas or fill unspecified product behavior.
+- [Decision Register](../docs/.grill/grill-me-design-tree.md): Purpose/Session State; Q4/Q22/S24.2/S37.1/S38.1; W1 topic records for navigation, assets, Jobs, Fit, Advisor, preparation, execution/tracking, privacy, Memory, and their later corrections. Earlier clauses were checked against the controlling decisions listed below, rather than accepted by status alone.
+- [Memory](../docs/.grill/harness/memory.md): complete module, including independent controls, source admission, forgetting, failed ranges, deleted-source behavior, and future-Skill exclusions.
+- [Context](../docs/.grill/harness/context.md): source/control/acquisition, entry and page boundaries, exact lazy reads, foreground serialization, human versus dependency waits, Session deletion, protected inputs, oversized Fit, score availability, revocation, and dynamic Memory sections.
+- [Tool Actions](../docs/.grill/harness/tool.md): action purity/permission, dependency preparation, exact reads, target-specific Proposal and confirmation, material approval, deletion, derived work, and platform boundaries.
+- [Recovery](../docs/.grill/harness/recovery.md): durable remote-call and streaming boundaries, allowed local recovery, explicit Retry, per-target serialization, and shared parse ownership.
+- [Budget](../docs/.grill/harness/budget.md): unknown usage, exhaustion/partial success, and Context-capacity boundaries.
+- [Storage](../docs/.grill/harness/storage.md): independent retention, durable derived-work intent, stale-artifact publication, and honest interpretation after purge.
+- [Agent Evaluation](../docs/.grill/eval/agent-evaluation.md): status/precedence and sections 18–20 on reliability, distinct evidence, and deferred release policy; the authoring spec supplies the wider W2/W3 Eval agenda.
+- [Contract Design Inventory](../docs/.grill/contract/contract-design-inventory.md): purpose, reading rules, and controlling-change notice only. It was not used to generate schemas or fill unspecified product behavior.
 
 Consulting selected sections is not a claim to have revalidated every architectural clause of all nine modules in W1. W2 requires all nine records; W6 checks complete cross-document coverage.
 

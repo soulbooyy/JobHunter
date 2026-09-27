@@ -1,10 +1,10 @@
 # Preferences Contract — Collection Intent and Immutable Versions
 
-> **Current applicability — 2026-09-24.S2M1S1-r1.** Existing six-field Preferences save/configuration/collection semantics survive; PRF-024 adds the manual DeepFit interface without schema expansion. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+> **Current applicability — 2026-09-24.S2M1S1-r1.** Existing six-field Preferences save/configuration/collection semantics survive; PRF-024 adds the manual DeepFit interface without schema expansion. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../.grill/contract/sl-02-m1-supplement/decisions.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
 
 > English is authoritative. Normative scope revision: **2026-09-20.M2-r1**. Scope: SL-01.M2 configuration, persistence-facing objects, read/Save and recovery. This does not complete Collection/source admission or Job Pool queries. Readiness and implementation are separate in [Progress](../../progress/traceability.md#6-contract-normative-scope-readiness-ledger).
 
-[Index](../index.md) · [Common](../common.md) · [Workspace](../foundation/workspace.md) · [Storage](../foundation/storage.md) · [Decisions](../../design/contract/sl-01-m2-grill.md)
+[Index](../index.md) · [Common](../common.md) · [Workspace](../foundation/workspace.md) · [Storage](../foundation/storage.md) · [Decisions](../../.grill/contract/sl-01-m2/decisions.md)
 
 ## 1. Authority and configuration
 

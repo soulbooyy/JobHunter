@@ -2,7 +2,7 @@
 
 ## Current development transfer — 2026-09-24.S2M1S1-r1
 
-**Classification:** Verification only; existing backend/frontend retained. This addendum controls the replaced source scope; any older body below is a historical snapshot. [Owning plan](../../plans/slices/sl-01-workspace-jobs-preferences.md) · [Accepted supplement](../../design/contract/sl-02-m1-supplement-grill.md) · [Current scope/evidence](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+**Classification:** Verification only; existing backend/frontend retained. This addendum controls the replaced source scope; any older body below is a historical snapshot. [Owning plan](../../plans/slices/sl-01-workspace-jobs-preferences.md) · [Accepted supplement](../../.grill/contract/sl-02-m1-supplement/decisions.md) · [Current scope/evidence](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
 
 **Consumed scope:** PRF-024 and surviving PRF-001–023. Read the actual Contract bodies through [Contract Index](../../contracts/index.md); indexes/planned paths are not norms. Read Product/Architecture/Acceptance, AGENTS.md and maintained component guides before implementation. Old shared Profile/Evidence/Baseline authority, Knowledge-first Save, parallel Fits and mandatory current assistant apply are superseded only as recorded in those owners.
 
@@ -24,7 +24,7 @@
 
 > English is authoritative. Target Contract revision: **2026-09-20.M2-r1**. Decisions through CG02-Q40 are accepted. Sections 1–4 retain the preparation-time baseline; the implemented backend transfer and remaining UI scope are in section 5. Actual reviewed scope is in [Progress 6.2](../../progress/traceability.md#62-sl-01m2-reviewed-scope-and-interface-evidence).
 
-[Milestone plan](../../plans/slices/sl-01-workspace-jobs-preferences.md#sl-01m2-collection-preferences-and-immutable-versions) · [Decisions](../../design/contract/sl-01-m2-grill.md) · [Conformance](../../acceptance.md#32-sl-01m2-contract-conformance)
+[Milestone plan](../../plans/slices/sl-01-workspace-jobs-preferences.md#sl-01m2-collection-preferences-and-immutable-versions) · [Decisions](../../.grill/contract/sl-01-m2/decisions.md) · [Conformance](../../acceptance.md#32-sl-01m2-contract-conformance)
 
 ## 1. Scope to implement
 
@@ -59,8 +59,8 @@ User approval of Grill decisions and documentary interface review do not mean te
 
 ## 5. Backend-to-frontend integration handoff
 
-The backend described above is now implemented; actual requirement/test evidence and check results live in [traceability §8](../../progress/traceability.md#8-sl-01m2-backend-implementation-evidence), with rolling status in [Progress](../../progress.md#9-sl-01m2-backend-implementation). The preparation-time statements about missing code/schema-1-only runtime do not describe the current binary. Runtime versions remain pinned as recorded in the [backend README](../../../backend/README.md); its explicit offline migration command is the only supported schema-1 upgrade entry point. No user data was migrated by development.
+The backend described above is now implemented; actual requirement/test evidence and check results live in [traceability §8](../../progress/traceability.md#8-sl-01m2-backend-implementation-evidence), with rolling status in [Progress](../../progress/traceability.md#8-sl-01m2-backend-implementation-evidence). The preparation-time statements about missing code/schema-1-only runtime do not describe the current binary. Runtime versions remain pinned as recorded in the [backend README](../../../backend/README.md); its explicit offline migration command is the only supported schema-1 upgrade entry point. No user data was migrated by development.
 
-For UI/client work, consume the [Preferences API guide](../../api/sl-01-m2.md), generated `/openapi.json` and [derived Save input](../../../backend/tests/fixtures/preference_save.json). The normative Contracts remain authoritative. Configure the actual frontend Origin explicitly; do not bypass Host/Origin checks. Keep null first-save preconditions, canonical set/Unicode semantics, original submitted error indices and original request preservation after uncertainty. An old successful replay can describe a historical version and must not be displayed as proof of current state.
+For UI/client work, consume the [Preferences API guide](../api/sl-01-m2.md), generated `/openapi.json` and [derived Save input](../../../backend/tests/fixtures/preference_save.json). The normative Contracts remain authoritative. Configure the actual frontend Origin explicitly; do not bypass Host/Origin checks. Keep null first-save preconditions, canonical set/Unicode semantics, original submitted error indices and original request preservation after uncertainty. An old successful replay can describe a historical version and must not be displayed as proof of current state.
 
 PRF-022 UI, client generation/browser validation, client recovery and full M2 integration remain outside this backend completion. Concurrent frontend work has not been verified by this task. M1 frontend is not a prerequisite for this backend; neither M2 nor SL-01 is marked complete. No new handoff/summary file or automatic commit/push was created.

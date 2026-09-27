@@ -1,10 +1,10 @@
 # Resume Composition and Manual Lineage Contract
 
-> **Current applicability — 2026-09-24.S2M1S1-r1.** RES-001/002/005/010/011/013/015/016 source-authority and adoption rules, RES-003 final-removal prohibition and RES-006 no-ID rule are superseded by RES-017–024. RES-004 Header values, RES-007–009 text/canonicalization/bounds, RES-012 presentation and surviving lifecycle/read rules still apply as explicitly reused below. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+> **Current applicability — 2026-09-24.S2M1S1-r1.** RES-001/002/005/010/011/013/015/016 source-authority and adoption rules, RES-003 final-removal prohibition and RES-006 no-ID rule are superseded by RES-017–024. RES-004 Header values, RES-007–009 text/canonicalization/bounds, RES-012 presentation and surviving lifecycle/read rules still apply as explicitly reused below. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../.grill/contract/sl-02-m1-supplement/decisions.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
 
 > English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. The original clauses preserve SL-02.M1 scope; the final section adds the explicitly bounded 2026-09-21.S2M2-r1 consumer interface. Other future scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
 
-[Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../design/contract/sl-02-m1-grill.md)
+[Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../.grill/contract/sl-02-m1/decisions.md)
 
 ## 1. Document authority and saved shapes
 
@@ -89,7 +89,7 @@ Numeric values MUST be admitted exactly, treating 12/12.0/1.2e1 equivalently, wi
 
 ## 6. Materials exact document projection
 
-Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../design/contract/sl-02-m2-grill.md).
+Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../.grill/contract/sl-02-m2/decisions.md).
 
 <a id="res-016"></a>
 **RES-016.** For MAT-005, Resume MUST provide the complete requested immutable ResumeVersion with its saved Header, local AST, presentation and ordered exact refs. Derive resume_id, profile_version_id and source_sections server-side; do not accept duplicate client lineage fields or a Manifest as authority. Internal Materials projection validates required source identity/ownership without forcing EVD-013's unused full Evidence body into rendering admission. Existing RES-014 full Candidate reads and Save semantics remain unchanged. New render demand additionally requires ACTIVE owning Resume under MAT-006; previously accepted exact demand survives ordinary removal/new Save. No Save-triggered follow-current subscription, source propagation or automatic artifact invalidation is added. Q1/Q6/Q14/Q17/Q23/Q67/Q74/Q96.

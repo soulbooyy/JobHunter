@@ -1,12 +1,12 @@
 # Evidence and Baseline Contract
 
-> **Current Entry-scoped amendment — 2026-09-24.S2M1S1-r2.** Accepted [Q42–Q46](../../design/contract/sl-02-m1-supplement-grill.md#cg03s1-q42) replaces the earlier whole-source-only reuse/input policy with Entry-scoped generation, exact baseline reuse and explicit full refresh. The amended clauses and additions below control that scope; original source/privacy/transaction/Runtime guarantees survive. [Reviewed scope](../../progress/traceability.md#entry-incremental-review) separates Contract readiness from implementation.
+> **Current Entry-scoped amendment — 2026-09-24.S2M1S1-r2.** Accepted [Q42–Q46](../../.grill/contract/sl-02-m1-supplement/decisions.md#cg03s1-q42) replaces the earlier whole-source-only reuse/input policy with Entry-scoped generation, exact baseline reuse and explicit full refresh. The amended clauses and additions below control that scope; original source/privacy/transaction/Runtime guarantees survive. [Reviewed scope](../../progress/traceability.md#entry-incremental-review) separates Contract readiness from implementation.
 
-> **Current applicability — 2026-09-24.S2M1S1-r1.** EVD-001/002/006–015 independent fact authority, Baseline, CRUD, retirement and material joins are historical. The six kind values and EVD-003–005 field/value semantics are reused by Resume entries; ownership is now RES-018. EVD-016–023 defines the new read-only projection. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+> **Current applicability — 2026-09-24.S2M1S1-r1.** EVD-001/002/006–015 independent fact authority, Baseline, CRUD, retirement and material joins are historical. The six kind values and EVD-003–005 field/value semantics are reused by Resume entries; ownership is now RES-018. EVD-016–023 defines the new read-only projection. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../.grill/contract/sl-02-m1-supplement/decisions.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
 
 > English is authoritative. Normative scope revision: **2026-09-21.S2M1-r1**. The original clauses preserve SL-02.M1 scope; the final section adds the explicitly bounded 2026-09-21.S2M2-r1 consumer interface. Other future scopes remain pending. Readiness and implementation are recorded separately in [Progress](../../progress/traceability.md#63-sl-02m1-reviewed-scope-and-interface-evidence).
 
-[Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../design/contract/sl-02-m1-grill.md)
+[Index](../index.md) · [Common](../common.md#com-038) · [Decisions](../../.grill/contract/sl-02-m1/decisions.md)
 
 ## 1. Item authority and immutable versions
 
@@ -97,7 +97,7 @@ Root/current pairs MUST come from one consistent snapshot; exact readers MUST pr
 
 ## 6. Materials exact structured-source projection
 
-Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../design/contract/sl-02-m2-grill.md).
+Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../.grill/contract/sl-02-m2/decisions.md).
 
 <a id="evd-015"></a>
 **EVD-015.** For each Resume member consumed by MAT-005, Evidence MUST provide exactly evidence_item_id, evidence_item_version_id, Item-owned kind and the corresponding complete EVD-003 fields shape, retaining the requested version's Item ownership and the consumer's member order. It MUST validate that actual structured input without substituting current/ACTIVE versions or requiring unused Evidence.content to parse/pass full body validation. This projection has no business ID, separate persisted authority or public endpoint. EVD-013's full exact HTTP reader and existing Save continue complete owned validation; the new internal projection MUST NOT weaken those consumers. Retired/historical refs remain usable for admitted exact demand; contradictory ownership is not a valid source. Q6/Q14/Q67/Q69/Q74/Q96.

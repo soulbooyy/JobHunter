@@ -35,8 +35,8 @@ Start at the [documentation index](docs/index.md) for task-oriented navigation a
 | [Acceptance](docs/acceptance.md) | Unified product/system scenarios and required proof |
 | [Development](docs/development.md) | Delivery sequence, research, test-first work, verification, handoffs, and commit conventions |
 | [Progress](docs/progress.md) and [traceability matrix](docs/progress/traceability.md) | Actual status, decision provenance, milestone evidence, and scope readiness |
-| [Evaluation documentation](docs/evaluation/README.md) | One entry to the existing Eval architecture, proof, procedure, Contract planning, and design history |
-| [Design history](docs/design/README.md) | Original Architecture Grill decisions and detailed design provenance |
+| [Evaluation documentation](docs/evaluation.md#4-related-documents) | One entry to the existing Eval architecture, proof, procedure, Contract planning, and design history |
+| [Design history](docs/.grill/README.md) | Original Architecture Grill decisions and detailed design provenance |
 
 This README provides orientation and navigation. The linked owners define product, architecture, planning, proof, process, and status; this file does not introduce another normative authority.
 
@@ -44,13 +44,13 @@ This README provides orientation and navigation. The linked owners define produc
 
 Follow the [Development workflow](docs/development.md#2-delivery-sequence-and-stage-boundaries). After baseline approval, use the selected milestone's Slice plan to guide its detailed Contract Grill and normative writeback. Complete its consumed Contract scope and necessary interfaces, reconcile affected documents, and establish research and actual upstream readiness before development.
 
-Contract readiness is tracked by consumed scope, not by whole filename or family. Other milestones may remain pending; parent Slice completion separately requires all necessary milestones and integrated proof. The [global plan](docs/plans/implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) and [Progress recording rules](docs/progress/README.md) govern these distinctions.
+Contract readiness is tracked by consumed scope, not by whole filename or family. Other milestones may remain pending; parent Slice completion separately requires all necessary milestones and integrated proof. The [global plan](docs/plans/implementation-plan.md#2-milestone-readiness-completion-and-dependency-meaning) and [Progress recording rules](docs/progress/recording-rules.md) govern these distinctions.
 
 Cross-context authoring guides, proposals, and handoff snapshots live in [`.scratch/`](.scratch/). Use the latest applicable handoff together with current owning documents; historical proposals and earlier review results do not override the current baseline.
 
 ## Backend development
 
-The SL-01.M1 backend is available; the M1 frontend is implemented with scoped browser evidence; final milestone acceptance remains pending. See [installation, startup, configuration and checks](backend/README.md) and [actual progress](docs/progress.md#7-sl-01m1-backend-implementation).
+The SL-01.M1 backend is available; the M1 frontend is implemented with scoped browser evidence; final milestone acceptance remains pending. See [installation, startup, configuration and checks](backend/README.md) and [actual progress](docs/progress/traceability.md#7-sl-01m1-backend-implementation-evidence).
 
 ## Frontend development
 

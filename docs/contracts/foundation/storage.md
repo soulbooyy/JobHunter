@@ -1,12 +1,12 @@
 # Storage Contract — Local Authority and Retained Evidence
 
-> **Current Entry-scoped amendment — 2026-09-24.S2M1S1-r2.** Accepted [Q42–Q46](../../design/contract/sl-02-m1-supplement-grill.md#cg03s1-q42) replaces the earlier whole-source-only reuse/input policy with Entry-scoped generation, exact baseline reuse and explicit full refresh. The amended clauses and additions below control that scope; original source/privacy/transaction/Runtime guarantees survive. [Reviewed scope](../../progress/traceability.md#entry-incremental-review) separates Contract readiness from implementation.
+> **Current Entry-scoped amendment — 2026-09-24.S2M1S1-r2.** Accepted [Q42–Q46](../../.grill/contract/sl-02-m1-supplement/decisions.md#cg03s1-q42) replaces the earlier whole-source-only reuse/input policy with Entry-scoped generation, exact baseline reuse and explicit full refresh. The amended clauses and additions below control that scope; original source/privacy/transaction/Runtime guarantees survive. [Reviewed scope](../../progress/traceability.md#entry-incremental-review) separates Contract readiness from implementation.
 
-> **Current applicability — 2026-09-24.S2M1S1-r1.** Old schema seed/conversion requirements for shared Profile/Evidence/Baseline and their Materials joins are superseded for this redesign by STO-054–058. Published migration files and execution evidence remain history; the new target is not claimed implemented. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../design/contract/sl-02-m1-supplement-grill.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
+> **Current applicability — 2026-09-24.S2M1S1-r1.** Old schema seed/conversion requirements for shared Profile/Evidence/Baseline and their Materials joins are superseded for this redesign by STO-054–058. Published migration files and execution evidence remain history; the new target is not claimed implemented. The new requirements below are the normative replacement for that scope. Earlier text/IDs remain historical provenance, not a legacy implementation requirement. [Accepted decisions](../../.grill/contract/sl-02-m1-supplement/decisions.md); [current review](../../progress/traceability.md#67-sl-02m1-supplement-reviewed-scope).
 
 > English is authoritative. Initial normative scope revision: **2026-09-19.M1-r1**. Scope: local Workspace/ManualApplicationEntry persistence, startup, receipts and privacy. This is not completion of immutable assets, Harness recovery, retention policies or later storage consumers. Review/readiness is recorded in [Progress](../../progress/traceability.md#6-contract-normative-scope-readiness-ledger).
 
-[Index](../index.md) · [Common](../common.md) · [Workspace](workspace.md) · [Entry](../jobs/manual-application-entries.md) · [Decisions](../../design/contract/sl-01-m1-grill.md)
+[Index](../index.md) · [Common](../common.md) · [Workspace](workspace.md) · [Entry](../jobs/manual-application-entries.md) · [Decisions](../../.grill/contract/sl-01-m1/decisions.md)
 
 ## 1. Placement and runtime ownership
 
@@ -159,7 +159,7 @@ Scope revision **2026-09-21.S2M1-r1**. STO-001–020 remain the original publish
 
 ## 6. SL-02.M2 material persistence and execution boundaries
 
-Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../design/contract/sl-02-m2-grill.md).
+Scope revision **2026-09-21.S2M2-r1**. Earlier published consumer semantics remain effective within their scope. Provenance: [CG04](../../.grill/contract/sl-02-m2/decisions.md).
 
 <a id="sto-029"></a>
 **STO-029.** For the M2-capable binary, extend STO-021–028's target-version applicability by a new forward migration from the actual implementation-time migration head. Preserve jobhunter.sqlite3, application_id 0x4A484E54, physical placement/ownership, published historical migrations and all Entry/Preferences/Profile/Evidence/Baseline/Resume/selection data, references, revisions, timestamps, command namespaces, receipt snapshots and fingerprints. Do not freeze schema 4 as a business Contract value. Concrete next version and Alembic revision belong to the verified implementation/handoff.

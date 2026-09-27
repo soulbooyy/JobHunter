@@ -1,6 +1,6 @@
 # SL-01.M1 Development Handoff
 
-> English is authoritative. Prepared 2026-09-19 after CG01-Q41–Q45 acceptance. This is a Development handoff and research/adoption record, not another decision register or normative owner. Actual status and review evidence are in [Progress](../../progress.md#6-sl-01m1-contract-review-and-handoff). The original research snapshot below does not claim runtime acceptance; the backend implementation addendum in section 6 records subsequent actual work.
+> English is authoritative. Prepared 2026-09-19 after CG01-Q41–Q45 acceptance. This is a Development handoff and research/adoption record, not another decision register or normative owner. Actual status and review evidence are in [Progress](../../progress/traceability.md#61-sl-01m1-reviewed-scope-and-interface-evidence). The original research snapshot below does not claim runtime acceptance; the backend implementation addendum in section 6 records subsequent actual work.
 
 [Milestone plan](../../plans/slices/sl-01-workspace-jobs-preferences.md#sl-01m1-local-workspace-and-manual-application-entries) · [Contract Index](../../contracts/index.md) · [Target stack](../technology-stack.md) · [Repository organization](../repository-structure.md)
 
@@ -57,7 +57,7 @@ Use generated fixture data, controlled HTTP destinations and temporary databases
 
 ## 5. Review clarifications and preserved ownership
 
-Consolidation supplied mechanical representations needed by accepted decisions: `$` as a non-echoing whole-document/unknown-field error locator; ACCESS_DENIED/403 for Q44 local runtime admission; a pinned URL-validity reference for Q12/Q32; JSON Schema integer-value interpretation for Q31; and post-commit response-failure wording for Q40/Q42. These clarify the consumed interfaces rather than reopen the product scope. The normative owner is always the linked Contract; the only Grill decision record remains `docs/design/contract/sl-01-m1-grill.md`.
+Consolidation supplied mechanical representations needed by accepted decisions: `$` as a non-echoing whole-document/unknown-field error locator; ACCESS_DENIED/403 for Q44 local runtime admission; a pinned URL-validity reference for Q12/Q32; JSON Schema integer-value interpretation for Q31; and post-commit response-failure wording for Q40/Q42. These clarify the consumed interfaces rather than reopen the product scope. The normative owner is always the linked Contract; the only Grill decision record remains `docs/.grill/contract/sl-01-m1/decisions.md`.
 
 Contract-ready means development may start with the preparation above. It does not certify the host's current Python/Node combination, install dependencies, produce runtime tests or mark M1 implemented. Record actual adopted versions, supported browsers/platforms, commands, outcomes and residual limitations when those exist.
 

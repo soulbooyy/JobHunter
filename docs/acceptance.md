@@ -6,9 +6,9 @@
 
 ## 1. Authority, scope, and use
 
-The [Product Specification](spec.md) owns visible tasks and behavior. [Architecture](architecture.md) owns supporting responsibilities, authority, dependencies, and invariants. This main document remains the unified product/system acceptance authority for how those settled requirements must be demonstrated, including positive, negative, boundary, concurrency, failure, recovery, permission, and semantic-quality cases. An acceptance expectation cannot create a new business rule or supersede either owner merely to simplify a test. The supporting [Eval acceptance document](acceptance/evaluation.md) owns specialized evaluation-evidence criteria within this same category; the [Development Eval guide](development/evaluation.md) owns execution procedure.
+The [Product Specification](spec.md) owns visible tasks and behavior. [Architecture](architecture.md) owns supporting responsibilities, authority, dependencies, and invariants. This main document remains the unified product/system acceptance authority for how those settled requirements must be demonstrated, including positive, negative, boundary, concurrency, failure, recovery, permission, and semantic-quality cases. An acceptance expectation cannot create a new business rule or supersede either owner merely to simplify a test. The supporting [Eval acceptance document](evaluation.md#2-evaluation-acceptance-criteria) owns specialized evaluation-evidence criteria within this same category; the [Development Eval guide](evaluation.md#3-evaluation-workflow) owns execution procedure.
 
-The [English authoring spec](../.scratch/document-authoring-spec.en.md) and [W2 handoff](../.scratch/w2-architecture-handoff.md) govern this stage. Q/S references resolve to the [Decision Register](design/grill-me-design-tree.md) and effective detailed modules. Later corrections control the clauses they replace even inside earlier ACCEPTED records. The [Contract Design Inventory](design/contract/contract-design-inventory.md) is a non-normative checklist. It supplies no final schema, default-enablement policy, or test oracle.
+The [English authoring spec](../.scratch/document-authoring-spec.en.md) and [W2 handoff](../.scratch/w2-architecture-handoff.md) govern this stage. Q/S references resolve to the [Decision Register](.grill/grill-me-design-tree.md) and effective detailed modules. Later corrections control the clauses they replace even inside earlier ACCEPTED records. The [Contract Design Inventory](.grill/contract/contract-design-inventory.md) is a non-normative checklist. It supplies no final schema, default-enablement policy, or test oracle.
 
 All scenarios below are requirements for future verification. They have not been executed. Table scenario names and section numbers are document locators, not Contract requirement IDs, executable test names, product states, or a prescribed suite layout. Evidence columns name what a check must observe; they do not freeze fields, event schemas, tool interfaces, payloads, database layouts, validation errors, migration procedures, metric formulae, or detailed state transitions. Section 14 identifies the details needed before executable checks can be finalized.
 
@@ -33,7 +33,7 @@ Use controlled external adapters and isolated test state for automated scenarios
 
 Each eventual verification report must make the checked requirement/source, actual case/input/configuration, method, executed scope, observations, conclusion, and evidence limitations traceable. These are reporting obligations, not a new result schema. Required evidence must be available and admitted for the checker that consumes it; do not silently broaden access to complete a check.
 
-**Sources:** Q26, Q32, Q82–Q83, Q117, Q173–Q180, Q184–Q187, S35.1; Architecture 15; [Agent Evaluation](design/eval/agent-evaluation.md), sections 1–6 and 16–20.
+**Sources:** Q26, Q32, Q82–Q83, Q117, Q173–Q180, Q184–Q187, S35.1; Architecture 15; [Agent Evaluation](.grill/eval/agent-evaluation.md), sections 1–6 and 16–20.
 
 ### 2.2 Outcomes, incomplete checks, and scope
 
@@ -41,7 +41,7 @@ Record the task's actual outcome separately from each check's conclusion. Expect
 
 Do not omit failed or unassessable samples, count unavailable evidence as a pass, or equate Q168's valid unscored Analysis with zero quality. Report sample counts and unverified scope. Zero observed violations is limited evidence for the exercised cases, not proof that violations are impossible. Quality averages cannot offset unauthorized writes, confirmation bypass, forbidden access, exact-version violations, authority leakage, or silent replay.
 
-Specialized semantic interpretation and comparison criteria are owned by [Eval acceptance 3](acceptance/evaluation.md#3-semantic-quality-reliability-and-efficiency-evidence).
+Specialized semantic interpretation and comparison criteria are owned by [Eval quality and comparison criteria](evaluation.md#22-semantic-quality-reliability-and-efficiency-evidence).
 
 **Sources:** Q117, Q168, Q175, Q179–Q180; Architecture 15.3–15.4; Product 11.
 
@@ -52,8 +52,8 @@ Specialized semantic interpretation and comparison criteria are owned by [Eval a
 | Scenario and trigger | Required observable outcome | Required evidence and controlling sources |
 | --- | --- | --- |
 | Enter capabilities independently with their legal prerequisites | Advisor and Preparation require no completed Fit. The five accepted entries and contextual Preparation route work as specified; no extra top-level DeepFit/Preparation entry, Candidate or Company Aggregate, or required bookmark flow | Interaction/routing checks and owned-state inspection; Q1, Q6, Q23–Q24, Q53, S5.1, S5.3, S17.1–S17.4 |
-| Maintain ManualApplicationEntry and click its URL action | Company/role/user-provided application URL remain a mutable record in a separate Job Pool view. Repeated edits create no JobVersion. Deletion physically removes its business row while retaining minimum replay protection under its Contract. Clicking opens the browser only; no formal Job creation, Requirements/Fits, targeted Advisor, Preparation, automatic Execution or Application History | Owned entry persistence, view isolation, browser-navigation boundary and absence of downstream business effects; [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1); [M1 normative proof mapping](#31-sl-01m1-contract-conformance) |
-| Collect BOSS candidates with complete, missing, or invalid details | Only validated complete detail/JD atomically creates root and first version. Failure cannot leave an incomplete formal Job; there is no Manual root-only exception. | Adapter validation, transaction failure injection, persisted Jobs; Q44, Q48–Q49, S9.1; [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1) removes the Manual exception |
+| Maintain ManualApplicationEntry and click its URL action | Company/role/user-provided application URL remain a mutable record in a separate Job Pool view. Repeated edits create no JobVersion. Deletion physically removes its business row while retaining minimum replay protection under its Contract. Clicking opens the browser only; no formal Job creation, Requirements/Fits, targeted Advisor, Preparation, automatic Execution or Application History | Owned entry persistence, view isolation, browser-navigation boundary and absence of downstream business effects; [CG01-BC1](.grill/contract/sl-01-m1/decisions.md#cg01-bc1); [M1 normative proof mapping](#31-sl-01m1-contract-conformance) |
+| Collect BOSS candidates with complete, missing, or invalid details | Only validated complete detail/JD atomically creates root and first version. Failure cannot leave an incomplete formal Job; there is no Manual root-only exception. | Adapter validation, transaction failure injection, persisted Jobs; Q44, Q48–Q49, S9.1; [CG01-BC1](.grill/contract/sl-01-m1/decisions.md#cg01-bc1) removes the Manual exception |
 | Observe unchanged, semantically changed, stale, absent, and reliably closed listings | Unchanged content updates observation without a new version; semantic change creates an immutable version. Age/search absence does not imply closure. Verified closure blocks new automatic application but preserves history | Exact versions, observation provenance, derived availability and admission; Q7, Q44, Q48, Q50 |
 | Admit candidates under a complete exact collection Preference version | Source query mapping and deterministic candidate admission follow the real consumer policy; keywords are not a returned-title substring gate. Missing/incomparable metadata is not falsely treated as conflict or satisfaction. No Candidate/Requirements/model screening is introduced | SL-08.M2 source/admission conformance, exact version and aggregate evidence; CG02-BC1/Q6–Q10; detailed representation remains pending |
 | Attempt first acquisition with incomplete versus complete explicit Preferences | All six dimensions need legal explicit selections and successful Save before configured status. Missing/unfilled values or an all-empty object cannot authorize acquisition. Explicit no-constraint choices use each dimension's defined representation; no persisted recruitment-type unrestricted enum | Real Preference Save/read/configuration admission, later Collection preflight; CG02-S1; no QuickScreen PASS scenario |
@@ -77,11 +77,11 @@ Specialized semantic interpretation and comparison criteria are owned by [Eval a
 
 Current eligibility, missing input, availability, material readiness, and event-derived application progress must remain distinguishable throughout these cases. Verification must not assert one universal Job lifecycle or demand excluded cross-platform/historical merging. Source access values from examples are not test constants establishing product defaults.
 
-**Sources:** Q7, Q12–Q14, Q18, Q27, Q44–Q50, Q55–Q56, Q110, Q161, S9.1. Q13 is exclusion evidence; Q44/Q48 historically corrected Q17 admission wording. Later [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1) supersedes their Manual exception while retaining complete formal Job admission. CG02-BC1/Q6–Q10/S1 further supersede current-Preference re-screening and restore complete immutable acquisition versions. Collection admission is a future consumer policy, not an M2 QuickScreen or downstream Fit gate.
+**Sources:** Q7, Q12–Q14, Q18, Q27, Q44–Q50, Q55–Q56, Q110, Q161, S9.1. Q13 is exclusion evidence; Q44/Q48 historically corrected Q17 admission wording. Later [CG01-BC1](.grill/contract/sl-01-m1/decisions.md#cg01-bc1) supersedes their Manual exception while retaining complete formal Job admission. CG02-BC1/Q6–Q10/S1 further supersede current-Preference re-screening and restore complete immutable acquisition versions. Collection admission is a future consumer policy, not an M2 QuickScreen or downstream Fit gate.
 
 ### 3.1 SL-01.M1 Contract conformance
 
-This is required future proof for the real `2026-09-19.M1-r1` scope, not an executed result. Use the [development handoff](development/handoff/sl-01-m1-handoff.md) for preparation and [Progress](progress.md#6-sl-01m1-contract-review-and-handoff) for actual evidence.
+This is required future proof for the real `2026-09-19.M1-r1` scope, not an executed result. Use the [development handoff](development/handoff/sl-01-m1-handoff.md) for preparation and [Progress](progress/traceability.md#61-sl-01m1-reviewed-scope-and-interface-evidence) for actual evidence.
 
 | Scenario | Required proof and normative locator |
 | --- | --- |
@@ -203,7 +203,7 @@ Add a default switch, portrait failure/refresh and unrelated Resume Save between
 | External outcome becomes unknown or only part of a batch completes | No inferred success or automatic replay. Verification is needed; continuation needs new narrower authorization. Preserve completed members; undispatched members are neither applied nor failed | Per-Job approvals/Attempts/outcomes and actual external calls; Q30–Q31, Q36 |
 | Collector detects strong risk before Executor's next access, including after restart | Shared platform/account safety blocks affected later access across workflows, without merging budgets, recovery or approval. User handling and explicit restoration are required; no cooldown/account/tab/concurrency bypass or automatic restart/authorization | Persistent safety admission before each controlled access and independent workflow records; Q49, Q160–Q161 |
 | Ordinary selector failure or predictable capacity shortage occurs | Do not automatically classify ordinary workflow failure as account risk. Policy-based capacity recovery does not stand in for strong-risk restoration or execution approval | Classified cause, subsequent admission and separate permission checks; classification details/limits await Contracts; Q160 |
-| Observe a click/technical completion, reliable channel business fact, or human report | Only supported real business facts create ApplicationEvents. Human reporting targets a formal Job without requiring prior automated execution and cannot fabricate Executor/Snapshot/Approval history. ManualApplicationEntry URL opening creates no application fact or event. Unknown technical outcome is not an application | Controlled read-back or explicit human provenance, technical versus business event records; Q30–Q31 plus [CG01-BC1](design/contract/sl-01-m1-grill.md#cg01-bc1) replacing the Q17/Q44/Q48 Manual-root path |
+| Observe a click/technical completion, reliable channel business fact, or human report | Only supported real business facts create ApplicationEvents. Human reporting targets a formal Job without requiring prior automated execution and cannot fabricate Executor/Snapshot/Approval history. ManualApplicationEntry URL opening creates no application fact or event. Unknown technical outcome is not an application | Controlled read-back or explicit human provenance, technical versus business event records; Q30–Q31 plus [CG01-BC1](.grill/contract/sl-01-m1/decisions.md#cg01-bc1) replacing the Q17/Q44/Q48 Manual-root path |
 | Receive duplicate/delayed events, correct a report, or reapply | Deduplicate and preserve occurrence/observation distinctions; corrections/retractions append. Progress is a versioned-policy projection, not writable duplicate status. Reapplication creates a new real attempt; interviews remain events | Canonical event history, projection provenance and separate attempt identity; Q7, Q16, Q21, Q37 |
 
 No universal channel sequence, live-site success demonstration, numeric platform quota, personalized Greeting, or mandatory Monitor is added. A future Monitor's use of shared safety is an extension boundary, not required v1 feature coverage.
@@ -230,7 +230,7 @@ For Profile derivation protect complete admitted deterministic Evidence/backgrou
 
 Protected-input overflow and post-freeze revocation must also satisfy section 5.3. Compaction cannot turn incomplete or prohibited evidence into a complete Fit. Numeric triggers, watermarks, serialization details and exact checkpoint/Tool representations remain deferred.
 
-**Sources:** Q19, Q47, Q72, Q80, Q83, Q94, Q120–Q126, Q128, Q132, Q134–Q144, Q158, Q172; [Context](design/harness/context.md), sections 4–20; [Tool Actions](design/harness/tool.md), sections 3–10.
+**Sources:** Q19, Q47, Q72, Q80, Q83, Q94, Q120–Q126, Q128, Q132, Q134–Q144, Q158, Q172; [Context](.grill/harness/context.md), sections 4–20; [Tool Actions](.grill/harness/tool.md), sections 3–10.
 
 ## 9. Budget, durable execution, and recovery
 
@@ -284,7 +284,7 @@ The [SL-03.M1 deterministic Contract](contracts/evaluation/evaluation-observabil
 | Disconnect only the frontend while backend completes | Healthy backend is not automatically cancelled; reconnect can read its complete result without another task or mutation | Backend canonical result and reconnect/no-extra-call evidence; Q141 |
 | Lose narration after Save, or recover demanded derivatives | Save survives reply failure; show committed result honestly. Safe derivative recovery obeys exact demand/currentness and cannot replay unknown model/platform effects | Canonical outcome versus narration and derivative trace; sections 4.3/6; Q147, Q152, Q156, Q165 |
 
-**Sources:** Q116, Q121–Q126, Q130, Q132, Q135–Q136, Q140–Q142, Q147, Q152, Q155–Q156, Q165, Q169–Q172; [Budget](design/harness/budget.md), section 13; [Recovery](design/harness/recovery.md), section 14.
+**Sources:** Q116, Q121–Q126, Q130, Q132, Q135–Q136, Q140–Q142, Q147, Q152, Q155–Q156, Q165, Q169–Q172; [Budget](.grill/harness/budget.md), section 13; [Recovery](.grill/harness/recovery.md), section 14.
 
 ### 9.4 SL-03.M2 protected invocation conformance
 
@@ -318,7 +318,7 @@ Prove Memory, recalled summaries and historical conversation assertions cannot f
 
 Exact category/interface types, source-range/cursor encodings, forgetting markers, triggers, retention and budget values await Contracts. Fixtures must not smuggle in career USER_FACT Memory, permanent topic locks, future Skills, or automatic historical backfill.
 
-**Sources:** Q52, Q127–Q133, Q137–Q139, Q141, Q145, Q155–Q156, Q169–Q170, Q187; [Memory](design/harness/memory.md), section 17.
+**Sources:** Q52, Q127–Q133, Q137–Q139, Q141, Q145, Q155–Q156, Q169–Q170, Q187; [Memory](.grill/harness/memory.md), section 17.
 
 ## 12. Eval execution and evidence integrity
 
@@ -327,14 +327,14 @@ Exact category/interface types, source-range/cursor encodings, forgetting marker
 <a id="123-evaluator-inputs-authority-and-conclusions"></a>
 <a id="124-telemetry-regression-retention-and-re-evaluation"></a>
 
-Agent task execution and its evaluation infrastructure require evidence of isolation, exact inputs, declared measured scope, Scenario integrity, admitted evaluator inputs and trustworthy observations. [Eval acceptance 2](acceptance/evaluation.md#2-eval-execution-and-evidence-integrity) owns those detailed proof obligations, including telemetry, regression retention and re-evaluation; business/runtime acceptance remains in sections 3–11.
+Agent task execution and its evaluation infrastructure require evidence of isolation, exact inputs, declared measured scope, Scenario integrity, admitted evaluator inputs and trustworthy observations. [Eval evidence-integrity criteria](evaluation.md#21-eval-execution-and-evidence-integrity) owns those detailed proof obligations, including telemetry, regression retention and re-evaluation; business/runtime acceptance remains in sections 3–11.
 
 ## 13. Semantic quality, reliability, and efficiency evidence
 
 <a id="131-capability-specific-review"></a>
 <a id="132-comparable-experiments-and-honest-reporting"></a>
 
-RequirementParse, Profile derivation, DeepFit and Resume Optimization, Advisor, Context/Tool behavior and applicable learning behavior need task-scoped semantic evidence alongside their deterministic scenarios. Reliability and efficiency claims require evidence for their actual measured scope. [Eval acceptance 3](acceptance/evaluation.md#3-semantic-quality-reliability-and-efficiency-evidence) owns the capability-specific questions, comparison rules and limits; it defines no release thresholds or substitute for authority/permission proof.
+RequirementParse, Profile derivation, DeepFit and Resume Optimization, Advisor, Context/Tool behavior and applicable learning behavior need task-scoped semantic evidence alongside their deterministic scenarios. Reliability and efficiency claims require evidence for their actual measured scope. [Eval quality and comparison criteria](evaluation.md#22-semantic-quality-reliability-and-efficiency-evidence) owns the capability-specific questions, comparison rules and limits; it defines no release thresholds or substitute for authority/permission proof.
 
 <a id="14-pending-detail-exclusions-and-document-verification"></a>
 
@@ -351,9 +351,9 @@ Pending detail prevents an executable oracle from being finalized where that det
 | Parser/Fit/ScorePolicy Contracts | Section 5: bounded valid dependency, no-target failure, exact scoped assessment, valid unscored results | Exact structured output/validation detail, score availability, numerical weights/formulae/comparisons; Q46, Q51, Q111, Q115, Q117, Q168, Q171 |
 | Tool, Context, Memory, Budget and retention policies | Sections 8–11: least privilege, exact inputs, bounded work, independent controls, protected retention and truthful unknown costs | Complete action catalog, privacy/redaction interfaces, capacity triggers/values, source ranges/forgetting markers, allocation/overrun/reconciliation, cleanup/retention and storage layout; Q123–Q145, Q169–Q172 |
 | Materials, source/channel Contracts and research | Sections 3–4/7: validated adapters, actual viewed material, frozen approved execution and reliable business evidence | Formats/channel readiness/read-back criteria, pinned upstream commits/licenses/mappings and verified selected platform capabilities; Q27, Q31, Q49, Q150, Q157, Q164, S7.1 |
-| Eval Contracts/integration | [Eval acceptance](acceptance/evaluation.md): exact isolated real paths, scoped evidence, semantic alternatives, per-check completeness and actual-output re-evaluation | Fixture/Scenario/evaluator interfaces, evidence schemas, metrics/matching/denominators, calibration measures, selected SDK/deployment verification; Q173–Q187, S35.1 |
-| Later rollout policy | Section 2 and [Eval acceptance 3](acceptance/evaluation.md#3-semantic-quality-reliability-and-efficiency-evidence): separate hard violations, quality, stability, efficiency and absolute/relative comparisons | Trial counts, sample targets, thresholds, enablement, release consequences and repository/CI rules; Q175; Q117 certification remains deferred |
-| Implementation planning, Development and Progress | Map accepted capabilities to proposed Slices and required Contract scope; maintain requirement-to-proof trace, test-first discipline and actual new-repository status | [Implementation Plan](plans/implementation-plan.md) is authored in W6; its milestone and parent-Slice completion conditions must reference this document's scoped and integrated proof obligations. [Development](development.md) requires Contract-ready development and defines general delivery rules; [Progress recording rules](progress/README.md) defines readiness/status/evidence recording; [Progress](progress.md) and its [matrix](progress/traceability.md) record actual state. Later Contract IDs, implementation/test paths and executed evidence do not exist yet; Q22, Q26, Q32, S37.1, S38.1 |
+| Eval Contracts/integration | [Eval acceptance](evaluation.md#2-evaluation-acceptance-criteria): exact isolated real paths, scoped evidence, semantic alternatives, per-check completeness and actual-output re-evaluation | Fixture/Scenario/evaluator interfaces, evidence schemas, metrics/matching/denominators, calibration measures, selected SDK/deployment verification; Q173–Q187, S35.1 |
+| Later rollout policy | Section 2 and [Eval quality and comparison criteria](evaluation.md#22-semantic-quality-reliability-and-efficiency-evidence): separate hard violations, quality, stability, efficiency and absolute/relative comparisons | Trial counts, sample targets, thresholds, enablement, release consequences and repository/CI rules; Q175; Q117 certification remains deferred |
+| Implementation planning, Development and Progress | Map accepted capabilities to proposed Slices and required Contract scope; maintain requirement-to-proof trace, test-first discipline and actual new-repository status | [Implementation Plan](plans/implementation-plan.md) is authored in W6; its milestone and parent-Slice completion conditions must reference this document's scoped and integrated proof obligations. [Development](development.md) requires Contract-ready development and defines general delivery rules; [Progress recording rules](progress/recording-rules.md) defines readiness/status/evidence recording; [Progress](progress.md) and its [matrix](progress/traceability.md) record actual state. Later Contract IDs, implementation/test paths and executed evidence do not exist yet; Q22, Q26, Q32, S37.1, S38.1 |
 
 ### 14.2 Excluded expectations and later extensions
 

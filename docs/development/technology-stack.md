@@ -10,7 +10,7 @@
 
 This supporting Development document owns the target technology selection and its adoption boundaries. The target [repository organization](repository-structure.md) owns physical placement; [Implementation Plan](../plans/implementation-plan.md) and its [Slice plans](../plans/slices/README.md) own delivery scope, dependencies and completion. [Architecture](../architecture.md) retains logical ownership, runtime mechanisms and invariants. Technology choices implement those boundaries rather than redefining them.
 
-[Product](../spec.md), [Contracts](../contracts/index.md) and [Acceptance](../acceptance.md) retain their behavior, normative-definition and proof responsibilities. [Progress](../progress.md) and the [matrix](../progress/traceability.md) record actual readiness, installed/implemented scope and verification evidence under [Progress recording rules](../progress/README.md). This file is not an environment inventory or a new formal-document category.
+[Product](../spec.md), [Contracts](../contracts/index.md) and [Acceptance](../acceptance.md) retain their behavior, normative-definition and proof responsibilities. [Progress](../progress.md) and the [matrix](../progress/traceability.md) record actual readiness, installed/implemented scope and verification evidence under [Progress recording rules](../progress/recording-rules.md). This file is not an environment inventory or a new formal-document category.
 
 **Source:** The user's explicit technology-stack table and request to persist it. Python 3.12+, Pydantic v2, SQLAlchemy 2.x and Pyright strict retain the requested qualifiers. Zustand remains conditional. SQLite, LangGraph and self-hosted Langfuse also preserve existing Architecture 2.1/15 commitments. Other selections are later user engineering direction, not decisions retroactively attributed to the original Grill.
 
@@ -71,9 +71,9 @@ The exact generator, client transport, generation command, output path, checked-
 
 LangGraph, Provider SDKs and ModelGateway remain subject to Architecture 9–12. Every actual business Provider request passes the owned invocation admission, accounting and durable-response boundary. Configure and verify transport retries/fallbacks so they cannot hide a second request or replay an unknown outcome. A graph checkpoint, HTTP response or stream fragment is not a canonical business receipt.
 
-Playwright Python and httpx remain concrete adapters. Shared platform safety, exact execution authorization, action-specific recovery and honest unknown results continue to apply. The [current ManualApplicationEntry decision](../design/contract/sl-01-m1-grill.md#cg01-bc1) permits explicit ordinary browser navigation; it does not make Playwright automation a prerequisite of SL-01.M1.
+Playwright Python and httpx remain concrete adapters. Shared platform safety, exact execution authorization, action-specific recovery and honest unknown results continue to apply. The [current ManualApplicationEntry decision](../.grill/contract/sl-01-m1/decisions.md#cg01-bc1) permits explicit ordinary browser navigation; it does not make Playwright automation a prerequisite of SL-01.M1.
 
-Self-hosted Langfuse remains derived infrastructure under Architecture 15. Verify actual version/deployment requirements, callbacks, explicit observations, masking and independent judge configuration when adopted. Its own deployment dependencies are not chosen by the application's SQLite decision. Use the [Eval development guide](evaluation.md) and [Eval acceptance](../acceptance/evaluation.md) for procedure and proof respectively.
+Self-hosted Langfuse remains derived infrastructure under Architecture 15. Verify actual version/deployment requirements, callbacks, explicit observations, masking and independent judge configuration when adopted. Its own deployment dependencies are not chosen by the application's SQLite decision. Use the [Eval development guide](../evaluation.md#3-evaluation-workflow) and [Eval acceptance](../evaluation.md#2-evaluation-acceptance-criteria) for procedure and proof respectively.
 
 ### 4.3 Persistence and migration organization
 
