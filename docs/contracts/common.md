@@ -229,33 +229,18 @@ Counts MUST be unpadded ASCII decimal integers. Numbers MUST use exact plain dec
 <a id="com-046"></a>
 **COM-046.** SL-02.M2 HTTP validation MUST use COM-039 paths/reasons. Path UUID errors identify the operation's canonical path field (render_intent_id, render_configuration_id or artifact_id); disposition errors identify disposition. Prohibited query/body or unrecognized parameters use the nearest declared parent, or $, without echoing arbitrary names. Repeated disposition, invalid enum/UUID and incompatible shapes use INVALID_FORMAT; absence/type/unknown fields retain REQUIRED/INVALID_TYPE/UNKNOWN_FIELD. Supplied missing references use INVALID_REFERENCE at their body field. Positive/nonnegative integer fields MUST be admitted exactly without Boolean/string coercion, fractional rounding or overflow; malformed types use INVALID_TYPE and owner-bound violations OUT_OF_RANGE. No success object may be repaired with read-time defaults. Q54/Q75/Q87/Q131.
 
-## SL-03.M1 scoped identity and expression
-
-Revision **2026-09-23.S3M1-r1**. [Decision source](../design/contract/sl-03-m1-grill.md); [Runtime owner](agent/execution-runtime.md). Prior scoped consumer rules remain unchanged.
-
-<a id="com-047"></a>
-**COM-047.** **Runtime scalars and closed shapes.** The internal SL-03.M1 projections MUST reuse Common UUIDv4, Sha256Hex, UTC instant and exact integer expression. Execution generation is an exact integer in 0–9007199254740991; generation zero is not execution authority. Positive byte limits/lengths reject booleans, fractions and nonfinite/coerced values; no arbitrary permanent MiB ceiling is added. Registered code keys are nonempty exact case-sensitive strings, not normalized user text. Listed logical fields are required, including explicit null where allowed; do not silently accept extra fields or insert revision/schema_version/updated_at into every object. Common conventions do not impose Entry timestamp ordering on AgentRun.
-
-Decision sources: CG05-Q3, CG05-Q4, CG05-Q12, CG05-Q21, CG05-Q43, CG05-Q46, CG05-Q97, CG05-Q107, CG05-Q119, CG05-Q120.
-
-<a id="com-048"></a>
-**COM-048.** **Runtime requirement and error scope.** `EXR` identifies Execution Runtime requirements and `EVO` identifies scoped evaluation/evidence requirements. Internal operation errors, persisted Runtime failure_code and consumer business outcomes MUST remain distinct. EXR-032's caller errors do not automatically fail a Run. M1 provides no new public HTTP envelope/status mapping, universal business error registry or generic recovery-denial code. Reuse existing Common HTTP rules only when a later actual HTTP consumer is defined.
-
-Decision sources: CG05-Q1, CG05-Q53, CG05-Q98, CG05-Q105, CG05-Q111, CG05-Q120.
-
-
 ## SL-03.M2 protected semantic scope
 
 > Normative scope revision: **2026-09-24.S3M2-r1**. English is authoritative. This defines required behavior, not implemented or executed acceptance. Earlier scoped consumers remain unchanged.
 
-[Decision register](../design/contract/sl-03-m2-grill.md) · [Contract index](index.md)
+[Decision register](../archived/sl-03-m2-grill.md) · [Contract index](index.md)
 
 
 
 <a id="com-049"></a>
-**COM-049.** **M2 internal expression.** SL-03.M2 MUST reuse COM-017 UTC milliseconds, COM-025 Unicode scalar strings without implicit normalization, COM-027 UUIDv4, COM-032 Sha256Hex and COM-047 exact keys/closed logical shapes. Budget's signed-64-bit nonnegative integer range does not enlarge M1 execution_generation. Byte limits are positive finite exact integers. Owner-defined optional values use explicit null only where declared; no coercion of Boolean/string/fraction into integer, silent trimming, duplicate-key acceptance, default repair or unknown properties. Internal error outcomes remain distinct from persisted failure_code and business outcomes under COM-048; no public HTTP envelope is introduced. New requirement prefixes are CTX (Context), TOL (Tools) and BUD (Budget). COM-045 is reused for semantic-start fingerprints and the typed Context encodings; it MUST NOT replace the separate fixed-order DeepSeek terminal JSON format. Each owner defines finite technical parsing/size bounds in its controlled configuration; this does not create a universal business-input schema.
+**COM-049.** **M2 internal expression.** SL-03.M2 MUST reuse COM-017 UTC milliseconds, COM-025 Unicode scalar strings without implicit normalization, COM-027 UUIDv4 and COM-032 Sha256Hex. Registered code keys are nonempty exact case-sensitive strings; declared logical shapes are closed and require explicit null only where allowed. Byte limits are positive finite exact integers. No Boolean/string/fraction coercion, silent trimming, duplicate-key acceptance, default repair or unknown properties is permitted. Internal operation errors, persisted failure codes and business outcomes remain distinct; no public HTTP envelope is introduced. New requirement prefixes are CTX (Context), TOL (Tools) and BUD (Budget). COM-045 is reused for semantic-start fingerprints and the typed Context encodings; it MUST NOT replace the separate fixed-order DeepSeek terminal JSON format. Each owner defines finite technical parsing/size bounds in its controlled configuration; this does not create a universal business-input schema. Runtime generation and lifecycle scalars require the replacement Execution Runtime Contract and are not defined here.
 
-Decision sources: [CG06-Q11](../design/contract/sl-03-m2-grill.md#cg06-q11), [CG06-Q21](../design/contract/sl-03-m2-grill.md#cg06-q21), [CG06-Q31](../design/contract/sl-03-m2-grill.md#cg06-q31), [CG06-Q39](../design/contract/sl-03-m2-grill.md#cg06-q39), [CG06-Q41](../design/contract/sl-03-m2-grill.md#cg06-q41), [CG06-Q42](../design/contract/sl-03-m2-grill.md#cg06-q42), [CG06-Q43](../design/contract/sl-03-m2-grill.md#cg06-q43), [CG06-Q116](../design/contract/sl-03-m2-grill.md#cg06-q116), [CG06-Q129](../design/contract/sl-03-m2-grill.md#cg06-q129), [CG06-Q137](../design/contract/sl-03-m2-grill.md#cg06-q137), [CG06-Q138](../design/contract/sl-03-m2-grill.md#cg06-q138), [CG06-Q139](../design/contract/sl-03-m2-grill.md#cg06-q139), [CG06-Q162](../design/contract/sl-03-m2-grill.md#cg06-q162), [CG06-Q172](../design/contract/sl-03-m2-grill.md#cg06-q172), [CG06-Q182](../design/contract/sl-03-m2-grill.md#cg06-q182).
+Decision sources: [CG06-Q11](../archived/sl-03-m2-grill.md#cg06-q11), [CG06-Q21](../archived/sl-03-m2-grill.md#cg06-q21), [CG06-Q31](../archived/sl-03-m2-grill.md#cg06-q31), [CG06-Q39](../archived/sl-03-m2-grill.md#cg06-q39), [CG06-Q41](../archived/sl-03-m2-grill.md#cg06-q41), [CG06-Q42](../archived/sl-03-m2-grill.md#cg06-q42), [CG06-Q43](../archived/sl-03-m2-grill.md#cg06-q43), [CG06-Q116](../archived/sl-03-m2-grill.md#cg06-q116), [CG06-Q129](../archived/sl-03-m2-grill.md#cg06-q129), [CG06-Q137](../archived/sl-03-m2-grill.md#cg06-q137), [CG06-Q138](../archived/sl-03-m2-grill.md#cg06-q138), [CG06-Q139](../archived/sl-03-m2-grill.md#cg06-q139), [CG06-Q162](../archived/sl-03-m2-grill.md#cg06-q162), [CG06-Q172](../archived/sl-03-m2-grill.md#cg06-q172), [CG06-Q182](../archived/sl-03-m2-grill.md#cg06-q182).
 
 ## Supplement: independent document identity and protocol applicability
 
