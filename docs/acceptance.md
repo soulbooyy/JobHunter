@@ -288,19 +288,7 @@ The [SL-03.M1 deterministic Contract](contracts/evaluation/evaluation-observabil
 
 ### 9.4 SL-03.M2 protected invocation conformance
 
-The required M2 proof is specified by [EVO-018–021](contracts/evaluation/evaluation-observability.md#evo-018), together with Runtime/Context/Tools/Budget/Storage normative scopes. These are requirements, not executed results. EVO-022–026 and EXR-057 define the exercise's accepted input/success/failure/postdeadline agreement. Model Tool-choice/JSON/value mistakes are exercise semantic failures, not by themselves infrastructure Contract violations. Prove deterministic hard invariants independently and one successful real composition path; no stable model-quality rate is promised.
-
-| Boundary | Required evidence |
-| --- | --- |
-| Semantic-start | Same stable identity after acknowledgement loss; concurrent same/different requests; historical confirmation independent of fresh permissions/configuration/Budget; no duplicate Run or rejected-task record |
-| Admission/atomicity | Single active semantic Invocation; atomic capacity qualification; exact Frame + estimator basis + reservation + intent publication/whole-bundle confirmation; last-unit contention and no partial associations |
-| Actual Context/Tools | Golden exact bytes and actual body inclusion/provenance; protected full-input capacity and revocation; historical read versus new use; Runtime validator beyond Provider schema; exact target restriction; action completion preserved through rejected representation |
-| Provider/evidence | Current DeepSeek stream layout and abnormal complete finish reasons; missing terminal evidence; bounded reception; no hidden retry/fallback; response byte equality independent of usage/model observations |
-| Budget/recovery | Checked int64/CNY arithmetic, restart-persistent accounting obstruction, truthful overrun, dimension-specific unknown exposure, no estimated final settlement, trustworthy late usage and fenced proven no-send release |
-| Eval/export | Isolated real path, retained actual post-state, distinct evaluator attempts/resources, output-preserving re-evaluation, pre-SDK allowlist, no duplicate generation/counts, exact CNY mapping and bounded export failure |
-
-Fault injection must inspect real retained state and actual adapter entry counts. Preserve the M1 EXR-001–034 compatibility suite. Replay may not silently fall back to live APIs; separately authorized live evidence must identify its controlled model/mode/capacity/pricing/transport configuration.
-
+The former SL-03.M2 Contract and conformance agreement have been withdrawn for S3 redevelopment. Their specific proof matrix is removed. Define replacement acceptance against newly reviewed Contracts before implementation; general system and consumer-specific acceptance elsewhere remains applicable.
 
 ## 10. Privacy, storage, and honest history
 

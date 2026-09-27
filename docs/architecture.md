@@ -312,17 +312,15 @@ One shared Budget Runtime serves distinct owners. Application foreground operati
 
 Before each charged or limited invocation, require valid execution scope and Provider/runtime capacity, then atomically check the owner's remaining envelope, Run totals, and applicable local allowance and reserve before durable dispatch. Conceptually, available budget excludes both settled usage and outstanding reservations. Concurrent calls cannot spend the same balance or allowance. Do not hold a transaction while waiting for a network response.
 
-Actual usage settles the invocation idempotently and releases excess reservation. Record overruns honestly; the M2 foreground policy preserves exact admitted usage and prevents subsequent overspending without clipping usage or silently increasing allocation. Other owners retain their own future policies. Dispatched unknown outcomes retain conservative exposure and are not zero cost. Restart and explicit Retry do not create an unused budget or erase old reservations. Safe local reconciliation must not reserve or settle twice. Releasing a concurrency slot does not release uncertain spend.
+Actual usage settles the invocation idempotently and releases excess reservation. Record overruns honestly; preserve exact admitted usage and prevent subsequent overspending without clipping usage or silently increasing allocation. Other owners retain their own future policies. Dispatched unknown outcomes retain conservative exposure and are not zero cost. Restart and explicit Retry do not create an unused budget or erase old reservations. Safe local reconciliation must not reserve or settle twice. Releasing a concurrency slot does not release uncertain spend.
 
 RequirementParse retains one primary invocation and at most one deterministic-validation-guided repair. The current Profile consumer version permits at most one request and no repair (PRO-014); this is not a permanent Domain batching constraint. DeepFit progressive acquisition and independent optimization retain finite consumer-owned limits; their detailed policies require their own reviewed Contracts. No hidden helper/provider calls bypass accounting.
 
-Money/token budget, actual Context capacity, Provider headroom, runtime concurrency, and recruiting-platform safety are distinct resources. Background work yields to foreground headroom even if its monetary budget is sufficient. Insufficient budget prevents new dispatch, preserves independently completed results, and produces no Fit negative. The [M2 Budget Contract](contracts/foundation/budget.md) closes foreground allocation, reservation, trustworthy absolute usage, per-dimension unknown exposure, overrun and checked arithmetic. Other owner envelopes, billing collection and scheduler thresholds remain future work.
+Money/token budget, actual Context capacity, Provider headroom, runtime concurrency, and recruiting-platform safety are distinct resources. Background work yields to foreground headroom even if its monetary budget is sufficient. Insufficient budget prevents new dispatch, preserves independently completed results, and produces no Fit negative. The concrete Budget Contract is pending redesign. Other owner envelopes, billing collection and scheduler thresholds remain future work.
 
 **Sources:** Q35, Q110–Q112, Q121–Q124, Q130, Q132, Q135, Q140, Q142, Q144, Q155, Q158–Q160, Q169–Q172, Q176; [Budget](design/harness/budget.md), sections 1–12.
 
-M2 identifies the foreground owner by Application-held operation_id; this is neither a business aggregate nor a universal Operation lifecycle. It may share one envelope across Runs. Operation limits are optional MODEL calls, total tokens and CNY money, with at least one enabled; semantic Runs require finite call/token/deadline ceilings and acquire no second monetary wallet. There is no speculative Operation Tool-count ledger. Monetary accounting uses immutable applicable price bases, exact decimals and conservative ledger quantization separately from raw usage. Unknown cost is not zero or estimated final settlement; accounting overflow preserves evidence and blocks affected unsafe admission. Real capacity acquisition must be atomic, not a capacity-available precheck.
-
-Scoped source: [CG06 decisions](design/contract/sl-03-m2-grill.md#cg06-pub), [BUD-001–025](contracts/foundation/budget.md).
+The former SL-03.M2 detailed Budget decisions have been withdrawn for redesign. Replacement Contract review must resolve concrete owner identities, dimensions, representations and admission interfaces.
 
 ## 12. Durable execution and recovery
 
@@ -423,7 +421,7 @@ Independent LLM judges assess existing outputs under separate Eval invocation, b
 
 **Sources:** Q117, Q173–Q176, S35.1; [Agent Evaluation](design/eval/agent-evaluation.md), sections 1–7, 16–17, and 26–28.
 
-The [M2 Eval scope](contracts/evaluation/evaluation-observability.md#evo-008) delivers isolation/evidence infrastructure and independent evaluator identities/resources, without requiring a Generic Quality Judge. A real consumer first defines its rubric and semantic success. Its LLM evaluator is bounded/read-only with admitted evidence and no Tools, Memory, retrieval or business writes. Re-evaluation uses retained actual Trial evidence with a new evaluator attempt; it never reruns the Agent to manufacture an old result.
+The former M2-specific Eval agreement is withdrawn. Replacement infrastructure and consumer interfaces require fresh Contract review.
 
 ### 15.2 Isolated exact trials and input separation
 

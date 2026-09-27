@@ -25,6 +25,23 @@ expected = {
     "TOL": 15,
     "BUD": 25,
 }
+# Withdrawn S3 scopes retain historical mentions, but cannot remain definitions.
+withdrawn = {
+    f"{prefix}-{i:03}"
+    for prefix, (start, end) in {
+        "EXR": (1, 57),
+        "COM": (47, 49),
+        "STO": (40, 53),
+        "EVO": (1, 26),
+        "CTX": (1, 15),
+        "TOL": (1, 14),
+        "BUD": (1, 25),
+    }.items()
+    for i in range(start, end + 1)
+}
+expected_ids = {
+    f"{prefix}-{i:03}" for prefix, count in expected.items() for i in range(1, count + 1)
+} - withdrawn
 requirement_pattern = r"\b(?:" + "|".join(expected) + r")-\d{3}\b"
 contract_paths = sorted(contracts.rglob("*.md"))
 found: list[str] = []
@@ -34,10 +51,8 @@ for path in contract_paths:
     found.extend(defined)
     for requirement in defined:
         assert f'<a id="{requirement.lower()}"></a>' in source, (path, requirement)
-assert len(found) == len(set(found)) == sum(expected.values()), "ID count/uniqueness"
-assert set(found) == {
-    f"{prefix}-{i:03}" for prefix, count in expected.items() for i in range(1, count + 1)
-}, "Unexpected prefix, missing ID or incorrect range"
+assert len(found) == len(set(found)) == len(expected_ids), "ID count/uniqueness"
+assert set(found) == expected_ids, "Unexpected prefix, missing ID or incorrect range"
 
 
 def anchors(path: Path) -> set[str]:
@@ -67,10 +82,6 @@ review_paths = [
     trace_path,
     root / "docs/development/handoff/sl-02-m2-handoff.md",
     root / "docs/design/contract/sl-02-m2-grill.md",
-    root / "docs/development/handoff/sl-03-m1-handoff.md",
-    root / "docs/design/contract/sl-03-m1-grill.md",
-    root / "docs/design/contract/sl-03-m2-grill.md",
-    root / "docs/development/handoff/sl-03-m2-handoff.md",
     root / "docs/acceptance/evaluation.md",
     root / "docs/architecture.md",
     root / "docs/acceptance.md",
@@ -100,7 +111,7 @@ link_count = 0
 for path in [*contract_paths, *review_paths]:
     source = path.read_text()
     for requirement in re.findall(requirement_pattern, source):
-        assert requirement in found, (path, requirement)
+        assert requirement in found or requirement in withdrawn, (path, requirement)
     targets: list[str] = re.findall(r"\]\(([^)\s]+)\)", source)
     for target in targets:
         parsed = urlsplit(target)
@@ -121,59 +132,7 @@ questions = re.findall(r"^\| \[CG04-Q(\d+)\]", review, re.M)
 assert len(questions) == 135 and {int(q) for q in questions} == set(range(1, 136)), (
     "CG04 mapping coverage"
 )
-runtime_review = trace.split("### 6.5 SL-03.M1 reviewed scope and interface evidence", 1)[1].split(
-    "\n### 6.6", 1
-)[0]
-runtime_questions = re.findall(r"^\| \[CG05-Q(\d+)\]", runtime_review, re.M)
-assert len(runtime_questions) == 130 and {int(q) for q in runtime_questions} == set(
-    range(1, 131)
-), "CG05 mapping coverage"
-runtime_additions = {
-    f"{prefix}-{i:03}"
-    for prefix, (start, end) in {
-        "EXR": (1, 34),
-        "EVO": (1, 7),
-        "COM": (47, 48),
-        "STO": (40, 45),
-    }.items()
-    for i in range(start, end + 1)
-}
-runtime_mapping_rows = "\n".join(
-    line for line in runtime_review.splitlines() if line.startswith("| [CG05-Q")
-)
-assert runtime_additions <= set(re.findall(requirement_pattern, runtime_mapping_rows)), (
-    "CG05 normative destination coverage"
-)
-semantic_review = trace.split("### 6.6 SL-03.M2 reviewed scope and interface evidence", 1)[1].split(
-    "\n## 7.", 1
-)[0]
-semantic_questions = re.findall(r"^\| \[CG06-Q(\d+)\]", semantic_review, re.M)
-assert len(semantic_questions) == 219 and {int(q) for q in semantic_questions} == set(
-    range(1, 220)
-), "CG06 accepted mapping coverage"
-semantic_additions = {
-    f"{prefix}-{i:03}"
-    for prefix, (start, end) in {
-        "EXR": (35, 57),
-        "EVO": (8, 26),
-        "COM": (49, 49),
-        "STO": (46, 53),
-        "CTX": (1, 15),
-        "TOL": (1, 14),
-        "BUD": (1, 25),
-    }.items()
-    for i in range(start, end + 1)
-}
-semantic_mapping_rows = "\n".join(
-    line for line in semantic_review.splitlines() if line.startswith("| [CG06-Q")
-)
-assert semantic_additions <= set(re.findall(requirement_pattern, semantic_mapping_rows)), (
-    "CG06 normative destination coverage"
-)
-semantic_register = (root / "docs/design/contract/sl-03-m2-grill.md").read_text()
-for number in range(1, 220):
-    accepted_section = semantic_register.split(f"### CG06-Q{number} —", 1)[1].split("\n### ", 1)[0]
-    assert "Status: ACCEPTED" in accepted_section, "CG06 accepted decision status"
+# S3 M1/M2 reviews no longer confer readiness or require mapping coverage.
 supplement_review = trace.split("### 6.7 SL-02.M1 supplement reviewed scope", 1)[1].split(
     "\n## 7.", 1
 )[0]
@@ -217,13 +176,13 @@ for number in range(42, 47):
 ledger = trace.split("## 6. Contract normative scope readiness ledger", 1)[1].split("### 6.1", 1)[0]
 rows = [line for line in ledger.splitlines() if line.startswith("| `")]
 ready = sum(" | Ready" in line for line in rows)
-pending = sum(" | Pending |" in line for line in rows)
+pending = sum(" | Pending" in line for line in rows)
 assert len(rows) == ready + pending, "Unclassified readiness row"
 assert f"{ready} rows below are **Ready**" in ledger
 assert f"other {pending} rows remain **Pending**" in ledger
 assert f"for {len(rows)} rows" in ledger
 print(
     f"{len(found)} unique requirements; {link_count} local links/anchors resolve; "
-    f"135 CG04 / 130 CG05 / 219 CG06 / 41 CG03S1 question mappings + 3 baselines; "
+    f"135 CG04 / 41 CG03S1 question mappings + 3 baselines; "
     f"readiness {ready} Ready / {pending} Pending / {len(rows)} total."
 )

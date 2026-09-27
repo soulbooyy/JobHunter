@@ -229,19 +229,6 @@ Counts MUST be unpadded ASCII decimal integers. Numbers MUST use exact plain dec
 <a id="com-046"></a>
 **COM-046.** SL-02.M2 HTTP validation MUST use COM-039 paths/reasons. Path UUID errors identify the operation's canonical path field (render_intent_id, render_configuration_id or artifact_id); disposition errors identify disposition. Prohibited query/body or unrecognized parameters use the nearest declared parent, or $, without echoing arbitrary names. Repeated disposition, invalid enum/UUID and incompatible shapes use INVALID_FORMAT; absence/type/unknown fields retain REQUIRED/INVALID_TYPE/UNKNOWN_FIELD. Supplied missing references use INVALID_REFERENCE at their body field. Positive/nonnegative integer fields MUST be admitted exactly without Boolean/string coercion, fractional rounding or overflow; malformed types use INVALID_TYPE and owner-bound violations OUT_OF_RANGE. No success object may be repaired with read-time defaults. Q54/Q75/Q87/Q131.
 
-## SL-03.M2 protected semantic scope
-
-> Normative scope revision: **2026-09-24.S3M2-r1**. English is authoritative. This defines required behavior, not implemented or executed acceptance. Earlier scoped consumers remain unchanged.
-
-[Decision register](../archived/sl-03-m2-grill.md) · [Contract index](index.md)
-
-
-
-<a id="com-049"></a>
-**COM-049.** **M2 internal expression.** SL-03.M2 MUST reuse COM-017 UTC milliseconds, COM-025 Unicode scalar strings without implicit normalization, COM-027 UUIDv4 and COM-032 Sha256Hex. Registered code keys are nonempty exact case-sensitive strings; declared logical shapes are closed and require explicit null only where allowed. Byte limits are positive finite exact integers. No Boolean/string/fraction coercion, silent trimming, duplicate-key acceptance, default repair or unknown properties is permitted. Internal operation errors, persisted failure codes and business outcomes remain distinct; no public HTTP envelope is introduced. New requirement prefixes are CTX (Context), TOL (Tools) and BUD (Budget). COM-045 is reused for semantic-start fingerprints and the typed Context encodings; it MUST NOT replace the separate fixed-order DeepSeek terminal JSON format. Each owner defines finite technical parsing/size bounds in its controlled configuration; this does not create a universal business-input schema. Runtime generation and lifecycle scalars require the replacement Execution Runtime Contract and are not defined here.
-
-Decision sources: [CG06-Q11](../archived/sl-03-m2-grill.md#cg06-q11), [CG06-Q21](../archived/sl-03-m2-grill.md#cg06-q21), [CG06-Q31](../archived/sl-03-m2-grill.md#cg06-q31), [CG06-Q39](../archived/sl-03-m2-grill.md#cg06-q39), [CG06-Q41](../archived/sl-03-m2-grill.md#cg06-q41), [CG06-Q42](../archived/sl-03-m2-grill.md#cg06-q42), [CG06-Q43](../archived/sl-03-m2-grill.md#cg06-q43), [CG06-Q116](../archived/sl-03-m2-grill.md#cg06-q116), [CG06-Q129](../archived/sl-03-m2-grill.md#cg06-q129), [CG06-Q137](../archived/sl-03-m2-grill.md#cg06-q137), [CG06-Q138](../archived/sl-03-m2-grill.md#cg06-q138), [CG06-Q139](../archived/sl-03-m2-grill.md#cg06-q139), [CG06-Q162](../archived/sl-03-m2-grill.md#cg06-q162), [CG06-Q172](../archived/sl-03-m2-grill.md#cg06-q172), [CG06-Q182](../archived/sl-03-m2-grill.md#cg06-q182).
-
 ## Supplement: independent document identity and protocol applicability
 
 Scope revision **2026-09-24.S2M1S1-r1**. Provenance: CG03S1-BC1–BC3 and effective Q6–Q41; Q24 is superseded by Q38/Q41.

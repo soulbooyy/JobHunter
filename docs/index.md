@@ -6,7 +6,7 @@ For SL-03.M1 backend work, use the [Invocation durability/recovery handoff](deve
 
 For SL-02.M2 backend work, use the [demanded preview/export handoff](development/handoff/sl-02-m2-handoff.md), its current normative scope and the [review/evidence ledger](progress/traceability.md#64-sl-02m2-reviewed-scope-and-interface-evidence). Published Contracts do not establish renderer, migration or UI delivery.
 
-For SL-03.M2, use the [protected-invocation handoff](development/handoff/sl-03-m2-handoff.md) and [CG06 scope review](progress/traceability.md#66-sl-03m2-reviewed-scope-and-interface-evidence). The consumed Contracts and concrete exercise agreement are Ready; executable configuration/SDK adoption, implementation and acceptance remain outstanding.
+SL-03.M2 Contracts, Grill and handoffs have been deleted for S3 redevelopment. See the [withdrawal status](progress/traceability.md#66-sl-03m2-reviewed-scope-and-interface-evidence); replacement design and review remain pending.
 
 ## Start here
 

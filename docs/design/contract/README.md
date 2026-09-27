@@ -12,7 +12,6 @@
 | SL-02.M1 supplement — Default-Resume-derived Knowledge and independent Resumes | [Closed supplemental decisions and publication](sl-02-m1-supplement-grill.md); [historical session instructions](../../development/handoff/contract_grill/sl-02-m1-supplement-contract-grill-handoff.md) |
 | SL-02.M2 — Demanded preview and export | [Decision register and current frontier](sl-02-m2-grill.md) |
 | SL-03.M1 — Invocation durability and recovery foundation | [Published decisions, supersession and closure](sl-03-m1-grill.md) |
-| SL-03.M2 — Protected semantic invocation and evidence | [Accepted Q1–Q219 and scoped publication closure](sl-03-m2-grill.md) |
 
 The decision register follows the Architecture Grill register: conclusions, status, rationale, scoped supersession, formal writeback and the current open frontier. It omits question transcripts and proposed answers. These records support continuity and later normative writeback; they do not establish Contract readiness or implementation.
 
